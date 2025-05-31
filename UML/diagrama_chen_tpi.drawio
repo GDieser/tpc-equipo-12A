@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36" version="27.1.1">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36" version="27.1.1">
   <diagram name="Diagrama Chen" id="0">
-    <mxGraphModel dx="1162" dy="1038" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1984" dy="1292" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -9,6 +9,11 @@
         </mxCell>
         <mxCell id="0x6-bEQGfIEkiX45eMe0-8" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startFill=0;" parent="1" source="c507a44dde" target="0x6-bEQGfIEkiX45eMe0-7" edge="1">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_SvGcM9IhpGaWaun03kH-1" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;fontSize=12;startSize=8;endSize=8;endArrow=none;startFill=0;" edge="1" parent="1" source="c507a44dde">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-55.111111111111086" y="245.77777777777783" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="c507a44dde" value="Usuario" style="shape=rectangle;whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="40" y="80" width="160" height="80" as="geometry" />
@@ -324,6 +329,20 @@
         </mxCell>
         <mxCell id="CANbLbW7vSRfO3FM9BtO-67" value="m:n" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="1977" y="983" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_SvGcM9IhpGaWaun03kH-2" value="crea" style="shape=rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-107" y="239" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="_SvGcM9IhpGaWaun03kH-4" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;endArrow=none;startFill=0;" edge="1" parent="1" source="_SvGcM9IhpGaWaun03kH-3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-95" y="289" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_SvGcM9IhpGaWaun03kH-3" value="Foro/Novedad" style="shape=rectangle;whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="-267" y="343" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="_SvGcM9IhpGaWaun03kH-5" value="1:n" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-56" y="239" width="60" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
