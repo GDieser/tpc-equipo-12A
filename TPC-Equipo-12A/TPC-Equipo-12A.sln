@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPC-Equipo-12A", "TPC-Equipo-12A\TPC-Equipo-12A.csproj", "{8F134894-C3DA-408C-88FE-B7B88B33FB89}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio", "Dominio\Dominio.csproj", "{4A2574FF-BEBE-4D6D-B685-1F806F9FFC80}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servicio", "Servicio\Servicio.csproj", "{41BB3FF6-C308-4A95-A4E5-EDFCFB69C6FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +21,11 @@ Global
 		{4A2574FF-BEBE-4D6D-B685-1F806F9FFC80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A2574FF-BEBE-4D6D-B685-1F806F9FFC80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A2574FF-BEBE-4D6D-B685-1F806F9FFC80}.Release|Any CPU.Build.0 = Release|Any CPU
-		{41BB3FF6-C308-4A95-A4E5-EDFCFB69C6FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{41BB3FF6-C308-4A95-A4E5-EDFCFB69C6FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{41BB3FF6-C308-4A95-A4E5-EDFCFB69C6FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{41BB3FF6-C308-4A95-A4E5-EDFCFB69C6FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AD13E247-6267-47E5-B9EB-01864D5C3A40}
 	EndGlobalSection
 EndGlobal

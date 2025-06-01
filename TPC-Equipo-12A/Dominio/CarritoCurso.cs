@@ -2,10 +2,11 @@
 
 namespace Dominio
 {
-    public class InteraccionCurso
+    public class CarritoCurso
     {
-        public Usuario Usuario { get; set; }
+        public Carrito Carrito { get; set; }
         public Curso Curso { get; set; }
         public DateTime FechaAgregado { get; set; }
+        public Decimal PrecioUnitario { get; set; }
     }
 }
