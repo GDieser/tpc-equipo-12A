@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Dominio
 {
-    public class Class1
+    public enum Nivel
     {
+        Basico = 0,
+        Intermedio = 1,
+        Avanzado = 2
     }
 }
