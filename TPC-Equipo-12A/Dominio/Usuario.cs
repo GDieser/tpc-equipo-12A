@@ -20,7 +20,7 @@ namespace Dominio
         public string Pass { get; set; }
         public bool Habilitado { get; set; }
         public Imagen FotoPerfil { get; set; }
-        public  List<Curso>? Favoritos{ get; set; } = new List<Curso>();
+        public  List<Curso> Favoritos{ get; set; } = new List<Curso>();
         public List<Curso> CursosInscriptos { get; set; } = new List<Curso>();
     }
 }

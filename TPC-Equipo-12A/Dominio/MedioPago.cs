@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Servicio
+namespace Dominio
 {
-    public class Class1
+    public enum MedioPago
     {
+        MercadoPago = 0,
+        PayPal = 1,
+        Criptomonedas = 2,
+        Otro = 3
     }
 }

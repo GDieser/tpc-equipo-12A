@@ -43,13 +43,21 @@
   <ItemGroup>
     <Compile Include="Carrito.cs" />
     <Compile Include="Categoria.cs" />
+    <Compile Include="CompraCurso.cs" />
+    <Compile Include="Compra.cs" />
     <Compile Include="Curso.cs" />
     <Compile Include="Estado.cs" />
+    <Compile Include="FavoritoCurso.cs" />
     <Compile Include="Imagen.cs" />
+    <Compile Include="InteraccionCurso.cs" />
+    <Compile Include="MedioPago.cs" />
     <Compile Include="Moneda.cs" />
     <Compile Include="Nivel.cs" />
+    <Compile Include="NotaCurso.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PuntuacionCurso.cs" />
     <Compile Include="Rol.cs" />
+    <Compile Include="Usuario.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

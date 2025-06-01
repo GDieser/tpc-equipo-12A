@@ -10,7 +10,6 @@ namespace Dominio
 {
     public class Curso
     {
-
         public int IdCurso { get; set; }
         public Imagen ImagenPortada { get; set; }
         public int IdMoodle { get; set; }
