@@ -11,9 +11,7 @@ namespace Dominio
         public string Descripcion { get; set; }
         public string Resumen { get; set; }
         public Categoria Categoria { get; set; }
-        public Nivel Nivel { get; set; }
         public float Precio { get; set; }
-        public Moneda Moneda { get; set; }
         public DateTime FechaCreacion { get; set; }
         public DateTime FechaPublicacion { get; set; }
         public Estado Estado { get; set; }

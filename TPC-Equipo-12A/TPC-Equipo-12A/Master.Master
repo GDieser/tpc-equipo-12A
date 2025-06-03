@@ -12,9 +12,55 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <div>
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-            </asp:ContentPlaceHolder>
+        <div class="d-flex flex-column min-vh-100">
+            <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">MisCursos</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">Cursos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">Novedades</a>
+                            </li>
+                        </ul>
+
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <form class="d-flex" role="search">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Buscar" />
+                                <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                            </form>
+                        </ul>
+                        <div class="d-flex">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <button type="button" class="btn btn-success">Login</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="button" class="btn btn-outline-light">🛒</button>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+
+            <footer class="bg-dark text-white text-center py-3 mt-auto" data-bs-theme="dark">
+                &copy;2025 MisCursos
+            </footer>
         </div>
     </form>
 </body>
