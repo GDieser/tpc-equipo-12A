@@ -59,20 +59,25 @@
                         <div class="text-center">
                             <p>¿No sos usuario? <a href="./Registro.aspx">¡Registrate aca!</a></p>
                         </div>
-                        <asp:RequiredFieldValidator
-                            ID="rfvPass"
-                            runat="server"
-                            ControlToValidate="txtPass"
-                            ErrorMessage="La contraseña es obligatoria."
-                            labelColor="Red"
-                            Display="Dynamic" />
-                        <asp:RequiredFieldValidator
-                            ID="rfvEmail"
-                            runat="server"
-                            ControlToValidate="txtUsuario"
-                            ErrorMessage="El email es obligatorio."
-                            labelColor="Red"
-                            Display="Dynamic" />
+                        <div class="row">
+                            <asp:RequiredFieldValidator
+                                ID="rfvEmail"
+                                runat="server"
+                                ControlToValidate="txtUsuario"
+                                ErrorMessage="El nombre de usuario es obligatorio."
+                                ForeColor="Red"
+                                Display="Dynamic" />
+                        </div>
+                        <div class="row">
+                            <asp:RequiredFieldValidator
+                                ID="rfvPass"
+                                runat="server"
+                                ControlToValidate="txtPass"
+                                ErrorMessage="La contraseña es obligatoria."
+                                ForeColor="Red"
+                                Display="Dynamic" />
+                            <br />
+                        </div>
                         <asp:Label ID="lblError" runat="server" Text="Label"></asp:Label>
                     </div>
                 </div>

@@ -9,25 +9,29 @@ namespace TPC_Equipo_12A
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsCallback)
+            {
+                lblError.Visible = false;
+            }
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             if (Page.IsValid)
             {
+                lblError.Visible = false;
                 string pass = SHA256Utils.toSha256(txtPass.Text);
                 UsuarioAutenticado usuario = AutenticarUsuario.login(txtUsuario.Text, pass);
 
                 if (usuario != null)
                 {
-                    // Usuario válido: guardas en sesión y redireccionás
-                    Session["Usuario"] = usuario;
-                    Response.Redirect("Home.aspx");
+                    Session["UsuarioAutenticado"] = usuario;
+                    Response.Redirect("Default.aspx");
                 }
                 else
                 {
-                    lblError.Text = "Usuario o contraseña inválidos... ";
+                    lblError.Text = "Usuario o contraseña invalidos... ";
+                    lblError.Visible = true;
                 }
             }
         }

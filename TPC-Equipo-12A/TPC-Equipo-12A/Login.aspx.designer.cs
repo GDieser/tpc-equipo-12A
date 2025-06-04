@@ -42,15 +42,6 @@ namespace TPC_Equipo_12A
         protected global::System.Web.UI.WebControls.Button btnLogin;
 
         /// <summary>
-        /// rfvPass control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvPass;
-
-        /// <summary>
         /// rfvEmail control.
         /// </summary>
         /// <remarks>
@@ -58,6 +49,15 @@ namespace TPC_Equipo_12A
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvEmail;
+
+        /// <summary>
+        /// rfvPass control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvPass;
 
         /// <summary>
         /// lblError control.
