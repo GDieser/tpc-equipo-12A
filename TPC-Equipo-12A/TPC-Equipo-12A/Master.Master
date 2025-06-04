@@ -31,6 +31,9 @@
                             <li class="nav-item">
                                 <a class="nav-link active" href="#">Novedades</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">Aula Virtual</a>
+                            </li>
                         </ul>
 
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -42,7 +45,7 @@
                         <div class="d-flex">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                    <button type="button" class="btn btn-success">Login</button>
+                                    <a href="Login.aspx" class="btn btn-success">Login</a>
                                 </li>
                                 <li class="nav-item">
                                     <button type="button" class="btn btn-outline-light">🛒</button>
