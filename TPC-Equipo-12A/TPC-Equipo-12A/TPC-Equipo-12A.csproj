@@ -69,6 +69,7 @@
   <ItemGroup>
     <Content Include="Cursos.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="Login.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +86,13 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Master.Master.cs">
       <DependentUpon>Master.Master</DependentUpon>
@@ -113,6 +121,10 @@
     <ProjectReference Include="..\Servicio\Servicio.csproj">
       <Project>{41bb3ff6-c308-4a95-a4e5-edfcfb69c6fa}</Project>
       <Name>Servicio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{6f012201-8093-41e9-a2f7-cb33e268d6a1}</Project>
+      <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

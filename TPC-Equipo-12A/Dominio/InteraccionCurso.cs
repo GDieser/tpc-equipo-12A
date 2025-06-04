@@ -7,5 +7,6 @@ namespace Dominio
         public Usuario Usuario { get; set; }
         public Curso Curso { get; set; }
         public DateTime FechaAgregado { get; set; }
+
     }
 }

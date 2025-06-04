@@ -7,6 +7,5 @@ namespace Dominio
         public Carrito Carrito { get; set; }
         public Curso Curso { get; set; }
         public DateTime FechaAgregado { get; set; }
-        public Decimal PrecioUnitario { get; set; }
     }
 }
