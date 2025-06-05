@@ -44,3 +44,10 @@ GETDATE(), GETDATE(), 1);
 INSERT INTO ImagenPublicacion(IdImagen, IDPublicacion) VALUES (1, 1);
 
 INSERT INTO ImagenPublicacion(IdImagen, IDPublicacion) VALUES (2, 2);
+
+
+INSERT INTO Cursos (Titulo, Resumen, Descripcion, ImagenUrl)
+VALUES 
+('Programación 1', 'Aprendé programación desde cero.', 'Este curso te enseña los fundamentos de programación usando C#.', 'https://www.aprender21.com/images/colaboradores/sql.jpeg'),
+('Bases de Datos', 'Diseñá y consultá bases de datos.', 'Aprendé SQL y cómo estructurar bases de datos relacionales.', 'https://www.aprender21.com/images/colaboradores/sql.jpeg'),
+('Desarrollo Web', 'Creá sitios modernos.', 'HTML, CSS, JavaScript y Bootstrap para el desarrollo frontend.', 'https://www.aprender21.com/images/colaboradores/sql.jpeg');

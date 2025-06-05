@@ -38,3 +38,10 @@ CREATE TABLE ImagenPublicacion(
 	FOREIGN KEY (IdImagen) REFERENCES Imagen(IdImagen),
 	FOREIGN KEY (IDPublicacion) REFERENCES Publicacion(IdPublicacion)
 );
+CREATE TABLE Cursos (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Titulo NVARCHAR(100) NOT NULL,
+    Resumen NVARCHAR(255),
+   Descripcion NVARCHAR(MAX),
+    ImagenUrl NVARCHAR(255)
+);
