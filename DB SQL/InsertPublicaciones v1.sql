@@ -53,22 +53,12 @@ VALUES
 ('Desarrollo Web', 'Creá sitios modernos.', 'HTML, CSS, JavaScript y Bootstrap para el desarrollo frontend.', 'https://www.aprender21.com/images/colaboradores/sql.jpeg');
 
 
--- Usuario Estudiante
 INSERT INTO Usuario (
     Nombre, Apellido, Email, IdRol, Celular, IdUsuarioMoodle,
     FechaNacimiento, NombreUsuario, Pass, Habilitado, FotoPerfil
 )
 VALUES (
     'Juan', 'Pérez', 'juan.perez@example.com', 0, '1155551234', 10123,
-    '2000-05-12', 'juanp', 'b20b0f63ce2ed361e8845d6bf2e59811aaa06ec96bcdb92f9bc0c5a25e83c9a6', 1, NULL
+    '2000-05-12', 'juanp', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 1, NULL
 );
 
--- Usuario Administrador
-INSERT INTO Usuario (
-    Nombre, Apellido, Email, IdRol, Celular, IdUsuarioMoodle,
-    FechaNacimiento, NombreUsuario, Pass, Habilitado, FotoPerfil
-)
-VALUES (
-    'Ana', 'Gómez', 'ana.gomez@example.com', 1, '1166665678', 10124,
-    '1985-09-27', 'anag', 'b45513fe304c65eb8a8fede7855c766223895d895457f1d5c3080f1cfea517b2', 1, NULL
-);

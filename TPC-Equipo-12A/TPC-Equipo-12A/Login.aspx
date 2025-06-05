@@ -24,11 +24,14 @@
     </script>
 
     <div class="container">
-        <div class="row justify-content-center align-items-center mt-4">
+        <div class="row justify-content-center align-items-center mt-4 mb-4">
             <div class="col-12 col-sm-8 col-md-6 col-lg-4">
 
                 <div class="card bg-dark text-white shadow rounded-4 p-4 border-0">
                     <div class="card-body">
+
+                        <h4 class="mb-4 text-center">Iniciá Sesion</h4>
+
                         <div class="form-outline mb-4">
                             <label class="form-label" for="txtUsuario">Nombre de usuario</label>
 
