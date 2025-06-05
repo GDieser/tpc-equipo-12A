@@ -42,6 +42,24 @@ CREATE TABLE Cursos (
     Id INT PRIMARY KEY IDENTITY(1,1),
     Titulo NVARCHAR(100) NOT NULL,
     Resumen NVARCHAR(255),
-   Descripcion NVARCHAR(MAX),
+	Descripcion NVARCHAR(MAX),
     ImagenUrl NVARCHAR(255)
 );
+
+CREATE TABLE Usuario(
+	IdUsuario INT PRIMARY KEY IDENTITY(1,1),
+	Nombre VARCHAR(50),
+	Apellido VARCHAR(50),
+	Email VARCHAR(100) UNIQUE NOT NULL,
+	IdRol INT,
+	Celular VARCHAR(13),
+	IdUsuarioMoodle INT,
+	FechaNacimiento DATE,
+	NombreUsuario VARCHAR(30) UNIQUE NOT NULL,
+	Pass VARCHAR(255),
+	Habilitado BIT,
+
+	FotoPerfil INT,
+
+	FOREIGN KEY (FotoPerfil) REFERENCES Imagen(IdImagen) ON DELETE SET NULL
+)
