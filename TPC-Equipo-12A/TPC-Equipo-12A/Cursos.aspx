@@ -60,7 +60,7 @@
       <p>Aprende todo lo necesario del mundo de las base de datos.</p>
     </div>
     <div class="curso-acciones">
-      <button class="btn btn-info">Ver más</button>
+      <a href="Curso.aspx" class="btn btn-primary">Ver más</a>
       <button class="btn btn-info">Comprar</button>
     </div>
   </div>
@@ -73,7 +73,7 @@
       <p>Lo último en las herramientas de versionado.</p>
     </div>
     <div class="curso-acciones">
-      <button class="btn btn-info">Ver más</button>
+      <a href="Curso.aspx" class="btn btn-primary">Ver más</a>
       <button class="btn btn-info">Comprar</button>
     </div>
   </div>
@@ -86,7 +86,7 @@
       <p>Una introducción al mundo del diseño y programación de videojuegos.</p>
     </div>
     <div class="curso-acciones">
-      <button class="btn btn-info">Ver más</button>
+      <a href="Curso.aspx" class="btn btn-primary">Ver más</a>
       <button class="btn btn-info">Comprar</button>
     </div>
   </div>
@@ -99,7 +99,7 @@
       <p>Aprendé los fundamentos de la programación desde cero.</p>
     </div>
     <div class="curso-acciones">
-      <button class="btn btn-info">Ver más</button>
+      <a href="Curso.aspx" class="btn btn-primary">Ver más</a>
       <button class="btn btn-info">Comprar</button>
     </div>
   </div>
@@ -112,7 +112,7 @@
       <p>5</p>
     </div>
     <div class="curso-acciones">
-      <button class="btn btn-info">Ver más</button>
+      <a href="Curso.aspx" class="btn btn-primary">Ver más</a>
       <button class="btn btn-info">Comprar</button>
     </div>
   </div>
@@ -125,7 +125,7 @@
       <p>6</p>
     </div>
     <div class="curso-acciones">
-      <button class="btn btn-info">Ver más</button>
+      <a href="Curso.aspx" class="btn btn-primary">Ver más</a>
       <button class="btn btn-info">Comprar</button>
     </div>
   </div>
