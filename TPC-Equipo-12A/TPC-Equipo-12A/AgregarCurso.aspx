@@ -18,11 +18,11 @@
         </div>
         <div class="mb-3">
             <label for="txtResumen" class="form-label">Resumen</label>
-            <asp:TextBox ID="txtDescripcionCorta" runat="server" CssClass="form-control" TextMode="MultiLine" />
+            <asp:TextBox ID="txtResumen" runat="server" CssClass="form-control" TextMode="MultiLine" />
         </div>
         <div class="mb-3">
             <label for="txtDescripcion" class="form-label">Descripcion</label>
-            <asp:TextBox ID="txtDescripcionLarga" runat="server" CssClass="form-control" TextMode="MultiLine" />
+            <asp:TextBox ID="txtDescripcion" runat="server" CssClass="form-control" TextMode="MultiLine" />
         </div>
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate> 
@@ -36,7 +36,7 @@
                     ID="imgCurso" runat="server" width="30%" />
             </ContentTemplate>
         </asp:UpdatePanel>
-        <asp:Button Text="Guardar Curso" ID="btnGuardar"   CssClass="btn btn-primary" runat="server" />
+        <asp:Button Text="Guardar Curso" ID="btnGuardar"   CssClass="btn btn-primary" runat="server" OnClick="btnGuardar_Click"/>
         <a href="Default.aspx">Cancelar</a>
     </form>
 </body>

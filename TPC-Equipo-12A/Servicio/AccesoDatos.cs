@@ -12,7 +12,7 @@ namespace Servicio
 
         public AccesoDatos()
         {
-            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=; integrated security=true");
+            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=CursosDB; integrated security=true");
             comando = new SqlCommand();
 
         }

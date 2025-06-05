@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Servicio;
 
 namespace TPC_Equipo_12A
 {
@@ -20,5 +21,32 @@ namespace TPC_Equipo_12A
         {
             imgCurso.ImageUrl = txtImagenUrl.Text;
         }
+
+        protected void btnGuardar_Click(object sender, EventArgs e)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setConsulta("INSERT INTO Cursos (Titulo, Resumen, Descripcion, ImagenUrl) VALUES (@titulo, @resumen, @descripcion, @imagen)");
+                datos.setParametro("@titulo", txtTitulo.Text);
+                datos.setParametro("@resumen", txtResumen.Text);
+                datos.setParametro("@descripcion", txtDescripcion.Text);
+                datos.setParametro("@imagen", txtImagenUrl.Text);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            Response.Redirect("Cursos.aspx");
+        }
+    
     }
 }
