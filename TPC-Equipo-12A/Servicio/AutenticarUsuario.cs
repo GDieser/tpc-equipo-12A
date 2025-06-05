@@ -16,12 +16,12 @@ namespace Servicio
             try
             {
                 AccesoDatos datos = new AccesoDatos();
-                datos.setConsulta(@"SELECT u.IdUsuario, u.Nombre, u.Apellido, u.Rol, u.NombreUsuario, 
-                                u.Habilitado, i.IdImagen, i.Url, i.nombre as nombreImagen
-                                FROM Usuarios u 
-                                INNER JOIN Imagenes i ON Usuarios.IdUsuario = Imagenes.IdUsuario
-                                WHERE NombreUsuario = @nombreUsuario 
-                                AND Password = @password");
+                datos.setConsulta(@"SELECT u.IdUsuario, u.Nombre, u.Apellido, u.IdRol, u.NombreUsuario, 
+                                u.Habilitado, i.IdImagen, i.UrlImagen, i.nombre as nombreImagen
+                                FROM Usuario u 
+                                LEFT JOIN Imagen i ON u.IdUsuario = IdUsuario
+                                WHERE u.NombreUsuario = @nombreUsuario 
+                                AND u.Pass = @password");
                 datos.setParametro("@nombreUsuario", nombreUsuario);
                 datos.setParametro("@password", password);
 
@@ -37,16 +37,19 @@ namespace Servicio
                 usuario.IdUsuario = (int)datos.Lector["IdUsuario"];
                 usuario.Nombre = (string)datos.Lector["Nombre"];
                 usuario.Apellido = (string)datos.Lector["Apellido"];
-                usuario.Rol = (Rol)datos.Lector["Rol"];
+                usuario.Rol = (Rol)datos.Lector["IdRol"];
                 usuario.NombreUsuario = (string)datos.Lector["NombreUsuario"];
                 usuario.Habilitado = (bool)datos.Lector["Habilitado"];
 
-                usuario.FotoPerfil = new Imagen
+                if (datos.Lector["UrlImagen"] != DBNull.Value && datos.Lector["IdImagen"] != DBNull.Value)
                 {
-                    Nombre = (string)datos.Lector["nombreImagen"],
-                    IdImagen = (int)datos.Lector["IdImagen"],
-                    Url = (string)datos.Lector["Url"]
-                };
+                    usuario.FotoPerfil = new Imagen
+                    {
+                        IdImagen = (int)datos.Lector["IdImagen"],
+                        Nombre = datos.Lector["nombreImagen"].ToString(),
+                        Url = datos.Lector["UrlImagen"].ToString()
+                    };
+                }
 
                 return usuario;
 

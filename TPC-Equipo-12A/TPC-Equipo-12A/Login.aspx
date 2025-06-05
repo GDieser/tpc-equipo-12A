@@ -26,6 +26,7 @@
     <div class="container">
         <div class="row justify-content-center align-items-center mt-4">
             <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+
                 <div class="card bg-dark text-white shadow rounded-4 p-4 border-0">
                     <div class="card-body">
                         <div class="form-outline mb-4">
@@ -78,9 +79,12 @@
                                 Display="Dynamic" />
                             <br />
                         </div>
-                        <asp:Label ID="lblError" runat="server" Text="Label"></asp:Label>
+                        <div class="text-center">
+                            <asp:Label ID="lblError" runat="server" Text="Label"></asp:Label>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

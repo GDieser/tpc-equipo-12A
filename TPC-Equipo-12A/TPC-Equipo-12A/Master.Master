@@ -46,9 +46,10 @@
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item me-2">
                                     <a href="AgregarCurso.aspx" class="btn btn-success">Agregar curso</a>
-                                 </li>
+                                </li>
                                 <li class="nav-item me-2">
-                                    <a href="Login.aspx" class="btn btn-success">Login</a>
+                                    <asp:HyperLink ID="btnLogin" runat="server" CssClass="btn btn-success" NavigateUrl="Login.aspx">Login</asp:HyperLink>
+                                    <asp:LinkButton ID="btnLogout" runat="server" CssClass="btn btn-danger" OnClick="btnLogout_Click">LogOut</asp:LinkButton>
                                 </li>
                                 <li class="nav-item me-2">
                                     <button type="button" class="btn btn-outline-light">🛒</button>

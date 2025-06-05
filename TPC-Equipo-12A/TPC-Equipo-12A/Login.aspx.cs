@@ -21,6 +21,7 @@ namespace TPC_Equipo_12A
             {
                 lblError.Visible = false;
                 string pass = SHA256Utils.toSha256(txtPass.Text);
+                
                 UsuarioAutenticado usuario = AutenticarUsuario.login(txtUsuario.Text, pass);
 
                 if (usuario != null)
@@ -30,8 +31,10 @@ namespace TPC_Equipo_12A
                 }
                 else
                 {
-                    lblError.Text = "Usuario o contraseña invalidos... ";
+                    lblError.ForeColor = System.Drawing.Color.Red;
                     lblError.Visible = true;
+                    lblError.Text = "Usuario o contraseña invalidos";
+                    
                 }
             }
         }
