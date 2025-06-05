@@ -11,7 +11,14 @@ namespace TPC_Equipo_12A
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                imgCurso.ImageUrl = "https://wiratthungsong.com/wts/assets/img/default.png";
+            }
+        }
+        protected void txtImagenUrl_TextChanged(object sender, EventArgs e)
+        {
+            imgCurso.ImageUrl = txtImagenUrl.Text;
         }
     }
 }

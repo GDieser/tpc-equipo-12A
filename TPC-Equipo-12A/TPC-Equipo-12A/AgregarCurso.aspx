@@ -9,6 +9,7 @@
 </head>
 <body>
     <form id="form1" runat="server" class="container mt-5">
+    <asp:ScriptManager ID="ScriptManager1" runat ="server"></asp:ScriptManager>
         <h2 class="mb-4">Agregar Nuevo Curso</h2>
 
         <div class="mb-3">
@@ -16,17 +17,25 @@
             <asp:TextBox ID="txtTitulo" runat="server" CssClass="form-control" />
         </div>
         <div class="mb-3">
-            <label for="txtDescripcionCorta" class="form-label">Descripción corta</label>
+            <label for="txtResumen" class="form-label">Resumen</label>
             <asp:TextBox ID="txtDescripcionCorta" runat="server" CssClass="form-control" TextMode="MultiLine" />
         </div>
         <div class="mb-3">
-           CssClass="btn btn-primary"
+            <label for="txtDescripcion" class="form-label">Descripcion</label>
             <asp:TextBox ID="txtDescripcionLarga" runat="server" CssClass="form-control" TextMode="MultiLine" />
         </div>
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+            <ContentTemplate> 
+
         <div class="mb-4">
             <label for="txtImagenUrl" class="form-label">URL de la imagen</label>
-            <asp:TextBox ID="txtImagenUrl" runat="server" CssClass="form-control" />
+            <asp:TextBox ID="txtImagenUrl" runat="server" CssClass="form-control" 
+            AutoPostBack="true" OnTextChanged="txtImagenUrl_TextChanged" />
         </div>
+                <asp:Image ImageUrl="https://wiratthungsong.com/wts/assets/img/default.png"
+                    ID="imgCurso" runat="server" width="30%" />
+            </ContentTemplate>
+        </asp:UpdatePanel>
         <asp:Button Text="Guardar Curso" ID="btnGuardar"   CssClass="btn btn-primary" runat="server" />
         <a href="Default.aspx">Cancelar</a>
     </form>
