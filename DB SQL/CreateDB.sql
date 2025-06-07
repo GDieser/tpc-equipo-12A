@@ -58,8 +58,17 @@ CREATE TABLE Usuario(
 	NombreUsuario VARCHAR(30) UNIQUE NOT NULL,
 	Pass VARCHAR(255),
 	Habilitado BIT,
+	FechaRegistro DATETIME,
+	EmailValidado BIT,
+	RecuperoContrasenia BIT,
+	TokenValidacion VARCHAR(255),
+
 
 	FotoPerfil INT,
 
 	FOREIGN KEY (FotoPerfil) REFERENCES Imagen(IdImagen) ON DELETE SET NULL
 )
+
+select * from usuario
+
+DELETE Usuario where IdUsuario=1;

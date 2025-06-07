@@ -21,6 +21,5 @@ namespace Utils
                 return builder.ToString();
             }
         }
-
-    }
+    }  
 }

@@ -68,9 +68,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AgregarCurso.aspx" />
+    <Content Include="Bienvenida.aspx" />
     <Content Include="Curso.aspx" />
     <Content Include="Cursos.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="Error.aspx" />
+    <Content Include="GenerarContrasenia.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Novedades.aspx" />
     <Content Include="Registro.aspx" />
@@ -83,6 +86,13 @@
     </Compile>
     <Compile Include="AgregarCurso.aspx.designer.cs">
       <DependentUpon>AgregarCurso.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Bienvenida.aspx.cs">
+      <DependentUpon>Bienvenida.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Bienvenida.aspx.designer.cs">
+      <DependentUpon>Bienvenida.aspx</DependentUpon>
     </Compile>
     <Compile Include="Curso.aspx.cs">
       <DependentUpon>Curso.aspx</DependentUpon>
@@ -104,6 +114,20 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GenerarContrasenia.aspx.cs">
+      <DependentUpon>GenerarContrasenia.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GenerarContrasenia.aspx.designer.cs">
+      <DependentUpon>GenerarContrasenia.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

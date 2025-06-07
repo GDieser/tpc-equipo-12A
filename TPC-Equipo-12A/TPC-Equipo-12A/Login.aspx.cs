@@ -24,7 +24,7 @@ namespace TPC_Equipo_12A
                 
                 UsuarioAutenticado usuario = AutenticarUsuario.login(txtUsuario.Text, pass);
 
-                if (usuario != null)
+                if (usuario != null || usuario.Habilitado)
                 {
                     Session["UsuarioAutenticado"] = usuario;
                     Response.Redirect("Default.aspx");
@@ -33,8 +33,10 @@ namespace TPC_Equipo_12A
                 {
                     lblError.ForeColor = System.Drawing.Color.Red;
                     lblError.Visible = true;
-                    lblError.Text = "Usuario o contraseña invalidos";
-                    
+                    if (!usuario.Habilitado)
+                        lblError.Text = "Usuario no habilitado, contacte al administrador.";
+                    if (usuario == null)
+                        lblError.Text = "Usuario o contraseña invalidos";
                 }
             }
         }
