@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AgregarCurso.aspx" />
+    <Content Include="DetalleNovedad.aspx" />
     <Content Include="Notificacion.aspx" />
     <Content Include="Curso.aspx" />
     <Content Include="Cursos.aspx" />
@@ -88,6 +89,13 @@
     </Compile>
     <Compile Include="AgregarCurso.aspx.designer.cs">
       <DependentUpon>AgregarCurso.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DetalleNovedad.aspx.cs">
+      <DependentUpon>DetalleNovedad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DetalleNovedad.aspx.designer.cs">
+      <DependentUpon>DetalleNovedad.aspx</DependentUpon>
     </Compile>
     <Compile Include="Notificacion.aspx.cs">
       <DependentUpon>Notificacion.aspx</DependentUpon>
