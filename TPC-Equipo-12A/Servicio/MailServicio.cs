@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using Dominio;
+using System.Diagnostics;
 
 namespace Servicio
 {
@@ -19,41 +20,75 @@ namespace Servicio
         private readonly string usuario = ConfigurationManager.AppSettings["SMTP_Usuario"];
         private readonly string contrasena = ConfigurationManager.AppSettings["SMTP_Contrasena"];
 
-
         public bool EnviarCorreo(string cuerpo, string destinatario, string asunto)
         {
-
-            var mensaje = new MailMessage();
-            mensaje.From = new MailAddress(remitente);
-            mensaje.To.Add(destinatario);
-            mensaje.Subject = asunto;
-            mensaje.Body = cuerpo;
-            mensaje.IsBodyHtml = true;
-
-            var cliente = new SmtpClient(host, puerto)
-            {
-                Credentials = new NetworkCredential(usuario, contrasena),
-                EnableSsl = true
-            };
-
-            try
-            {
-                cliente.Send(mensaje);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al enviar: " + ex.Message);
+            if (string.IsNullOrWhiteSpace(cuerpo) || string.IsNullOrWhiteSpace(destinatario))
                 return false;
+
+            var mensaje = new MailMessage
+            {
+                From = new MailAddress(remitente),
+                Subject = asunto,
+                Body = cuerpo,
+                IsBodyHtml = true
+            };
+            mensaje.To.Add(destinatario);
+
+            using (var cliente = new SmtpClient(host, puerto))
+            {
+                cliente.Credentials = new NetworkCredential(usuario, contrasena);
+                cliente.EnableSsl = true;
+
+                try
+                {
+                    cliente.Send(mensaje);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Trace.TraceError("Error al enviar correo: " + ex.Message);
+                    return false;
+                }
             }
-        }
+        }    
 
         public void EnviarCorreoBienvenida(Usuario usuario)
         {
             string dominio = ConfigurationManager.AppSettings["Dominio"];
-            string enlaceValidacion = $"{dominio}/GenerarContrasenia.aspx?email={usuario.Email}&token={usuario.TokenValidacion}";
+            string enlace = $"{dominio}/GenerarContrasenia.aspx?email={usuario.Email}&token={usuario.TokenValidacion}";
 
-            string cuerpo = $@"
+            string cuerpo = GenerarCuerpoHtml(
+                $"¡Bienvenido/a, {usuario.Nombre} {usuario.Apellido}!",
+                "Gracias por unirte a <strong>MisCursos.com</strong>, la plataforma donde potenciarás tu aprendizaje en línea.",
+                "Activar mi cuenta",
+                enlace,
+                usuario
+            );
+
+            string asunto = $"¡Bienvenid@ {usuario.Nombre}! Activá tu cuenta en MisCursos.com";
+            EnviarCorreo(cuerpo, usuario.Email, asunto);
+        }
+
+        public void RecuperarContrasenia(Usuario usuario)
+        {
+            string dominio = ConfigurationManager.AppSettings["Dominio"];
+            string enlace = $"{dominio}/GenerarContrasenia.aspx?email={usuario.Email}&token={usuario.TokenValidacion}";
+
+            string cuerpo = GenerarCuerpoHtml(
+                $"¡Hola {usuario.Nombre} {usuario.Apellido}!",
+                "Solicitaste restablecer tu contraseña. Para continuar, hacé clic en el botón de abajo.",
+                "Restablecer Contraseña",
+                enlace,
+                usuario
+            );
+
+            string asunto = $"Restablecé tu contraseña en MisCursos.com";
+            EnviarCorreo(cuerpo, usuario.Email, asunto);
+        }
+
+        private string GenerarCuerpoHtml(string titulo, string mensajePersonalizado, string botonTexto, string enlace, Usuario usuario)
+        {
+            return $@"
             <html>
             <head>
                 <style>
@@ -70,13 +105,8 @@ namespace Servicio
                         border-radius: 10px;
                         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
                     }}
-                    h1 {{
-                        color: #343a40;
-                    }}
-                    p {{
-                        color: #555;
-                        line-height: 1.6;
-                    }}
+                    h1 {{ color: #343a40; }}
+                    p {{ color: #555; line-height: 1.6; }}
                     .btn {{
                         display: inline-block;
                         background-color: #007bff;
@@ -88,27 +118,30 @@ namespace Servicio
                         border-radius: 6px;
                         transition: background-color 0.3s ease;
                     }}
-                    .btn:hover {{
-                        background-color: #0056b3;
-                    }}
+                    .btn:hover {{ background-color: #0056b3; }}
                     .footer {{
                         margin-top: 40px;
                         font-size: 12px;
                         color: #999;
                         text-align: center;
                     }}
+                    @media (max-width: 600px) {{
+                        body {{ padding: 10px; }}
+                        .container {{ width: 90%; padding: 15px; }}
+                        h1 {{ font-size: 20px; }}
+                        p {{ font-size: 14px; }}
+                        .btn {{ padding: 10px 18px; font-size: 14px; }}
+                    }}
                 </style>
             </head>
             <body>
                 <div class='container'>
-                    <h1>¡Bienvenido/a, {usuario.Nombre} {usuario.Apellido}!</h1>
-                    <p>Gracias por unirte a <strong>MisCursos.com</strong>, la plataforma donde potenciarás tu aprendizaje en línea.</p>
+                    <h1>{titulo}</h1>
+                    <p>{mensajePersonalizado}</p>
                     <p>Tu nombre de usuario registrado es: <strong>{usuario.NombreUsuario}</strong></p>
-                    <p>Para activar tu cuenta y comenzar a disfrutar de todos nuestros cursos, simplemente hacé clic en el siguiente botón:</p>
-                    <p><a href='{enlaceValidacion}' class='btn'>Activar mi cuenta</a></p>
-                    <p>Si no solicitaste este registro, podés ignorar este mensaje.</p>
+                    <p><a href='{enlace}' class='btn'>{botonTexto}</a></p>
+                    <p>Si no solicitaste esta acción, podés ignorar este mensaje.</p>
                     <br />
-                    <p>¡Esperamos verte pronto aprendiendo con nosotros!</p>
                     <p>Saludos cordiales,<br /><strong>El equipo de MisCursos.com</strong></p>
                     <div class='footer'>
                         &copy; {DateTime.Now.Year} MisCursos.com · Todos los derechos reservados.
@@ -116,10 +149,6 @@ namespace Servicio
                 </div>
             </body>
             </html>";
-
-            string asunto = $"¡Bienvenid@ {usuario.Nombre}! Generá tu contraseña en MisCursos.com y comenzá a aprender";
-
-            EnviarCorreo(cuerpo, usuario.Email, asunto);
         }
     }
 }

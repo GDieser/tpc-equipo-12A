@@ -19,7 +19,7 @@ namespace Servicio
                 datos.setConsulta(@"SELECT u.IdUsuario, u.Nombre, u.Apellido, u.IdRol, u.NombreUsuario, 
                                 u.Habilitado, i.IdImagen, i.UrlImagen, i.nombre as nombreImagen
                                 FROM Usuario u 
-                                LEFT JOIN Imagen i ON u.IdUsuario = IdUsuario
+                                LEFT JOIN Imagen i ON u.FotoPerfil = i.IdImagen
                                 WHERE u.NombreUsuario = @nombreUsuario 
                                 AND u.Pass = @password");
                 datos.setParametro("@nombreUsuario", nombreUsuario);

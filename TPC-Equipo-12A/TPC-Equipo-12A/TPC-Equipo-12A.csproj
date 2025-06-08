@@ -68,7 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AgregarCurso.aspx" />
-    <Content Include="Bienvenida.aspx" />
+    <Content Include="Notificacion.aspx" />
     <Content Include="Curso.aspx" />
     <Content Include="Cursos.aspx" />
     <Content Include="Default.aspx" />
@@ -76,7 +76,9 @@
     <Content Include="GenerarContrasenia.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Novedades.aspx" />
+    <Content Include="Perfil.aspx" />
     <Content Include="Registro.aspx" />
+    <Content Include="RestablecerContrasenia.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -87,12 +89,12 @@
     <Compile Include="AgregarCurso.aspx.designer.cs">
       <DependentUpon>AgregarCurso.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Bienvenida.aspx.cs">
-      <DependentUpon>Bienvenida.aspx</DependentUpon>
+    <Compile Include="Notificacion.aspx.cs">
+      <DependentUpon>Notificacion.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Bienvenida.aspx.designer.cs">
-      <DependentUpon>Bienvenida.aspx</DependentUpon>
+    <Compile Include="Notificacion.aspx.designer.cs">
+      <DependentUpon>Notificacion.aspx</DependentUpon>
     </Compile>
     <Compile Include="Curso.aspx.cs">
       <DependentUpon>Curso.aspx</DependentUpon>
@@ -150,6 +152,13 @@
     <Compile Include="Novedades.aspx.designer.cs">
       <DependentUpon>Novedades.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Perfil.aspx.cs">
+      <DependentUpon>Perfil.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Perfil.aspx.designer.cs">
+      <DependentUpon>Perfil.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registro.aspx.cs">
       <DependentUpon>Registro.aspx</DependentUpon>
@@ -157,6 +166,13 @@
     </Compile>
     <Compile Include="Registro.aspx.designer.cs">
       <DependentUpon>Registro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RestablecerContrasenia.aspx.cs">
+      <DependentUpon>RestablecerContrasenia.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RestablecerContrasenia.aspx.designer.cs">
+      <DependentUpon>RestablecerContrasenia.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

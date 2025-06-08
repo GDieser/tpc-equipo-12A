@@ -33,41 +33,63 @@ Si crees que se trata de un error intenta ingresar nuevamente desde tu correo.";
 
         protected void btnGuardarContrasenia_Click(object sender, EventArgs e)
         {
-            if (Page.IsValid)
+            if (!Page.IsValid)
+                return;
+
+            string email = ViewState["email"] as string;
+            string token = ViewState["token"] as string;
+
+            UsuarioServicio usuarioServicio = new UsuarioServicio();
+            Usuario usuario = usuarioServicio.BuscarPorEmailNombreUsuario(email, "");
+
+            if (usuario == null)
             {
-                string email = ViewState["email"] as string;
-                string token = ViewState["token"] as string;
-                UsuarioServicio usuarioServicio = new UsuarioServicio();
-                Usuario usuario = usuarioServicio.BuscarPorEmailNombreUsuario(email, "");
-                if (usuario != null)
-                {
-                    if (usuario.TokenValidacion == token && !usuario.EmailValidado)
-                    {
-                        if (txtPass.Text != txtPass2.Text)
-                        {
-                            lblError.Text = "Las contraseñas no coinciden.";
-                            return;
-                        }
-                        usuario.Pass = SHA256Utils.toSha256(txtPass.Text);
-                        usuario.EmailValidado = true;
-                        usuario.TokenValidacion = null;
-                        usuarioServicio.GuardarContrasenia(usuario);
-                        // TODO: Implementar registro de Usuario a Moodle una vez validado
-                        Response.Redirect("Login.aspx");
-                    }
-                    else
-                    {
-                        Session["error"] = "El token es incorrecto o la contraseña ya ha sido generada.";
-                        Response.Redirect("Error.aspx");
-                    }
-                }
-                else
-                {
-                    Session["error"] = "El email es inexistente. Porfavor registrese...";
-                    Response.Redirect("Error.aspx");
-                    return;
-                }
+                Session["error"] = "El email no existe. Por favor, registrese.";
+                Response.Redirect("Error.aspx");
+                return;
             }
+
+            if (!usuario.Habilitado)
+            {
+                Session["error"] = "Usuario no habilitado, contacte al administrador del sitio.";
+                Response.Redirect("Error.aspx");
+                return;
+            }
+
+            if (usuario.TokenValidacion != token)
+            {
+                Session["error"] = "El token es incorrecto o ha expirado.";
+                Response.Redirect("Error.aspx");
+                return;
+            }
+
+            if (txtPass.Text != txtPass2.Text)
+            {
+                lblError.Text = "Las contraseñas no coinciden.";
+                return;
+            }
+
+            usuario.Pass = SHA256Utils.toSha256(txtPass.Text);
+            usuario.TokenValidacion = null;
+
+            if (!usuario.EmailValidado)
+            {
+                usuario.EmailValidado = true;
+            }
+
+            if (usuario.RecuperoContrasenia)
+            {
+                usuario.RecuperoContrasenia = false;
+            }
+
+            usuarioServicio.GuardarContrasenia(usuario);
+
+            Session["titulo"] = $"Hola {usuario.Nombre} {usuario.Apellido}";
+            Session["mensajePrincipal"] = "¡Tu contraseña fue generada exitosamente!";
+            Session["mensajeSecundario"] = $"Ya podés ingresar a la plataforma con la nueva contraseña.";
+
+            Response.Redirect("Notificacion.aspx", false);
         }
+
     }
 }

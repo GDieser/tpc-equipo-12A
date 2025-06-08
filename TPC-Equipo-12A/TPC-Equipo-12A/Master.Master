@@ -50,11 +50,51 @@
                                 </li>
                                 <li class="nav-item me-2">
                                     <asp:HyperLink ID="btnLogin" runat="server" CssClass="btn btn-success" NavigateUrl="Login.aspx">Login</asp:HyperLink>
-                                    <asp:LinkButton ID="btnLogout" runat="server" CssClass="btn btn-danger" OnClick="btnLogout_Click">LogOut</asp:LinkButton>
                                 </li>
                                 <li class="nav-item me-2">
                                     <button type="button" class="btn btn-outline-light">🛒</button>
                                 </li>
+                                <% if (usuario != null)
+                                    { %>
+                                <li class="nav-item dropdown me-2">
+                                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src='<%= usuario?.FotoPerfil?.Url ?? "https://static-00.iconduck.com/assets.00/profile-user-icon-512x512-nm62qfu0.png" %>'
+                                            alt="Foto Perfil" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;">
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                        <li class="dropdown-item">¡Hola <%= usuario?.Nombre %>!</li>
+                                        <hr class="dropdown-divider">
+                                        <li><a class="dropdown-item" href="Perfil.aspx?id=<%= usuario.IdUsuario %>">👤 Mi perfil</a></li>
+                                        <% if (usuario.Rol == Dominio.Rol.Administrador)
+                                            {
+                                        %>
+                                        <li><a class="dropdown-item" href="MisCursos.aspx">🎓 Administrar cursos</a></li>
+                                        <li><a class="dropdown-item" href="MisUsuarios.aspx">👥 Administrar usuarios</a></li>
+                                        <li><a class="dropdown-item" href="MisVentas.aspx">💰 Mis ventas</a></li>
+                                        <% 
+                                            }
+                                            else
+                                            {
+                                        %>
+                                        <li><a class="dropdown-item" href="MisCursos.aspx">🎓 Mis Cursos</a></li>
+                                        <li><a class="dropdown-item" href="Favoritos.aspx">⭐ Favoritos</a></li>
+                                        <%
+                                            }
+                                        %>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li>
+                                            <asp:LinkButton ID="btnCerrarSesion" runat="server" CssClass="dropdown-item text-danger" OnClick="btnLogout_Click">
+                🔓 Cerrar sesión
+                                            </asp:LinkButton>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <%
+                                    }
+                                %>
                             </ul>
                         </div>
 

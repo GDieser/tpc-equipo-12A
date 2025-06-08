@@ -7,17 +7,17 @@ namespace TPC_Equipo_12A
 {
     public partial class Master : System.Web.UI.MasterPage
     {
+        protected UsuarioAutenticado usuario;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                UsuarioAutenticado usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+                usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
 
                 btnLogin.Visible = (usuario == null);
-                btnLogout.Visible = (usuario != null);
                 if (Page is Login)
                 {
-                    btnLogin.Visible = btnLogout.Visible = false;
+                    btnLogin.Visible = false;
                 }
             }
         }

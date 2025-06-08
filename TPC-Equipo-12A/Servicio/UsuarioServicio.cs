@@ -50,6 +50,60 @@ namespace Servicio
             }
         }
 
+        public Usuario BuscarPorId(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setConsulta(
+                "SELECT " +
+                    "u.IdUsuario, u.Nombre, u.Apellido, u.Email, u.IdRol, u.Celular, u.FechaNacimiento, " +
+                    "u.NombreUsuario, u.FechaRegistro, i.IdImagen, i.UrlImagen, i.Nombre AS nombreImagen " +
+                "FROM Usuario u " +
+                "LEFT JOIN Imagen i ON u.FotoPerfil = i.IdImagen " +
+                "WHERE u.IdUsuario = @IdUsuario");
+                datos.limpiarParametros();
+                datos.setParametro("@IdUsuario", id);
+                datos.ejecutarLectura();
+                if (!datos.Lector.Read())
+                {
+                    return null;
+                }
+                Usuario usuario = new Usuario();
+                usuario.IdUsuario = (int)datos.Lector["IdUsuario"];
+                usuario.Nombre = (string)datos.Lector["Nombre"];
+                usuario.Apellido = (string)datos.Lector["Apellido"];
+                usuario.Email = (string)datos.Lector["Email"];
+                usuario.Rol = (Rol)datos.Lector["IdRol"];
+                usuario.NombreUsuario = (string)datos.Lector["NombreUsuario"];
+                usuario.FechaRegistro = datos.Lector["FechaRegistro"] != DBNull.Value ? (DateTime)datos.Lector["FechaRegistro"] : DateTime.MinValue;
+                usuario.FechaNacimiento = datos.Lector["FechaNacimiento"] != DBNull.Value ? (DateTime)datos.Lector["FechaNacimiento"] : DateTime.MinValue;
+
+                if (datos.Lector["IdImagen"] != DBNull.Value)
+                {
+                    usuario.FotoPerfil = new Imagen
+                    {
+                        IdImagen = (int)datos.Lector["IdImagen"],
+                        Url = datos.Lector["UrlImagen"].ToString(),
+                        Nombre = datos.Lector["nombreImagen"].ToString()
+                    };
+                }
+                else
+                {
+                    usuario.FotoPerfil = new Imagen();
+                }
+                return usuario;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error al cargar el usuario");
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public void RegistrarUsuario(Usuario usuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -163,7 +217,7 @@ namespace Servicio
                 NombreUsuario = @NombreUsuario,
                 IdRol = @IdRol,
                 Habilitado = @Habilitado,
-                FechaRegistro = @FechaRegistro,
+                FechaRegistro = @FechaRegistro
             WHERE IdUsuario = @IdUsuario"
                 );
                 datos.limpiarParametros();
@@ -185,6 +239,51 @@ namespace Servicio
             {
                 datos.cerrarConexion();
             }
+        }
+
+        public void RecuperarContrasenia(Usuario usuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setConsulta(@"
+            UPDATE Usuario
+            SET 
+                TokenValidacion = @TokenValidacion,
+                RecuperoContrasenia = @RecuperoContrasenia
+            WHERE IdUsuario = @IdUsuario AND NombreUsuario = @NombreUsuario"
+                );
+                datos.limpiarParametros();
+                datos.setParametro("@IdUsuario", usuario.IdUsuario);
+                datos.setParametro("@NombreUsuario", usuario.NombreUsuario);
+                datos.setParametro("@TokenValidacion", usuario.TokenValidacion);
+                datos.setParametro("@RecuperoContrasenia", usuario.RecuperoContrasenia);
+                datos.ejecutarAccion();
+                ServicioMail servicioMail = new ServicioMail();
+                try
+                {
+                    servicioMail.RecuperarContrasenia(usuario);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error al enviar correo: " + ex.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al actualizar el usuario", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+        }
+
+        public Usuario ObtenerPerfil(int id)
+        {
+            Usuario usuario = BuscarPorId(id);
+            return usuario;
         }
     }
 }
