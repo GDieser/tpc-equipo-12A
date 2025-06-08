@@ -33,7 +33,7 @@
 
                             <p class="card-text"><%# Eval("Resumen") %></p>
 
-                            <button type="button" class="btn btn-info">Ver más.</button>
+                            <a href="DetalleNovedad.aspx?IdNovedad=<%# Eval("IdPublicacion") %>" class="btn btn-info">Ver más.</a>
 
                         </div>
                     </div>
