@@ -8,10 +8,14 @@
             <div class="col-12 col-sm-10 col-md-8 col-lg-7">
                 <div class="card bg-dark text-white shadow rounded-4 p-4 border-0">
                     <div class="card-body">
-
-                        <h4 class="mb-4 text-center">
-                            <asp:Literal ID="litPerfilTitulo" runat="server" />
-                        </h4>
+                        <div class="mb-4 text-center">
+                            <h4>
+                                <asp:Literal ID="litPerfilTitulo" runat="server" />
+                            </h4>
+                            <small>
+                                <asp:Literal ID="litEmail" runat="server" />
+                            </small>
+                        </div>
 
                         <asp:ScriptManager ID="ScriptManager1" runat="server" />
 
@@ -43,11 +47,6 @@
                                 </div>
 
                                 <div class="form-outline mb-3">
-                                    <label class="form-label">Email</label>
-                                    <asp:TextBox ID="txtEmail" CssClass="form-control" runat="server" ReadOnly="true" />
-                                </div>
-
-                                <div class="form-outline mb-3">
                                     <label class="form-label" for="txtCelular">Celular</label>
                                     <asp:TextBox ID="txtCelular" CssClass="form-control" runat="server" />
                                 </div>
@@ -66,9 +65,9 @@
 
 
                                 <asp:Button ID="btnGuardar" runat="server" Text="Guardar Cambios" CssClass="btn btn-primary w-100 mb-3" OnClick="btnGuardar_Click" />
-
-                                <asp:Label ID="lblMensaje" runat="server" CssClass="text-success mt-3 d-block text-center" />
                                 <asp:Label ID="lblError" runat="server" CssClass="text-danger mt-3 d-block text-center" />
+                                <asp:Label ID="lblExito" runat="server" CssClass="text-succes mt-3 d-block text-center" />
+
                             </ContentTemplate>
                         </asp:UpdatePanel>
                     </div>

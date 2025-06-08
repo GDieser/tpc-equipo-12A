@@ -24,6 +24,15 @@ namespace TPC_Equipo_12A
         protected global::System.Web.UI.WebControls.Literal litPerfilTitulo;
 
         /// <summary>
+        /// litEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litEmail;
+
+        /// <summary>
         /// ScriptManager1 control.
         /// </summary>
         /// <remarks>
@@ -78,15 +87,6 @@ namespace TPC_Equipo_12A
         protected global::System.Web.UI.WebControls.TextBox txtApellido;
 
         /// <summary>
-        /// txtEmail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEmail;
-
-        /// <summary>
         /// txtCelular control.
         /// </summary>
         /// <remarks>
@@ -123,15 +123,6 @@ namespace TPC_Equipo_12A
         protected global::System.Web.UI.WebControls.Button btnGuardar;
 
         /// <summary>
-        /// lblMensaje control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMensaje;
-
-        /// <summary>
         /// lblError control.
         /// </summary>
         /// <remarks>
@@ -139,5 +130,14 @@ namespace TPC_Equipo_12A
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblError;
+
+        /// <summary>
+        /// lblExito control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblExito;
     }
 }

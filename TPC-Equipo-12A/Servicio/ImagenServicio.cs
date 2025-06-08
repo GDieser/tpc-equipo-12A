@@ -54,6 +54,39 @@ namespace Servicio
             }
 
         }
+
+        public int agregarImagen(Imagen imagen)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setConsulta(@"INSERT INTO Imagen (UrlImagen, IdTipoImagen) 
+                                    VALUES (@url, @tipo);
+                                    SELECT SCOPE_IDENTITY();");
+                datos.limpiarParametros();
+                datos.setParametro("@url", imagen.Url);
+                datos.setParametro("@tipo", imagen.Tipo);
+                datos.ejecutarLectura();
+                int idImagen;
+                if (datos.Lector.Read())
+                {
+                    idImagen = Convert.ToInt32(datos.Lector[0]);
+                    return idImagen;
+                }
+                else
+                {
+                    throw new Exception("No se pudo obtener el ID de la imagen insertada.");
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("No se pudo guardar la imagen.");
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 
 }

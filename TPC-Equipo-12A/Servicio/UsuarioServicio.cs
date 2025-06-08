@@ -57,7 +57,7 @@ namespace Servicio
             {
                 datos.setConsulta(
                 "SELECT " +
-                    "u.IdUsuario, u.Nombre, u.Apellido, u.Email, u.IdRol, u.Celular, u.FechaNacimiento, " +
+                    "u.IdUsuario, u.Nombre, u.Apellido, u.Email, u.IdRol, u.Celular, u.FechaNacimiento, u.Habilitado, " +
                     "u.NombreUsuario, u.FechaRegistro, i.IdImagen, i.UrlImagen, i.Nombre AS nombreImagen " +
                 "FROM Usuario u " +
                 "LEFT JOIN Imagen i ON u.FotoPerfil = i.IdImagen " +
@@ -74,7 +74,9 @@ namespace Servicio
                 usuario.Nombre = (string)datos.Lector["Nombre"];
                 usuario.Apellido = (string)datos.Lector["Apellido"];
                 usuario.Email = (string)datos.Lector["Email"];
+                usuario.Celular = datos.Lector["Celular"] != DBNull.Value ? (string)datos.Lector["Celular"] : "";
                 usuario.Rol = (Rol)datos.Lector["IdRol"];
+                usuario.Habilitado = (bool)datos.Lector["Habilitado"];
                 usuario.NombreUsuario = (string)datos.Lector["NombreUsuario"];
                 usuario.FechaRegistro = datos.Lector["FechaRegistro"] != DBNull.Value ? (DateTime)datos.Lector["FechaRegistro"] : DateTime.MinValue;
                 usuario.FechaNacimiento = datos.Lector["FechaNacimiento"] != DBNull.Value ? (DateTime)datos.Lector["FechaNacimiento"] : DateTime.MinValue;
@@ -215,8 +217,11 @@ namespace Servicio
                 Apellido = @Apellido,
                 Email = @Email,
                 NombreUsuario = @NombreUsuario,
-                IdRol = @IdRol,
+                IdRol = @IdRol, 
+                Celular = @Celular,
+                FechaNacimiento = @FechaNacimiento,
                 Habilitado = @Habilitado,
+                FotoPerfil = @FotoPerfil,
                 FechaRegistro = @FechaRegistro
             WHERE IdUsuario = @IdUsuario"
                 );
@@ -225,8 +230,11 @@ namespace Servicio
                 datos.setParametro("@Nombre", usuario.Nombre);
                 datos.setParametro("@Apellido", usuario.Apellido);
                 datos.setParametro("@Email", usuario.Email);
+                datos.setParametro("@Celular", usuario.Celular);
                 datos.setParametro("@NombreUsuario", usuario.NombreUsuario);
+                datos.setParametro("@FechaNacimiento", usuario.FechaNacimiento);
                 datos.setParametro("@IdRol", (int)usuario.Rol);
+                datos.setParametro("@FotoPerfil", usuario.FotoPerfil != null ? (object)usuario.FotoPerfil.IdImagen : DBNull.Value);
                 datos.setParametro("@Habilitado", usuario.Habilitado);
                 datos.setParametro("@FechaRegistro", usuario.FechaRegistro);
                 datos.ejecutarAccion();

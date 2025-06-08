@@ -14,8 +14,7 @@ namespace TPC_Equipo_12A
             {
                 usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
 
-                btnLogin.Visible = (usuario == null);
-                if (Page is Login)
+                if (Page is Login || usuario != null)
                 {
                     btnLogin.Visible = false;
                 }
@@ -25,7 +24,7 @@ namespace TPC_Equipo_12A
         protected void btnLogout_Click(object sender, EventArgs e)
         {
             Session["UsuarioAutenticado"] = null;
-            Response.Redirect(Request.RawUrl);
+            Response.Redirect("Default.aspx");
         }
     }
 }
