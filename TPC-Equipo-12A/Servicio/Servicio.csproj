@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="AccesoDatos.cs" />
     <Compile Include="AutenticarUsuario.cs" />
+    <Compile Include="CategoriaServicio.cs" />
     <Compile Include="ImagenServicio.cs" />
     <Compile Include="MailServicio.cs" />
     <Compile Include="NovedadesServicio.cs" />

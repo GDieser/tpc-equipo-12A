@@ -77,7 +77,7 @@
     <Content Include="GenerarContrasenia.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Novedades.aspx" />
-    <Content Include="Novedades\NuevaPublicacion.aspx" />
+    <Content Include="NuevaPublicacion.aspx" />
     <Content Include="Perfil.aspx" />
     <Content Include="Registro.aspx" />
     <Content Include="RestablecerContrasenia.aspx" />
@@ -161,11 +161,11 @@
     <Compile Include="Novedades.aspx.designer.cs">
       <DependentUpon>Novedades.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Novedades\NuevaPublicacion.aspx.cs">
+    <Compile Include="NuevaPublicacion.aspx.cs">
       <DependentUpon>NuevaPublicacion.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Novedades\NuevaPublicacion.aspx.designer.cs">
+    <Compile Include="NuevaPublicacion.aspx.designer.cs">
       <DependentUpon>NuevaPublicacion.aspx</DependentUpon>
     </Compile>
     <Compile Include="Perfil.aspx.cs">
@@ -214,6 +214,9 @@
       <Project>{6f012201-8093-41e9-a2f7-cb33e268d6a1}</Project>
       <Name>Utils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Novedades\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

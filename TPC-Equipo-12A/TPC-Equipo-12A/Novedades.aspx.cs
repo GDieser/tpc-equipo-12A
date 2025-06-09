@@ -49,7 +49,7 @@ namespace TPC_Equipo_12A
 
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("~/Novedades/NuevaPublicacion.aspx", false);
+            Response.Redirect("NuevaPublicacion.aspx", false);
         }
     }
 }
