@@ -230,9 +230,9 @@ namespace Servicio
                 datos.setParametro("@Nombre", usuario.Nombre);
                 datos.setParametro("@Apellido", usuario.Apellido);
                 datos.setParametro("@Email", usuario.Email);
-                datos.setParametro("@Celular", usuario.Celular);
+                datos.setParametro("@Celular", usuario.Celular ?? (object)DBNull.Value);
                 datos.setParametro("@NombreUsuario", usuario.NombreUsuario);
-                datos.setParametro("@FechaNacimiento", usuario.FechaNacimiento);
+                datos.setParametro("@FechaNacimiento", usuario.FechaNacimiento ?? (object)DBNull.Value);
                 datos.setParametro("@IdRol", (int)usuario.Rol);
                 datos.setParametro("@FotoPerfil", usuario.FotoPerfil != null ? (object)usuario.FotoPerfil.IdImagen : DBNull.Value);
                 datos.setParametro("@Habilitado", usuario.Habilitado);

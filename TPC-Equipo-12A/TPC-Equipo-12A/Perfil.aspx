@@ -22,7 +22,7 @@
                         <asp:UpdatePanel ID="updFotoPerfil" runat="server" UpdateMode="Conditional">
                             <ContentTemplate>
                                 <div class="text-center mb-3">
-                                    <div style="width: 100px; height: 100px; overflow: hidden; border-radius: 50%; margin: auto;">
+                                    <div style="width: 150px; height: 150px; overflow: hidden; border-radius: 50%; margin: auto;">
                                         <asp:Image ID="imgFotoPerfil" runat="server"
                                             CssClass="w-100 h-100"
                                             Style="object-fit: cover;"
