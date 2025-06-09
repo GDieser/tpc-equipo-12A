@@ -16,11 +16,40 @@ namespace TPC_Equipo_12A
         protected void Page_Load(object sender, EventArgs e)
         {
             NovedadesServicio servicio = new NovedadesServicio();
-            ListaPublicaciones = servicio.listar();
+            UsuarioAutenticado usuarioAutenticado = new UsuarioAutenticado();
 
-            rptNovedades.DataSource = ListaPublicaciones;
-            rptNovedades.DataBind();
+            if(Session["UsuarioAutenticado"] != null)
+            {
+                usuarioAutenticado = (UsuarioAutenticado)Session["UsuarioAutenticado"];
 
+                if (usuarioAutenticado.Rol == 0)
+                {
+                    btnAgregar.Visible = true;
+                }
+                else
+                {
+                    btnAgregar.Visible = false;
+                }
+            }
+            else
+            {
+                btnAgregar.Visible = false;
+            }
+
+
+            if (!IsPostBack)
+            {
+                ListaPublicaciones = servicio.listar();
+
+                rptNovedades.DataSource = ListaPublicaciones;
+                rptNovedades.DataBind();
+            }
+
+        }
+
+        protected void btnAgregar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Novedades/NuevaPublicacion.aspx", false);
         }
     }
 }

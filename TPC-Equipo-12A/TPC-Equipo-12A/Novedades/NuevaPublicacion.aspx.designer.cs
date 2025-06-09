@@ -11,25 +11,16 @@ namespace TPC_Equipo_12A
 {
 
 
-    public partial class Novedades
+    public partial class NuevaPublicacion
     {
 
         /// <summary>
-        /// btnAgregar control.
+        /// DropDownList1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAgregar;
-
-        /// <summary>
-        /// rptNovedades control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptNovedades;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
     }
 }
