@@ -14,6 +14,7 @@
         </p>
         <br />
         <p>Estamos atentos a cualquier sugerencia que nos hagas! El quipo de MisCursos.com</p>
+        <asp:Button Text="Agregar nueva publicación" ID="btnAgregar" OnClick="btnAgregar_Click" CssClass="btn btn-info" runat="server" />
     </div>
     <hr />
 

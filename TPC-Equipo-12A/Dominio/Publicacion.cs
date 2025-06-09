@@ -14,7 +14,7 @@ namespace Dominio
         public DateTime FechaCreacion { get; set; }
         public EstadoPublicacion Estado { get; set; }
         public List<Imagen> Imagenes { get; set; }
-
+        public string Url { get; set; } 
         public string UrlImagen => Imagenes != null && Imagenes.Count > 0 ? Imagenes[0].Url : null;
 
     }

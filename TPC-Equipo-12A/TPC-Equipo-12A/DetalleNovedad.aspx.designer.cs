@@ -15,15 +15,6 @@ namespace TPC_Equipo_12A
     {
 
         /// <summary>
-        /// imgBanner control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgBanner;
-
-        /// <summary>
         /// lblTitulo control.
         /// </summary>
         /// <remarks>
@@ -40,6 +31,15 @@ namespace TPC_Equipo_12A
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblFechaPublicacion;
+
+        /// <summary>
+        /// imgBanner control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image imgBanner;
 
         /// <summary>
         /// lblResumen control.

@@ -5,23 +5,34 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
 
-    <div class="col text-center">
+    <div class="col">
+        <hr />
+        <div>
+            <asp:Label ID="lblTitulo" runat="server"
+                Style="font-size: 40px; font-weight: bold; margin-bottom: 15px; display: block;" />
+        </div>
 
         <div>
-            <asp:image imageurl="imageurl" id="imgBanner" runat="server" />
+            <asp:Label ID="lblFechaPublicacion" runat="server"
+                Style="font-size: 14px; margin-bottom: 10px; display: block;" />
         </div>
+
+        <div class>
+            <asp:Image ID="imgBanner" runat="server"
+                ImageUrl="imageurl"
+                Style="width: 300px; height: auto; margin-bottom: 15px;" />
+        </div>
+        <hr />
         <div>
-            <asp:label id="lblTitulo" runat="server" />
+            <asp:Label ID="lblResumen" runat="server"
+                Style="margin-bottom: 10px; display: block;" />
         </div>
+
         <div>
-            <asp:label id="lblFechaPublicacion" runat="server" />
+            <asp:Label ID="lblDescripcion" runat="server"
+                Style="font-size:18px; margin-bottom: 10px; display: block;" />
         </div>
-        <div>
-            <asp:label id="lblResumen" runat="server" />
-        </div>
-        <div>
-            <asp:label id="lblDescripcion" runat="server" />
-        </div>
+
     </div>
 
 
