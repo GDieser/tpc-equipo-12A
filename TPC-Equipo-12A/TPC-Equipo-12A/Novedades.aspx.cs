@@ -25,6 +25,7 @@ namespace TPC_Equipo_12A
                 if (usuarioAutenticado.Rol == 0)
                 {
                     btnAgregar.Visible = true;
+                    
                 }
                 else
                 {
@@ -40,8 +41,17 @@ namespace TPC_Equipo_12A
             if (!IsPostBack)
             {
                 ListaPublicaciones = servicio.listar();
+                List<Publicacion> listaFiltrada = new List<Publicacion>();
 
-                rptNovedades.DataSource = ListaPublicaciones;
+                foreach (var publi in ListaPublicaciones)
+                {
+                    if(publi.Estado == EstadoPublicacion.Publicado)
+                    {
+                        listaFiltrada.Add(publi);
+                    }
+                }
+
+                rptNovedades.DataSource = listaFiltrada;
                 rptNovedades.DataBind();
             }
 
@@ -49,7 +59,8 @@ namespace TPC_Equipo_12A
 
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("NuevaPublicacion.aspx", false);
+            Response.Redirect("FormularioPublicacion", false);
         }
+
     }
 }

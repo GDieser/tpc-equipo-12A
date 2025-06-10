@@ -29,8 +29,20 @@ namespace TPC_Equipo_12A
                     ddlEstado.Items.Add(new ListItem("Borrador", "0"));
                     ddlEstado.Items.Add(new ListItem("Publicado", "1"));
                     ddlEstado.Items.Add(new ListItem("Oculto", "2"));
+                }
 
+                if (Session["NovedadSeleccionada"] != null && !IsPostBack)
+                {
+                    Publicacion novedad = (Publicacion)Session["NovedadSeleccionada"];
 
+                    txtTitulo.Text = novedad.Titulo;
+                    txtResumen.Text = novedad.Resumen;
+                    txtDescripcion.Text = novedad.Descripcion;
+
+                    ddlCategoria.SelectedValue = novedad.Categoria.IdCategoria.ToString();
+                    ddlEstado.SelectedValue = ((int)novedad.Estado).ToString();
+
+                    txtImagen.Text = novedad.UrlImagen;
                 }
 
             }
@@ -69,8 +81,22 @@ namespace TPC_Equipo_12A
 
                 nueva.Url = txtImagen.Text;
 
-                servicio.agregar(nueva);
+                if(Session["NovedadSeleccionada"] != null)
+                {
+                    Publicacion novedad = (Publicacion)Session["NovedadSeleccionada"];
+                    nueva.IdPublicacion = novedad.IdPublicacion;
+                    nueva.Imagenes = novedad.Imagenes;
 
+                    servicio.modificarPublicacion(nueva);
+                
+                }
+                else
+                {
+                    servicio.agregar(nueva);
+                }
+
+                
+                Response.Redirect("Novedades.aspx", false);
 
             }
             catch (Exception ex)
