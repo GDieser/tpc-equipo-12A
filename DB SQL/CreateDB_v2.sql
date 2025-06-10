@@ -46,8 +46,8 @@ CREATE TABLE Curso (
 	Descripcion NVARCHAR(MAX),
     Resumen NVARCHAR(255),
     Precio DECIMAL NOT NULL,
-	FechaPublicacion DATE,
-	FechaCreacion DATE,
+	FechaPublicacion DATETIME,
+	FechaCreacion DATETIME,
 	Duracion INT,
 	Certificado BIT,
 
@@ -85,7 +85,7 @@ CREATE TABLE ImagenCurso(
 
 CREATE TABLE Modulo(
 	IdModulo INT PRIMARY KEY IDENTITY(1,1),
-	IdCurso INT,
+	IdCurso INT NOT NULL,
 	Titulo VARCHAR(150),
 	Introduccion TEXT,
 	Orden INT,
@@ -95,7 +95,7 @@ CREATE TABLE Modulo(
 
 CREATE TABLE Leccion(
 	IdLeccion INT PRIMARY KEY IDENTITY(1,1),
-	IdModulo INT,
+	IdModulo INT NOT NULL,
 	Titulo VARCHAR(150),
 	Introduccion TEXT,
 	Orden INT,
@@ -116,9 +116,9 @@ CREATE TABLE Componente(
 );
 
 CREATE TABLE LeccionUsuario(
-	IdLeccion INT,
-	IdUsuario INT,
-	EsFinalizado BIT,
+	IdLeccion INT NOT NULL,
+	IdUsuario INT NOT NULL,
+	EsFinalizado BIT DEFAULT 0,
 	Finalizado DATETIME,
 
 	PRIMARY KEY(IdLeccion, IdUsuario),
@@ -127,8 +127,8 @@ CREATE TABLE LeccionUsuario(
 );
 
 CREATE TABLE CursoFavorito(
-	IdUsuario INT,
-	IdCurso INT,
+	IdUsuario INT NOT NULL,
+	IdCurso INT NOT NULL,
 	Agregado DATETIME,
 
 	PRIMARY KEY(IdCurso, IdUsuario),
@@ -138,30 +138,30 @@ CREATE TABLE CursoFavorito(
 
 CREATE TABLE Carrito(
 	IdCarrito INT PRIMARY KEY IDENTITY(1,1),
-	IdUsuario INT,
+	IdUsuario INT NOT NULL,
 	FechaCreacion DATETIME,
 	UltimaModificacion DATETIME,
-	EstadoCarrito INT,
+	EstadoCarrito INT DEFAULT 0,
 
 	FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario)
 );
 
 CREATE TABLE Compra(
 	IdCompra INT PRIMARY KEY IDENTITY(1,1),
-	IdUsuario INT,
-	IdCarrito INT,
+	IdUsuario INT NOT NULL,
+	IdCarrito INT NOT NULL,
 	FechaCompra DATETIME,
-	MontoTotal DECIMAL,
-	CodigoTransaccion VARCHAR(255),
+	MontoTotal DECIMAL NOT NULL,
+	CodigoTransaccion VARCHAR(255) NOT NULL,
 
 	FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario),
 	FOREIGN KEY (IdCarrito) REFERENCES Carrito(IdCarrito)
 );
 
 CREATE TABLE DetalleCompra(
-	IdCompra INT,
-	IdCurso INT,
-	PrecioUnitario DECIMAL,
+	IdCompra INT NOT NULL,
+	IdCurso INT NOT NULL,
+	PrecioUnitario DECIMAL NOT NULL,
 
 	PRIMARY KEY(IdCurso, IdCompra),
 	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso),
@@ -169,9 +169,9 @@ CREATE TABLE DetalleCompra(
 );
 
 CREATE TABLE CarritoCurso(
-	IdCarrito INT,
-	IdCurso INT,
-	PrecioUnitario DECIMAL,
+	IdCarrito INT NOT NULL,
+	IdCurso INT NOT NULL,
+	PrecioUnitario DECIMAL NOT NULL,
 
 	PRIMARY KEY(IdCurso, IdCarrito),
 	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso),
