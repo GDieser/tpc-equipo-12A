@@ -52,6 +52,7 @@
     <Compile Include="MailServicio.cs" />
     <Compile Include="NovedadesServicio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Seguridad.cs" />
     <Compile Include="UsuarioAutenticado.cs" />
     <Compile Include="UsuarioServicio.cs" />
   </ItemGroup>

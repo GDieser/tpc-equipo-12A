@@ -20,7 +20,7 @@ namespace Servicio
 
             try
             {
-                datos.setConsulta("SELECT IdPublicacion, IdCategoria, IdImagen, Titulo, Descripcion, Resumen, FechaCreacion, FechaPublicacion, Estado FROM Publicacion;");
+                datos.setConsulta("SELECT IdPublicacion, P.IdCategoria, C.Nombre Nombre, IdImagen, Titulo, Descripcion, Resumen, FechaCreacion, FechaPublicacion, Estado FROM Publicacion P, Categoria C WHERE C.IdCategoria = P.IdCategoria;");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -36,6 +36,10 @@ namespace Servicio
                     pub.Resumen = (string)datos.Lector["Resumen"];
                     pub.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
                     pub.FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"];
+
+                    pub.Categoria = new Categoria();
+                    pub.Categoria.IdCategoria = (int)datos.Lector["IdCategoria"];
+                    pub.Categoria.Nombre = (string)datos.Lector["Nombre"];
 
                     pub.Estado = (EstadoPublicacion)Convert.ToInt32(datos.Lector["Estado"]);
 

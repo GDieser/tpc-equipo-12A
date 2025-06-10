@@ -79,6 +79,7 @@
     <Content Include="Novedades.aspx" />
     <Content Include="FormularioPublicacion.aspx" />
     <Content Include="Perfil.aspx" />
+    <Content Include="PublicacionLista.aspx" />
     <Content Include="Registro.aspx" />
     <Content Include="RestablecerContrasenia.aspx" />
     <Content Include="Web.config" />
@@ -176,6 +177,13 @@
       <DependentUpon>Perfil.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublicacionLista.aspx.cs">
+      <DependentUpon>PublicacionLista.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PublicacionLista.aspx.designer.cs">
+      <DependentUpon>PublicacionLista.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Registro.aspx.cs">
       <DependentUpon>Registro.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

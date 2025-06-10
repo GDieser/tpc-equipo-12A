@@ -42,6 +42,7 @@ namespace TPC_Equipo_12A
 
                 novedad = servicio.GetPublicacion(id);
 
+                Session.Remove("NovedadSeleccionada");
                 Session.Add("NovedadSeleccionada", novedad);
 
                 CargarNovedad();

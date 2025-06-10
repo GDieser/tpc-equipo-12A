@@ -59,7 +59,8 @@ namespace TPC_Equipo_12A
 
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("FormularioPublicacion", false);
+            Session.Remove("NovedadSeleccionada");
+            Response.Redirect("FormularioPublicacion.aspx", false);
         }
 
     }

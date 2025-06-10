@@ -24,11 +24,12 @@
             <ItemTemplate>
 
                 <div class="col">
-                    <div class="card bg-black" style="width: 18rem;">
+                    <div class="card bg-black" style="width: 20rem;">
                         <div class="card-body text-white">
 
-                            <img width="250px" src='<%# Eval("UrlImagen") %>' alt="Alternate Text" />
-
+                            <div class="card-header text-center">
+                                <img width="250px" height="150px" src='<%# Eval("UrlImagen") %>' alt="Alternate Text" />
+                            </div>
                             <br />
                             <h6 class="card-subtitle mb-2 text-body-secondary-white"><%# Eval("Titulo") %></h6>
 
