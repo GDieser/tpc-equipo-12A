@@ -9,7 +9,6 @@ namespace Servicio
 {
     public class UsuarioServicio
     {
-
         public Usuario BuscarPorEmailNombreUsuario(string email, string nombreUsuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -26,11 +25,11 @@ namespace Servicio
                 }
                 Usuario usuario = new Usuario();
                 usuario.IdUsuario = (int)datos.Lector["IdUsuario"];
-                usuario.IdUsuarioMoodle = datos.Lector["IdUsuarioMoodle"] != DBNull.Value ? (int)datos.Lector["IdUsuarioMoodle"] : 0;
                 usuario.Nombre = (string)datos.Lector["Nombre"];
                 usuario.Apellido = (string)datos.Lector["Apellido"];
                 usuario.Email = (string)datos.Lector["Email"];
                 usuario.Rol = (Rol)datos.Lector["IdRol"];
+                usuario.Celular = (string)datos.Lector["Celular"];
                 usuario.NombreUsuario = (string)datos.Lector["NombreUsuario"];
                 usuario.Habilitado = (bool)datos.Lector["Habilitado"];
                 usuario.TokenValidacion = datos.Lector["TokenValidacion"] != DBNull.Value ? (string)datos.Lector["TokenValidacion"] : null;
@@ -55,13 +54,24 @@ namespace Servicio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setConsulta(
-                "SELECT " +
-                    "u.IdUsuario, u.Nombre, u.Apellido, u.Email, u.IdRol, u.Celular, u.FechaNacimiento, u.Habilitado, " +
-                    "u.NombreUsuario, u.FechaRegistro, i.IdImagen, i.UrlImagen, i.Nombre AS nombreImagen " +
-                "FROM Usuario u " +
-                "LEFT JOIN Imagen i ON u.FotoPerfil = i.IdImagen " +
-                "WHERE u.IdUsuario = @IdUsuario");
+                datos.setConsulta(@"
+                SELECT 
+                    u.IdUsuario, 
+                    u.Nombre, 
+                    u.Apellido, 
+                    u.Email, 
+                    u.IdRol, 
+                    u.Celular, 
+                    u.FechaNacimiento, 
+                    u.Habilitado, 
+                    u.NombreUsuario, 
+                    u.FechaRegistro, 
+                    i.IdImagen, 
+                    i.UrlImagen, 
+                    i.Nombre AS nombreImagen
+                FROM Usuario u
+                LEFT JOIN Imagen i ON u.FotoPerfil = i.IdImagen
+                WHERE u.IdUsuario = @IdUsuario");
                 datos.limpiarParametros();
                 datos.setParametro("@IdUsuario", id);
                 datos.ejecutarLectura();
