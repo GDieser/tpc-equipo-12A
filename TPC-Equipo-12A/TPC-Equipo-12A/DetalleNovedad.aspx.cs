@@ -15,13 +15,34 @@ namespace TPC_Equipo_12A
         
         protected void Page_Load(object sender, EventArgs e)
         {
+            NovedadesServicio servicio = new NovedadesServicio();
+            UsuarioAutenticado usuarioAutenticado = new UsuarioAutenticado();
+
+            if (Session["UsuarioAutenticado"] != null)
+            {
+                usuarioAutenticado = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+
+                if (usuarioAutenticado.Rol == 0)
+                {
+                    btnModificar.Visible = true;
+                }
+                else
+                {
+                    btnModificar.Visible = false;
+                }
+            }
+            else
+            {
+                btnModificar.Visible = false;
+            }
+
             if (!IsPostBack)
             {
                 int id = Request.QueryString["IdNovedad"] != null ? int.Parse(Request.QueryString["IdNovedad"]) : 1;
 
-                NovedadesServicio servicio = new NovedadesServicio();
-
                 novedad = servicio.GetPublicacion(id);
+
+                Session.Add("NovedadSeleccionada", novedad);
 
                 CargarNovedad();
 
@@ -40,5 +61,10 @@ namespace TPC_Equipo_12A
 
         }
 
+
+        protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("FormularioPublicacion.aspx");
+        }
     }
 }

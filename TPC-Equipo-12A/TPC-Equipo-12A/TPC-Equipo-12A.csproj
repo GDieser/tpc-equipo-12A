@@ -77,7 +77,7 @@
     <Content Include="GenerarContrasenia.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Novedades.aspx" />
-    <Content Include="NuevaPublicacion.aspx" />
+    <Content Include="FormularioPublicacion.aspx" />
     <Content Include="Perfil.aspx" />
     <Content Include="Registro.aspx" />
     <Content Include="RestablecerContrasenia.aspx" />
@@ -161,12 +161,12 @@
     <Compile Include="Novedades.aspx.designer.cs">
       <DependentUpon>Novedades.aspx</DependentUpon>
     </Compile>
-    <Compile Include="NuevaPublicacion.aspx.cs">
-      <DependentUpon>NuevaPublicacion.aspx</DependentUpon>
+    <Compile Include="FormularioPublicacion.aspx.cs">
+      <DependentUpon>FormularioPublicacion.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="NuevaPublicacion.aspx.designer.cs">
-      <DependentUpon>NuevaPublicacion.aspx</DependentUpon>
+    <Compile Include="FormularioPublicacion.aspx.designer.cs">
+      <DependentUpon>FormularioPublicacion.aspx</DependentUpon>
     </Compile>
     <Compile Include="Perfil.aspx.cs">
       <DependentUpon>Perfil.aspx</DependentUpon>

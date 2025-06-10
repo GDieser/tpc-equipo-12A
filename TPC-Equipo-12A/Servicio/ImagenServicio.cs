@@ -26,9 +26,9 @@ namespace Servicio
                 int idImagen = (int)datos.Lector["IdImagen"];
                 datos.cerrarConexion();
 
-                datos.setConsulta("SELECT UrlImagen, IdTipoImagen FROM Imagen WHERE IdImagen = @idImagen;");
+                datos.setConsulta("SELECT IdImagen, UrlImagen, IdTipoImagen FROM Imagen WHERE IdImagen = @idimg;");
                 datos.limpiarParametros();
-                datos.setParametro("@idImagen", idImagen);
+                datos.setParametro("@idimg", idImagen);
                 datos.ejecutarLectura();
 
 
@@ -36,6 +36,7 @@ namespace Servicio
                 {
                     Imagen im = new Imagen();
 
+                    im.IdImagen = (int)datos.Lector["IdImagen"];
                     im.Url = (string)datos.Lector["UrlImagen"];
                     im.Tipo = (int)datos.Lector["IdTipoImagen"];
 

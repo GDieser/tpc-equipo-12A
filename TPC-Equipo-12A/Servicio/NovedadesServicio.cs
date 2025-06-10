@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -35,7 +36,8 @@ namespace Servicio
                     pub.Resumen = (string)datos.Lector["Resumen"];
                     pub.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
                     pub.FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"];
-                    //pub.Estado = (EstadoPublicacion)datos.Lector["Estado"];
+
+                    pub.Estado = (EstadoPublicacion)Convert.ToInt32(datos.Lector["Estado"]);
 
                     int idImagen = (int)datos.Lector["IdImagen"];
 
@@ -80,7 +82,11 @@ namespace Servicio
                 publicacion.Resumen = (string)datos.Lector["Resumen"];
                 publicacion.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
                 publicacion.FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"];
-                //pub.Estado = (EstadoPublicacion)datos.Lector["Estado"];
+
+                publicacion.Categoria = new Categoria();
+                publicacion.Categoria.IdCategoria = (int)datos.Lector["IdCategoria"];
+                //Debe ser int no bit
+                //publicacion.Estado = (EstadoPublicacion)((int)datos.Lector["Estado"]);
 
                 int idImagen = (int)datos.Lector["IdImagen"];
 
@@ -143,12 +149,50 @@ namespace Servicio
                 datos.ejecutarLectura();
                 datos.cerrarConexion();
 
-                datos.setConsulta("UPDATE Publicacion SET IdImagen = @idurl WHERE IdPublicacion = @idpublicacion");
-                datos.setParametro("@idurl", idImagen);
-                datos.setParametro("@idpublicacion", nueva.IdPublicacion);
+                datos.setConsulta("UPDATE Publicacion SET IdImagen = @idurlimagen WHERE IdPublicacion = @idpublicacionimagen");
+                datos.setParametro("@idurlimagen", idImagen);
+                datos.setParametro("@idpublicacionimagen", nueva.IdPublicacion);
 
                 datos.ejecutarAccion();
 
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void modificarPublicacion(Publicacion publi)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setConsulta("UPDATE Publicacion SET IdCategoria = @idcategoria, Titulo = @titulo, Descripcion = @descripcion, Resumen = @resumen, Estado = @estado WHERE IdPublicacion = @id");
+
+                datos.setParametro("@id", publi.IdPublicacion);
+                datos.setParametro("@idcategoria", publi.Categoria.IdCategoria);
+                
+                datos.setParametro("@titulo", publi.Titulo);
+                datos.setParametro("@descripcion", publi.Descripcion);
+                datos.setParametro("@resumen", publi.Resumen);
+                datos.setParametro("@estado", publi.Estado);
+
+                datos.ejecutarLectura();
+                datos.cerrarConexion();
+
+                int idImg = publi.Imagenes[0].IdImagen;
+
+                datos.setConsulta("UPDATE Imagen SET UrlImagen = @url WHERE IdImagen = @idimagen");
+                datos.setParametro("@idimagen", idImg);
+                datos.setParametro("@url", publi.Url);
+
+                datos.ejecutarAccion();
             }
             catch (Exception ex)
             {
