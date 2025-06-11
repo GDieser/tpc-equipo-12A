@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Servicio;
 using Dominio;
+using Ganss.Xss;
 
 namespace TPC_Equipo_12A
 {
@@ -13,6 +14,12 @@ namespace TPC_Equipo_12A
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Seguridad.esAdmin(Session["UsuarioAutenticado"]))
+            {
+                Session.Add("error", "Acceso no permitido");
+                Response.Redirect("Error.aspx");
+            }
+
             try
             {
 
@@ -37,7 +44,20 @@ namespace TPC_Equipo_12A
 
                     txtTitulo.Text = novedad.Titulo;
                     txtResumen.Text = novedad.Resumen;
-                    txtDescripcion.Text = novedad.Descripcion;
+
+                    //txtDescripcion.Text = novedad.Descripcion;
+                    //txtDes.InnerText = novedad.Descripcion;
+
+                    string contenidoDes = novedad.Descripcion;
+                    contenidoDes = contenidoDes.Replace("'", "\\'").Replace(Environment.NewLine, "");
+
+                    ClientScript.RegisterStartupScript(this.GetType(), "ckedit", $@"
+                            window.onload = function () {{
+                            CKEDITOR.replace('txtDes');
+                            CKEDITOR.instances['txtDes'].setData('{contenidoDes}');
+                            }};", true);
+
+                    txtDes.InnerText = contenidoDes;
 
                     ddlCategoria.SelectedValue = novedad.Categoria.IdCategoria.ToString();
                     ddlEstado.SelectedValue = ((int)novedad.Estado).ToString();
@@ -69,11 +89,21 @@ namespace TPC_Equipo_12A
 
                 nueva.Titulo = txtTitulo.Text;
                 nueva.Resumen = txtResumen.Text;
-                nueva.Descripcion = txtDescripcion.Text;
-               
+
+                //nueva.Descripcion = txtDescripcion.Text;
+
+                string descIngreso = Request.Form[txtDes.UniqueID];
+                var sanit = new HtmlSanitizer();
+
+
+                string descAux = sanit.Sanitize(descIngreso);
+
+                nueva.Descripcion = descAux;
+
+
                 nueva.Categoria = new Categoria();
                 nueva.Categoria.IdCategoria = int.Parse(ddlCategoria.SelectedValue);
-                
+
                 nueva.Estado = new EstadoPublicacion();
                 nueva.Estado = (EstadoPublicacion)Convert.ToInt32(ddlEstado.SelectedValue);
 
@@ -82,21 +112,21 @@ namespace TPC_Equipo_12A
 
                 nueva.Url = txtImagen.Text;
 
-                if(Session["NovedadSeleccionada"] != null)
+                if (Session["NovedadSeleccionada"] != null)
                 {
                     Publicacion novedad = (Publicacion)Session["NovedadSeleccionada"];
                     nueva.IdPublicacion = novedad.IdPublicacion;
                     nueva.Imagenes = novedad.Imagenes;
 
                     servicio.modificarPublicacion(nueva);
-                
+
                 }
                 else
                 {
                     servicio.agregar(nueva);
                 }
 
-                
+
                 Response.Redirect("Novedades.aspx", false);
 
             }

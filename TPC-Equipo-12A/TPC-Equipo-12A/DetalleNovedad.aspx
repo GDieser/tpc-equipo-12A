@@ -29,10 +29,14 @@
                 Style="margin-bottom: 10px; display: block;" />
         </div>
 
+        <!--
         <div>
             <asp:Label ID="lblDescripcion" runat="server"
                 Style="font-size: 18px; margin-bottom: 10px; display: block;" />
-        </div>
+        </div>-->
+
+        <hr />
+        <asp:Literal ID="litDescripcion" runat="server" Mode="PassThrough"></asp:Literal>
 
     </div>
 

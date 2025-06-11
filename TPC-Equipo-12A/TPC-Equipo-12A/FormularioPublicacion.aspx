@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="FormularioPublicacion.aspx.cs" Inherits="TPC_Equipo_12A.NuevaPublicacion" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="FormularioPublicacion.aspx.cs" Inherits="TPC_Equipo_12A.NuevaPublicacion" ValidateRequest="false" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -21,10 +21,20 @@
                 TextMode="MultiLine" Rows="2"
                 Style="width: 100%; resize: vertical;" />
 
+
+
             <h4>Descripción:</h4>
-            <asp:TextBox ID="txtDescripcion" CssClass="form-control" runat="server"
+            <!-- <asp:TextBox ID="txtDescripcion" CssClass="form-control" runat="server"
                 TextMode="MultiLine" Rows="6"
-                Style="width: 100%; resize: vertical;" />
+                Style="width: 100%; resize: vertical;" /> -->
+
+
+            <textarea id="txtDes" runat="server" rows="10" cols="60"></textarea>
+
+            <script>
+                CKEDITOR.replace('<%= txtDes.ClientID %>');
+            </script>
+
 
             <h4>Categoría:</h4>
             <asp:DropDownList ID="ddlCategoria" runat="server" CssClass="form-select" Style="width: 60%;" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Dominio;
@@ -18,7 +19,9 @@ namespace TPC_Equipo_12A
             NovedadesServicio servicio = new NovedadesServicio();
             UsuarioAutenticado usuarioAutenticado = new UsuarioAutenticado();
 
-            if(Session["UsuarioAutenticado"] != null)
+            
+
+            if (Session["UsuarioAutenticado"] != null)
             {
                 usuarioAutenticado = (UsuarioAutenticado)Session["UsuarioAutenticado"];
 
@@ -40,6 +43,15 @@ namespace TPC_Equipo_12A
 
             if (!IsPostBack)
             {
+                CategoriaServicio ser = new CategoriaServicio();
+                List<Categoria> lista = ser.listar();
+
+                ddlFiltro.DataSource = lista;
+                ddlFiltro.DataValueField = "IdCategoria";
+                ddlFiltro.DataTextField = "Nombre";
+                ddlFiltro.DataBind();
+                ddlFiltro.Items.Insert(0, new ListItem("Todo", "0"));
+
                 ListaPublicaciones = servicio.listar();
                 List<Publicacion> listaFiltrada = new List<Publicacion>();
 
@@ -63,5 +75,42 @@ namespace TPC_Equipo_12A
             Response.Redirect("FormularioPublicacion.aspx", false);
         }
 
+        protected void btnFiltrar_Click(object sender, EventArgs e)
+        {
+            NovedadesServicio servicio = new NovedadesServicio();
+            ListaPublicaciones = servicio.listar();
+            List<Publicacion> listaFiltrada = new List<Publicacion>();
+
+
+            if (ddlFiltro.SelectedValue == "0")
+            {
+                foreach (var publi in ListaPublicaciones)
+                {
+                    if (publi.Estado == EstadoPublicacion.Publicado)
+                    {
+                        listaFiltrada.Add(publi);
+                    }
+                }
+
+                rptNovedades.DataSource = listaFiltrada;
+                rptNovedades.DataBind();
+            }
+            else
+            {
+                List<Categoria> aux = new List<Categoria>();
+
+                foreach (var publi in ListaPublicaciones)
+                {
+                    if (publi.Estado == EstadoPublicacion.Publicado && publi.Categoria.IdCategoria == Convert.ToInt32(ddlFiltro.SelectedValue))
+                    {
+                        listaFiltrada.Add(publi);
+                    }
+                }
+
+                rptNovedades.DataSource = listaFiltrada;
+                rptNovedades.DataBind();
+
+            }
+        }
     }
 }
