@@ -20,8 +20,10 @@ namespace Dominio
         public bool EmailValidado { get; set; } = false;
         public DateTime? FechaRegistro { get; set; } = DateTime.Now;
         public bool RecuperoContrasenia { get; set; } = false;
+        public int CursosAdquiridos { get; set; } = 0;
         public List<Curso> Favoritos { get; set; } = new List<Curso>();
-        public List<Curso> CursosInscriptos { get; set; } = new List<Curso>();
+        public List<Curso> Cursos { get; set; } = new List<Curso>();
+        public List<Leccion> LeccionesCompletadas { get; set; } = new List<Leccion>();
 
     }
 }

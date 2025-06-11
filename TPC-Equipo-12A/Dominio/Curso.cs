@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Dominio
 {
@@ -17,6 +18,8 @@ namespace Dominio
         public EstadoPublicacion Estado { get; set; }
         public int Duracion { get; set; }
         public bool Certificado { get; set; }
-        public string UrlMoodle { get; set; }
+
+        //public string UrlMoodle { get; set; }
+        public List<Modulo> Modulos { get; set; } = new List<Modulo>();
     }
 }

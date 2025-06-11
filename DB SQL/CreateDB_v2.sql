@@ -109,7 +109,7 @@ CREATE TABLE Componente(
 	Titulo VARCHAR(150),
 	Contenido TEXT,
 	--Duda
-	TipoContenido INT,
+	TipoContenido INT, -- 0 texto, 1 Imagen, 2 video, 3 archivo
 	Orden INT,
 
 	FOREIGN KEY (IdLeccion) REFERENCES Leccion(IdLeccion)
@@ -177,3 +177,24 @@ CREATE TABLE CarritoCurso(
 	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso),
 	FOREIGN KEY (IdCarrito) REFERENCES Carrito(IdCarrito)
 );
+select * from Usuario
+update Usuario set IdRol=0 Where IdUsuario=1;
+select * from usuario
+INSERT INTO Usuario (Nombre, Apellido, Email, IdRol, Celular, FechaNacimiento, NombreUsuario, FechaRegistro, Pass, Habilitado, EmailValidado, RecuperoContrasenia, TokenValidacion, FotoPerfil)
+VALUES 
+('Lucas', 'González', 'lucas1@mail.com', 1, '1160000001', '1990-01-05', 'lucasg1', GETDATE(), '8f3a4f367aa8c56bf270e843168142331a873646719cd259643958b37fb8a753', 1, 1, 1, NULL, 2),
+('Martina', 'Pérez', 'martina2@mail.com', 1, '1160000002', '1992-03-12', 'martip2', GETDATE(), '8f3a4f367aa8c56bf270e843168142331a873646719cd259643958b37fb8a753', 1, 1, 1, NULL, 2),
+('Julián', 'Fernández', 'julian3@mail.com', 1, '1160000003', '1988-07-20', 'julif3', GETDATE(), '8f3a4f367aa8c56bf270e843168142331a873646719cd259643958b37fb8a753', 1, 1, 1, NULL, 2),
+('Sofía', 'Ramírez', 'sofia4@mail.com', 1, '1160000004', '1995-09-30', 'sofiar4', GETDATE(), '8f3a4f367aa8c56bf270e843168142331a873646719cd259643958b37fb8a753', 1, 1, 1, NULL, 2),
+('Tomás', 'Díaz', 'tomas5@mail.com', 1, '1160000005', '1993-11-14', 'tomasd5', GETDATE(), '8f3a4f367aa8c56bf270e843168142331a873646719cd259643958b37fb8a753', 1, 1, 1, NULL, 2),
+('Valentina', 'López', 'valen6@mail.com', 1, '1160000006', '1991-04-18', 'valel6', GETDATE(), '8f3a4f367aa8c56bf270e843168142331a873646719cd259643958b37fb8a753', 1, 1, 1, NULL, 2),
+('Agustín', 'Martínez', 'agustin7@mail.com', 1, '1160000007', '1987-06-09', 'agusm7', GETDATE(), '8f3a4f367aa8c56bf270e843168142331a873646719cd259643958b37fb8a753', 1, 1, 1, NULL, 2),
+('Camila', 'Sánchez', 'camila8@mail.com', 1, '1160000008', '1994-08-23', 'camilas8', GETDATE(), '8f3a4f367aa8c56bf270e843168142331a873646719cd259643958b37fb8a753', 1, 1, 1, NULL, 2),
+('Mateo', 'Torres', 'mateo9@mail.com', 1, '1160000009', '1996-02-02', 'mateot9', GETDATE(), '8f3a4f367aa8c56bf270e843168142331a873646719cd259643958b37fb8a753', 1, 1, 1, NULL, 2),
+('Florencia', 'Moreno', 'flor10@mail.com', 1, '1160000010', '1990-10-10', 'florm10', GETDATE(), '8f3a4f367aa8c56bf270e843168142331a873646719cd259643958b37fb8a753', 1, 1, 1, NULL, 2);
+
+select * from Imagen
+
+insert into imagen(UrlImagen, Nombre, IdTipoImagen) values
+('https://preview.redd.it/some-random-faces-of-homer-v0-mia0xhbii85f1.jpg?width=504&format=pjpg&auto=webp&s=c1cbc9eca8b67b1c11ece2ee46c19c1abce68b45','Foto perfil',0)
+

@@ -18,6 +18,12 @@ namespace TPC_Equipo_12A
                 {
                     btnLogin.Visible = false;
                 }
+
+                if (Page is Curso || Page is Modulo || Page is Leccion)
+                    return;
+
+                Session.Remove("LeccionesCompletadas");
+
             }
         }
 

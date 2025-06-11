@@ -62,6 +62,7 @@ namespace TPC_Equipo_12A
                 {
                     usuarioServicio.RegistrarUsuario(nuevoUsuario);
 
+
                     Session["titulo"]= $"Bienvenid@ {nuevoUsuario.Nombre} {nuevoUsuario.Apellido}";
                     Session["mensajePrincipal"] = "¡Gracias por registrarte!";
                     Session["mensajeSecundario"] = $"Revisá {nuevoUsuario.Email}. Ahi vas a encontrar las instrucciones para finalizar el registro.";

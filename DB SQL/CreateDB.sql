@@ -19,7 +19,7 @@ CREATE TABLE Imagen(
 CREATE TABLE Publicacion(
 	IdPublicacion INT IDENTITY(1,1) PRIMARY KEY,
 	IdCategoria INT NOT NULL,
-	IdImagen INT NOT NULL,
+--	IdImagen INT NOT NULL,
 	Titulo VARCHAR(100) NOT NULL,
 	Descripcion TEXT NOT NULL,
 	Resumen VARCHAR(255) NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE Publicacion(
 	Estado BIT,
 
 	FOREIGN KEY (IdCategoria) REFERENCES Categoria(IdCategoria),
-	FOREIGN KEY (IdImagen) REFERENCES Imagen(IdImagen)
+--	FOREIGN KEY (IdImagen) REFERENCES Imagen(IdImagen)
 );
 
 CREATE TABLE ImagenPublicacion(
@@ -38,12 +38,21 @@ CREATE TABLE ImagenPublicacion(
 	FOREIGN KEY (IdImagen) REFERENCES Imagen(IdImagen),
 	FOREIGN KEY (IDPublicacion) REFERENCES Publicacion(IdPublicacion)
 );
-CREATE TABLE Cursos (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    Titulo NVARCHAR(100) NOT NULL,
-    Resumen NVARCHAR(255),
+
+CREATE TABLE Curso(
+    IdCurso INT PRIMARY KEY IDENTITY(1,1),
+    IdCategoria INT,
+	Estado BIT,
+    Titulo NVARCHAR(100),
 	Descripcion NVARCHAR(MAX),
-    ImagenUrl NVARCHAR(255)
+    Resumen NVARCHAR(255),
+	Precio DECIMAL,
+	FechaPublicacion DATETIME,
+	FechaCreacion DATETIME,
+	Duracion INT,
+	Certificado BIT,
+
+	FOREIGN KEY (IdCategoria) REFERENCES Categoria(IdCategoria)
 );
 
 CREATE TABLE Usuario(
@@ -51,9 +60,8 @@ CREATE TABLE Usuario(
 	Nombre VARCHAR(50),
 	Apellido VARCHAR(50),
 	Email VARCHAR(100) UNIQUE NOT NULL,
-	IdRol INT,
+	IdRol INT DEFAULT 1,
 	Celular VARCHAR(13),
-	IdUsuarioMoodle INT,
 	FechaNacimiento DATE,
 	NombreUsuario VARCHAR(30) UNIQUE NOT NULL,
 	Pass VARCHAR(255),
@@ -63,12 +71,116 @@ CREATE TABLE Usuario(
 	RecuperoContrasenia BIT,
 	TokenValidacion VARCHAR(255),
 
-
 	FotoPerfil INT,
 
 	FOREIGN KEY (FotoPerfil) REFERENCES Imagen(IdImagen) ON DELETE SET NULL
 )
 
-select * from usuario
+CREATE TABLE Modulo (
+	IdModulo INT PRIMARY KEY IDENTITY(1,1),
+	Titulo NVARCHAR(80),
+	Introduccion NVARCHAR(MAX),
+	Orden INT,
 
-DELETE Usuario where IdUsuario=1;
+	IdCurso INT NOT NULL,
+	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso)
+)
+
+CREATE TABLE Leccion(
+	IdLeccion INT PRIMARY KEY IDENTITY(1,1),
+	Titulo NVARCHAR(80),
+	Introduccion NVARCHAR(MAX),
+	Orden INT,
+
+	IdModulo INT NOT NULL,
+	FOREIGN KEY (IdModulo) REFERENCES Modulo(IdModulo)
+)
+
+CREATE TABLE Componente(
+	IdComponente INT PRIMARY KEY IDENTITY(1,1),
+	Titulo NVARCHAR(80),
+	Contenido NVARCHAR(MAX),
+	Orden INT DEFAULT 0,
+	TipoContenido INT,
+
+	IdLeccion INT NOT NULL,
+	FOREIGN KEY (IdLeccion) REFERENCES Leccion(IdLeccion)
+)
+
+CREATE TABLE LeccionUsuario(
+	IdLeccion INT NOT NULL,
+	IdUsuario INT NOT NULL,
+	EsFinalizado BIT DEFAULT 0,
+	Finalizado DATETIME,
+
+	PRIMARY KEY (IdLeccion, IdUsuario),
+	FOREIGN KEY (IdLeccion) REFERENCES Leccion(IdLeccion),
+	FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario)
+)
+
+CREATE TABLE CursoFavorito(
+	IdCurso INT NOT NULL,
+	IdUsuario INT NOT NULL,
+	Agregado DATETIME
+
+	PRIMARY KEY (IdCurso, IdUsuario),
+	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso),
+	FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario)
+)
+
+CREATE TABLE ImagenCurso(
+	IdCurso INT NOT NULL,
+	IdImagen INT NOT NULL,
+	
+	PRIMARY KEY (IdCurso, IdImagen),
+	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso),
+	FOREIGN KEY (IdImagen) REFERENCES Imagen(IdImagen)
+)
+
+CREATE TABLE CARRITO (
+	IdCarrito INT PRIMARY KEY IDENTITY(1,1),
+	FechaCreacion DATETIME NOT NULL,
+	UltimaModificacion DATETIME,
+	Estado INT DEFAULT 0,
+
+	IdUsuario INT NOT NULL,
+
+	FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario)
+)
+
+CREATE TABLE Compra (
+	IdCompra INT PRIMARY KEY IDENTITY(1,1),
+	FechaCompra DATETIME NOT NULL,
+	CodigoTransaccion VARCHAR(255) NOT NULL,
+	MontoTotal DECIMAL NOT NULL,
+
+	IdUsuario INT NOT NULL,
+	IdCarrito INT NOT NULL,
+
+	FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario),
+	FOREIGN KEY (IdCarrito) REFERENCES Carrito(IdCarrito)
+)
+
+CREATE TABLE DetalleCompra(
+	IdCompra INT NOT NULL,
+	IdCurso INT NOT NULL,
+	PrecioUnitario DECIMAL NOT NULL,
+
+	PRIMARY KEY (IdCompra, IdCurso),
+	FOREIGN KEY (IdCompra) REFERENCES Compra(IdCompra),
+	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso)
+)
+
+CREATE TABLE CarritoCurso(
+	IdCarrito INT NOT NULL,
+	IdCurso INT NOT NULL,
+	Fecha DATETIME NOT NULL,
+
+	PRIMARY KEY (IdCarrito, IdCurso),
+	FOREIGN KEY (IdCarrito) REFERENCES Carrito(IdCarrito),
+	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso)
+)
+
+select * from Usuario;
+
+update usuario set IdRol=0 where IdUsuario=1

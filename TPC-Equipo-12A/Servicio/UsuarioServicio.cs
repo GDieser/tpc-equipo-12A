@@ -29,7 +29,7 @@ namespace Servicio
                 usuario.Apellido = (string)datos.Lector["Apellido"];
                 usuario.Email = (string)datos.Lector["Email"];
                 usuario.Rol = (Rol)datos.Lector["IdRol"];
-                usuario.Celular = (string)datos.Lector["Celular"];
+                usuario.Celular = datos.Lector["Celular"] != DBNull.Value ? (string)datos.Lector["Celular"] : "";
                 usuario.NombreUsuario = (string)datos.Lector["NombreUsuario"];
                 usuario.Habilitado = (bool)datos.Lector["Habilitado"];
                 usuario.TokenValidacion = datos.Lector["TokenValidacion"] != DBNull.Value ? (string)datos.Lector["TokenValidacion"] : null;
@@ -302,6 +302,93 @@ namespace Servicio
         {
             Usuario usuario = BuscarPorId(id);
             return usuario;
+        }
+
+        public List<Usuario> ListarUsuarios()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setConsulta(@"
+                SELECT 
+                    u.IdUsuario, 
+                    u.Nombre, 
+                    u.Apellido, 
+                    u.Email, 
+                    u.IdRol, 
+                    u.Celular, 
+                    u.FechaNacimiento, 
+                    u.Habilitado, 
+                    u.NombreUsuario, 
+                    u.FechaRegistro, 
+                    i.IdImagen, 
+                    i.UrlImagen, 
+                    i.Nombre AS nombreImagen, 
+                    COUNT(dc.IdCompra) AS CursosComprados
+                FROM Usuario u
+                LEFT JOIN Imagen i ON u.FotoPerfil = i.IdImagen
+                LEFT JOIN Compra c ON c.IdUsuario = u.IdUsuario
+                LEFT JOIN DetalleCompra dc ON dc.IdCompra = c.IdCompra
+                WHERE u.IdRol <> 0
+                GROUP BY 
+                    u.IdUsuario, 
+                    u.Nombre, 
+                    u.Apellido, 
+                    u.Email, 
+                    u.IdRol, 
+                    u.Celular, 
+                    u.FechaNacimiento, 
+                    u.Habilitado, 
+                    u.NombreUsuario, 
+                    u.FechaRegistro, 
+                    i.IdImagen, 
+                    i.UrlImagen, 
+                    i.Nombre;"
+                ); // IdRol = 0 es para el ADMIN
+                datos.limpiarParametros();
+                datos.ejecutarLectura();
+
+                List<Usuario> usuarios = new List<Usuario>();
+
+                while (datos.Lector.Read())
+                {
+                    Usuario usuario = new Usuario();
+                    usuario.IdUsuario = (int)datos.Lector["IdUsuario"];
+                    usuario.Nombre = (string)datos.Lector["Nombre"];
+                    usuario.Apellido = (string)datos.Lector["Apellido"];
+                    usuario.Email = (string)datos.Lector["Email"];
+                    usuario.Celular = datos.Lector["Celular"] != DBNull.Value ? (string)datos.Lector["Celular"] : "";
+                    usuario.Rol = (Rol)datos.Lector["IdRol"];
+                    usuario.Habilitado = (bool)datos.Lector["Habilitado"];
+                    usuario.NombreUsuario = (string)datos.Lector["NombreUsuario"];
+                    usuario.FechaRegistro = datos.Lector["FechaRegistro"] != DBNull.Value ? (DateTime)datos.Lector["FechaRegistro"] : DateTime.MinValue;
+                    usuario.FechaNacimiento = datos.Lector["FechaNacimiento"] != DBNull.Value ? (DateTime)datos.Lector["FechaNacimiento"] : DateTime.MinValue;
+                    usuario.CursosAdquiridos = (int)datos.Lector["CursosComprados"];
+                    if (datos.Lector["IdImagen"] != DBNull.Value)
+                    {
+                        usuario.FotoPerfil = new Imagen
+                        {
+                            IdImagen = (int)datos.Lector["IdImagen"],
+                            Url = datos.Lector["UrlImagen"].ToString(),
+                            Nombre = datos.Lector["nombreImagen"].ToString()
+                        };
+                    }
+                    else
+                    {
+                        usuario.FotoPerfil = new Imagen();
+                    }
+                    usuarios.Add(usuario);
+                }
+                return usuarios;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar los usuarios", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
     }
 }

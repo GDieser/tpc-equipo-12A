@@ -34,10 +34,17 @@ namespace TPC_Equipo_12A
             {
                 if (!IsPostBack)
                 {
+                    btnInhabilitar.Visible = false;
+
                     lblError.Text = "";
                     lblExito.Text = "";
                     UsuarioServicio usuarioServicio = new UsuarioServicio();
                     Usuario usuario = usuarioServicio.ObtenerPerfil(idQueryParam);
+                    if (usuarioAutenticado.Rol == Rol.Administrador)
+                    {
+                        btnInhabilitar.Visible = true;
+                        cambiarBoton(usuario);
+                    }
                     Session["usuario"] = usuario;
                     txtNombre.Text = usuario.Nombre;
                     txtApellido.Text = usuario.Apellido;
@@ -129,14 +136,80 @@ namespace TPC_Equipo_12A
                     usuarioAutenticado.FotoPerfil = usuario.FotoPerfil;
                     Session["UsuarioAutenticado"] = usuarioAutenticado;
                 }
-
-                Response.Redirect($"Perfil.aspx?id={idQueryParam}");
+                ScriptManager.RegisterStartupScript(this, GetType(), "sweetalert", 
+                    @"Swal.fire({
+                        title: '¡Guardado!',
+                        text: 'El perfil fue actualizado correctamente.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                ", true);
             }
             catch
             {
-                lblError.Text = "Ocurrio un error al actualizar el perfil. Por favor, intentelo de nuevo mas tarde.";
+                ScriptManager.RegisterStartupScript(this, GetType(), "sweetalert",
+                    @"Swal.fire({
+                        title: '¡Error!',
+                        text: 'Ocurrio un error durante la actualizacion.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                ", true);
             }
         }
 
+        protected void btnInhabilitar_Click(object sender, EventArgs e)
+        {
+            Usuario usuario = (Usuario)Session["usuario"];
+            UsuarioServicio usuarioServicio = new UsuarioServicio();
+            if (usuario.Rol == 0)
+                return;
+            try
+            {
+                usuario.Habilitado = !usuario.Habilitado;
+                cambiarBoton(usuario);
+
+                usuarioServicio.ActualizarUsuario(usuario);
+                Session["usuario"] = usuario;
+                ScriptManager.RegisterStartupScript(this, GetType(), "sweetalert",
+                    @"Swal.fire({
+                        title: '¡Guardado!',
+                        text: 'El perfil fue actualizado correctamente.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                ", true);
+
+            }
+            catch (Exception)
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "sweetalert",
+                    @"Swal.fire({
+                        title: '¡Error!',
+                        text: 'Ocurrio un error durante la actualizacion.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                ", true);
+            }
+
+        }
+
+        public void cambiarBoton(Usuario usuario)
+        {
+            if (usuario.Habilitado)
+            {
+                btnInhabilitar.Text = "Inhabilitar Usuario";
+                btnInhabilitar.CssClass = "btn btn-danger w-100 mb-3";
+                btnInhabilitar.Attributes.Add("onclick", "return confirm('⚠️ Atención: ¿Realmente deseas inhabilitar a este usuario?');");
+            }
+            else
+            {
+                btnInhabilitar.Text = "Habilitar Usuario";
+                btnInhabilitar.CssClass = "btn btn-success w-100 mb-3";
+                btnInhabilitar.Attributes.Add("onclick", "return confirm('⚠️ Atención: ¿Realmente deseas habilitar a este usuario?');");
+            }
+
+        }
     }
 }
