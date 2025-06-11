@@ -68,11 +68,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AgregarCurso.aspx" />
+    <Content Include="DescripcionCurso.aspx" />
     <Content Include="DetalleNovedad.aspx" />
+    <Content Include="ListaCursos.aspx" />
     <Content Include="ListaUsuarios.aspx" />
     <Content Include="Notificacion.aspx" />
-    <Content Include="Curso.aspx" />
-    <Content Include="Cursos.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="GenerarContrasenia.aspx" />
@@ -93,12 +93,26 @@
     <Compile Include="AgregarCurso.aspx.designer.cs">
       <DependentUpon>AgregarCurso.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DescripcionCurso.aspx.cs">
+      <DependentUpon>DescripcionCurso.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DescripcionCurso.aspx.designer.cs">
+      <DependentUpon>DescripcionCurso.aspx</DependentUpon>
+    </Compile>
     <Compile Include="DetalleNovedad.aspx.cs">
       <DependentUpon>DetalleNovedad.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="DetalleNovedad.aspx.designer.cs">
       <DependentUpon>DetalleNovedad.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ListaCursos.aspx.cs">
+      <DependentUpon>ListaCursos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ListaCursos.aspx.designer.cs">
+      <DependentUpon>ListaCursos.aspx</DependentUpon>
     </Compile>
     <Compile Include="ListaUsuarios.aspx.cs">
       <DependentUpon>ListaUsuarios.aspx</DependentUpon>
@@ -113,20 +127,6 @@
     </Compile>
     <Compile Include="Notificacion.aspx.designer.cs">
       <DependentUpon>Notificacion.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Curso.aspx.cs">
-      <DependentUpon>Curso.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Curso.aspx.designer.cs">
-      <DependentUpon>Curso.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Cursos.aspx.cs">
-      <DependentUpon>Cursos.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Cursos.aspx.designer.cs">
-      <DependentUpon>Cursos.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
