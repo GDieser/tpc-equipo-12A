@@ -59,7 +59,6 @@ namespace TPC_Equipo_12A
             lblFechaPublicacion.Text = "Publicado el: " + novedad.FechaPublicacion.ToString();
             lblResumen.Text = novedad.Resumen;
             lblDescripcion.Text = novedad.Descripcion;
-
         }
 
 

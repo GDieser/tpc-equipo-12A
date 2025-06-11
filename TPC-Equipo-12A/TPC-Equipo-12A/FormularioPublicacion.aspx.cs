@@ -43,6 +43,7 @@ namespace TPC_Equipo_12A
                     ddlEstado.SelectedValue = ((int)novedad.Estado).ToString();
 
                     txtImagen.Text = novedad.UrlImagen;
+                    txtImagen_TextChanged(sender, e);
                 }
 
             }

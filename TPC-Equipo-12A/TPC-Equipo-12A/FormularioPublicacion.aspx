@@ -30,23 +30,31 @@
             <asp:DropDownList ID="ddlCategoria" runat="server" CssClass="form-select" Style="width: 60%;" />
 
             <div class="mb-3">
-                <h4>Estado inicial:</h4>
+                <h4>Estado de publicación:</h4>
                 <asp:DropDownList ID="ddlEstado" runat="server" CssClass="form-select" Style="width: 60%;" />
             </div>
         </div>
 
         <div class="col-6">
             <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+
                 <ContentTemplate>
 
                     <h4>URL de Imagen:</h4>
-                    <asp:TextBox ID="txtImagen" runat="server" AutoPostBack="true" OnTextChanged="txtImagen_TextChanged" CssClass="form-control" Style="width: 100%;" />
 
-                    <asp:Image ImageUrl="https://wiratthungsong.com/wts/assets/img/default.png"
-                        ID="imgPreview" runat="server" Width="80%" />
+
+                    <asp:TextBox ID="txtImagen" runat="server" AutoPostBack="true"
+                        OnTextChanged="txtImagen_TextChanged"
+                        CssClass="form-control"
+                        Style="width: 80%;" />
+                    <div class="mb-3 mt-4">
+                        <asp:Image ImageUrl="https://wiratthungsong.com/wts/assets/img/default.png" ID="imgPreview" runat="server" Width="80%" />
+                    </div>
                 </ContentTemplate>
+
             </asp:UpdatePanel>
-            <div class="mb-3">
+
+            <div class="mb-3 mt-4">
                 <div class="text-center">
                     <asp:Button Text="Guardar" ID="btnGuardar" OnClick="btnGuardar_Click" CssClass="btn btn-primary" runat="server" />
                     <a href="Novedades.aspx" class="btn btn-danger">Cancelar</a>
