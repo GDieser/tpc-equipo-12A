@@ -98,11 +98,8 @@
     <Content Include="AgregarCurso.aspx" />
     <Content Include="DescripcionCurso.aspx" />
     <Content Include="DetalleNovedad.aspx" />
-<<<<<<< HEAD
     <Content Include="Leccion.aspx" />
-=======
     <Content Include="ListaCursos.aspx" />
->>>>>>> 6ab0fa384685e36e9bf7cebe488b32eb1d4bdfae
     <Content Include="ListaUsuarios.aspx" />
     <Content Include="Notificacion.aspx" />
     <Content Include="Default.aspx" />
@@ -139,21 +136,19 @@
     <Compile Include="DetalleNovedad.aspx.designer.cs">
       <DependentUpon>DetalleNovedad.aspx</DependentUpon>
     </Compile>
-<<<<<<< HEAD
     <Compile Include="Leccion.aspx.cs">
       <DependentUpon>Leccion.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Leccion.aspx.designer.cs">
       <DependentUpon>Leccion.aspx</DependentUpon>
-=======
+    </Compile>
     <Compile Include="ListaCursos.aspx.cs">
       <DependentUpon>ListaCursos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ListaCursos.aspx.designer.cs">
       <DependentUpon>ListaCursos.aspx</DependentUpon>
->>>>>>> 6ab0fa384685e36e9bf7cebe488b32eb1d4bdfae
     </Compile>
     <Compile Include="ListaUsuarios.aspx.cs">
       <DependentUpon>ListaUsuarios.aspx</DependentUpon>

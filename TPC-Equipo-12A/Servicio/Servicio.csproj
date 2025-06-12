@@ -78,12 +78,8 @@
     <Compile Include="AccesoDatos.cs" />
     <Compile Include="AutenticarUsuario.cs" />
     <Compile Include="CategoriaServicio.cs" />
-<<<<<<< HEAD
     <Compile Include="ComponenteServicio.cs" />
     <Compile Include="CursoServicio.cs" />
-=======
-    <Compile Include="CursoServico.cs" />
->>>>>>> 6ab0fa384685e36e9bf7cebe488b32eb1d4bdfae
     <Compile Include="ImagenServicio.cs" />
     <Compile Include="LeccionServicio.cs" />
     <Compile Include="MailServicio.cs" />

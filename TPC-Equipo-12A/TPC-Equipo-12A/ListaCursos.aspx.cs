@@ -18,7 +18,7 @@ namespace TPC_Equipo_12A
 
             if (!IsPostBack)
             {
-                ListaCursos= servicio.Listar(); 
+                ListaCursos= servicio.ObtenerCursosPorCategoria(0); 
               
                 rptCursos.DataSource =ListaCursos;
                 rptCursos.DataBind();
