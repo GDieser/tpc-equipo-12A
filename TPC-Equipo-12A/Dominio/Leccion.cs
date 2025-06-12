@@ -13,6 +13,9 @@ namespace Dominio
         public string Titulo { get; set; }
         public string Introduccion { get; set; }
         public int Orden { get; set; }
+        public EstadoPublicacion Estado { get; set; }
+        public int IdCurso { get; set; }
+        public int IdModulo { get; set; }
 
         public List<Componente> Componentes { get; set; } = new List<Componente>();
     }

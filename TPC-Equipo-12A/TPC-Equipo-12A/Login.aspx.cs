@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using Utils;
 using Servicio;
+using System.Web.UI;
 
 namespace TPC_Equipo_12A
 {
@@ -21,13 +22,24 @@ namespace TPC_Equipo_12A
             {
                 lblError.Visible = false;
                 string pass = SHA256Utils.toSha256(txtPass.Text);
-                
+
                 UsuarioAutenticado usuario = AutenticarUsuario.login(txtUsuario.Text, pass);
 
                 if (usuario != null && usuario.Habilitado)
                 {
                     Session["UsuarioAutenticado"] = usuario;
-                    Response.Redirect("Default.aspx");
+                    ScriptManager.RegisterStartupScript(this, GetType(), "sweetalert",
+                     $@"Swal.fire({{
+                        title: '¡Bienvenido!',
+                        text: '¡Hola {usuario.Nombre}!',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }}).then((result) => {{
+                        if (result.isConfirmed) {{
+                            window.location.href = 'Default.aspx';
+                        }}
+                    }});", true);
+
                 }
                 else
                 {

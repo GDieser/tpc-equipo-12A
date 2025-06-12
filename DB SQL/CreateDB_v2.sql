@@ -108,7 +108,6 @@ CREATE TABLE Componente(
 	IdLeccion INT,
 	Titulo VARCHAR(150),
 	Contenido TEXT,
-	--Duda
 	TipoContenido INT, -- 0 texto, 1 Imagen, 2 video, 3 archivo
 	Orden INT,
 
@@ -198,3 +197,6 @@ select * from Imagen
 insert into imagen(UrlImagen, Nombre, IdTipoImagen) values
 ('https://preview.redd.it/some-random-faces-of-homer-v0-mia0xhbii85f1.jpg?width=504&format=pjpg&auto=webp&s=c1cbc9eca8b67b1c11ece2ee46c19c1abce68b45','Foto perfil',0)
 
+select * from Componente
+
+update Componente set Contenido='https://i0.wp.com/achirou.com/wp-content/uploads/2024/03/Alvaro_Chirou_Introduccion-a-la-programacion.jpg?fit=1600%2C900&ssl=1' where IdComponente=8

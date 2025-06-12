@@ -69,6 +69,7 @@
   <ItemGroup>
     <Content Include="AgregarCurso.aspx" />
     <Content Include="DetalleNovedad.aspx" />
+    <Content Include="Leccion.aspx" />
     <Content Include="ListaUsuarios.aspx" />
     <Content Include="Notificacion.aspx" />
     <Content Include="Curso.aspx" />
@@ -99,6 +100,13 @@
     </Compile>
     <Compile Include="DetalleNovedad.aspx.designer.cs">
       <DependentUpon>DetalleNovedad.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Leccion.aspx.cs">
+      <DependentUpon>Leccion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Leccion.aspx.designer.cs">
+      <DependentUpon>Leccion.aspx</DependentUpon>
     </Compile>
     <Compile Include="ListaUsuarios.aspx.cs">
       <DependentUpon>ListaUsuarios.aspx</DependentUpon>
@@ -206,6 +214,7 @@
     <Compile Include="RestablecerContrasenia.aspx.designer.cs">
       <DependentUpon>RestablecerContrasenia.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TipoError.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Master.Master" />
