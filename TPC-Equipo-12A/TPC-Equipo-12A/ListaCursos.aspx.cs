@@ -14,15 +14,23 @@ namespace TPC_Equipo_12A
         public List<Dominio.Curso> ListaCursos;
         protected void Page_Load(object sender, EventArgs e)
         {
-                CursoServicio servicio = new CursoServicio();
-
             if (!IsPostBack)
             {
-                ListaCursos = servicio.Listar();
-              
-                rptCursos.DataSource =ListaCursos;
+                int rol = 1; // por defecto "común"
+
+                if (Session["UsuarioAutenticado"] != null)
+                {
+                    UsuarioAutenticado usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+                    rol = Convert.ToInt16(usuario.Rol);
+                }
+
+                CursoServicio servicio = new CursoServicio();
+                List<Curso> cursos = servicio.Listar(rol);
+
+                rptCursos.DataSource = cursos;
                 rptCursos.DataBind();
             }
         }
+
     }
 }

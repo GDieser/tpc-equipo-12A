@@ -9,19 +9,23 @@ namespace Servicio
 {
     public class CursoServicio
     {
-        public List<Curso> Listar()
+        public List<Curso> Listar(int rolUsuario)
         {
             AccesoDatos datos = new AccesoDatos();
             List<Curso> cursos = new List<Curso>();
             try
             {
               
-                datos.setConsulta(@"
+                string Consulta = (@"
             SELECT C.IdCurso, C.Titulo, C.Resumen, I.UrlImagen
             FROM Curso C
             LEFT JOIN ImagenCurso IC ON C.IdCurso = IC.IdCurso
             LEFT JOIN Imagen I ON IC.IdImagen = I.IdImagen ");
-
+                if (rolUsuario != 0)
+                {
+                    Consulta += "WHERE C.Estado = 1";
+                }
+                datos.setConsulta(Consulta);
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
