@@ -7,6 +7,7 @@ namespace Dominio
     {
         public int IdCurso { get; set; }
         public Imagen ImagenPortada { get; set; }
+        public string ImagenUrl { get; set; }
         public int IdMoodle { get; set; }
         public string Titulo { get; set; }
         public string Descripcion { get; set; }

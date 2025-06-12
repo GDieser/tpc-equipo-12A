@@ -11,8 +11,17 @@ namespace TPC_Equipo_12A
 {
 
 
-    public partial class DetalleNovedad
+    public partial class DescripcionCurso
     {
+
+        /// <summary>
+        /// pnlCurso control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlCurso;
 
         /// <summary>
         /// lblTitulo control.
@@ -24,40 +33,13 @@ namespace TPC_Equipo_12A
         protected global::System.Web.UI.WebControls.Label lblTitulo;
 
         /// <summary>
-        /// btnModificar control.
+        /// imgCurso control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnModificar;
-
-        /// <summary>
-        /// lblFechaPublicacion control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFechaPublicacion;
-
-        /// <summary>
-        /// imgBanner control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgBanner;
-
-        /// <summary>
-        /// lblResumen control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblResumen;
+        protected global::System.Web.UI.WebControls.Image imgCurso;
 
         /// <summary>
         /// lblDescripcion control.
@@ -67,14 +49,5 @@ namespace TPC_Equipo_12A
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblDescripcion;
-
-        /// <summary>
-        /// litDescripcion control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litDescripcion;
     }
 }

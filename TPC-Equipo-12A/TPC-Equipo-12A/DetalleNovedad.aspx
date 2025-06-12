@@ -7,7 +7,7 @@
 
     <div class="col">
         <hr />
-        <div class="col-6">
+        <div >
             <asp:Label ID="lblTitulo" runat="server"
                 Style="font-size: 40px; font-weight: bold; margin-bottom: 15px; display: block;" />
             <asp:Button Text="Modificar" CssClass="btn btn-danger" id="btnModificar" OnClick="btnModificar_Click" runat="server" />
@@ -29,10 +29,14 @@
                 Style="margin-bottom: 10px; display: block;" />
         </div>
 
+        <!--
         <div>
             <asp:Label ID="lblDescripcion" runat="server"
                 Style="font-size: 18px; margin-bottom: 10px; display: block;" />
-        </div>
+        </div>-->
+
+        <hr />
+        <asp:Literal ID="litDescripcion" runat="server" Mode="PassThrough"></asp:Literal>
 
     </div>
 

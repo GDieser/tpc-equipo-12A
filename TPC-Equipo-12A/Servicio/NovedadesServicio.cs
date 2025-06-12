@@ -20,7 +20,7 @@ namespace Servicio
 
             try
             {
-                datos.setConsulta("SELECT IdPublicacion, P.IdCategoria, C.Nombre Nombre, IdImagen, Titulo, Descripcion, Resumen, FechaCreacion, FechaPublicacion, Estado FROM Publicacion P, Categoria C WHERE C.IdCategoria = P.IdCategoria;");
+                datos.setConsulta("SELECT IdPublicacion, P.IdCategoria, C.Nombre Nombre, Titulo, Descripcion, Resumen, FechaCreacion, FechaPublicacion, Estado FROM Publicacion P, Categoria C WHERE C.IdCategoria = P.IdCategoria;");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -43,7 +43,7 @@ namespace Servicio
 
                     pub.Estado = (EstadoPublicacion)Convert.ToInt32(datos.Lector["Estado"]);
 
-                    int idImagen = (int)datos.Lector["IdImagen"];
+                    //int idImagen = (int)datos.Lector["IdImagen"];
 
                     pub.Imagenes = im.getImagenesIdArticulo(pub.IdPublicacion);
 
@@ -73,7 +73,7 @@ namespace Servicio
 
             try
             {
-                datos.setConsulta("SELECT IdPublicacion, IdCategoria, IdImagen, Titulo, Descripcion, Resumen, FechaCreacion, FechaPublicacion, Estado FROM Publicacion WHERE IdPublicacion = @id;");
+                datos.setConsulta("SELECT IdPublicacion, IdCategoria, Titulo, Descripcion, Resumen, FechaCreacion, FechaPublicacion, Estado FROM Publicacion WHERE IdPublicacion = @id;");
                 datos.setParametro("@id", id);
                 datos.ejecutarLectura();
 
@@ -91,8 +91,9 @@ namespace Servicio
                 publicacion.Categoria.IdCategoria = (int)datos.Lector["IdCategoria"];
                 //Debe ser int no bit
                 //publicacion.Estado = (EstadoPublicacion)((int)datos.Lector["Estado"]);
+                publicacion.Estado = (EstadoPublicacion)Convert.ToInt32(datos.Lector["Estado"]);
 
-                int idImagen = (int)datos.Lector["IdImagen"];
+                //int idImagen = (int)datos.Lector["IdImagen"];
 
                 publicacion.Imagenes = im.getImagenesIdArticulo(publicacion.IdPublicacion);
 
@@ -116,7 +117,7 @@ namespace Servicio
 
             try
             {
-                datos.setConsulta("INSERT INTO Publicacion(IdCategoria, IdImagen, Titulo, Descripcion, Resumen, FechaCreacion, FechaPublicacion, Estado) VALUES (@idcategoria, 1, @titulo, @descripcion, @resumen, @fechacreacion, @fechapublicacion, @estado); SELECT SCOPE_IDENTITY()");
+                datos.setConsulta("INSERT INTO Publicacion(IdCategoria, Titulo, Descripcion, Resumen, FechaCreacion, FechaPublicacion, Estado) VALUES (@idcategoria, @titulo, @descripcion, @resumen, @fechacreacion, @fechapublicacion, @estado); SELECT SCOPE_IDENTITY()");
                 datos.setParametro("@idcategoria", nueva.Categoria.IdCategoria);
                 //datos.setParametro("@idimagen", nueva.);
                 datos.setParametro("@titulo", nueva.Titulo);
@@ -149,13 +150,6 @@ namespace Servicio
                 datos.setConsulta("INSERT INTO ImagenPublicacion(IdImagen, IDPublicacion) VALUES (@idurl, @idpublicacion);");
                 datos.setParametro("@idurl", idImagen);
                 datos.setParametro("@idpublicacion", nueva.IdPublicacion);
-
-                datos.ejecutarLectura();
-                datos.cerrarConexion();
-
-                datos.setConsulta("UPDATE Publicacion SET IdImagen = @idurlimagen WHERE IdPublicacion = @idpublicacionimagen");
-                datos.setParametro("@idurlimagen", idImagen);
-                datos.setParametro("@idpublicacionimagen", nueva.IdPublicacion);
 
                 datos.ejecutarAccion();
 

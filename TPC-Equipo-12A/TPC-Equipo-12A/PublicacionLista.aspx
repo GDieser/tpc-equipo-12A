@@ -5,7 +5,7 @@
 
     <h1>Lista de Publicaciones</h1>
 
-    <asp:GridView ID="dgvPublicaciones" CssClass="table" DataKeyNames="IdPublicacion" AutoGenerateColumns="false"  runat="server" AllowPaging="true" PageSize="12" OnSelectedIndexChanged="dgvPublicaciones_SelectedIndexChanged" OnPageIndexChanging="dgvPublicaciones_PageIndexChanging">
+    <asp:GridView ID="dgvPublicaciones" CssClass="table table-striped table-dark table-hover table-bordered align-middle text-center" DataKeyNames="IdPublicacion" AutoGenerateColumns="false"  runat="server" AllowPaging="true" PageSize="12" OnSelectedIndexChanged="dgvPublicaciones_SelectedIndexChanged" OnPageIndexChanging="dgvPublicaciones_PageIndexChanging">
 
         <Columns>
 
