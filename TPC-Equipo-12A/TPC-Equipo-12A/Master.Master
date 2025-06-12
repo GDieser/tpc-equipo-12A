@@ -75,7 +75,7 @@
                         <div class="d-flex">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item me-2">
-                                    <a href="AgregarCurso.aspx" class="btn btn-success">Agregar curso</a>
+                                    <a href="CrearCurso.aspx" class="btn btn-success">Crear curso</a>
                                 </li>
                                 <li class="nav-item me-2">
                                     <asp:HyperLink ID="btnLogin" runat="server" CssClass="btn btn-success" NavigateUrl="Login.aspx">Login</asp:HyperLink>

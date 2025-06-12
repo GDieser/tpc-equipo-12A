@@ -64,8 +64,7 @@ namespace Servicio
             FROM Curso C
             LEFT JOIN ImagenCurso IC ON C.IdCurso = IC.IdCurso
             LEFT JOIN Imagen I ON IC.IdImagen = I.IdImagen
-            WHERE C.IdCurso = @id
-        ");
+            WHERE C.IdCurso = @id  ");
                 datos.setParametro("@id", id);
                 datos.ejecutarLectura();
 

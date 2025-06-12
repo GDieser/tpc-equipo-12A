@@ -95,7 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AgregarCurso.aspx" />
+    <Content Include="CrearCurso.aspx" />
     <Content Include="DescripcionCurso.aspx" />
     <Content Include="DetalleNovedad.aspx" />
     <Content Include="Leccion.aspx" />
@@ -115,12 +115,12 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AgregarCurso.aspx.cs">
-      <DependentUpon>AgregarCurso.aspx</DependentUpon>
+    <Compile Include="CrearCurso.aspx.cs">
+      <DependentUpon>CrearCurso.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="AgregarCurso.aspx.designer.cs">
-      <DependentUpon>AgregarCurso.aspx</DependentUpon>
+    <Compile Include="CrearCurso.aspx.designer.cs">
+      <DependentUpon>CrearCurso.aspx</DependentUpon>
     </Compile>
     <Compile Include="DescripcionCurso.aspx.cs">
       <DependentUpon>DescripcionCurso.aspx</DependentUpon>

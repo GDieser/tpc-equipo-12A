@@ -18,7 +18,7 @@ namespace TPC_Equipo_12A
                 if (!string.IsNullOrEmpty(idParam) && int.TryParse(idParam, out int idCurso))
                 {
                     CursoServicio servicio = new CursoServicio();
-                    Dominio.Curso curso = servicio.ObtenerCursoPorId(idCurso);
+                    Dominio.Curso curso = servicio.GetCursoPorId(idCurso);
 
                     lblTitulo.Text = curso.Titulo;
                     lblDescripcion.Text = curso.Descripcion;
