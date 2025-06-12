@@ -43,7 +43,7 @@ namespace Servicio
 
                     pub.Estado = (EstadoPublicacion)Convert.ToInt32(datos.Lector["Estado"]);
 
-                    //int idImagen = (int)datos.Lector["IdImagen"];
+                    // int idImagen = (int)datos.Lector["IdImagen"];
 
                     pub.Imagenes = im.getImagenesIdArticulo(pub.IdPublicacion);
 

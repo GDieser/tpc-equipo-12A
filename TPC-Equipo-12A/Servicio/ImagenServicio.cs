@@ -10,51 +10,47 @@ namespace Servicio
     public class ImagenServicio
     {
 
-        public List<Imagen> getImagenesIdArticulo(int id)
+        public List<Imagen> getImagenesIdArticulo(int idPublicacion)
         {
             List<Imagen> imagenes = new List<Imagen>();
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setConsulta("SELECT IdImagen FROM ImagenPublicacion WHERE IDPublicacion = @id;");
+                datos.setConsulta(@"
+            SELECT I.IdImagen, I.UrlImagen, I.IdTipoImagen
+            FROM ImagenPublicacion IP
+            INNER JOIN Imagen I ON IP.IdImagen = I.IdImagen
+            WHERE IP.IdPublicacion = @id
+        ");
                 datos.limpiarParametros();
-                datos.setParametro("@id", id);
+                datos.setParametro("@id", idPublicacion);
                 datos.ejecutarLectura();
-
-                datos.Lector.Read();
-                int idImagen = (int)datos.Lector["IdImagen"];
-                datos.cerrarConexion();
-
-                datos.setConsulta("SELECT IdImagen, UrlImagen, IdTipoImagen FROM Imagen WHERE IdImagen = @idimg;");
-                datos.limpiarParametros();
-                datos.setParametro("@idimg", idImagen);
-                datos.ejecutarLectura();
-
 
                 while (datos.Lector.Read())
                 {
-                    Imagen im = new Imagen();
-
-                    im.IdImagen = (int)datos.Lector["IdImagen"];
-                    im.Url = (string)datos.Lector["UrlImagen"];
-                    im.Tipo = (int)datos.Lector["IdTipoImagen"];
+                    Imagen im = new Imagen
+                    {
+                        IdImagen = (int)datos.Lector["IdImagen"],
+                        Url = (string)datos.Lector["UrlImagen"],
+                        Tipo = (int)datos.Lector["IdTipoImagen"]
+                    };
 
                     imagenes.Add(im);
                 }
+
                 return imagenes;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw new Exception("Error al obtener imágenes de la publicación: " + ex.Message);
             }
             finally
             {
                 datos.cerrarConexion();
             }
-
         }
+
 
         public int agregarImagen(Imagen imagen)
         {

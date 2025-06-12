@@ -19,18 +19,25 @@ namespace Servicio
             List<Curso> cursos = new List<Curso>();
             try
             {
-                datos.setConsulta("SELECT C.Id, C.Titulo, C.Resumen, C.ImagenUrl FROM Cursos C; ");
+                datos.setConsulta(@"
+            SELECT C.IdCurso, C.Titulo, C.Resumen, I.UrlImagen
+            FROM Curso C
+            LEFT JOIN ImagenCurso IC ON C.IdCurso = IC.IdCurso
+            LEFT JOIN Imagen I ON IC.IdImagen = I.IdImagen ");
 
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
                     Curso curso = new Curso();
-                    curso.IdCurso = (int)datos.Lector["Id"];
+                    curso.IdCurso = (int)datos.Lector["IdCurso"];
                     curso.Titulo = (string)datos.Lector["Titulo"];
                     curso.Resumen = (string)datos.Lector["Resumen"];
-                    curso.ImagenUrl = (string)datos.Lector["ImagenUrl"];
 
+                    if (datos.Lector["UrlImagen"] != DBNull.Value)
+                        curso.ImagenUrl = (string)datos.Lector["UrlImagen"];
+                    else
+                        curso.ImagenUrl = "/imagenes/default.jpg"; 
 
                     cursos.Add(curso);
                 }
@@ -46,22 +53,32 @@ namespace Servicio
                 datos.cerrarConexion();
             }
         }
-    
-    public  Curso GetCursoPorId(int id)
+
+        public Curso GetCursoPorId(int id)
         {
-                    Curso curso = new Curso();
+            Curso curso = new Curso();
             try
             {
-                datos.setConsulta("SELECT C.Id, C.Titulo, C.Descripcion, C.ImagenUrl FROM Cursos C WHERE C.Id = @id");
+                datos.setConsulta(@"
+            SELECT C.IdCurso, C.Titulo, C.Descripcion, I.UrlImagen
+            FROM Curso C
+            LEFT JOIN ImagenCurso IC ON C.IdCurso = IC.IdCurso
+            LEFT JOIN Imagen I ON IC.IdImagen = I.IdImagen
+            WHERE C.IdCurso = @id
+        ");
                 datos.setParametro("@id", id);
                 datos.ejecutarLectura();
 
                 if (datos.Lector.Read())
                 {
-                    curso.IdCurso = (int)datos.Lector["Id"];
+                    curso.IdCurso = (int)datos.Lector["IdCurso"];
                     curso.Titulo = (string)datos.Lector["Titulo"];
                     curso.Descripcion = (string)datos.Lector["Descripcion"];
-                    curso.ImagenUrl = (string)datos.Lector["ImagenUrl"];
+
+                    if (datos.Lector["UrlImagen"] != DBNull.Value)
+                        curso.ImagenUrl = (string)datos.Lector["UrlImagen"];
+                    else
+                        curso.ImagenUrl = "/imagenes/default.jpg";
                 }
 
                 return curso;
@@ -75,6 +92,7 @@ namespace Servicio
                 datos.cerrarConexion();
             }
         }
+
 
     }
 }
