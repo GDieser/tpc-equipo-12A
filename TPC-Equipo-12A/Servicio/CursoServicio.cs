@@ -17,8 +17,9 @@ namespace Servicio
             {
               
                 string Consulta = (@"
-            SELECT C.IdCurso, C.Titulo, C.Resumen, I.UrlImagen
+            SELECT C.IdCurso, C.Titulo, C.Resumen,C.IdCategoria, I.UrlImagen, Cat.Nombre
             FROM Curso C
+            JOIN Categoria Cat ON C.IdCategoria = Cat.IdCategoria
             LEFT JOIN ImagenCurso IC ON C.IdCurso = IC.IdCurso
             LEFT JOIN Imagen I ON IC.IdImagen = I.IdImagen ");
                 if (rolUsuario != 0)
@@ -35,7 +36,10 @@ namespace Servicio
                     curso.IdCurso = (int)datos.Lector["IdCurso"];
                     curso.Titulo = (string)datos.Lector["Titulo"];
                     curso.Resumen = (string)datos.Lector["Resumen"];
-         
+
+                    curso.Categoria = new Categoria();
+                    curso.Categoria.IdCategoria = (int)datos.Lector["IdCategoria"];
+                    curso.Categoria.Nombre = (string)datos.Lector["Nombre"];
 
                     if (datos.Lector["UrlImagen"] != DBNull.Value)
                         curso.ImagenUrl = (string)datos.Lector["UrlImagen"];
@@ -99,7 +103,7 @@ namespace Servicio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                // Insertar curso
+        
                 datos.setConsulta(@"
             INSERT INTO Curso (IdCategoria, Estado, Titulo, Descripcion, Resumen, Precio, FechaPublicacion, FechaCreacion, Duracion, Certificado)
             VALUES (@idcat, @estado, @titulo, @descripcion, @resumen, @precio, @fechaPub, @fechaCrea, @duracion, @certificado);
@@ -123,7 +127,7 @@ namespace Servicio
 
                 datos.cerrarConexion();
 
-                // Insertar imagen
+         
                 datos.setConsulta("INSERT INTO Imagen (UrlImagen, Nombre, IdTipoImagen) VALUES (@url, @nombre, 1); SELECT SCOPE_IDENTITY();");
                 datos.setParametro("@url", urlImagen);
                 datos.setParametro("@nombre", "Imagen curso");
@@ -135,7 +139,7 @@ namespace Servicio
 
                 datos.cerrarConexion();
 
-                // Relación ImagenCurso
+      
                 datos.setConsulta("INSERT INTO ImagenCurso (IdImagen, IdCurso) VALUES (@idimg, @idcurso)");
                 datos.setParametro("@idimg", idImagen);
                 datos.setParametro("@idcurso", nuevo.IdCurso);
@@ -153,7 +157,7 @@ namespace Servicio
         }
 
 
-        public List<Curso> ObtenerCursosPorCategoria(int idCategoria)
+        /*public List<Curso> ObtenerCursosPorCategoria(int idCategoria)
         {
             AccesoDatos accesoDatos = new AccesoDatos();
             try
@@ -295,6 +299,6 @@ namespace Servicio
             {
                 accesoDatos.cerrarConexion();
             }
-        }
+        }*/
     }
 }

@@ -4,8 +4,28 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <h1 class="text-center mt-4">Cursos Disponibles</h1>
-    <hr />
+<div class="row mt-4 align-items-center">
+ 
+    <div class="col-md-6">
+        <h1 class="mt-2">Cursos Disponibles</h1>
+    </div>
+
+    <div class="col-md-6 text-end">
+        <asp:DropDownList 
+            ID="ddlFiltroCategoria" 
+            runat="server" 
+            CssClass="btn btn-secondary dropdown-toggle"
+            Style="width: 250px;" />
+        
+        <asp:Button 
+            Text="Filtrar" 
+            CssClass="btn btn-info" 
+            ID="btnFiltrar" 
+            OnClick="btnFiltrar_Click" 
+            runat="server" />
+    </div>
+</div>
+<hr />
 
     <asp:Repeater ID="rptCursos" runat="server">
      <ItemTemplate>

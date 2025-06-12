@@ -16,7 +16,17 @@ namespace TPC_Equipo_12A
         {
             if (!IsPostBack)
             {
-                int rol = 1; // por defecto "común"
+                CategoriaServicio ser = new CategoriaServicio();
+                List<Categoria> lista = ser.listar();
+
+                ddlFiltroCategoria.DataSource = lista;
+                ddlFiltroCategoria.DataValueField = "IdCategoria";
+                ddlFiltroCategoria.DataTextField = "Nombre";
+                ddlFiltroCategoria.DataBind();
+
+                ddlFiltroCategoria.Items.Insert(0, new ListItem("Todas las categorías", "0"));
+     
+                int rol = 1; 
 
                 if (Session["UsuarioAutenticado"] != null)
                 {
@@ -32,5 +42,45 @@ namespace TPC_Equipo_12A
             }
         }
 
+        protected void btnFiltrar_Click(object sender, EventArgs e)
+        {
+            int rol = 1;
+
+            if (Session["UsuarioAutenticado"] != null)
+            {
+                UsuarioAutenticado usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+                rol = Convert.ToInt16(usuario.Rol);
+            }
+
+            CursoServicio servicio = new CursoServicio();
+            List<Curso> cursos = servicio.Listar(rol);
+
+            List<Curso> listaFiltrada = new List<Curso>();
+
+
+
+
+            if (ddlFiltroCategoria.SelectedValue == "0")
+            {
+
+                rptCursos.DataSource = cursos;
+                rptCursos.DataBind();
+            }
+            else
+            {
+
+
+                foreach (var publi in cursos)
+                {
+                    if ( publi.Categoria.IdCategoria == Convert.ToInt32(ddlFiltroCategoria.SelectedValue))
+                    {
+                        listaFiltrada.Add(publi);
+                    }
+                }
+
+                rptCursos.DataSource = listaFiltrada;
+                rptCursos.DataBind();
+            }
+        }
     }
 }
