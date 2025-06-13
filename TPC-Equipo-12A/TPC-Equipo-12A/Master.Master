@@ -33,7 +33,7 @@
     <form id="form1" runat="server">
 
         <div class="d-flex flex-column min-vh-100">
-            <nav class="navbar sticky-top  navbar-expand-lg bg-black bg-gradient bg-opacity-50" data-bs-theme="dark">
+            <nav class="navbar sticky-top  navbar-expand-lg bg-black bg-gradient bg-opacity-50 vh-20 p-3" data-bs-theme="dark">
                 <div class="container-fluid">
 
                     <% if (Servicio.Seguridad.esAdmin(Session["UsuarioAutenticado"]))
@@ -131,12 +131,10 @@
                 </div>
             </nav>
 
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
 
-
-            <div class="container">
-                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-                </asp:ContentPlaceHolder>
-            </div>
+            
 
 
             <footer class="bg-dark text-white text-center py-3 mt-auto" data-bs-theme="dark">

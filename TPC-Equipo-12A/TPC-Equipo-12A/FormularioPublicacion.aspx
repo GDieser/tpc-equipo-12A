@@ -6,6 +6,7 @@
 
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
+
     <div class="container mt-4">
 
         <h2 class="mb-4">📝 Nueva Publicación</h2>
