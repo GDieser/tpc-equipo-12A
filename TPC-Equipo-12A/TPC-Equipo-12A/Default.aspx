@@ -8,6 +8,13 @@
         }
     </style>
     <style>
+        .card-img-top {
+            height: 250px;
+            object-fit: cover;
+        }
+    </style>
+
+    <style>
         .division {
             border: none;
             border-top: 1px solid #80808058;
@@ -69,6 +76,8 @@
             <a href="Cursos.aspx" type="button" class="btn btn-info">Mirá nuestros cursos</a>
         </div>
     </section>
+
+    <!-- Seccion iconos -->
     <section class="division">
         <br />
         <div>
@@ -155,62 +164,39 @@
             </div>
         </div>
     </section>
+
+    <!-- Top cursos, o algo asi -->
     <section class="division">
         <br />
         <div>
-            <h4>Top Cursos mejor valorados</h4>
+            <h4>¡Ultimos cursos agregados!</h4>
             <br />
             <div>
+
                 <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <div class="col">
-                        <div class="card h-100 border-primary">
-                            <img src="https://www.aprender21.com/images/colaboradores/sql.jpeg" class="card-img-top" alt="...">
-                            <div class="card-body bg-dark text-white">
-                                <h5 class="card-title">Curso SQL</h5>
-                                <p class="card-text">Aprende todo lo necesario del mundo de las base de datos.</p>
-                            </div>
-                            <div class="card-footer border-primary bg-dark">
-                                <small class="text-body-secondary-white text-white">Rating: ★★★★★ </small>
-                                <div>
-                                    <button class="btn btn-info">Ver más</button>
+                    <asp:Repeater ID="rptCursos" runat="server">
+                        <ItemTemplate>
+                            <div class="col d-flex">
+                                <div class="card h-100 border-primary w-100">
+                                    <img src='<%# Eval("ImagenUrl") %>' class="card-img-top" alt="Imagen del curso">
+                                    <div class="card-body bg-dark text-white text-center">
+                                        <h5 class="card-title"><%# Eval("Titulo") %></h5>
+                                        <p class="card-text"><%# Eval("Resumen") %></p>
+                                    </div>
+                                    <div class="card-footer border-primary bg-dark text-center">
+                                        <a href="DescripcionCurso.aspx" class="btn btn-info mx-auto">Ver más</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card h-100 border-primary">
-                            <img src="https://facialix.com/wp-content/uploads/2023/03/git-github-cero-facialix.jpg" class="card-img-top" alt="...">
-                            <div class="card-body bg-dark text-white">
-                                <h5 class="card-title">Git y GitHub</h5>
-                                <p class="card-text">Lo ultimo en las herramientas de versionado.</p>
-                            </div>
-                            <div class="card-footer border-primary bg-dark">
-                                <small class="text-body-secondary-white text-white">Rating: ★★★★★</small>
-                                <div>
-                                    <button class="btn btn-info">Ver más</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card h-100 border-primary">
-                            <img src="https://cdn.openwebinars.net/media/fbads-unity.png" class="card-img-top" alt="...">
-                            <div class="card-body bg-dark text-white">
-                                <h5 class="card-title">Unity 2D</h5>
-                                <p class="card-text">Un introduccion al mundo del diseño y programación de videojuegos.</p>
-                            </div>
-                            <div class="card-footer border-primary bg-dark">
-                                <small class="text-body-secondary-white text-white">Rating: ★★★★</small>
-                                <div>
-                                    <button class="btn btn-info">Ver más</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        </ItemTemplate>
+                    </asp:Repeater>
                 </div>
+
             </div>
         </div>
     </section>
+
+    <!-- FAQs -->
     <section class="division">
         <br />
         <div>
@@ -218,59 +204,29 @@
                 <h3>Preguntas frecuentes</h3>
             </div>
             <br />
-            <div class="accordion accordion-flush" id="accordionFlushExample">
-                <div class="accordion-item bg-dark">
-                    <h2 class="accordion-header">
-                        <button class="btn btn-dark accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                            ¿Quiénes somos?                       
-                        </button>
-                    </h2>
-                    <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body text-white">
-                            Somos TusCursos.com, un grupo de profesionales apacionados por la tecnología y la educación. Podes ver todas nuestras redes y enterarte                    de lo último en el mundo IT.                       
+
+            <asp:Repeater ID="rpdFaqs" runat="server">
+                <ItemTemplate>
+                    <div class="accordion accordion-flush" id='accordionFlushExample_<%# Eval("IdFaq") %>'>
+                        <div class="accordion-item bg-dark">
+                            <h2 class="accordion-header">
+                                <button class="btn btn-dark accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target='#flush-collapse_<%# Eval("IdFaq") %>' aria-expanded="false" aria-controls='flush-collapse_<%# Eval("IdFaq") %>'>
+                                    ▾ <%# Eval("Pregunta") %>
+                                </button>
+                            </h2>
+                            <div id='flush-collapse_<%# Eval("IdFaq") %>' class="accordion-collapse collapse" data-bs-parent='#accordionFlushExample_<%# Eval("IdFaq") %>'>
+                                <div class="accordion-body text-white">
+                                    <%# Eval("Respuesta") %>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="accordion-item bg-dark">
-                    <h2 class="accordion-header">
-                        <button class="btn btn-dark accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                            ¿Cómo compro un curso?                       
-                        </button>
-                    </h2>
-                    <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body text-white">
-                            Primero debés registrarte! Una vez que tengas tú cuenta, elegí el curso que más te gusta, agregalo al carrito y efectua la compra. Una vez acreditado                     se te dará acceso al Campus Virtual, dónde podrás realizar el curso.                           
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item bg-dark">
-                    <h2 class="accordion-header">
-                        <button class="btn btn-dark accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                            ¿Cómo me uno?                       
-                        </button>
-                    </h2>
-                    <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body text-white">
-                            Podés darle al botón de "Login" arriba a la derecha y ahí mismo resgistrare, completando tus datos y confirmando tu usuario o hace click acá.                       
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item bg-dark ">
-                    <h2 class="accordion-header">
-                        <button class="btn btn-dark accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseThree">
-                            ¿Cómo accedo al Campus Virtual?                       
-                        </button>
-                    </h2>
-                    <div id="flush-collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body text-white">
-                            Una vez tengas tu cuenta verificada y hayas comprado tu curso podes ir a la parte que dice "Campus Virtual" y ahí con tus misma credenciales                   acceder a todo el contenido de los cursos.                       
-                        </div>
-                    </div>
-                </div>
-            </div>
+                </ItemTemplate>
+            </asp:Repeater>
+
         </div>
     </section>
-    <br />
+    <!-- contacto -->
     <section class="division">
 
         <br />
