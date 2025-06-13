@@ -179,7 +179,7 @@
                             <ItemTemplate>
                                 <div class="col d-flex">
                                     <div class="card h-100 border-primary w-100">
-                                        <img src='<%# Eval("ImagenUrl") %>' class="card-img-top" alt="Imagen del curso">
+                                        <img src='<%# Eval("ImagenPortada.Url") %>' class="card-img-top" alt="Imagen del curso">
                                         <div class="card-body bg-dark text-white text-center">
                                             <h5 class="card-title"><%# Eval("Titulo") %></h5>
                                             <p class="card-text"><%# Eval("Resumen") %></p>

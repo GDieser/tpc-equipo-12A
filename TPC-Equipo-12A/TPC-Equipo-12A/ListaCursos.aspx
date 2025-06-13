@@ -7,43 +7,9 @@
     <div class="container">
         <div class="row mt-4 align-items-center">
 
-<<<<<<< Updated upstream
-    <div class="col-md-6 text-end">
-        <asp:DropDownList 
-            ID="ddlFiltroCategoria" 
-            runat="server" 
-            CssClass="btn btn-secondary dropdown-toggle"
-            Style="width: 250px;" />
-        
-        <asp:Button 
-            Text="Filtrar" 
-            CssClass="btn btn-info" 
-            ID="btnFiltrar" 
-            OnClick="btnFiltrar_Click" 
-            runat="server" />
-    </div>
-</div>
-<hr />
 
-    <asp:Repeater ID="rptCursos" runat="server">
-     <ItemTemplate>
-    <div class="card mb-4 border-primary bg-dark bg-opacity-75 text-white">
-        <div class="row g-0">
-            
-            <div class="col-md-3 border-end border-primary">
-
-               <img 
-    src='<%# Eval("ImagenPortada.Url") %>' 
-    onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png';"
-    class="img-fluid rounded-start h-100" 
-    style="object-fit: cover;" 
-    alt="imagen no disponible" />
-
-               <!-- <p>DEBUG URL: <%# Eval("ImagenPortada.Url") %></p> -->
-=======
             <div class="col-md-6">
                 <h1 class="mt-2">Cursos Disponibles</h1>
->>>>>>> Stashed changes
             </div>
 
             <div class="col-md-6 text-end">
@@ -69,7 +35,16 @@
                     <div class="row g-0">
 
                         <div class="col-md-3 border-end border-primary">
-                            <img src='<%# Eval("ImagenUrl") %>' class="img-fluid rounded-start h-100" style="object-fit: cover;" alt="alternative tex" />
+
+
+                            <img
+                                src='<%# Eval("ImagenPortada.Url") %>'
+                                onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png';"
+                                class="img-fluid rounded-start h-100"
+                                style="object-fit: cover;"
+                                alt="imagen no disponible" />
+
+                            <!-- <p>DEBUG URL: <%# Eval("ImagenPortada.Url") %></p> -->
                         </div>
 
                         <div class="col-md-6 border-end border-primary d-flex align-items-center">
@@ -91,4 +66,5 @@
 
         </asp:Repeater>
     </div>
+
 </asp:Content>

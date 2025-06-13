@@ -9,21 +9,15 @@
 
                 <h2 class="text-primary">
                     <asp:Label ID="lblTitulo" runat="server" /></h2>
-
-<<<<<<< Updated upstream
             <div class="row my-4">
                 <div class="col-md-6">
                       <asp:Image ID="imgCurso"  runat="server" CssClass="img-fluid rounded border border-primary"  Style="max-width: 100%;"  AlternateText="Imagen del curso 1" />
-=======
-                <div class="row my-4">
-                    <div class="col-md-6">
-                        <asp:Image ID="imgCurso" runat="server" CssClass="img-fluid rounded border border-primary" />
+
                     </div>
                     <div class="col-md-6">
                         <h5 class="text-info">Descripción del curso</h5>
                         <asp:Label ID="lblDescripcion" runat="server" CssClass="text-white-50" />
                     </div>
->>>>>>> Stashed changes
                 </div>
 
                 <a href="ListaCursos.aspx" class="btn btn-outline-light">Volver a cursos</a>
@@ -31,3 +25,4 @@
         </div>
     </div>
 </asp:Content>
+
