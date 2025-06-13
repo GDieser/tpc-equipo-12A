@@ -54,7 +54,7 @@ namespace TPC_Equipo_12A
 
         public void CargarNovedad()
         {
-            imgBanner.ImageUrl = novedad.UrlImagen;
+            imgBanner.ImageUrl = novedad.Imagenes[1].Url;
             lblTitulo.Text = novedad.Titulo;
             lblFechaPublicacion.Text = "Publicado el: " + novedad.FechaPublicacion.ToString();
             lblResumen.Text = novedad.Resumen;

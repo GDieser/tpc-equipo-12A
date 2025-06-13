@@ -18,7 +18,7 @@ namespace Servicio
             try
             {
                 datos.setConsulta(@"
-            SELECT I.IdImagen, I.UrlImagen, I.IdTipoImagen
+            SELECT I.IdImagen, I.UrlImagen, I.IdTipoImagen, I.Nombre
             FROM ImagenPublicacion IP
             INNER JOIN Imagen I ON IP.IdImagen = I.IdImagen
             WHERE IP.IdPublicacion = @id
@@ -33,7 +33,8 @@ namespace Servicio
                     {
                         IdImagen = (int)datos.Lector["IdImagen"],
                         Url = (string)datos.Lector["UrlImagen"],
-                        Tipo = (int)datos.Lector["IdTipoImagen"]
+                        Tipo = (int)datos.Lector["IdTipoImagen"],
+                        Nombre = (string)datos.Lector["Nombre"]
                     };
 
                     imagenes.Add(im);
@@ -57,12 +58,13 @@ namespace Servicio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setConsulta(@"INSERT INTO Imagen (UrlImagen, IdTipoImagen) 
-                                    VALUES (@url, @tipo);
+                datos.setConsulta(@"INSERT INTO Imagen (UrlImagen, IdTipoImagen, Nombre) 
+                                    VALUES (@url, @tipo, @nombre);
                                     SELECT SCOPE_IDENTITY();");
                 datos.limpiarParametros();
                 datos.setParametro("@url", imagen.Url);
                 datos.setParametro("@tipo", imagen.Tipo);
+                datos.setParametro("@nombre", imagen.Nombre);
                 datos.ejecutarLectura();
                 int idImagen;
                 if (datos.Lector.Read())

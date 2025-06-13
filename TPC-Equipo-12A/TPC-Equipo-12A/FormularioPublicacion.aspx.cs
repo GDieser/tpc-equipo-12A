@@ -51,6 +51,7 @@ namespace TPC_Equipo_12A
                     string contenidoDes = novedad.Descripcion;
                     contenidoDes = contenidoDes.Replace("'", "\\'").Replace(Environment.NewLine, "");
 
+                    //Aca me sirve para cuando cargo nuevamente para modificar :D
                     ClientScript.RegisterStartupScript(this.GetType(), "ckedit", $@"
                             window.onload = function () {{
                             CKEDITOR.replace('txtDes');
@@ -62,7 +63,8 @@ namespace TPC_Equipo_12A
                     ddlCategoria.SelectedValue = novedad.Categoria.IdCategoria.ToString();
                     ddlEstado.SelectedValue = ((int)novedad.Estado).ToString();
 
-                    txtImagen.Text = novedad.UrlImagen;
+                    txtMiniatura.Text = novedad.Imagenes[0].Url;
+                    txtImagen.Text = novedad.Imagenes[1].Url;
                     txtImagen_TextChanged(sender, e);
                 }
 
@@ -77,6 +79,7 @@ namespace TPC_Equipo_12A
 
         protected void txtImagen_TextChanged(object sender, EventArgs e)
         {
+            imgPreviewMin.ImageUrl = txtMiniatura.Text;
             imgPreview.ImageUrl = txtImagen.Text;
         }
 
@@ -110,13 +113,26 @@ namespace TPC_Equipo_12A
                 nueva.FechaCreacion = DateTime.Now;
                 nueva.FechaPublicacion = DateTime.Now;
 
-                nueva.Url = txtImagen.Text;
+                List<Imagen> listaImg = new List<Imagen>();
+                Imagen img1 = new Imagen();
+
+                img1.Url = txtMiniatura.Text;
+                img1.Nombre = "Miniatura";
+                listaImg.Add(img1);
+
+                Imagen img2 = new Imagen();
+                img2.Url = txtImagen.Text;
+                img2.Nombre = "Banner";
+                listaImg.Add(img2);
+
+                nueva.Imagenes = listaImg;
 
                 if (Session["NovedadSeleccionada"] != null)
                 {
                     Publicacion novedad = (Publicacion)Session["NovedadSeleccionada"];
                     nueva.IdPublicacion = novedad.IdPublicacion;
-                    nueva.Imagenes = novedad.Imagenes;
+                    nueva.Imagenes[0].IdImagen = novedad.Imagenes[0].IdImagen;
+                    nueva.Imagenes[1].IdImagen = novedad.Imagenes[1].IdImagen;
 
                     servicio.modificarPublicacion(nueva);
 

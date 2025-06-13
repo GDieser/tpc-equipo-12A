@@ -134,24 +134,34 @@ namespace Servicio
 
                 datos.cerrarConexion();
 
-                datos.setConsulta("INSERT INTO Imagen(UrlImagen, Nombre, IdTipoImagen) VALUES (@url, '', 1); SELECT SCOPE_IDENTITY()");
-                datos.setParametro("@url", nueva.Url);
+                foreach(var img in nueva.Imagenes)
+                {
 
-                datos.ejecutarLectura();
-
-                int idImagen = 0;
-
-                if (datos.Lector.Read())
-                    idImagen = Convert.ToInt32(datos.Lector[0]);
-
-                datos.cerrarConexion();
+                    datos.setConsulta("INSERT INTO Imagen(UrlImagen, Nombre, IdTipoImagen) VALUES (@url, @nombre, 1); SELECT SCOPE_IDENTITY()");
+                    datos.limpiarParametros();
+                    datos.setParametro("@url", img.Url);
+                    datos.setParametro("@nombre", img.Nombre);
 
 
-                datos.setConsulta("INSERT INTO ImagenPublicacion(IdImagen, IDPublicacion) VALUES (@idurl, @idpublicacion);");
-                datos.setParametro("@idurl", idImagen);
-                datos.setParametro("@idpublicacion", nueva.IdPublicacion);
+                    datos.ejecutarLectura();
 
-                datos.ejecutarAccion();
+                    int idImagen = 0;
+
+                    if (datos.Lector.Read())
+                        idImagen = Convert.ToInt32(datos.Lector[0]);
+
+                    datos.cerrarConexion();
+
+
+                    datos.setConsulta("INSERT INTO ImagenPublicacion(IdImagen, IDPublicacion) VALUES (@idurl, @idpublicacion);");
+                    datos.limpiarParametros();
+                    datos.setParametro("@idurl", idImagen);
+                    datos.setParametro("@idpublicacion", nueva.IdPublicacion);
+
+                    datos.ejecutarAccion();
+
+                    datos.cerrarConexion();
+                }
 
             }
             catch (Exception ex)
@@ -184,13 +194,24 @@ namespace Servicio
                 datos.ejecutarLectura();
                 datos.cerrarConexion();
 
-                int idImg = publi.Imagenes[0].IdImagen;
+                
 
-                datos.setConsulta("UPDATE Imagen SET UrlImagen = @url WHERE IdImagen = @idimagen");
-                datos.setParametro("@idimagen", idImg);
-                datos.setParametro("@url", publi.Url);
+                foreach (var imagen in publi.Imagenes)
+                {
+                    int idImg = imagen.IdImagen;
 
-                datos.ejecutarAccion();
+                    datos.setConsulta("UPDATE Imagen SET UrlImagen = @url WHERE IdImagen = @idimagen");
+                    datos.limpiarParametros();
+
+                    datos.setParametro("@idimagen", idImg);
+                    datos.setParametro("@url", imagen.Url);
+
+                    datos.ejecutarAccion();
+
+                    datos.cerrarConexion();
+                }
+
+                
             }
             catch (Exception ex)
             {
