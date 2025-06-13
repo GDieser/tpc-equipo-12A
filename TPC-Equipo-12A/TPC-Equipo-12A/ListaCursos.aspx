@@ -33,7 +33,15 @@
         <div class="row g-0">
             
             <div class="col-md-3 border-end border-primary">
-                <img src='<%# Eval("ImagenUrl") %>' class="img-fluid rounded-start h-100" style="object-fit: cover;" alt="alternative tex" />
+
+               <img 
+    src='<%# Eval("ImagenPortada.Url") %>' 
+    onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png';"
+    class="img-fluid rounded-start h-100" 
+    style="object-fit: cover;" 
+    alt="imagen no disponible" />
+
+               <!-- <p>DEBUG URL: <%# Eval("ImagenPortada.Url") %></p> -->
             </div>
 
             <div class="col-md-6 border-end border-primary d-flex align-items-center">

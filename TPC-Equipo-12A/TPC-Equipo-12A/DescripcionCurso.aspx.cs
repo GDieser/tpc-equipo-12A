@@ -22,7 +22,10 @@ namespace TPC_Equipo_12A
 
                     lblTitulo.Text = curso.Titulo;
                     lblDescripcion.Text = curso.Descripcion;
-                    imgCurso.ImageUrl = string.IsNullOrEmpty(curso.ImagenUrl) ? "imagenes/default.jpg" : curso.ImagenUrl;
+                    imgCurso.ImageUrl = string.IsNullOrEmpty(curso.ImagenPortada?.Url)
+         ? "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png"
+         : curso.ImagenPortada.Url;
+
                 }
                 else
                 {

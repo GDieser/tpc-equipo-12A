@@ -9,7 +9,7 @@
 
             <div class="row my-4">
                 <div class="col-md-6">
-                    <asp:Image ID="imgCurso" runat="server" CssClass="img-fluid rounded border border-primary" />
+                      <asp:Image ID="imgCurso"  runat="server" CssClass="img-fluid rounded border border-primary"  Style="max-width: 100%;"  AlternateText="Imagen del curso 1" />
                 </div>
                 <div class="col-md-6">
                     <h5 class="text-info">Descripción del curso</h5>

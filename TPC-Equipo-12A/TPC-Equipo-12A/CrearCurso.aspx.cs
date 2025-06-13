@@ -40,21 +40,30 @@ namespace TPC_Equipo_12A
 
             try
             {
+
                 nuevo.Titulo = txtTitulo.Text;
                 nuevo.Resumen = txtResumen.Text;
-                nuevo.Descripcion = Request.Form[txtDescripcion.UniqueID]; 
+                nuevo.Descripcion = Request.Form[txtDescripcion.UniqueID];
                 nuevo.Precio = decimal.Parse(txtPrecio.Text);
                 nuevo.Duracion = int.Parse(txtDuracion.Text);
                 nuevo.Certificado = chkCertificado.Checked;
                 nuevo.FechaCreacion = DateTime.Now;
                 nuevo.FechaPublicacion = DateTime.Now;
                 nuevo.Estado = EstadoPublicacion.Publicado;
+
                 nuevo.Categoria = new Categoria
                 {
                     IdCategoria = int.Parse(ddlCategoria.SelectedValue)
                 };
 
-                cursoServicio.GuardarCurso(nuevo, txtImagen.Text);
+                nuevo.ImagenPortada = new Imagen
+                {
+                    Url = txtImagen.Text,        
+                    Nombre = "Imagen curso",      // agregar txtbox a formulario 
+                    Tipo = 1                      //  agragar lista tipo a formulario
+                };
+
+                cursoServicio.GuardarCurso(nuevo);
 
                 Response.Redirect("ListaCursos.aspx");
             }
@@ -63,5 +72,6 @@ namespace TPC_Equipo_12A
                 Response.Write("<script>alert('Error al guardar curso: " + ex.Message + "');</script>");
             }
         }
+
     }
 }
