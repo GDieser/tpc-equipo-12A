@@ -84,57 +84,7 @@ namespace Servicio
         }
 
 
-        /* public List<Curso> Listar(int rolUsuario)
-         {
-             AccesoDatos datos = new AccesoDatos();
-             List<Curso> cursos = new List<Curso>();
-             try
-             {
-
-                 string Consulta = (@"
-             SELECT C.IdCurso, C.Titulo, C.Resumen,C.IdCategoria, I.UrlImagen, Cat.Nombre
-             FROM Curso C
-             JOIN Categoria Cat ON C.IdCategoria = Cat.IdCategoria
-             LEFT JOIN ImagenCurso IC ON C.IdCurso = IC.IdCurso
-             LEFT JOIN Imagen I ON IC.IdImagen = I.IdImagen ");
-                 if (rolUsuario != 0)
-                 {
-                     Consulta += "WHERE C.Estado = 1";
-                 }
-                 datos.setConsulta(Consulta);
-                 datos.ejecutarLectura();
-
-                 while (datos.Lector.Read())
-                 {
-                     Curso curso = new Curso();
-
-                     curso.IdCurso = (int)datos.Lector["IdCurso"];
-                     curso.Titulo = (string)datos.Lector["Titulo"];
-                     curso.Resumen = (string)datos.Lector["Resumen"];
-
-                     curso.Categoria = new Categoria();
-                     curso.Categoria.IdCategoria = (int)datos.Lector["IdCategoria"];
-                     curso.Categoria.Nombre = (string)datos.Lector["Nombre"];
-
-                     if (datos.Lector["UrlImagen"] != DBNull.Value)
-                         curso.ImagenUrl = (string)datos.Lector["UrlImagen"];
-                     else
-                         curso.ImagenUrl = "/imagenes/default.jpg";
-
-                     cursos.Add(curso);
-                 }
-
-                 return cursos;
-             }
-             catch (Exception ex)
-             {
-                 throw ex;
-             }
-             finally
-             {
-                 datos.cerrarConexion();
-             }
-         }*/
+      
         public Curso GetCursoPorId(int id)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -199,45 +149,6 @@ namespace Servicio
             }
         }
 
-
-        /*public Curso GetCursoPorId(int id)
-        {
-            AccesoDatos datos = new AccesoDatos();
-            Curso curso = new Curso();
-            try
-            {
-                datos.setConsulta(@"
-            SELECT C.IdCurso, C.Titulo, C.Descripcion, I.UrlImagen
-            FROM Curso C
-            LEFT JOIN ImagenCurso IC ON C.IdCurso = IC.IdCurso
-            LEFT JOIN Imagen I ON IC.IdImagen = I.IdImagen
-            WHERE C.IdCurso = @id  ");
-                datos.setParametro("@id", id);
-                datos.ejecutarLectura();
-
-                if (datos.Lector.Read())
-                {
-                    curso.IdCurso = (int)datos.Lector["IdCurso"];
-                    curso.Titulo = (string)datos.Lector["Titulo"];
-                    curso.Descripcion = (string)datos.Lector["Descripcion"];
-
-                    if (datos.Lector["UrlImagen"] != DBNull.Value)
-                        curso.ImagenUrl = (string)datos.Lector["UrlImagen"];
-                    else
-                        curso.ImagenUrl = "/imagenes/default.jpg";
-                }
-
-                return curso;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-        }*/
 
 
         public void GuardarCurso(Curso nuevo)
@@ -420,7 +331,7 @@ namespace Servicio
              {
                  accesoDatos.cerrarConexion();
              }
-         }
+         }*/
 
          public bool EsUsuarioHabilitado(int idUsuario, int idCurso)
          {
@@ -454,6 +365,6 @@ namespace Servicio
              {
                  accesoDatos.cerrarConexion();
              }
-         }*/
+         }
     }
 }

@@ -3,22 +3,21 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"></asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div class="container py-4">
 
-    <div class="container">
-        <div class="row mt-4 align-items-center">
-
-
+        <div class="text-center mb-5">
+            <h1 class="display-5 fw-bold text-info">¡Explorá nuestros cursos!</h1>
+            <p class="lead text-white-50">Formate con profesionales y descubrí contenido actualizado pensado para vos.</p>
+        </div>
+        <div class="row mb-4 align-items-center">
             <div class="col-md-6">
-                <h1 class="mt-2">Cursos Disponibles</h1>
+                <h3 class="text-white">Cursos disponibles</h3>
             </div>
-
             <div class="col-md-6 text-end">
                 <asp:DropDownList
                     ID="ddlFiltroCategoria"
                     runat="server"
-                    CssClass="btn btn-secondary dropdown-toggle"
-                    Style="width: 250px;" />
-
+                    CssClass="form-select d-inline-block me-2 w-auto" />
                 <asp:Button
                     Text="Filtrar"
                     CssClass="btn btn-info"
@@ -27,44 +26,33 @@
                     runat="server" />
             </div>
         </div>
-        <hr />
 
-        <asp:Repeater ID="rptCursos" runat="server">
-            <ItemTemplate>
-                <div class="card mb-4 border-primary bg-dark bg-opacity-75 text-white">
-                    <div class="row g-0">
+     <div class="row row-cols-1 row-cols-md-3 g-5">
+    <asp:Repeater ID="rptCursos" runat="server">
+        <ItemTemplate>
+            <div class="col d-flex">
+                <div class="card h-100 border-primary bg-dark text-white w-100">
+                    <div class="card-body text-center">
+                        <h5 class="card-title text-info"><%# Eval("Titulo") %></h5>
 
-                        <div class="col-md-3 border-end border-primary">
+                        <img
+                            src='<%# Eval("ImagenPortada.Url") %>'
+                            onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png';"
+                            class="card-img-top my-3"
+                            alt="Imagen no disponible"
+                            style="height: 250px; object-fit: cover;" />
 
-
-                            <img
-                                src='<%# Eval("ImagenPortada.Url") %>'
-                                onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png';"
-                                class="img-fluid rounded-start h-100"
-                                style="object-fit: cover;"
-                                alt="imagen no disponible" />
-
-                            <!-- <p>DEBUG URL: <%# Eval("ImagenPortada.Url") %></p> -->
-                        </div>
-
-                        <div class="col-md-6 border-end border-primary d-flex align-items-center">
-                            <div class="card-body">
-                                <h4 class="card-title text"><%# Eval("Titulo") %></h4>
-                                <p class="card-text text"><%# Eval("Resumen") %></p>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 d-flex flex-column justify-content-center align-items-center p-3">
-                            <a href='DescripcionCurso.aspx?id=<%# Eval("IdCurso") %>' class="btn btn-outline-info w-75 mb-2">Ver más</a>
-                            <a href='Inscripcion.aspx?id=<%# Eval("IdCurso") %>' class="btn btn-outline-success w-75">Suscribirse</a>
-                        </div>
-
+                        <p class="card-text"><%# Eval("Resumen") %></p>
+                    </div>
+                    <div class="card-footer bg-transparent text-center border-top">
+                        <a href='DescripcionCurso.aspx?id=<%# Eval("IdCurso") %>' class="btn btn-outline-info me-2">Ver más</a>
+                        <a href='Inscripcion.aspx?id=<%# Eval("IdCurso") %>' class="btn btn-outline-success">Suscribirse</a>
                     </div>
                 </div>
-            </ItemTemplate>
+            </div>
+        </ItemTemplate>
+    </asp:Repeater>
+</div>
 
-
-        </asp:Repeater>
     </div>
-
 </asp:Content>

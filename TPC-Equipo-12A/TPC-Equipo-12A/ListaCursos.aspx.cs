@@ -69,7 +69,6 @@ namespace TPC_Equipo_12A
             else
             {
 
-
                 foreach (var publi in cursos)
                 {
                     if ( publi.Categoria.IdCategoria == Convert.ToInt32(ddlFiltroCategoria.SelectedValue))
