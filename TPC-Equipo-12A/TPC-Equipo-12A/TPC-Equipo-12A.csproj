@@ -100,6 +100,7 @@
     <Content Include="DetalleNovedad.aspx" />
     <Content Include="Leccion.aspx" />
     <Content Include="ListaCursos.aspx" />
+    <Content Include="ListaCursosAdmin.aspx" />
     <Content Include="ListaUsuarios.aspx" />
     <Content Include="Notificacion.aspx" />
     <Content Include="Default.aspx" />
@@ -149,6 +150,13 @@
     </Compile>
     <Compile Include="ListaCursos.aspx.designer.cs">
       <DependentUpon>ListaCursos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ListaCursosAdmin.aspx.cs">
+      <DependentUpon>ListaCursosAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ListaCursosAdmin.aspx.designer.cs">
+      <DependentUpon>ListaCursosAdmin.aspx</DependentUpon>
     </Compile>
     <Compile Include="ListaUsuarios.aspx.cs">
       <DependentUpon>ListaUsuarios.aspx</DependentUpon>

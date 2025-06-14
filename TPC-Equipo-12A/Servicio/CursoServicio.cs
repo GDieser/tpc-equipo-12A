@@ -18,18 +18,23 @@ namespace Servicio
             {
                 string consulta = @"
             SELECT  C.IdCurso,
-                    C.Titulo,
-                    C.Resumen,
-                    C.IdCategoria,
-                    Cat.Nombre          AS NombreCategoria,
-                    I.IdImagen,
-                    I.UrlImagen         AS Url,
-                    I.Nombre            AS NombreImagen,
-                    I.IdTipoImagen      AS Tipo
-            FROM    Curso C
-            INNER JOIN Categoria  Cat ON Cat.IdCategoria = C.IdCategoria
-            LEFT  JOIN ImagenCurso IC  ON IC.IdCurso     = C.IdCurso
-            LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen";
+        C.Titulo,
+        C.Resumen,
+        C.Descripcion,
+        C.Precio,
+        C.FechaPublicacion,
+        C.Estado,
+        C.IdCategoria,
+        Cat.Nombre          AS NombreCategoria,
+        I.IdImagen,
+        I.UrlImagen         AS Url,
+        I.Nombre            AS NombreImagen,
+        I.IdTipoImagen      AS Tipo
+FROM    Curso C
+INNER JOIN Categoria  Cat ON Cat.IdCategoria = C.IdCategoria
+LEFT  JOIN ImagenCurso IC  ON IC.IdCurso     = C.IdCurso
+LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen
+";
 
                 if (rolUsuario != 0)
                     consulta += " WHERE C.Estado = 1";
@@ -44,7 +49,10 @@ namespace Servicio
                         IdCurso = (int)datos.Lector["IdCurso"],
                         Titulo = (string)datos.Lector["Titulo"],
                         Resumen = (string)datos.Lector["Resumen"],
-
+                        Descripcion = (string)datos.Lector["Descripcion"], 
+                        Precio = (decimal)datos.Lector["Precio"],      
+                        FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"], 
+                        Estado = (EstadoPublicacion)datos.Lector["Estado"],
                         Categoria = new Categoria
                         {
                             IdCategoria = (int)datos.Lector["IdCategoria"],

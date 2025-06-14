@@ -160,7 +160,7 @@
                 <a class="nav-link text-white btn btn-dark align-items-left" href="ListaUsuarios.aspx">👥 Administrar Usuarios</a>
             </li>
             <li class="nav-item mb-2">
-                <a class="nav-link text-white btn btn-dark" href="">🎓 Administrar Cursos</a>
+                <a class="nav-link text-white btn btn-dark" href="ListaCursosAdmin.aspx">🎓 Administrar Cursos</a>
             </li>
             <li class="nav-item mb-2">
                 <a class="nav-link text-white btn btn-dark" href="PublicacionLista.aspx">📄 Admin. Novedades</a>
