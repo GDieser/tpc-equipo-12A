@@ -37,8 +37,9 @@ namespace Servicio
                         Introduccion = accesoDatos.Lector["Introduccion"].ToString(),
                         Orden = (int)accesoDatos.Lector["Orden"]
                     };
+                    accesoDatos.cerrarConexion();
                     LeccionServicio leccionServicio = new LeccionServicio();
-                    modulo.Lecciones = leccionServicio.ListarLeccionesPorModuloId(modulo.IdModulo);
+                    modulo.Lecciones = leccionServicio.ListarLeccionesPorModuloId(id);
                     return modulo;
                 }
                 else

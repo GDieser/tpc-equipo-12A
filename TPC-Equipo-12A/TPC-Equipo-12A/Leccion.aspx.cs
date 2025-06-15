@@ -56,7 +56,6 @@ namespace TPC_Equipo_12A
                     foreach (Componente comp in leccion.Componentes)
                     {
                         litContenido.Text += RenderizarComponente(comp);
-                        litContenido.Text += "<div class=mt-4><hr></div>";
                     }
                 }
                 else

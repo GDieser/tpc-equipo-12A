@@ -73,10 +73,11 @@ namespace Servicio
                     l.IdLeccion,
                     l.Titulo, 
                     l.Introduccion,
+                    l.Orden,
                     c.Estado,
                     m.IdModulo as IdModulo,
-                    c.IdCurso as IdCurso,
-                FROM Lecccion l
+                    c.IdCurso as IdCurso
+                FROM Leccion l
                 INNER JOIN Modulo m ON m.IdModulo=l.IdModulo
                 INNER JOIN Curso c ON c.IdCurso = m.IdCurso
                 WHERE l.IdModulo = @id");
