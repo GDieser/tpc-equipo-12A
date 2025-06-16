@@ -101,6 +101,7 @@
     <Content Include="Leccion.aspx" />
     <Content Include="ListaCursos.aspx" />
     <Content Include="ListaCursosAdmin.aspx" />
+    <Content Include="ListaFaqs.aspx" />
     <Content Include="ListaUsuarios.aspx" />
     <Content Include="Modulo.aspx" />
     <Content Include="Notificacion.aspx" />
@@ -158,6 +159,13 @@
     </Compile>
     <Compile Include="ListaCursosAdmin.aspx.designer.cs">
       <DependentUpon>ListaCursosAdmin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ListaFaqs.aspx.cs">
+      <DependentUpon>ListaFaqs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ListaFaqs.aspx.designer.cs">
+      <DependentUpon>ListaFaqs.aspx</DependentUpon>
     </Compile>
     <Compile Include="ListaUsuarios.aspx.cs">
       <DependentUpon>ListaUsuarios.aspx</DependentUpon>

@@ -45,20 +45,9 @@ namespace TPC_Equipo_12A
                     txtTitulo.Text = novedad.Titulo;
                     txtResumen.Text = novedad.Resumen;
 
-                    //txtDescripcion.Text = novedad.Descripcion;
-                    //txtDes.InnerText = novedad.Descripcion;
+                    txtDescripcion.Text = novedad.Descripcion;
 
-                    string contenidoDes = novedad.Descripcion;
-                    contenidoDes = contenidoDes.Replace("'", "\\'").Replace(Environment.NewLine, "");
-
-                    //Aca me sirve para cuando cargo nuevamente para modificar :D
-                    ClientScript.RegisterStartupScript(this.GetType(), "ckedit", $@"
-                            window.onload = function () {{
-                            CKEDITOR.replace('txtDes');
-                            CKEDITOR.instances['txtDes'].setData('{contenidoDes}');
-                            }};", true);
-
-                    txtDes.InnerText = contenidoDes;
+                    txtDes.InnerText = novedad.Descripcion;
 
                     ddlCategoria.SelectedValue = novedad.Categoria.IdCategoria.ToString();
                     ddlEstado.SelectedValue = ((int)novedad.Estado).ToString();
@@ -96,7 +85,7 @@ namespace TPC_Equipo_12A
                 //nueva.Descripcion = txtDescripcion.Text;
 
                 string descIngreso = Request.Form[txtDes.UniqueID];
-                var sanit = new HtmlSanitizer();
+                HtmlSanitizer sanit = new HtmlSanitizer();
 
 
                 string descAux = sanit.Sanitize(descIngreso);

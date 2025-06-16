@@ -181,5 +181,6 @@ CREATE TABLE PreguntasFrecuentes(
 	IdFaq INT PRIMARY KEY IDENTITY(1,1),
 	Pregunta VARCHAR(255) NOT NULL,
 	Respuesta TEXT NOT NULL,
+	Activo BIT NOT NULL DEFAULT 1
 );
 

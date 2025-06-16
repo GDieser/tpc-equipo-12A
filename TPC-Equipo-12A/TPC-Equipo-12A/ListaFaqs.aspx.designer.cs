@@ -11,26 +11,17 @@ namespace TPC_Equipo_12A
 {
 
 
-    public partial class Default
+    public partial class ListaFaqs
     {
 
         /// <summary>
-        /// rptCursos control.
+        /// dgvFaqs control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptCursos;
-
-        /// <summary>
-        /// rpdFaqs control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rpdFaqs;
+        protected global::System.Web.UI.WebControls.GridView dgvFaqs;
 
         /// <summary>
         /// txtPregunta control.
@@ -69,6 +60,15 @@ namespace TPC_Equipo_12A
         protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvRespuesta;
 
         /// <summary>
+        /// ddlActivo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlActivo;
+
+        /// <summary>
         /// btnAgregarFaq control.
         /// </summary>
         /// <remarks>
@@ -76,14 +76,5 @@ namespace TPC_Equipo_12A
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAgregarFaq;
-
-        /// <summary>
-        /// lblError control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblError;
     }
 }

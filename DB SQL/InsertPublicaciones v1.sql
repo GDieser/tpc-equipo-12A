@@ -67,6 +67,12 @@ INSERT INTO PreguntasFrecuentes VALUES ('¿Cuáles son los métodos de pago?','Podé
 
 INSERT INTO PreguntasFrecuentes VALUES ('¿Cuanto duran los cursos?','En realidad, eso depende de cada curso, podes hacerlo a tu ritmo, una vez que lo compras podes acceder a ellos para siempre.');
 
+SELECT * FROM PreguntasFrecuentes
+
+
+--Si crearon la tabla y lo necesitan
+--ALTER TABLE PreguntasFrecuentes ADD Activo BIT NOT NULL DEFAULT 1;
+
 --Insert Usuarios
 
 INSERT INTO Cursos (Titulo, Resumen, Descripcion, ImagenUrl)

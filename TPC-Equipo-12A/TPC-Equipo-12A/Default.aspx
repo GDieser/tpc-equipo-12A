@@ -222,12 +222,64 @@
                                 </div>
                             </div>
                         </div>
+
                     </ItemTemplate>
                 </asp:Repeater>
+                <br />
+                <%if (usuario != null && usuario.Rol == Dominio.Rol.Administrador)
+                    {  %>
 
+                <!-- Modal sirve para vent flotantes... -->
+
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Agregar FAQ
+                </button>
+                <a href="ListaFaqs.aspx" class="btn btn-warning">Administrar</a>
+
+
+                <div class="modal fade bg-dark p-2 text-dark bg-opacity-50" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content bg-dark p-2 text-white">
+                            <div class="modal-header">
+
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar nueva FAQ</h1>
+
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="mb-3">
+                                    <label for="txtPregunta" class="form-label fw-bold">Pregunta:</label>
+                                    <asp:TextBox ID="txtPregunta" runat="server" TextMode="MultiLine" Rows="3" CssClass="form-control" />
+                                    <asp:RequiredFieldValidator ID="rfvPregunta" runat="server"
+                                        ControlToValidate="txtPregunta"
+                                        ErrorMessage="La pregunta es obligatoria."
+                                        Display="Dynamic" ForeColor="Red" CssClass="small" />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="txtRespuesta" class="form-label fw-bold">Respuesta:</label>
+                                    <asp:TextBox ID="txtRespuesta" runat="server" TextMode="MultiLine" Rows="3" CssClass="form-control" />
+                                    <asp:RequiredFieldValidator ID="rfvRespuesta" runat="server"
+                                        ControlToValidate="txtPregunta"
+                                        ErrorMessage="La respuesta es obligatoria."
+                                        Display="Dynamic" ForeColor="Red" CssClass="small" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <asp:Button Text="Aceptar" CssClass="btn btn-success mt-4" ID="btnAgregarFaq" OnClick="btnAgregarFaq_Click" runat="server" />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <%} %>
             </div>
         </section>
-        <!-- contacto -->
+
+        <asp:Label Text="" ID="lblError" runat="server" />
+        <!-- contacto, podriamos poner para que mande mail -->
         <section class="division">
 
             <br />
