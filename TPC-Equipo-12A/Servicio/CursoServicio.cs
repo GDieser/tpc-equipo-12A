@@ -17,25 +17,17 @@ namespace Servicio
 
             try
             {
-                string consulta = @"
-            SELECT  C.IdCurso,
-        C.Titulo,
-        C.Resumen,
-        C.Descripcion,
-        C.Precio,
-        C.FechaPublicacion,
-        C.Estado,
-        C.IdCategoria,
-        Cat.Nombre          AS NombreCategoria,
-        I.IdImagen,
-        I.UrlImagen         AS Url,
-        I.Nombre            AS NombreImagen,
-        I.IdTipoImagen      AS Tipo
-FROM    Curso C
-INNER JOIN Categoria  Cat ON Cat.IdCategoria = C.IdCategoria
-LEFT  JOIN ImagenCurso IC  ON IC.IdCurso     = C.IdCurso
-LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen
-";
+                string consulta = @"SELECT  C.IdCurso, C.Titulo, C.Resumen, C.Descripcion, C.Precio, C.FechaPublicacion, C.Estado,
+                                 C.IdCategoria,
+                                 Cat.Nombre          AS NombreCategoria,
+                                 I.IdImagen,
+                                 I.UrlImagen         AS Url,
+                                 I.Nombre            AS NombreImagen,
+                                 I.IdTipoImagen      AS Tipo
+                                 FROM    Curso C
+                                 INNER JOIN Categoria  Cat ON Cat.IdCategoria = C.IdCategoria
+                                 LEFT  JOIN ImagenCurso IC  ON IC.IdCurso     = C.IdCurso
+                                 LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen";
 
                 if (rolUsuario != 0)
                     consulta += " WHERE C.Estado = 1";
@@ -93,24 +85,36 @@ LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen
         }
 
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
         public Curso GetCursoPorId(int id)
         {
             AccesoDatos datos = new AccesoDatos();
-            Curso curso = new Curso();
 
             try
             {
                 datos.setConsulta(@"
-            SELECT 
-                C.IdCurso,
-                C.Titulo,
-                C.Descripcion,
-                I.IdImagen,
-                I.UrlImagen AS Url,
-                I.Nombre AS NombreImagen,
-                I.IdTipoImagen AS Tipo
+            SELECT TOP 1
+                   C.IdCurso,
+                   C.Titulo,
+                   C.Resumen,
+                   C.Descripcion,
+                   C.Precio,
+                   C.Duracion,
+                   C.Certificado,
+                   C.FechaCreacion,
+                   C.FechaPublicacion,
+                   C.Estado,
+                   Cat.IdCategoria,
+                   Cat.Nombre AS NombreCategoria,
+                   I.IdImagen,
+                   I.UrlImagen,
+                   I.Nombre,
+                   I.IdTipoImagen
             FROM Curso C
+            INNER JOIN Categoria Cat ON C.IdCategoria = Cat.IdCategoria
             LEFT JOIN ImagenCurso IC ON C.IdCurso = IC.IdCurso
             LEFT JOIN Imagen I ON IC.IdImagen = I.IdImagen
             WHERE C.IdCurso = @id");
@@ -118,46 +122,48 @@ LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen
                 datos.setParametro("@id", id);
                 datos.ejecutarLectura();
 
-                if (datos.Lector.Read())
-                {
-                    curso.IdCurso = (int)datos.Lector["IdCurso"];
-                    curso.Titulo = (string)datos.Lector["Titulo"];
-                    curso.Descripcion = (string)datos.Lector["Descripcion"];
+                if (!datos.Lector.Read())
+                    return null;
 
-                    if (datos.Lector["IdImagen"] != DBNull.Value)
+                return new Curso
+                {
+                    IdCurso = (int)datos.Lector["IdCurso"],
+                    Titulo = datos.Lector["Titulo"].ToString(),
+                    Resumen = datos.Lector["Resumen"].ToString(),
+                    Descripcion = datos.Lector["Descripcion"].ToString(),
+                    Precio = (decimal)datos.Lector["Precio"],
+                    Duracion = (int)datos.Lector["Duracion"],
+                    Certificado = (bool)datos.Lector["Certificado"],
+                    FechaCreacion = (DateTime)datos.Lector["FechaCreacion"],
+                    FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"],
+                    Estado = (EstadoPublicacion)(int)datos.Lector["Estado"],
+                    Categoria = new Categoria
                     {
-                        curso.ImagenPortada = new Imagen
-                        {
-                            IdImagen = (int)datos.Lector["IdImagen"],
-                            Url = datos.Lector["Url"].ToString(),
-                            Nombre = datos.Lector["NombreImagen"].ToString(),
-                            Tipo = datos.Lector["Tipo"] == DBNull.Value ? 0 : (int)datos.Lector["Tipo"]
-                        };
-                    }
-                    else
-                    {
-                        curso.ImagenPortada = new Imagen
+                        IdCategoria = (int)datos.Lector["IdCategoria"],
+                        Nombre = datos.Lector["NombreCategoria"].ToString()
+                    },
+                    ImagenPortada = datos.Lector["IdImagen"] == DBNull.Value
+                        ? new Imagen
                         {
                             IdImagen = 0,
                             Url = "https://www.aprender21.com/images/colaboradores/sql.jpeg",
                             Nombre = "default",
                             Tipo = 0
-                        };
-                    }
-                }
-
-                return curso;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
+                        }
+                        : new Imagen
+                        {
+                            IdImagen = (int)datos.Lector["IdImagen"],
+                            Url = datos.Lector["UrlImagen"].ToString(),
+                            Nombre = datos.Lector["Nombre"].ToString(),
+                            Tipo = (int)datos.Lector["IdTipoImagen"]
+                        }
+                };
             }
             finally
             {
                 datos.cerrarConexion();
             }
         }
-
 
 
         public void GuardarCurso(Curso nuevo)
@@ -169,8 +175,7 @@ LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen
                 datos.setConsulta(@"
             INSERT INTO Imagen (UrlImagen, Nombre, IdTipoImagen)
             VALUES (@url, @nombre, @tipo);
-            SELECT SCOPE_IDENTITY();
-        ");
+            SELECT SCOPE_IDENTITY(); ");
 
                 datos.setParametro("@url", nuevo.ImagenPortada?.Url ?? "/imagenes/default.jpg");
                 datos.setParametro("@nombre", nuevo.ImagenPortada?.Nombre ?? "Imagen curso");
@@ -191,8 +196,7 @@ LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen
             VALUES (
                 @idcat, @estado, @titulo, @descripcion, @resumen,
                 @precio, @fechaPub, @fechaCrea, @duracion, @certificado);
-            SELECT SCOPE_IDENTITY();
-        ");
+            SELECT SCOPE_IDENTITY(); ");
 
                 datos.setParametro("@idcat", nuevo.Categoria.IdCategoria);
                 datos.setParametro("@estado", nuevo.Estado);
@@ -227,69 +231,106 @@ LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen
             }
         }
 
+<<<<<<< Updated upstream
         /*public List<Curso> ObtenerCursosPorCategoria(int idCategoria)
+=======
+
+        public void ModificarCurso(Curso curso)
+>>>>>>> Stashed changes
         {
-            AccesoDatos accesoDatos = new AccesoDatos();
+            AccesoDatos datos = new AccesoDatos();
+
             try
             {
-                accesoDatos.setConsulta(@"
-                SELECT 
-                    c.IdCurso, 
-                    c.Titulo, 
-                    c.Descripcion, 
-                    c.Precio, 
-                    c.FechaCreacion, 
-                    c.FechaPublicacion, 
-                    c.EstadoPublicacion, 
-                    c.Duracion, 
-                    c.Certificado,
-                    i.UrlImagen AS ImagenPortadaUrl
-                FROM Curso c
-                INNER JOIN Imagen i ON c.ImagenPortada = i.IdImagen
-                WHERE c.Categoria = @idCategoria
-                ");
-                accesoDatos.limpiarParametros();
-                accesoDatos.setParametro("@idCategoria", idCategoria);
-                accesoDatos.ejecutarLectura();
-                List<Curso> cursos = new List<Curso>();
-                while (accesoDatos.Lector.Read())
+                datos.setConsulta(@"UPDATE Curso
+                            SET Titulo = @titulo,
+                                Resumen = @resumen,
+                                Descripcion = @descripcion,
+                                Precio = @precio,
+                                Duracion = @duracion,
+                                Certificado = @certificado,
+                                FechaPublicacion = @fechaPublicacion,
+                                Estado = @estado,
+                                IdCategoria = @idCategoria
+                            WHERE IdCurso = @id");
+
+                datos.setParametro("@titulo", curso.Titulo);
+                datos.setParametro("@resumen", curso.Resumen);
+                datos.setParametro("@descripcion", curso.Descripcion);
+                datos.setParametro("@precio", curso.Precio);
+                datos.setParametro("@duracion", curso.Duracion);
+                datos.setParametro("@certificado", curso.Certificado);
+                datos.setParametro("@fechaPublicacion", curso.FechaPublicacion);
+                datos.setParametro("@estado", (int)curso.Estado);
+                datos.setParametro("@idCategoria", curso.Categoria.IdCategoria);
+                datos.setParametro("@id", curso.IdCurso);
+
+                datos.ejecutarAccion();
+                datos.cerrarConexion();
+
+                datos = new AccesoDatos();
+
+                if (curso.ImagenPortada.IdImagen > 0)
                 {
-                    Curso curso = new Curso
-                    {
-                        IdCurso = (int)accesoDatos.Lector["IdCurso"],
-                        Titulo = accesoDatos.Lector["Titulo"].ToString(),
-                        Descripcion = accesoDatos.Lector["Descripcion"].ToString(),
-                        Precio = (decimal)accesoDatos.Lector["Precio"],
-                        FechaCreacion = (DateTime)accesoDatos.Lector["FechaCreacion"],
-                        FechaPublicacion = (DateTime)accesoDatos.Lector["FechaPublicacion"],
-                        Estado = (EstadoPublicacion)Enum.Parse(typeof(EstadoPublicacion), accesoDatos.Lector["EstadoPublicacion"].ToString()),
-                        Duracion = (int)accesoDatos.Lector["Duracion"],
-                        Certificado = (bool)accesoDatos.Lector["Certificado"],
-                        ImagenPortada = new Imagen { Url = accesoDatos.Lector["ImagenPortadaUrl"].ToString() }
-                    };
-                    cursos.Add(curso);
+                    datos.setConsulta(@"UPDATE Imagen
+                                SET UrlImagen = @url,
+                                    Nombre = @nombre,
+                                    IdTipoImagen = @tipo
+                                WHERE IdImagen = @idImagen");
+
+                    datos.setParametro("@url", curso.ImagenPortada.Url);
+                    datos.setParametro("@nombre", curso.ImagenPortada.Nombre);
+                    datos.setParametro("@tipo", curso.ImagenPortada.Tipo);
+                    datos.setParametro("@idImagen", curso.ImagenPortada.IdImagen);
+
+                    datos.ejecutarAccion();
                 }
-                return cursos;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("No se pudieron obtener los cursos por categoría", ex);
+                else
+                {
+                    datos.setConsulta(@"INSERT INTO Imagen (UrlImagen, Nombre, IdTipoImagen)
+                                VALUES (@url, @nombre, @tipo);
+                                SELECT SCOPE_IDENTITY();");
+
+                    datos.setParametro("@url", curso.ImagenPortada.Url);
+                    datos.setParametro("@nombre", curso.ImagenPortada.Nombre);
+                    datos.setParametro("@tipo", curso.ImagenPortada.Tipo);
+
+                    datos.ejecutarLectura();
+                    if (datos.Lector.Read())
+                    {
+                        int nuevoId = Convert.ToInt32(datos.Lector[0]);
+                        datos.cerrarConexion();
+                        datos = new AccesoDatos();
+
+                        datos.setConsulta(@"INSERT INTO ImagenCurso (IdCurso, IdImagen)
+                                    VALUES (@idCurso, @idImagen)");
+
+                        datos.setParametro("@idCurso", curso.IdCurso);
+                        datos.setParametro("@idImagen", nuevoId);
+                        datos.ejecutarAccion();
+                    }
+                }
             }
             finally
             {
-                accesoDatos.cerrarConexion();
+                datos.cerrarConexion();
             }
-        }*/
+        }
 
 
+<<<<<<< Updated upstream
 
 
         /* public Curso ObtenerCursoPorId(int id)
+=======
+        public bool EsUsuarioHabilitado(int idUsuario, int idCurso)
+>>>>>>> Stashed changes
          {
              AccesoDatos accesoDatos = new AccesoDatos();
              try
              {
                  accesoDatos.setConsulta(@"
+<<<<<<< Updated upstream
                  SELECT 
                      c.IdCurso, 
                      c.Titulo, 
@@ -346,6 +387,8 @@ LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen
             try
             {
                 accesoDatos.setConsulta(@"
+=======
+>>>>>>> Stashed changes
                  SELECT 1
                  FROM Compra c
                  INNER JOIN DetalleCompra dc ON c.IdCompra = dc.IdCompra
