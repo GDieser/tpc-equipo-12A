@@ -38,10 +38,6 @@
 
                 <div class="mb-3">
 
-                    <asp:TextBox ID="txtDescripcion" CssClass="form-control" runat="server"
-                    TextMode="MultiLine" Rows="6"
-                    Style="width: 100%; resize: vertical;" />
-
                     <label for="txtDes" class="form-label fw-bold">Descripción:</label>
 
                     <textarea id="txtDes" runat="server" class="form-control" rows="6"></textarea>

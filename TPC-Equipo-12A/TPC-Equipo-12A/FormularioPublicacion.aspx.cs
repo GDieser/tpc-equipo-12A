@@ -45,8 +45,6 @@ namespace TPC_Equipo_12A
                     txtTitulo.Text = novedad.Titulo;
                     txtResumen.Text = novedad.Resumen;
 
-                    txtDescripcion.Text = novedad.Descripcion;
-
                     txtDes.InnerText = novedad.Descripcion;
 
                     ddlCategoria.SelectedValue = novedad.Categoria.IdCategoria.ToString();

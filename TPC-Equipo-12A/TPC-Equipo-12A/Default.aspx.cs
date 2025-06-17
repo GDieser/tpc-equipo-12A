@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Services.Description;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 using Dominio;
 using Servicio;
 
@@ -15,6 +16,7 @@ namespace TPC_Equipo_12A
         protected void Page_Load(object sender, EventArgs e)
         {
             usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+
             if (!IsPostBack)
             {
                 try

@@ -138,3 +138,13 @@ INSERT INTO Curso VALUES (3, 1, 'Curso de APIs', 'Acá vas a lalalalalal', 'Todo 
 INSERT INTO Imagen VALUES ('https://admin.finanty.com/assets/noticias/API-WEB-01.jpg', 'Miniatura', 1);
 
 --INSERT INTO ImagenCurso VALUES (20, 4);
+
+SELECT * FROM CursoFavorito
+
+UPDATE CursoFavorito SET Activo = 0 WHERE IdCurso = 2 AND IdUsuario = 3
+
+---Importante para no eliminar fisicamente!!!!
+ALTER TABLE CursoFavorito
+ADD Activo BIT NOT NULL DEFAULT 1;
+
+SELECT IdUsuario, IdCurso, Agregado FROM CursoFavorito WHERE IdUsuario = 3 AND IdCurso = 2

@@ -9,6 +9,7 @@ namespace Servicio
 {
     public class CursoServicio
     {
+        AccesoDatos datos = new AccesoDatos();
         public List<Curso> Listar(int rolUsuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -226,8 +227,6 @@ LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen
             }
         }
 
-
-
         /*public List<Curso> ObtenerCursosPorCategoria(int idCategoria)
         {
             AccesoDatos accesoDatos = new AccesoDatos();
@@ -374,5 +373,92 @@ LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen
                  accesoDatos.cerrarConexion();
              }
          }
+
+        public void AgregarCursoFavorito(int idUsuario, int idCurso)
+        {
+
+            try
+            {
+                DateTime fecha = DateTime.Now;
+
+                datos.setConsulta("INSERT INTO CursoFavorito (IdUsuario, IdCurso, Agregado) VALUES (@idUsuario, @idCurso, @fecha)");
+                datos.setParametro("@idUsuario", idUsuario);
+                datos.setParametro("@idCurso", idCurso);
+                datos.setParametro("@fecha", fecha);
+
+                datos.ejecutarLectura();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+        }
+
+        public CursoFavorito getCursoFavorito(int idUsuario, int idCurso)
+        {
+            CursoFavorito curso = new CursoFavorito();
+            try
+            {
+
+                datos.setConsulta("SELECT IdUsuario, IdCurso, Agregado, Activo FROM CursoFavorito WHERE IdUsuario = @idUsuario AND IdCurso = @idCurso");
+                datos.setParametro("@idUsuario", idUsuario);
+                datos.setParametro("@idCurso", idCurso);
+
+                datos.ejecutarLectura();
+
+                if(datos.Lector.Read())
+                {
+                    curso.IdCurso = (int)datos.Lector["IdCurso"];
+                    curso.IdUsuario = (int)datos.Lector["IdUsuario"];
+                    curso.Agregado = (DateTime)datos.Lector["Agregado"];
+                    curso.Activo = (bool)datos.Lector["Activo"];
+                }
+
+                return curso;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+        }
+
+        public void CambiarEstadoCursoFavorito(int IdUsuario, int idCurso, int estado)
+        {
+            try
+            {
+                datos.setConsulta("UPDATE CursoFavorito SET Activo = @estado WHERE IdCurso = @idCurso AND IdUsuario = @IdUsuario");
+
+                datos.setParametro("@estado", estado);
+                datos.setParametro("@idCurso", idCurso);
+                datos.setParametro("@IdUsuario", IdUsuario);
+
+                datos.ejecutarAccion();
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

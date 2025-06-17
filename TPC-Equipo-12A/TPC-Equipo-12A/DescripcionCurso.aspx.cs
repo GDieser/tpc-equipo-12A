@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Dominio;
 using Servicio;
 
 namespace TPC_Equipo_12A
@@ -31,8 +32,85 @@ namespace TPC_Equipo_12A
                 {
                     Response.Redirect("ListaCurso.aspx");
                 }
+
+
+                //Necesito para una funcionalidad en aula
+                UsuarioAutenticado usuario = Session["UsuarioAutenticado"] as UsuarioAutenticado;
+
+                if (usuario != null)
+                {
+                    phBotonFavorito.Visible = true;
+
+                    bool esFavorito = ValidarCursoFavorito();
+                    btnFavorito.Text = esFavorito ? "★ En Favoritos (Eliminar)" : "➕ Agregar a Favoritos";
+                    btnFavorito.CssClass = esFavorito ? "btn btn-danger" : "btn btn-warning";
+                }
+
+
+
             }
 
+        }
+
+        //Necesito para una funcionalidad en aula
+        protected bool ValidarCursoFavorito()
+        {
+            int idCurso = Convert.ToInt32(Request.QueryString["id"]);
+            UsuarioAutenticado usuario = null;
+
+            usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+
+            try
+            {
+                CursoServicio servicio = new CursoServicio();
+                CursoFavorito curso = null;
+
+                curso = servicio.getCursoFavorito(usuario.IdUsuario, idCurso);
+
+                Session["CursoFavorito"] = curso;
+
+                if (curso.IdCurso == idCurso && curso.Activo)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        //Necesito para una funcionalidad en aula
+        protected void btnFavorito_Click(object sender, EventArgs e)
+        {
+            UsuarioAutenticado usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+            int idCurso = Convert.ToInt32(Request.QueryString["id"]);
+
+            CursoServicio servicio = new CursoServicio();
+
+            if (ValidarCursoFavorito())
+            {
+                servicio.CambiarEstadoCursoFavorito(usuario.IdUsuario, idCurso, 0);
+            }
+            else
+            {
+                CursoFavorito curso = (CursoFavorito)Session["CursoFavorito"];
+
+                if (!curso.Activo)
+                {
+                    servicio.CambiarEstadoCursoFavorito(usuario.IdUsuario, idCurso, 1);
+                }
+                else
+                {
+                    servicio.AgregarCursoFavorito(usuario.IdUsuario, idCurso);
+                }
+            }
+
+            Response.Redirect(Request.RawUrl);
         }
     }
 }

@@ -185,12 +185,14 @@
                                             <p class="card-text"><%# Eval("Resumen") %></p>
                                         </div>
                                         <div class="card-footer border-primary bg-dark text-center">
-                                            <a href="DescripcionCurso.aspx" class="btn btn-primary mx-auto">Ver más</a>
+                                            <a href='DescripcionCurso.aspx?id=<%# Eval("IdCurso") %>' class="btn btn-primary mx-auto">Ver más</a>
+
                                         </div>
                                     </div>
                                 </div>
                             </ItemTemplate>
                         </asp:Repeater>
+
                     </div>
 
                 </div>
