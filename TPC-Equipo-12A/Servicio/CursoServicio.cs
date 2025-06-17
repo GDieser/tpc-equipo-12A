@@ -50,9 +50,9 @@ LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen
                         IdCurso = (int)datos.Lector["IdCurso"],
                         Titulo = (string)datos.Lector["Titulo"],
                         Resumen = (string)datos.Lector["Resumen"],
-                        Descripcion = (string)datos.Lector["Descripcion"], 
-                        Precio = (decimal)datos.Lector["Precio"],      
-                        FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"], 
+                        Descripcion = (string)datos.Lector["Descripcion"],
+                        Precio = (decimal)datos.Lector["Precio"],
+                        FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"],
                         Estado = (EstadoPublicacion)datos.Lector["Estado"],
                         Categoria = new Categoria
                         {
@@ -93,7 +93,7 @@ LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen
         }
 
 
-      
+
         public Curso GetCursoPorId(int id)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -183,7 +183,7 @@ LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen
 
                 datos.cerrarConexion();
 
-                 
+
                 datos.setConsulta(@"
             INSERT INTO Curso (
                 IdCategoria, Estado, Titulo, Descripcion, Resumen,
@@ -340,39 +340,39 @@ LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen
              }
          }*/
 
-         public bool EsUsuarioHabilitado(int idUsuario, int idCurso)
-         {
-             AccesoDatos accesoDatos = new AccesoDatos();
-             try
-             {
-                 accesoDatos.setConsulta(@"
+        public bool EsUsuarioHabilitado(int idUsuario, int idCurso)
+        {
+            AccesoDatos accesoDatos = new AccesoDatos();
+            try
+            {
+                accesoDatos.setConsulta(@"
                  SELECT 1
                  FROM Compra c
                  INNER JOIN DetalleCompra dc ON c.IdCompra = dc.IdCompra
                  WHERE c.IdUsuario = @IdUsuario AND dc.IdCurso = @IdCurso;
                  ");
-                 accesoDatos.limpiarParametros();
-                 accesoDatos.setParametro("@IdUsuario", idUsuario);
-                 accesoDatos.setParametro("@IdCurso", idCurso);
-                 accesoDatos.ejecutarLectura();
-                 if (accesoDatos.Lector.Read())
-                 {
-                     return true;
-                 }
-                 else
-                 {
-                     return false;
-                 }
-             }
-             catch (Exception ex)
-             {
-                 throw new Exception("Error al verificar si el usuario esta habilitado", ex);
-             }
-             finally
-             {
-                 accesoDatos.cerrarConexion();
-             }
-         }
+                accesoDatos.limpiarParametros();
+                accesoDatos.setParametro("@IdUsuario", idUsuario);
+                accesoDatos.setParametro("@IdCurso", idCurso);
+                accesoDatos.ejecutarLectura();
+                if (accesoDatos.Lector.Read())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al verificar si el usuario esta habilitado", ex);
+            }
+            finally
+            {
+                accesoDatos.cerrarConexion();
+            }
+        }
 
         public void AgregarCursoFavorito(int idUsuario, int idCurso)
         {
@@ -413,12 +413,16 @@ LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen
 
                 datos.ejecutarLectura();
 
-                if(datos.Lector.Read())
+                if (datos.Lector.Read())
                 {
                     curso.IdCurso = (int)datos.Lector["IdCurso"];
                     curso.IdUsuario = (int)datos.Lector["IdUsuario"];
                     curso.Agregado = (DateTime)datos.Lector["Agregado"];
                     curso.Activo = (bool)datos.Lector["Activo"];
+                }
+                else
+                {
+                    return null;
                 }
 
                 return curso;
@@ -460,5 +464,63 @@ LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen
                 datos.cerrarConexion();
             }
         }
+
+        public List<Curso> ListarFavoritos()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            List<Curso> cursos = new List<Curso>();
+
+            try
+            {
+                string consulta = @"
+                    SELECT 
+                        C.IdCurso,
+                        C.Titulo,
+                        C.Resumen,
+                        I.IdImagen,
+                        I.UrlImagen AS Url,
+                        I.Nombre AS NombreImagen,
+                        I.IdTipoImagen AS Tipo
+                    FROM Curso C
+                    LEFT JOIN ImagenCurso IC ON C.IdCurso = IC.IdCurso
+                    LEFT JOIN Imagen I ON IC.IdImagen = I.IdImagen
+                    LEFT JOIN CursoFavorito CF ON C.IdCurso = CF.IdCurso
+                    LEFT JOIN Usuario US ON CF.IdUsuario = US.IdUsuario
+                    WHERE US.IdUsuario = 3 AND CF.Activo = 1
+                    ";
+
+                datos.setConsulta(consulta);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Curso curso = new Curso();
+
+                    curso.IdCurso = (int)datos.Lector["IdCurso"];
+                    curso.Titulo = (string)datos.Lector["Titulo"];
+                    curso.Resumen = (string)datos.Lector["Resumen"];
+
+                    curso.ImagenPortada = new Imagen();
+
+                    curso.ImagenPortada.Url = (string)datos.Lector["Url"];
+
+                    cursos.Add(curso);
+                }
+
+                return cursos;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+        }
+
+
     }
 }

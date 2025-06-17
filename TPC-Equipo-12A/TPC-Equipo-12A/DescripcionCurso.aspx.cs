@@ -69,7 +69,7 @@ namespace TPC_Equipo_12A
 
                 Session["CursoFavorito"] = curso;
 
-                if (curso.IdCurso == idCurso && curso.Activo)
+                if (curso != null && curso.IdCurso == idCurso && curso.Activo)
                 {
                     return true;
                 }
@@ -100,7 +100,7 @@ namespace TPC_Equipo_12A
             {
                 CursoFavorito curso = (CursoFavorito)Session["CursoFavorito"];
 
-                if (!curso.Activo)
+                if (curso != null)
                 {
                     servicio.CambiarEstadoCursoFavorito(usuario.IdUsuario, idCurso, 1);
                 }

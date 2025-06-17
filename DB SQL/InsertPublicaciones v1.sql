@@ -141,10 +141,25 @@ INSERT INTO Imagen VALUES ('https://admin.finanty.com/assets/noticias/API-WEB-01
 
 SELECT * FROM CursoFavorito
 
-UPDATE CursoFavorito SET Activo = 0 WHERE IdCurso = 2 AND IdUsuario = 3
+UPDATE CursoFavorito SET Activo = 1 WHERE IdCurso = 2 AND IdUsuario = 3
 
 ---Importante para no eliminar fisicamente!!!!
 ALTER TABLE CursoFavorito
 ADD Activo BIT NOT NULL DEFAULT 1;
 
 SELECT IdUsuario, IdCurso, Agregado FROM CursoFavorito WHERE IdUsuario = 3 AND IdCurso = 2
+
+SELECT 
+    C.IdCurso,
+    C.Titulo,
+    C.Resumen,
+    I.IdImagen,
+    I.UrlImagen AS Url,
+    I.Nombre AS NombreImagen,
+    I.IdTipoImagen AS Tipo
+FROM Curso C
+LEFT JOIN ImagenCurso IC ON C.IdCurso = IC.IdCurso
+LEFT JOIN Imagen I ON IC.IdImagen = I.IdImagen
+LEFT JOIN CursoFavorito CF ON C.IdCurso = CF.IdCurso
+LEFT JOIN Usuario US ON CF.IdUsuario = US.IdUsuario
+WHERE US.IdUsuario = 3 AND CF.Activo = 1

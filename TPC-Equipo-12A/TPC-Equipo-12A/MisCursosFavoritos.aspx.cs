@@ -11,8 +11,18 @@ namespace TPC_Equipo_12A
 {
     public partial class MisCursosFavoritos : System.Web.UI.Page
     {
+        UsuarioAutenticado usuario = null;
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+
+            if(!IsPostBack)
+            {
+                CursoServicio servicio = new CursoServicio();
+                rptCursos.DataSource = servicio.ListarFavoritos();
+                rptCursos.DataBind();
+            }
 
         }
     }
