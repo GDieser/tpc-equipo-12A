@@ -84,11 +84,6 @@ namespace Servicio
             }
         }
 
-
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
         public Curso GetCursoPorId(int id)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -231,12 +226,9 @@ namespace Servicio
             }
         }
 
-<<<<<<< Updated upstream
-        /*public List<Curso> ObtenerCursosPorCategoria(int idCategoria)
-=======
+        /*public List<Curso> ObtenerCursosPorCategoria(int idCategoria)*/
 
         public void ModificarCurso(Curso curso)
->>>>>>> Stashed changes
         {
             AccesoDatos datos = new AccesoDatos();
 
@@ -318,19 +310,14 @@ namespace Servicio
         }
 
 
-<<<<<<< Updated upstream
 
+       /*  public Curso ObtenerCursoPorId(int id)
 
-        /* public Curso ObtenerCursoPorId(int id)
-=======
-        public bool EsUsuarioHabilitado(int idUsuario, int idCurso)
->>>>>>> Stashed changes
          {
              AccesoDatos accesoDatos = new AccesoDatos();
              try
              {
                  accesoDatos.setConsulta(@"
-<<<<<<< Updated upstream
                  SELECT 
                      c.IdCurso, 
                      c.Titulo, 
@@ -387,8 +374,6 @@ namespace Servicio
             try
             {
                 accesoDatos.setConsulta(@"
-=======
->>>>>>> Stashed changes
                  SELECT 1
                  FROM Compra c
                  INNER JOIN DetalleCompra dc ON c.IdCompra = dc.IdCompra
