@@ -61,6 +61,21 @@ namespace Servicio
             }
         }
 
+        public int ejecutarNonQuery()
+        {
+            comando.Connection = conexion;
+            try
+            {
+                abrirConexion();
+                return comando.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
         public void cerrarConexion()
         {
             if (lector != null)

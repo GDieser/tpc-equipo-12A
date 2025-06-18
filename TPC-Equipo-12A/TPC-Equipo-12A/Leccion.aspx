@@ -19,7 +19,6 @@
                     </li>
                 </ol>
             </nav>
-
             <hr />
 
             <h2 class="text-success">
@@ -27,10 +26,40 @@
             <p>
                 <asp:Literal ID="litDescripcion" runat="server" />
             </p>
+            <hr class="mt-2 mb-2" />
 
-            <asp:Literal ID="litContenido" runat="server" />
+            <asp:Repeater ID="rptComponentes" runat="server" OnItemDataBound="rptComponentes_ItemDataBound">
+                <ItemTemplate>
+                    <div class="mb-4">
 
+                        <!-- Texto -->
+                        <asp:Panel ID="pnlTexto" runat="server" Visible="false" CssClass="text-justify my-2">
+                            <asp:Literal ID="litTexto" runat="server" />
+                        </asp:Panel>
+
+                        <!-- Imagen -->
+                        <asp:Panel ID="pnlImagen" runat="server" Visible="false" CssClass="my-4">
+                            <div class="row justify-content-center">
+                                <div class="col-sm-6 text-center">
+                                    <asp:Image ID="imgContenido" runat="server" CssClass="img-fluid rounded" />
+                                </div>
+                            </div>
+                        </asp:Panel>
+
+                        <!-- Video -->
+                        <asp:PlaceHolder ID="phVideo" runat="server" Visible="false" />
+
+                        <!-- Archivo -->
+                        <asp:Panel ID="pnlArchivo" runat="server" Visible="false" CssClass="my-2">
+                            <i class="bi bi-file-earmark-text-fill text-primary"></i>
+                            <asp:HyperLink ID="lnkArchivo" runat="server" Target="_blank" Text="" />
+                        </asp:Panel>
+
+                    </div>
+                </ItemTemplate>
+            </asp:Repeater>
+            <hr class="mt-2 mb-2" />
+            <asp:Button Text="Marcar como completada" CssClass="btn btn-primary" runat="server" ID="btnMarcarCompletada" OnClick="btnMarcarCompletada_Click" />
         </div>
     </div>
-
 </asp:Content>

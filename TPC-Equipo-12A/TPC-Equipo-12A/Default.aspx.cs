@@ -13,7 +13,7 @@ namespace TPC_Equipo_12A
             if (!IsPostBack)
             {
                 CursoServicio ser = new CursoServicio();
-                List<Curso> cursos = new List<Curso>();
+                List<Dominio.Curso> cursos = new List<Dominio.Curso>();
                 cursos = ser.Listar(1);
 
                 var ultimos3 = cursos

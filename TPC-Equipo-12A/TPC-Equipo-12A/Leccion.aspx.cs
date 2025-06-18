@@ -33,7 +33,7 @@ namespace TPC_Equipo_12A
                 bool isHabilitado = leccionServicio.EsUsuarioHabilitado(usuarioAutenticado.IdUsuario, idLeccion);
                 if (isAdmin || isHabilitado)
                 {
-                    Dominio.Leccion leccion = leccionServicio.ObtenerPorId(idLeccion);
+                    Dominio.Leccion leccion = leccionServicio.ObtenerPorId(idLeccion, usuarioAutenticado.IdUsuario);
                     if (leccion == null)
                     {
                         string titulo = "Curso inexistente";
@@ -53,9 +53,15 @@ namespace TPC_Equipo_12A
                     IdModulo = leccion.IdModulo;
                     litTitulo.Text = leccion.Titulo;
                     litDescripcion.Text = leccion.Introduccion;
-                    foreach (Componente comp in leccion.Componentes)
+
+                    rptComponentes.DataSource = leccion.Componentes;
+                    rptComponentes.DataBind();
+
+                    if (leccion.Completado)
                     {
-                        litContenido.Text += RenderizarComponente(comp);
+                        btnMarcarCompletada.Text = "¡Lección completada!";
+                        btnMarcarCompletada.Enabled = false;
+                        btnMarcarCompletada.CssClass = "btn btn-success";
                     }
                 }
                 else
@@ -70,45 +76,56 @@ namespace TPC_Equipo_12A
         }
 
 
-        protected string RenderizarComponente(Componente comp)
+        protected void rptComponentes_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (comp == null) return "";
-
-            string html = "";
-
-            switch ((int)comp.TipoContenido)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                case 0: 
-                    html = $"<div class='my-4 text-justify'>{comp.Contenido}</div>";
-                    break;
+                var comp = (Componente)e.Item.DataItem;
 
-                case 1: 
-                    html = $"<div class='text-center my-4'><img src='{comp.Contenido}' class='img-fluid rounded' alt='Imagen lección' /></div>";
-                    break;
+                var pnlTexto = (Panel)e.Item.FindControl("pnlTexto");
+                var pnlImagen = (Panel)e.Item.FindControl("pnlImagen");
+                var pnlVideo = (Panel)e.Item.FindControl("pnlVideo");
+                var pnlArchivo = (Panel)e.Item.FindControl("pnlArchivo");
 
-                case 2:
-                    html = $@"
-                    <div class='text-center my-4'>
-                        <div class='ratio ratio-16x9'>
-                            <iframe src='{TransformarAEmbed(comp.Contenido)}' 
-                                    frameborder='0' 
-                                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' 
-                                    allowfullscreen>
-                            </iframe>
-                        </div>
-                    </div>"; 
-                    break;
-                case 3: 
-                    html = $@"
-            <div class='my-3'>
-                <i class='bi bi-file-earmark-text-fill text-primary'></i>
-                <a href='{comp.Contenido}' target='_blank'>Ver archivo</a>
-            </div>";
-                    break;
+                switch ((int)comp.TipoContenido)
+                {
+                    case 0: // Texto
+                        pnlTexto.Visible = true;
+                        ((Literal)e.Item.FindControl("litTexto")).Text = comp.Contenido;
+                        break;
+
+                    case 1: // Imagen
+                        pnlImagen.Visible = true;
+                        ((Image)e.Item.FindControl("imgContenido")).ImageUrl = comp.Contenido;
+                        break;
+
+                    case 2: // Video
+                        var phVideo = (PlaceHolder)e.Item.FindControl("phVideo");
+                        phVideo.Visible = true;
+
+                        string iframeHtml = $@"
+                                            <div class='my-4 d-flex justify-content-center'>
+                                                <div class='ratio ratio-16x9' style='width: 50%;'>
+                                                    <iframe src='{TransformarAEmbed(comp.Contenido)}' frameborder='0' allowfullscreen
+                                                        allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'>
+                                                    </iframe>
+                                                </div>
+                                            </div>";
+
+                        phVideo.Controls.Add(new Literal { Text = iframeHtml });
+                        break;
+
+
+
+                    case 3: // Archivo
+                        pnlArchivo.Visible = true;
+                        HyperLink hiperlink = (HyperLink)(e.Item.FindControl("lnkArchivo"));
+                        hiperlink.NavigateUrl = comp.Contenido.ToString();
+                        hiperlink.Text = comp.Titulo.ToString();
+                        break;
+                }
             }
-            return html;
         }
-
 
         public void mensajeSweetAlert(string mensaje, string titulo, string tipo)
         {
@@ -145,5 +162,17 @@ namespace TPC_Equipo_12A
             return ""; // URL no válida o no reconocida
         }
 
+        protected void btnMarcarCompletada_Click(object sender, EventArgs e)
+        {
+            LeccionServicio leccionServicio = new LeccionServicio();
+            UsuarioAutenticado usuarioAutenticado = Session["UsuarioAutenticado"] as UsuarioAutenticado;
+            int idLeccion = int.Parse(Request.QueryString["id"]);
+            if (leccionServicio.MarcarCompletada(idLeccion, usuarioAutenticado.IdUsuario))
+            {
+                btnMarcarCompletada.Text = "¡Lección completada!";
+                btnMarcarCompletada.Enabled = false;
+                btnMarcarCompletada.CssClass = "btn btn-success";
+            }
+        }
     }
 }

@@ -15,39 +15,39 @@ namespace TPC_Equipo_12A
     {
 
         /// <summary>
-        /// lblTitulo control.
+        /// imgBannerCurso control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTitulo;
+        protected global::System.Web.UI.WebControls.Image imgBannerCurso;
 
         /// <summary>
-        /// lblDescripcion control.
+        /// litTituloCurso control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDescripcion;
+        protected global::System.Web.UI.WebControls.Literal litTituloCurso;
 
         /// <summary>
-        /// imgCurso control.
+        /// litIntroCurso control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgCurso;
+        protected global::System.Web.UI.WebControls.Literal litIntroCurso;
 
         /// <summary>
-        /// btnComprar control.
+        /// rptModulos control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnComprar;
+        protected global::System.Web.UI.WebControls.Repeater rptModulos;
     }
 }

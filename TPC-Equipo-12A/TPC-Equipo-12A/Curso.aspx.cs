@@ -4,55 +4,53 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Dominio;
 using Servicio;
 
 namespace TPC_Equipo_12A
 {
-    public partial class Curso : System.Web.UI.Page
-    {
-        protected void Page_Load(object sender, EventArgs e)
-        {
+	public partial class Curso : System.Web.UI.Page
+	{
+		protected void Page_Load(object sender, EventArgs e)
+		{
             if (!IsPostBack)
             {
-                if (Request.QueryString["id"] != null && int.TryParse(Request.QueryString["id"], out int idCurso))
+                if (Request.QueryString["id"] == null)
                 {
-                    cargarCurso(idCurso);
+                    Session["error"] = "Debe indicar un ID de curso para poder acceder a ella.";
+                    Response.Redirect("Error.aspx");
                 }
-                else
+                UsuarioAutenticado usuarioAutenticado = Session["UsuarioAutenticado"] as UsuarioAutenticado;
+                if (usuarioAutenticado == null)
                 {
-                    lblTitulo.Text = "Curso no encontrado.";
+                    Response.Redirect("Login.aspx");
                 }
-            }
-        }
-        private void cargarCurso(int idCurso)
-        {
-            AccesoDatos datos = new AccesoDatos();
+                int idCurso = int.Parse(Request.QueryString["id"]);
+                bool isAdmin = (usuarioAutenticado.Rol == Rol.Administrador);
 
-            try
-            {
-                datos.setConsulta("SELECT Titulo, Descripcion, ImagenUrl FROM Cursos WHERE Id = @id");
-                datos.setParametro("@id", idCurso);
-                datos.ejecutarLectura();
+                CursoServicio cursoServicio = new CursoServicio();
 
-                if (datos.Lector.Read())
+                bool isHabilitado = cursoServicio.EsUsuarioHabilitado(usuarioAutenticado.IdUsuario, idCurso);
+                if (isAdmin || isHabilitado)
                 {
-                    lblTitulo.Text = datos.Lector["Titulo"].ToString();
-                    lblDescripcion.Text = datos.Lector["Descripcion"].ToString();
-                    imgCurso.ImageUrl = datos.Lector["ImagenUrl"].ToString();
+                    Dominio.Curso curso = cursoServicio.ObtenerCursoPorId(idCurso);
+
+                    if (curso == null)
+                    {
+                        Session["error"] = "El curso no existe.";
+                        Response.Redirect("Error.aspx");
+                        return;
+                    }
+
+                    litTituloCurso.Text = curso.Titulo;
+                    litIntroCurso.Text = curso.Descripcion;
+                    imgBannerCurso.ImageUrl = curso.ImagenPortada == null ? "https://previews.123rf.com/images/monsitj/monsitj2007/monsitj200700029/153258909-programming-code-abstract-technology-background-of-software-developer-and-computer-script-banner-3d.jpg" : curso.ImagenPortada.Url;
+
+                    rptModulos.DataSource = curso.Modulos;
+                    rptModulos.DataBind();
                 }
-                else
-                {
-                    lblTitulo.Text = "Curso no encontrado.";
-                }
             }
-            catch (Exception ex)
-            {
-                lblTitulo.Text = "Error al cargar el curso.";
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
+
         }
-    }
+	}
 }

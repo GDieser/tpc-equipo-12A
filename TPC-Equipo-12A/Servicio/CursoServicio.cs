@@ -374,5 +374,82 @@ LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen
                  accesoDatos.cerrarConexion();
              }
          }
+
+        public Curso ObtenerCursoPorId(int id)
+        {
+            AccesoDatos accesoDatos = new AccesoDatos();
+            try
+            {
+                accesoDatos.setConsulta(@"
+            SELECT 
+                c.IdCurso, 
+                c.Titulo, 
+                c.Descripcion, 
+                c.Resumen,
+                c.IdCategoria,
+                cat.Nombre,
+                c.FechaPublicacion,
+                c.Estado,
+                ic.IdImagen,
+                i.UrlImagen AS ImagenPortadaUrl,
+                i.Nombre AS NombreImagen,
+                i.IdTipoImagen
+            FROM Curso c
+            INNER JOIN Categoria cat ON cat.IdCategoria = c.IdCategoria
+            LEFT JOIN ImagenCurso ic ON ic.IdCurso = c.IdCurso
+            LEFT JOIN Imagen i ON i.IdImagen = ic.IdImagen
+            WHERE c.IdCurso = @idCurso
+        ");
+
+                accesoDatos.limpiarParametros();
+                accesoDatos.setParametro("@idCurso", id);
+                accesoDatos.ejecutarLectura();
+
+                if (accesoDatos.Lector.Read())
+                {
+                    var curso = new Curso
+                    {
+                        IdCurso = (int)accesoDatos.Lector["IdCurso"],
+                        Titulo = accesoDatos.Lector["Titulo"].ToString(),
+                        Descripcion = accesoDatos.Lector["Descripcion"].ToString(),
+                        Resumen = accesoDatos.Lector["Resumen"].ToString(),
+                        
+                        Categoria = new Categoria
+                        {
+                            IdCategoria = (int)accesoDatos.Lector["IdCategoria"],
+                            Nombre = accesoDatos.Lector["Nombre"].ToString()
+                        },
+                        FechaPublicacion = (DateTime)(accesoDatos.Lector["FechaPublicacion"] != DBNull.Value
+                            ? (DateTime)accesoDatos.Lector["FechaPublicacion"]
+                            : (DateTime?)null),
+                        Estado = (EstadoPublicacion)(int)accesoDatos.Lector["Estado"],
+                        ImagenPortada = new Imagen{
+                            Url = accesoDatos.Lector["ImagenPortadaUrl"] != DBNull.Value ? accesoDatos.Lector["ImagenPortadaUrl"].ToString() : "https://www.aprender21.com/images/colaboradores/sql.jpeg",
+                            Nombre = accesoDatos.Lector["NombreImagen"] != DBNull.Value ? accesoDatos.Lector["NombreImagen"].ToString() : "default",
+                            IdImagen = accesoDatos.Lector["IdImagen"] != DBNull.Value ? (int)accesoDatos.Lector["IdImagen"] : 0,
+                            Tipo = accesoDatos.Lector["IdTipoImagen"] != DBNull.Value ? (int)accesoDatos.Lector["IdTipoImagen"] : 0
+                        }
+
+                    };
+
+                    accesoDatos.cerrarConexion();
+                    ModuloServicio moduloServicio = new ModuloServicio();
+                    curso.Modulos = moduloServicio.ObtenerModulosPorIdCurso(curso.IdCurso);
+
+                    return curso;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("No se pudo cargar el curso", ex);
+            }
+            finally
+            {
+                accesoDatos.cerrarConexion();
+            }
+        }
+
     }
 }

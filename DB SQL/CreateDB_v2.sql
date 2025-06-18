@@ -183,3 +183,11 @@ CREATE TABLE PreguntasFrecuentes(
 	Respuesta TEXT NOT NULL,
 );
 
+CREATE TABLE ImagenModulo(
+	IdImagen INT,
+	IdModulo INT,
+	PRIMARY KEY (IdImagen, IdModulo),
+	FOREIGN KEY (IdImagen) REFERENCES Imagen(IdImagen),
+	FOREIGN KEY (IdModulo) REFERENCES Modulo(IdModulo)
+)
+

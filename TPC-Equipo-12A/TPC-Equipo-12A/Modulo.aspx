@@ -3,6 +3,19 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <style>
+        .icono-completado {
+            color: darkgreen;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+
+        .icono-pendiente {
+            color: lightgray;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+    </style>
     <div class="container col-xl-8">
 
         <div class="container mt-4">
@@ -27,7 +40,12 @@
                             <div style="flex-grow: 1; cursor: pointer;"
                                 data-bs-toggle="collapse"
                                 data-bs-target='<%# "#intro" + Eval("IdLeccion") %>'>
-                                <span><%# Eval("Titulo") %></span>
+                                <span>
+                                    <%# (bool)Eval("Completado")
+                                        ? "<span class='icono-completado'>✔</span> "
+                                        : "<span class='icono-pendiente'>○</span> " %>
+                                    <%# Eval("Titulo") %>
+                                </span>
                             </div>
                             <a href='<%# "Leccion.aspx?id=" + Eval("IdLeccion") %>' class="btn btn-outline-primary btn-sm" onclick="event.stopPropagation();">Ir a lección
                             </a>

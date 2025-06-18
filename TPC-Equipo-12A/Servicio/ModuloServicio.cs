@@ -9,7 +9,7 @@ namespace Servicio
 {
     public class ModuloServicio
     {
-        public Modulo ObtenerModuloPorId(int id)
+        public Modulo ObtenerModuloPorId(int id, int idUsuario)
         {
             AccesoDatos accesoDatos = new AccesoDatos();
             try
@@ -17,12 +17,18 @@ namespace Servicio
                 accesoDatos.setConsulta(@"
                 SELECT 
                     m.IdModulo, 
+                    m.IdCurso,
                     m.Titulo, 
                     m.Introduccion, 
                     m.Orden,
-                    c.Estado
+                    c.Estado,
+                    i.IdImagen,
+                    i.UrlImagen,    
+                    i.IdTipoImagen,
+                    i.Nombre        
                 FROM Modulo m
                 INNER JOIN Curso c ON c.IdCurso = m.IdCurso
+                LEFT JOIN Imagen i ON i.IdImagen = m.IdImagen
                 WHERE m.IdModulo = @idModulo
                 ");
                 accesoDatos.limpiarParametros();
@@ -32,14 +38,22 @@ namespace Servicio
                 {
                     Modulo modulo = new Modulo
                     {
+                        IdCurso = (int)accesoDatos.Lector["IdCurso"],
                         IdModulo = (int)accesoDatos.Lector["IdModulo"],
                         Titulo = accesoDatos.Lector["Titulo"].ToString(),
                         Introduccion = accesoDatos.Lector["Introduccion"].ToString(),
-                        Orden = (int)accesoDatos.Lector["Orden"]
+                        Orden = (int)accesoDatos.Lector["Orden"],
+                        imagen = new Imagen
+                        {
+                            IdImagen = accesoDatos.Lector["IdImagen"] != DBNull.Value ? (int)accesoDatos.Lector["IdImagen"] : 0,
+                            Url = accesoDatos.Lector["UrlImagen"] != DBNull.Value ? accesoDatos.Lector["UrlImagen"].ToString() : string.Empty,
+                            Tipo = accesoDatos.Lector["IdTipoImagen"] != DBNull.Value ? (int)accesoDatos.Lector["IdTipoImagen"] : 0,
+                            Nombre = accesoDatos.Lector["Nombre"] != DBNull.Value ? accesoDatos.Lector["Nombre"].ToString() : string.Empty
+                        }
                     };
                     accesoDatos.cerrarConexion();
                     LeccionServicio leccionServicio = new LeccionServicio();
-                    modulo.Lecciones = leccionServicio.ListarLeccionesPorModuloId(id);
+                    modulo.Lecciones = leccionServicio.ListarLeccionesPorModuloId(id, idUsuario);
                     return modulo;
                 }
                 else
@@ -83,6 +97,7 @@ namespace Servicio
                 {
                     Modulo modulo = new Modulo
                     {
+                        IdCurso = id,
                         IdModulo = (int)accesoDatos.Lector["IdModulo"],
                         Titulo = accesoDatos.Lector["Titulo"].ToString(),
                         Introduccion = accesoDatos.Lector["Introduccion"].ToString(),

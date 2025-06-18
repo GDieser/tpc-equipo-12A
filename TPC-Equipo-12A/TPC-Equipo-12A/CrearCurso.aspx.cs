@@ -35,7 +35,7 @@ namespace TPC_Equipo_12A
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-            Curso nuevo = new Curso();
+            Dominio.Curso nuevo = new Dominio.Curso();
             CursoServicio cursoServicio = new CursoServicio();
 
             try

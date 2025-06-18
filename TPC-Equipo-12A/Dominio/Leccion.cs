@@ -16,7 +16,7 @@ namespace Dominio
         public EstadoPublicacion Estado { get; set; }
         public int IdCurso { get; set; }
         public int IdModulo { get; set; }
-
+        public bool Completado { get; set; }
         public List<Componente> Componentes { get; set; } = new List<Componente>();
     }
 }

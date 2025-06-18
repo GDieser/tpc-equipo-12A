@@ -35,7 +35,7 @@ namespace TPC_Equipo_12A
                 }
 
                 CursoServicio servicio = new CursoServicio();
-                List<Curso> cursos = servicio.Listar(rol);
+                List<Dominio.Curso> cursos = servicio.Listar(rol);
 
                 rptCursos.DataSource = cursos;
                 rptCursos.DataBind();
@@ -53,9 +53,9 @@ namespace TPC_Equipo_12A
             }
 
             CursoServicio servicio = new CursoServicio();
-            List<Curso> cursos = servicio.Listar(rol);
+            List<Dominio.Curso> cursos = servicio.Listar(rol);
 
-            List<Curso> listaFiltrada = new List<Curso>();
+            List<Dominio.Curso> listaFiltrada = new List<Dominio.Curso>();
 
 
 

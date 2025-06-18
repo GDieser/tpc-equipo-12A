@@ -30,7 +30,7 @@ namespace TPC_Equipo_12A
                 bool isHabilitado = moduloServicio.EsUsuarioHabilitado(usuarioAutenticado.IdUsuario, idModulo);
                 if (isAdmin || isHabilitado)
                 {
-                    Dominio.Modulo modulo = moduloServicio.ObtenerModuloPorId(idModulo);
+                    Dominio.Modulo modulo = moduloServicio.ObtenerModuloPorId(idModulo, usuarioAutenticado.IdUsuario);
 
                     if (modulo == null)
                     {
@@ -48,5 +48,7 @@ namespace TPC_Equipo_12A
                 }
             }
         }
+
+
     }
 }

@@ -31,8 +31,6 @@ namespace Servicio
                     lista.Add(aux);
 
                 }
-
-
                 return lista;
             }
             catch (Exception ex)
@@ -44,8 +42,6 @@ namespace Servicio
             {
                 datos.cerrarConexion();
             }
-
-
         }
     }
 }
