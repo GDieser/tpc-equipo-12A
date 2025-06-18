@@ -4,8 +4,9 @@ namespace Dominio
 {
     public class CarritoCurso
     {
-        public Carrito Carrito { get; set; }
-        public Curso Curso { get; set; }
-        public DateTime FechaAgregado { get; set; }
+        public int IdCarrito { get; set; }
+        public int IdCurso { get; set; }
+
+        public decimal Precio { get; set; }
     }
 }

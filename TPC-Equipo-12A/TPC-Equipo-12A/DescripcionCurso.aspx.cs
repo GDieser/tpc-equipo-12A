@@ -24,8 +24,8 @@ namespace TPC_Equipo_12A
                     lblTitulo.Text = curso.Titulo;
                     lblDescripcion.Text = curso.Descripcion;
                     imgCurso.ImageUrl = string.IsNullOrEmpty(curso.ImagenPortada?.Url)
-         ? "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png"
-         : curso.ImagenPortada.Url;
+                    ? "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png"
+                    : curso.ImagenPortada.Url;
 
                 }
                 else
@@ -41,9 +41,15 @@ namespace TPC_Equipo_12A
                 {
                     phBotonFavorito.Visible = true;
 
+
                     bool esFavorito = ValidarCursoFavorito();
                     btnFavorito.Text = esFavorito ? "★ En Favoritos (Eliminar)" : "➕ Agregar a Favoritos";
                     btnFavorito.CssClass = esFavorito ? "btn btn-danger" : "btn btn-warning";
+
+                    bool enCarrito = ValidarCursoCarrito();
+                    btnAgregarCarrito.Text = enCarrito ? "En carrito" : "➕ Agregar a carrito";
+                    btnAgregarCarrito.CssClass = esFavorito ? "btn btn-warning" : "btn btn-success";
+
                 }
 
 
@@ -111,6 +117,76 @@ namespace TPC_Equipo_12A
             }
 
             Response.Redirect(Request.RawUrl);
+        }
+
+        protected void btnAgregarCarrito_Click(object sender, EventArgs e)
+        {
+            int idCurso = Convert.ToInt32(Request.QueryString["id"]);
+            UsuarioAutenticado usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+            CursoServicio servicio = new CursoServicio();
+            
+
+            Carrito carrito = new Carrito();
+
+            if (Session["Carrito"] == null)
+            {
+                if(!ValidarCursoCarrito())
+                {
+                    Curso curso = servicio.GetCursoPorId(idCurso);
+
+                    servicio.CrearCarrito(usuario.IdUsuario, idCurso, curso.Precio);
+                }
+            }
+            else
+            {
+                if (!ValidarCursoCarrito())
+                {
+                    carrito = (Carrito)Session["Carrito"];
+
+                    Curso curso = servicio.GetCursoPorId(idCurso);
+
+                    servicio.AgregrarCursoCarrito(carrito.IdCarrito, idCurso, curso.Precio);
+                }
+                else
+                {
+                    //Ya existe y hay que eliminar, logico o fisico?
+
+                    servicio.EliminarCursoCarrito(idCurso);
+                }
+            }
+
+            Response.Redirect(Request.RawUrl);
+        }
+
+        public bool ValidarCursoCarrito()
+        {
+            int idCurso = Convert.ToInt32(Request.QueryString["id"]);
+            UsuarioAutenticado usuario = null;
+
+            usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+
+            try
+            {
+                CursoServicio servicio = new CursoServicio();
+                Carrito carrito = new Carrito();
+
+                carrito = servicio.getCursoCarrito(usuario.IdUsuario, idCurso);
+
+                if (carrito != null && carrito.Estado == EstadoCarrito.Pendiente)
+                {
+                    return true;
+                }
+
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+
         }
     }
 }

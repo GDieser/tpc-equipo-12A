@@ -9,12 +9,28 @@ namespace TPC_Equipo_12A
     public partial class Master : System.Web.UI.MasterPage
     {
         protected UsuarioAutenticado usuario;
+        protected Carrito carrito;
+        protected int cantidadCarrito;
         protected void Page_Load(object sender, EventArgs e)
         {
             usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+            
+
+            if(usuario != null)
+            {
+                cargarCarrito();
+
+                carrito = (Carrito)Session["Carrito"];
+
+                cantidadCarrito = carrito.CarritoCursos.Count;
+            }
 
             if (!IsPostBack)
             {
+<<<<<<< Updated upstream
+=======
+                
+>>>>>>> Stashed changes
                 if (Page is Login || usuario != null)
                 {
                     btnLogin.Visible = false;
@@ -25,6 +41,16 @@ namespace TPC_Equipo_12A
 
                 Session.Remove("LeccionesCompletadas");
             }
+        }
+
+        protected void cargarCarrito()
+        {
+            CursoServicio servicio = new CursoServicio();
+            Carrito carrito = new Carrito();
+
+            carrito = servicio.ListarCursoCarrito(usuario.IdUsuario);
+
+            Session["Carrito"] = carrito;
         }
 
         protected void btnLogout_Click(object sender, EventArgs e)

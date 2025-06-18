@@ -18,7 +18,7 @@
 
                 <h5 class="text-info mb-3">Programa</h5>
 
-                <!-- Módulo 1 -->
+
                 <div class="mb-3 p-3 border border-primary rounded bg-dark bg-opacity-50 text-white">
                     <div class="d-flex justify-content-between align-items-start">
                         <h5 class="me-3">Módulo 1:</h5>
@@ -26,7 +26,7 @@
                     </div>
                 </div>
 
-                <!-- Módulo 2 -->
+
                 <div class="mb-3 p-3 border border-primary rounded bg-dark bg-opacity-50 text-white">
                     <div class="d-flex justify-content-between align-items-start">
                         <h5 class="me-3">Módulo 2:</h5>
@@ -34,7 +34,7 @@
                     </div>
                 </div>
 
-                <!-- Módulo 3 -->
+
                 <div class="mb-3 p-3 border border-primary rounded bg-dark bg-opacity-50 text-white">
                     <div class="d-flex justify-content-between align-items-start">
                         <h5 class="me-3">Módulo 3:</h5>
@@ -52,7 +52,8 @@
                     CssClass="img-fluid rounded border border-primary mb-3"
                     Style="max-width: 100%; height: 250px; object-fit: cover;"
                     AlternateText="Imagen del curso" />
-                <a href="#" class="btn btn-success">Suscribirme</a>
+
+                <asp:Button CssClass="btn" ID="btnAgregarCarrito" OnClick="btnAgregarCarrito_Click" runat="server" />
 
                 <!--Necesito para el aula un boton de fav-->
                 <br />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Dominio;
 
@@ -623,6 +624,193 @@ namespace Servicio
                 datos.cerrarConexion();
             }
 
+        }
+
+        public Carrito getCursoCarrito(int idUsuario, int idCurso)
+        {
+            Carrito carrito = new Carrito();
+            CarritoCurso curso = new CarritoCurso();
+            try
+            {
+
+                datos.setConsulta("SELECT C.IdCarrito, C.IdUsuario, C.FechaCreacion, C.UltimaModificacion, C.EstadoCarrito, CC.IdCurso, CC.PrecioUnitario FROM Carrito C INNER JOIN CarritoCurso CC ON C.IdCarrito = CC.IdCarrito WHERE C.EstadoCarrito = 0 AND C.IdUsuario = @idUsuario AND CC.IdCurso = @idCurso");
+                datos.setParametro("@idUsuario", idUsuario);
+                datos.setParametro("@idCurso", idCurso);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    carrito.IdCarrito = (int)datos.Lector["IdCarrito"];
+                    carrito.IdUsuario = (int)datos.Lector["IdUsuario"];
+                    carrito.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
+
+                    curso.IdCarrito = carrito.IdCarrito;
+                    curso.IdCurso = (int)datos.Lector["IdCurso"];
+                    curso.Precio = (decimal)datos.Lector["PrecioUnitario"];
+
+                    carrito.CarritoCursos.Add(curso);
+
+                    carrito.UltimaModificacion = (DateTime)datos.Lector["UltimaModificacion"];
+                    carrito.Estado = (EstadoCarrito)datos.Lector["EstadoCarrito"];
+                }
+                else
+                {
+                    return null;
+                }
+
+                return carrito;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+        }
+
+        public Carrito ListarCursoCarrito(int idUsuario)
+        {
+            //List<Carrito> carritos = new List<Carrito>();
+            Carrito carrito = new Carrito();
+            CarritoCurso curso = new CarritoCurso();
+            try
+            {
+
+                datos.setConsulta("SELECT IdCarrito, IdUsuario, FechaCreacion, UltimaModificacion, EstadoCarrito FROM Carrito WHERE IdUsuario = @idUsuario AND EstadoCarrito = 0");
+                datos.setParametro("@idUsuario", idUsuario);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    carrito.IdCarrito = (int)datos.Lector["IdCarrito"];
+                    carrito.IdUsuario = (int)datos.Lector["IdUsuario"];
+                    carrito.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
+                    carrito.UltimaModificacion = (DateTime)datos.Lector["UltimaModificacion"];
+                    carrito.Estado = (EstadoCarrito)datos.Lector["EstadoCarrito"];
+
+                }
+                datos.cerrarConexion();
+
+                int idCarrito = carrito.IdCarrito;
+
+                datos.setConsulta("SELECT IdCarrito, IdCurso, PrecioUnitario FROM CarritoCurso WHERE IdCarrito = @idCarrito");
+                datos.setParametro("@idCarrito", idCarrito);
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    curso.IdCarrito = (int)datos.Lector["IdCarrito"]; ;
+                    curso.IdCurso = (int)datos.Lector["IdCurso"];
+                    curso.Precio = (decimal)datos.Lector["PrecioUnitario"];
+                    
+                    carrito.CarritoCursos.Add(curso);
+                }
+
+
+                return carrito;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+        }
+
+        public void CrearCarrito(int idUsuario, int idCurso, decimal monto)
+        {
+            int idCarrito = 0;
+
+            try
+            {
+                datos.setConsulta("INSERT INTO Carrito(IdUsuario, FechaCreacion, UltimaModificacion) VALUES(@idUsuario, GETDATE(), GETDATE()) SELECT SCOPE_IDENTITY();;");
+                datos.setParametro("@idUsuario", idUsuario);
+                                
+                datos.ejecutarLectura();
+                if (datos.Lector.Read())
+                    idCarrito = Convert.ToInt32(datos.Lector[0]);
+
+                datos.cerrarConexion();
+
+                datos.setConsulta("INSERT INTO CarritoCurso VALUES (@idCarrito , @idCurso, @monto)");
+                datos.setParametro("@idCarrito", idCarrito);
+                datos.setParametro("@idCurso", idCurso);
+                datos.setParametro("@monto", monto);
+
+                datos.ejecutarAccion();
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+
+        }
+
+        public void AgregrarCursoCarrito(int idCarrito, int idCurso, decimal monto)
+        {
+            try
+            {
+
+                datos.setConsulta("INSERT INTO CarritoCurso VALUES (@idCarrito , @idCurso, @monto)");
+                datos.setParametro("@idCarrito", idCarrito);
+                datos.setParametro("@idCurso", idCurso);
+                datos.setParametro("@monto", monto);
+
+                datos.ejecutarAccion();
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void EliminarCursoCarrito(int idCurso)
+        {
+            try
+            {
+                datos.setConsulta("DELETE FROM CarritoCurso WHERE IdCurso = @idCurso;");
+                datos.setParametro("@idCurso", idCurso);
+
+                datos.ejecutarAccion();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
 
 

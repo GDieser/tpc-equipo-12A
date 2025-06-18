@@ -45,8 +45,10 @@
                         <p class="card-text"><%# Eval("Resumen") %></p>
                     </div>
                     <div class="card-footer bg-transparent text-center border-top">
+
                         <a href='DescripcionCurso.aspx?id=<%# Eval("IdCurso") %>' class="btn btn-outline-info me-2">Ver más</a>
-                        <a href='Inscripcion.aspx?id=<%# Eval("IdCurso") %>' class="btn btn-outline-success">Suscribirse</a>
+
+                        
                     </div>
                 </div>
             </div>

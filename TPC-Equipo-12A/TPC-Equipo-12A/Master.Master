@@ -78,15 +78,28 @@
                         </ul>
                         <div class="d-flex">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <!-- Agregar solo para admis
                                 <li class="nav-item me-2">
                                     <a href="CrearCurso.aspx" class="btn btn-success">Crear curso</a>
                                 </li>
+                                -->
+
+                                <li class="nav-item me-2">
+
+                                    <asp:HyperLink NavigateUrl="MiCarrito.aspx" CssClass="btn btn-outline-light position-relative" runat="server"> 🛒 
+
+                                        <%if (usuario != null && carrito != null && cantidadCarrito != 0) { %>
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> <%= cantidadCarrito %> </span> 
+                                        <%} %>
+
+                                    </asp:HyperLink>
+
+                                </li>
+
                                 <li class="nav-item me-2">
                                     <asp:HyperLink ID="btnLogin" runat="server" CssClass="btn btn-success" NavigateUrl="Login.aspx">Login</asp:HyperLink>
                                 </li>
-                                <li class="nav-item me-2">
-                                    <button type="button" class="btn btn-outline-light">🛒</button>
-                                </li>
+
                                 <% if (usuario != null)
                                     { %>
                                 <li class="nav-item dropdown me-2">

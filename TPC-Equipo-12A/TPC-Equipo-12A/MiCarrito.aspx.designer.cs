@@ -11,61 +11,61 @@ namespace TPC_Equipo_12A
 {
 
 
-    public partial class DescripcionCurso
+    public partial class MiCarrito
     {
 
         /// <summary>
-        /// lblTitulo control.
+        /// ScriptManager1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTitulo;
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
 
         /// <summary>
-        /// lblDescripcion control.
+        /// pnlCarrito control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDescripcion;
+        protected global::System.Web.UI.WebControls.Panel pnlCarrito;
 
         /// <summary>
-        /// imgCurso control.
+        /// repCarrito control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgCurso;
+        protected global::System.Web.UI.WebControls.Repeater repCarrito;
 
         /// <summary>
-        /// btnAgregarCarrito control.
+        /// lblTotal control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAgregarCarrito;
+        protected global::System.Web.UI.WebControls.Label lblTotal;
 
         /// <summary>
-        /// phBotonFavorito control.
+        /// btnComprar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phBotonFavorito;
+        protected global::System.Web.UI.WebControls.Button btnComprar;
 
         /// <summary>
-        /// btnFavorito control.
+        /// lblMensaje control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFavorito;
+        protected global::System.Web.UI.WebControls.Label lblMensaje;
     }
 }
