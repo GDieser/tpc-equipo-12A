@@ -15,8 +15,6 @@ namespace TPC_Equipo_12A
 
             if (!IsPostBack)
             {
-                
-
                 if (Page is Login || usuario != null)
                 {
                     btnLogin.Visible = false;
@@ -26,7 +24,6 @@ namespace TPC_Equipo_12A
                     return;
 
                 Session.Remove("LeccionesCompletadas");
-
             }
         }
 
@@ -47,7 +44,7 @@ namespace TPC_Equipo_12A
                 }}
             }});", true);
 
-            Session["UsuarioAutenticado"] = null; // Se borra la sesión solo después de usarla
+            Session["UsuarioAutenticado"] = null; 
         }
     }
 }

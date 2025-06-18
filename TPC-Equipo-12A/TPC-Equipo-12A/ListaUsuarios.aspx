@@ -4,7 +4,11 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
+                <br />
+        <h1>Lista de Usuarios</h1>
+        <br />
         <div class="table-responsive">
+
             <asp:GridView ID="dgvUsuarios" runat="server"
                 CssClass="table table-striped table-dark table-hover table-bordered align-middle text-center"
                 AutoGenerateColumns="false"

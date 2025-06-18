@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container col-xl-8">
-        <div class="container mt-4">
+        <div class="container mt-4 mb-4">
 
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -59,7 +59,9 @@
                 </ItemTemplate>
             </asp:Repeater>
             <hr class="mt-2 mb-2" />
-            <asp:Button Text="Marcar como completada" CssClass="btn btn-primary" runat="server" ID="btnMarcarCompletada" OnClick="btnMarcarCompletada_Click" />
+            <div class="text-end">
+                <asp:Button Text="Marcar como completada" CssClass="btn btn-primary" runat="server" ID="btnMarcarCompletada" OnClick="btnMarcarCompletada_Click" />
+            </div>
         </div>
     </div>
 </asp:Content>

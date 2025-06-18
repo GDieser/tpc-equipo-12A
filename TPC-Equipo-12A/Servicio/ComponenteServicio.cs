@@ -19,6 +19,7 @@ namespace Servicio
                     c.IdComponente, 
                     c.TipoContenido, 
                     c.Contenido, 
+                    c.Titulo,
                     c.Orden
                 FROM Componente c
                 WHERE c.IdLeccion = @idLeccion
@@ -35,7 +36,8 @@ namespace Servicio
                         IdComponente = (int)accesoDatos.Lector["IdComponente"],
                         TipoContenido = (TipoContenido)Enum.Parse(typeof(TipoContenido), accesoDatos.Lector["TipoContenido"].ToString()),
                         Contenido = accesoDatos.Lector["Contenido"].ToString(),
-                        Orden = (int)accesoDatos.Lector["Orden"]
+                        Orden = (int)accesoDatos.Lector["Orden"],
+                        Titulo = accesoDatos.Lector["Titulo"].ToString()
                     };
                     componentes.Add(componente);
                 }
