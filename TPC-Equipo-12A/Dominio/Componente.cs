@@ -10,6 +10,7 @@ namespace Dominio
 
     {
         public int IdComponente { get; set; }
+        public int IdLeccion { get; set; }
         public string Titulo { get; set; }
         public string Contenido { get; set; }
         public TipoContenido TipoContenido { get; set; }

@@ -7,7 +7,6 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Dominio;
 using Servicio;
-using static System.Collections.Specialized.BitVector32;
 
 namespace TPC_Equipo_12A
 {
@@ -53,6 +52,8 @@ namespace TPC_Equipo_12A
                     IdModulo = leccion.IdModulo;
                     litTitulo.Text = leccion.Titulo;
                     litDescripcion.Text = leccion.Introduccion;
+
+                    Session["Leccion"] = leccion;
 
                     rptComponentes.DataSource = leccion.Componentes;
                     rptComponentes.DataBind();
@@ -156,10 +157,10 @@ namespace TPC_Equipo_12A
             }
             else if (url.Contains("youtube.com/embed/"))
             {
-                return url; // Ya está en formato correcto
+                return url; 
             }
 
-            return ""; // URL no válida o no reconocida
+            return ""; 
         }
 
         protected void btnMarcarCompletada_Click(object sender, EventArgs e)
@@ -172,6 +173,77 @@ namespace TPC_Equipo_12A
                 btnMarcarCompletada.Text = "¡Lección completada!";
                 btnMarcarCompletada.Enabled = false;
                 btnMarcarCompletada.CssClass = "btn btn-success";
+            }
+        }
+
+        protected void btnGuardarComponente_Click(object sender, EventArgs e)
+        {
+            Dominio.Leccion leccion = (Dominio.Leccion)Session["Leccion"];
+            int.TryParse(hfIdComponente.Value, out int idComponente);
+
+            string titulo = txtTituloComponente.Text;
+            string contenido = txtContenidoComponente.Text;
+            string tipo = ddlTipoComponente.SelectedValue;
+
+            if (string.IsNullOrWhiteSpace(titulo) || string.IsNullOrWhiteSpace(contenido) || string.IsNullOrWhiteSpace(tipo))
+                return;
+
+            Componente componente = new Componente
+            {
+                IdComponente = idComponente,
+                Titulo = titulo,
+                Contenido = contenido,
+                TipoContenido = (TipoContenido)int.Parse(tipo),
+                Orden = leccion.Componentes != null ? leccion.Componentes.Count : 0
+            };
+
+            if (leccion.Componentes == null)
+                leccion.Componentes = new List<Componente>();
+
+            if (idComponente > 0)
+            {
+                int index = leccion.Componentes.FindIndex(c => c.IdComponente == idComponente);
+                if (index >= 0)
+                    leccion.Componentes[index] = componente;
+            }
+            else
+            {
+                leccion.Componentes.Add(componente);
+            }
+
+            Session["Leccion"] = leccion;
+
+            rptComponentes.DataSource = leccion.Componentes.OrderBy(c => c.Orden).ToList();
+            rptComponentes.DataBind();
+
+            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModalComponente", @"
+            const modalEl = document.getElementById('modalComponente');
+            if (modalEl) {
+                const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+                modal.hide();
+                document.body.classList.remove('modal-open');
+                const backdrop = document.querySelector('.modal-backdrop');
+                if (backdrop) backdrop.remove();
+            }", true);
+
+            txtTituloComponente.Text = "";
+            txtContenidoComponente.Text = "";
+            ddlTipoComponente.SelectedIndex = 0;
+            hfIdComponente.Value = "";
+        }
+
+        protected void btnGuardarCambios_Click(object sender, EventArgs e)
+        {
+            Dominio.Leccion leccion = (Dominio.Leccion)Session["Leccion"];
+            ComponenteServicio componenteServicio = new ComponenteServicio();
+
+            if (leccion.Componentes != null && leccion.Componentes.Any())
+            {
+                foreach (Componente componente in leccion.Componentes)
+                {
+                    componente.IdLeccion = leccion.IdLeccion;
+                    componenteServicio.ActualizarOCrear(componente);
+                }
             }
         }
     }

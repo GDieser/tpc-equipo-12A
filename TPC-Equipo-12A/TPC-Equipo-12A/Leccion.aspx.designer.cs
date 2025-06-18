@@ -15,6 +15,15 @@ namespace TPC_Equipo_12A
     {
 
         /// <summary>
+        /// ScriptManager1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
+
+        /// <summary>
         /// litBreadcrumbLeccion control.
         /// </summary>
         /// <remarks>
@@ -42,6 +51,60 @@ namespace TPC_Equipo_12A
         protected global::System.Web.UI.WebControls.Literal litDescripcion;
 
         /// <summary>
+        /// btnAgregarComponente control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAgregarComponente;
+
+        /// <summary>
+        /// hfIdComponente control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfIdComponente;
+
+        /// <summary>
+        /// txtTituloComponente control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTituloComponente;
+
+        /// <summary>
+        /// txtContenidoComponente control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtContenidoComponente;
+
+        /// <summary>
+        /// ddlTipoComponente control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTipoComponente;
+
+        /// <summary>
+        /// btnGuardarComponente control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnGuardarComponente;
+
+        /// <summary>
         /// rptComponentes control.
         /// </summary>
         /// <remarks>
@@ -49,6 +112,15 @@ namespace TPC_Equipo_12A
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptComponentes;
+
+        /// <summary>
+        /// btnGuardarCambios control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnGuardarCambios;
 
         /// <summary>
         /// btnMarcarCompletada control.

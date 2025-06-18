@@ -135,11 +135,11 @@ namespace Servicio
                 accesoDatos.ejecutarLectura();
                 if (accesoDatos.Lector.Read())
                 {
-                    return true; 
+                    return true;
                 }
                 else
                 {
-                    return false; 
+                    return false;
                 }
             }
             catch (Exception ex)
@@ -152,5 +152,56 @@ namespace Servicio
             }
         }
 
+        public void ActualizarOCrear(Modulo modulo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                if (modulo.imagen != null && modulo.imagen.Url != null)
+                {
+                    //ImagenServicio imagenServicio = new ImagenServicio();
+                    //modulo.imagen.IdImagen = imagenServicio.ActualizarOCrear(modulo.imagen);
+                }
+
+                datos.limpiarParametros();
+                datos.setParametro("@IdCurso", modulo.IdCurso);
+                datos.setParametro("@Titulo", modulo.Titulo);
+                datos.setParametro("@Introduccion", modulo.Introduccion);
+                datos.setParametro("@Orden", modulo.Orden);
+
+                if (modulo.imagen != null && modulo.imagen.IdImagen > 0)
+                {
+                    datos.setParametro("@IdImagen", modulo.imagen.IdImagen);
+                }
+                else
+                {
+                    datos.setParametro("IdImagen", DBNull.Value);
+                }
+
+                if (modulo.IdModulo > 0)
+                {
+                    datos.setConsulta(@"UPDATE Modulo 
+                                SET Titulo = @Titulo, Introduccion = @Introduccion, 
+                                    Orden = @Orden, IdImagen = @IdImagen 
+                                WHERE IdModulo = @IdModulo");
+                    datos.setParametro("@IdModulo", modulo.IdModulo);
+                }
+                else
+                {
+                    datos.setConsulta(@"INSERT INTO Modulo (IdCurso, Titulo, Introduccion, Orden, IdImagen) 
+                                VALUES (@IdCurso, @Titulo, @Introduccion, @Orden, @IdImagen)");
+                }
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cargar los módulos", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

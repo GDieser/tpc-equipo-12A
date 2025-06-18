@@ -86,7 +86,41 @@ namespace Servicio
                 datos.cerrarConexion();
             }
         }
+
+        public int ActualizarOCrear(Imagen imagen)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.limpiarParametros();
+                datos.setParametro("@UrlImagen", imagen.Url);
+                datos.setParametro("@Nombre", imagen.Nombre);
+
+                if (imagen.IdImagen > 0)
+                {
+                    datos.setParametro("@IdImagen", imagen.IdImagen);
+                    datos.setConsulta(@"UPDATE Imagen 
+                                    SET UrlImagen = @UrlImagen, Nombre = @Nombre, IdTipoImagen = 1
+                                    WHERE IdImagen = @IdImagen");
+                    datos.ejecutarAccion();
+                    return imagen.IdImagen;
+                }
+                else
+                {
+                    datos.setConsulta(@"INSERT INTO Imagen (UrlImagen, Nombre, IdTipoImagen) 
+                                    OUTPUT INSERTED.IdImagen 
+                                    VALUES (@UrlImagen, @Nombre, 1)");
+                    return datos.ejecutarNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al procesar la imagen", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
-
 }
-
