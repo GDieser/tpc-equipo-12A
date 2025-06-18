@@ -23,6 +23,7 @@ namespace TPC_Equipo_12A
 
                     lblTitulo.Text = curso.Titulo;
                     lblDescripcion.Text = curso.Descripcion;
+                    lblPrecio.Text = "$" + curso.Precio.ToString() + " ARS"; 
                     imgCurso.ImageUrl = string.IsNullOrEmpty(curso.ImagenPortada?.Url)
                     ? "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png"
                     : curso.ImagenPortada.Url;
@@ -41,14 +42,13 @@ namespace TPC_Equipo_12A
                 {
                     phBotonFavorito.Visible = true;
 
-
                     bool esFavorito = ValidarCursoFavorito();
-                    btnFavorito.Text = esFavorito ? "★ En Favoritos (Eliminar)" : "➕ Agregar a Favoritos";
-                    btnFavorito.CssClass = esFavorito ? "btn btn-danger" : "btn btn-warning";
+                    btnFavorito.Text = esFavorito ? "★ En Favoritos (❌)" : "➕ Favoritos";
+                    btnFavorito.CssClass = esFavorito ? "btn btn-outline-danger" : "btn btn-outline-warning";
 
                     bool enCarrito = ValidarCursoCarrito();
-                    btnAgregarCarrito.Text = enCarrito ? "En carrito" : "➕ Agregar a carrito";
-                    btnAgregarCarrito.CssClass = esFavorito ? "btn btn-warning" : "btn btn-success";
+                    btnAgregarCarrito.Text = enCarrito ? "🛒 En Carrito (❌)" : "🛒 Agregar al Carrito";
+                    btnAgregarCarrito.CssClass = enCarrito ? "btn btn-outline-danger" : "btn btn-success";
 
                 }
 
