@@ -51,7 +51,7 @@ namespace TPC_Equipo_12A
         protected void dgvCursos_SelectedIndexChanged(object sender, EventArgs e)
         {
             int idCurso = (int)dgvCursos.DataKeys[dgvCursos.SelectedIndex].Value;
-            Response.Redirect($"EditarCurso.aspx?id={idCurso}");
+            Response.Redirect($"CrearCurso.aspx?id={idCurso}");
         }
 
         /// <summary>

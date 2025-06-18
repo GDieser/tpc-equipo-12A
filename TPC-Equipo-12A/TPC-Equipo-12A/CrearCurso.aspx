@@ -7,7 +7,9 @@
 
     <div class="container">
 
-        <h1>Crear nuevo curso</h1>
+        <h1><asp:Literal ID="litTituloFormulario" runat="server" /></h1>
+        
+
         <hr />
 
         <div class="row">
@@ -27,26 +29,31 @@
                 <h4>Categoría:</h4>
                 <asp:DropDownList ID="ddlCategoria" runat="server" CssClass="form-select" Style="width: 60%;" />
 
+                <h4>Estado</h4>
+                <asp:DropDownList ID="ddlEstado" runat="server" CssClass="form-select" Style="width: 60%;" />
+
+
+                <h4>Certificado:</h4>
+                <asp:CheckBox ID="chkCertificado" runat="server" />
+
+            </div>
+
+            <div class="col-6">
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                    <ContentTemplate>
                 <h4>Precio:</h4>
                 <asp:TextBox ID="txtPrecio" runat="server" CssClass="form-control" />
 
                 <h4>Duración (horas):</h4>
                 <asp:TextBox ID="txtDuracion" runat="server" CssClass="form-control" />
 
-                <h4>Certificado:</h4>
-                <asp:CheckBox ID="chkCertificado" runat="server" />
-            </div>
-
-            <div class="col-6">
-                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                    <ContentTemplate>
                         <h4>URL de imagen:</h4>
                         <asp:TextBox ID="txtImagen" runat="server" AutoPostBack="true"
                             OnTextChanged="txtImagen_TextChanged"
                             CssClass="form-control" />
                         <div class="mt-3">
                             <asp:Image ID="imgPreview" runat="server"
-                                ImageUrl="https://via.placeholder.com/400x200.png?text=Vista+previa"
+                                ImageUrl="https://www.aprender21.com/images/colaboradores/sql.jpeg"
                                 CssClass="img-thumbnail" />
                         </div>
                     </ContentTemplate>

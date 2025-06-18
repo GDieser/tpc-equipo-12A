@@ -38,19 +38,19 @@
 
                 <div class="mb-3">
 
-                    <!-- <asp:TextBox ID="txtDescripcion" CssClass="form-control" runat="server"
-                    TextMode="MultiLine" Rows="6"
-                    Style="width: 100%; resize: vertical;" /> -->
-
                     <label for="txtDes" class="form-label fw-bold">Descripción:</label>
+
                     <textarea id="txtDes" runat="server" class="form-control" rows="6"></textarea>
+
                     <asp:RequiredFieldValidator ID="rfvDescripcion" runat="server"
                         ControlToValidate="txtDes"
                         ErrorMessage="La descripción es obligatoria."
                         Display="Dynamic" ForeColor="Red" CssClass="small" />
+
                     <script>
                         CKEDITOR.replace('<%= txtDes.ClientID %>');
                     </script>
+
                 </div>
 
                 <div class="mb-3">

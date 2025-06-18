@@ -11,22 +11,69 @@ namespace TPC_Equipo_12A
 {
     public partial class CrearCurso : System.Web.UI.Page
     {
+        private Curso cursoSeleccionado;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 cargarCategorias();
+                cargarEstados();
+
+                if (Request.QueryString["id"] != null)
+                {
+                    litTituloFormulario.Text = "Modificar curso";
+                    int id = int.Parse(Request.QueryString["id"]);
+                    CursoServicio s = new CursoServicio();
+                    cursoSeleccionado = s.GetCursoPorId(id);
+
+                    if (cursoSeleccionado != null)
+                    {
+                        txtTitulo.Text = cursoSeleccionado.Titulo;
+                        txtResumen.Text = cursoSeleccionado.Resumen;
+                        txtDescripcion.InnerText = cursoSeleccionado.Descripcion;
+                        txtPrecio.Text = cursoSeleccionado.Precio.ToString();
+                        txtDuracion.Text = cursoSeleccionado.Duracion.ToString();
+                        chkCertificado.Checked = cursoSeleccionado.Certificado;
+                        ddlCategoria.SelectedValue = cursoSeleccionado.Categoria.IdCategoria.ToString();
+                        ddlEstado.SelectedValue = ((int)cursoSeleccionado.Estado).ToString();
+                        txtImagen.Text = cursoSeleccionado.ImagenPortada.Url;
+                        imgPreview.ImageUrl = cursoSeleccionado.ImagenPortada.Url;
+                        Session["CursoSeleccionado"] = cursoSeleccionado;
+                    }
+
+                }
+                else
+                {
+                    litTituloFormulario.Text = "Crear nuevo curso";
+                }
+
+            }
+            else
+            {
+               
+                cursoSeleccionado = (Curso)Session["CursoSeleccionado"];
             }
         }
 
         private void cargarCategorias()
         {
             CategoriaServicio servicio = new CategoriaServicio();
-            ddlCategoria.DataSource = servicio.listar();    
+            ddlCategoria.DataSource = servicio.listar();
             ddlCategoria.DataTextField = "Nombre";
             ddlCategoria.DataValueField = "IdCategoria";
             ddlCategoria.DataBind();
         }
+
+        private void cargarEstados()
+        {
+            ddlEstado.Items.Clear();
+            foreach (EstadoPublicacion estado in Enum.GetValues(typeof(EstadoPublicacion)))
+            {
+                ddlEstado.Items.Add(new ListItem(estado.ToString(), ((int)estado).ToString()));
+            }
+        }
+
 
         protected void txtImagen_TextChanged(object sender, EventArgs e)
         {
@@ -37,41 +84,52 @@ namespace TPC_Equipo_12A
         {
             Dominio.Curso nuevo = new Dominio.Curso();
             CursoServicio cursoServicio = new CursoServicio();
+            decimal precio;
+            int duracion;
 
-            try
+            if (!decimal.TryParse(txtPrecio.Text, out precio) || precio < 0)
             {
-
-                nuevo.Titulo = txtTitulo.Text;
-                nuevo.Resumen = txtResumen.Text;
-                nuevo.Descripcion = Request.Form[txtDescripcion.UniqueID];
-                nuevo.Precio = decimal.Parse(txtPrecio.Text);
-                nuevo.Duracion = int.Parse(txtDuracion.Text);
-                nuevo.Certificado = chkCertificado.Checked;
-                nuevo.FechaCreacion = DateTime.Now;
-                nuevo.FechaPublicacion = DateTime.Now;
-                nuevo.Estado = EstadoPublicacion.Publicado;
-
-                nuevo.Categoria = new Categoria
-                {
-                    IdCategoria = int.Parse(ddlCategoria.SelectedValue)
-                };
-
-                nuevo.ImagenPortada = new Imagen
-                {
-                    Url = txtImagen.Text,        
-                    Nombre = "Imagen curso",      // agregar txtbox a formulario 
-                    Tipo = 1                      //  agragar lista tipo a formulario
-                };
-
-                cursoServicio.GuardarCurso(nuevo);
-
-                Response.Redirect("ListaCursos.aspx");
+                Response.Write("<script>alert('Ingrese un precio válido.');</script>");
+                return;
             }
-            catch (Exception ex)
+
+            if (!int.TryParse(txtDuracion.Text, out duracion) || duracion <= 0)
             {
-                Response.Write("<script>alert('Error al guardar curso: " + ex.Message + "');</script>");
+                Response.Write("<script>alert('Ingrese una duración válida.');</script>");
+                return;
             }
+
+            CursoServicio s = new CursoServicio();
+            Curso entidad = new Curso
+            {
+                Titulo = txtTitulo.Text,
+                Resumen = txtResumen.Text,
+                Descripcion = Request.Form[txtDescripcion.UniqueID],
+                Precio = precio,
+                Duracion = duracion,
+                Certificado = chkCertificado.Checked,
+                FechaCreacion = DateTime.Now,
+                FechaPublicacion = DateTime.Now,
+                Estado = (EstadoPublicacion)int.Parse(ddlEstado.SelectedValue),
+                Categoria = new Categoria { IdCategoria = int.Parse(ddlCategoria.SelectedValue) },
+                ImagenPortada = new Imagen { Url = txtImagen.Text, Nombre = "Imagen curso", Tipo = 1 }
+            };
+
+            if (cursoSeleccionado != null)
+            {
+                entidad.IdCurso = cursoSeleccionado.IdCurso;
+                entidad.ImagenPortada.IdImagen = cursoSeleccionado.ImagenPortada.IdImagen;
+                s.ModificarCurso(entidad);
+            }
+            else
+            {
+                s.GuardarCurso(entidad);
+            }
+
+            Response.Redirect("ListaCursosAdmin.aspx");
         }
+
 
     }
 }
+

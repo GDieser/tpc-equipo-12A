@@ -102,7 +102,10 @@
     <Content Include="Leccion.aspx" />
     <Content Include="ListaCursos.aspx" />
     <Content Include="ListaCursosAdmin.aspx" />
+    <Content Include="ListaFaqs.aspx" />
     <Content Include="ListaUsuarios.aspx" />
+    <Content Include="MisCursos.aspx" />
+    <Content Include="MisCursosFavoritos.aspx" />
     <Content Include="Modulo.aspx" />
     <Content Include="Notificacion.aspx" />
     <Content Include="Default.aspx" />
@@ -118,6 +121,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aula.Master.cs">
+      <DependentUpon>Aula.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Aula.Master.designer.cs">
+      <DependentUpon>Aula.Master</DependentUpon>
+    </Compile>
     <Compile Include="CrearCurso.aspx.cs">
       <DependentUpon>CrearCurso.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -167,12 +177,33 @@
     <Compile Include="ListaCursosAdmin.aspx.designer.cs">
       <DependentUpon>ListaCursosAdmin.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ListaFaqs.aspx.cs">
+      <DependentUpon>ListaFaqs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ListaFaqs.aspx.designer.cs">
+      <DependentUpon>ListaFaqs.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ListaUsuarios.aspx.cs">
       <DependentUpon>ListaUsuarios.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ListaUsuarios.aspx.designer.cs">
       <DependentUpon>ListaUsuarios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MisCursos.aspx.cs">
+      <DependentUpon>MisCursos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MisCursos.aspx.designer.cs">
+      <DependentUpon>MisCursos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MisCursosFavoritos.aspx.cs">
+      <DependentUpon>MisCursosFavoritos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MisCursosFavoritos.aspx.designer.cs">
+      <DependentUpon>MisCursosFavoritos.aspx</DependentUpon>
     </Compile>
     <Compile Include="Modulo.aspx.cs">
       <DependentUpon>Modulo.aspx</DependentUpon>
@@ -270,6 +301,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Master.Master" />
+    <Content Include="Aula.Master" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

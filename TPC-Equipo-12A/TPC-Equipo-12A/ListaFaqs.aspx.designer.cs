@@ -11,52 +11,70 @@ namespace TPC_Equipo_12A
 {
 
 
-    public partial class DescripcionCurso
+    public partial class ListaFaqs
     {
 
         /// <summary>
-        /// lblTitulo control.
+        /// dgvFaqs control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTitulo;
+        protected global::System.Web.UI.WebControls.GridView dgvFaqs;
 
         /// <summary>
-        /// lblDescripcion control.
+        /// txtPregunta control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDescripcion;
+        protected global::System.Web.UI.WebControls.TextBox txtPregunta;
 
         /// <summary>
-        /// imgCurso control.
+        /// rfvPregunta control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgCurso;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvPregunta;
 
         /// <summary>
-        /// phBotonFavorito control.
+        /// txtRespuesta control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phBotonFavorito;
+        protected global::System.Web.UI.WebControls.TextBox txtRespuesta;
 
         /// <summary>
-        /// btnFavorito control.
+        /// rfvRespuesta control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFavorito;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvRespuesta;
+
+        /// <summary>
+        /// ddlActivo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlActivo;
+
+        /// <summary>
+        /// btnAgregarFaq control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAgregarFaq;
     }
 }

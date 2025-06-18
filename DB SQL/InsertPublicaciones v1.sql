@@ -67,6 +67,12 @@ INSERT INTO PreguntasFrecuentes VALUES ('¿Cuáles son los métodos de pago?','Podé
 
 INSERT INTO PreguntasFrecuentes VALUES ('¿Cuanto duran los cursos?','En realidad, eso depende de cada curso, podes hacerlo a tu ritmo, una vez que lo compras podes acceder a ellos para siempre.');
 
+SELECT * FROM PreguntasFrecuentes
+
+
+--Si crearon la tabla y lo necesitan
+--ALTER TABLE PreguntasFrecuentes ADD Activo BIT NOT NULL DEFAULT 1;
+
 --Insert Usuarios
 
 INSERT INTO Cursos (Titulo, Resumen, Descripcion, ImagenUrl)
@@ -132,3 +138,28 @@ INSERT INTO Curso VALUES (3, 1, 'Curso de APIs', 'Acá vas a lalalalalal', 'Todo 
 INSERT INTO Imagen VALUES ('https://admin.finanty.com/assets/noticias/API-WEB-01.jpg', 'Miniatura', 1);
 
 --INSERT INTO ImagenCurso VALUES (20, 4);
+
+SELECT * FROM CursoFavorito
+
+UPDATE CursoFavorito SET Activo = 1 WHERE IdCurso = 2 AND IdUsuario = 3
+
+---Importante para no eliminar fisicamente!!!!
+ALTER TABLE CursoFavorito
+ADD Activo BIT NOT NULL DEFAULT 1;
+
+SELECT IdUsuario, IdCurso, Agregado FROM CursoFavorito WHERE IdUsuario = 3 AND IdCurso = 2
+
+SELECT 
+    C.IdCurso,
+    C.Titulo,
+    C.Resumen,
+    I.IdImagen,
+    I.UrlImagen AS Url,
+    I.Nombre AS NombreImagen,
+    I.IdTipoImagen AS Tipo
+FROM Curso C
+LEFT JOIN ImagenCurso IC ON C.IdCurso = IC.IdCurso
+LEFT JOIN Imagen I ON IC.IdImagen = I.IdImagen
+LEFT JOIN CursoFavorito CF ON C.IdCurso = CF.IdCurso
+LEFT JOIN Usuario US ON CF.IdUsuario = US.IdUsuario
+WHERE US.IdUsuario = 3 AND CF.Activo = 1

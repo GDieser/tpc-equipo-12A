@@ -11,9 +11,11 @@ namespace TPC_Equipo_12A
         protected UsuarioAutenticado usuario;
         protected void Page_Load(object sender, EventArgs e)
         {
+            usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+
             if (!IsPostBack)
             {
-                usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+                
 
                 if (Page is Login || usuario != null)
                 {

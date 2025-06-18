@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Dominio
 {
-    public class PreguntasFrecuentes
+    public class CursoFavorito
     {
-        public int IdFaq {  get; set; }
-        public string Pregunta { get; set; }
-        public string Respuesta { get; set; }
+        public int IdCurso {  get; set; }
+        public int IdUsuario { get; set; }
+        public DateTime Agregado { get; set; }
+
         public bool Activo { get; set; }
     }
 }
