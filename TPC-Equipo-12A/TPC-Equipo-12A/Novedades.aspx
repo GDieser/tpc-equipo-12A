@@ -5,14 +5,15 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <div class="container">
-
         <div class="text-white ">
             <hr class="text-secondary" />
-            <h1 class="display-4 fw-bold text-info mb-4">📰 Novedades en MisCursos.com</h1>
+            <div class="mb-5">
+                <h1 class="display-4 fw-bold text-info mb-4">📰 Novedades en MisCursos.com</h1>
 
-            <p class="lead">
-                ¡Bienvenid@ a nuestro espacio de novedades! Acá vas a encontrar:
-            </p>
+                <p class="lead text-white-50">
+                    ¡Bienvenid@ a nuestro espacio de novedades! Acá vas a encontrar:
+                </p>
+            </div>
             <ul class="list-unstyled fs-5">
                 <li>📢 Noticias y actualizaciones del sitio</li>
                 <li>🎓 Información sobre nuevos cursos y lanzamientos</li>
@@ -25,7 +26,7 @@
                 Esta sección está pensada para vos: para informarte, inspirarte y acompañarte en tu camino de aprendizaje continuo.
             </p>
 
-            <p class="fst-italic">
+            <p class="fst-italic text-white-50">
                 ¿Tenés alguna idea, sugerencia o tema que te gustaría que tratemos? ¡Dejanos tu comentario o escribinos! El equipo de <strong>MisCursos.com</strong> está para vos 💬✨
             </p>
 

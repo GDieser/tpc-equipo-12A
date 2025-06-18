@@ -33,7 +33,7 @@
 
         <hr />
         <div class="text-end">
-            <asp:DropDownList ID="ddlFiltroCategoria" runat="server" CssClass="form-select d-inline-block me-2 w-auto" />
+            <asp:DropDownList ID="ddlFiltroCategoria" runat="server" CssClass="btn btn-secondary dropdown-toggle" />
             <asp:Button Text="Filtrar" CssClass="btn btn-info" ID="btnFiltrar" OnClick="btnFiltrar_Click" runat="server" />
         </div>
         <br />

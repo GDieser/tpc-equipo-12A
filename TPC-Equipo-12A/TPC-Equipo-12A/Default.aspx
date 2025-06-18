@@ -82,7 +82,7 @@
         <section class="division">
             <br />
             <div>
-                <h2 class="text-center">¿Por qué elegir MisCursos.com?</h2>
+                <h3 class="fw-bold text-info text-center mb-4">¿Por qué elegir MisCursos.com?</h3>
                 <br />
                 <div class="row row-cols-1 row-cols-md-4 g-4 text-center">
                     <div class="col">
@@ -123,7 +123,7 @@
                     </div>
                 </div>
                 <br />
-                <h2 class="text-center">¿Qué ofrecemos?</h2>
+                <h3 class="fw-bold text-info text-center mb-4">¿Qué ofrecemos?</h3>
                 <br />
                 <div class="row row-cols-1 row-cols-md-4 g-4 text-center">
                     <div class="col">
@@ -170,7 +170,7 @@
         <section class="division text-center">
             <br />
             <div>
-                <h2>¡Ultimos cursos agregados!</h2>
+                <h3 class="fw-bold text-info mb-4">¡Últimos cursos agregados!</h3>
                 <br />
                 <div>
 
@@ -192,9 +192,8 @@
                                         </div>
 
                                         <div class="card-footer bg-transparent text-center border-0 mt-auto">
-                                            <a href='DescripcionCurso.aspx?id=<%# Eval("IdCurso") %>'
-                                                class="btn btn-outline-info btn-sm rounded-pill">Ver más
-                                            </a>
+                                            <a href='DescripcionCurso.aspx?id=<%# Eval("IdCurso") %>' class="btn btn-outline-info btn-sm rounded-pill">Ver más </a>
+
                                         </div>
                                     </div>
                                 </div>
@@ -213,7 +212,7 @@
             <br />
             <div>
                 <div class="row">
-                    <h2>Preguntas frecuentes</h2>
+                    <h3 class="fw-bold text-info mb-4">Preguntas frecuentes</h3>
                 </div>
                 <br />
 
@@ -236,81 +235,64 @@
 
                     </ItemTemplate>
                 </asp:Repeater>
+
                 <br />
                 <%if (usuario != null && usuario.Rol == Dominio.Rol.Administrador)
                     {  %>
-
-                <!-- Modal sirve para vent flotantes... -->
-
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Agregar FAQ
-                </button>
                 <a href="ListaFaqs.aspx" class="btn btn-warning">Administrar</a>
-
-
-                <div class="modal fade bg-dark p-2 text-dark bg-opacity-50" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content bg-dark p-2 text-white">
-                            <div class="modal-header">
-
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar nueva FAQ</h1>
-
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-
-                                <div class="mb-3">
-                                    <label for="txtPregunta" class="form-label fw-bold">Pregunta:</label>
-                                    <asp:TextBox ID="txtPregunta" runat="server" TextMode="MultiLine" Rows="3" CssClass="form-control" />
-                                    <asp:RequiredFieldValidator ID="rfvPregunta" runat="server"
-                                        ControlToValidate="txtPregunta"
-                                        ErrorMessage="La pregunta es obligatoria."
-                                        Display="Dynamic" ForeColor="Red" CssClass="small" />
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="txtRespuesta" class="form-label fw-bold">Respuesta:</label>
-                                    <asp:TextBox ID="txtRespuesta" runat="server" TextMode="MultiLine" Rows="3" CssClass="form-control" />
-                                    <asp:RequiredFieldValidator ID="rfvRespuesta" runat="server"
-                                        ControlToValidate="txtPregunta"
-                                        ErrorMessage="La respuesta es obligatoria."
-                                        Display="Dynamic" ForeColor="Red" CssClass="small" />
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <asp:Button Text="Aceptar" CssClass="btn btn-success mt-4" ID="btnAgregarFaq" OnClick="btnAgregarFaq_Click" runat="server" />
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <%} %>
             </div>
         </section>
 
         <asp:Label Text="" ID="lblError" runat="server" />
         <!-- contacto, podriamos poner para que mande mail -->
-        <section class="division">
 
-            <br />
-            <h2 class="text-center">Redes y contacto</h2>
-            <br />
+        <section class="text-white py-5">
+            <div class="container text-center">
+                <h2 class="fw-bold text-info mb-4">📬 ¡Contactanos!</h2>
+                <h4 class="mb-3">¿Tenés dudas, sugerencias o querés saber más? Estamos para ayudarte.</h4>
 
-            <div class="row row-cols-1 row-cols ">
-
-                <div class="text-center">
-                    <a href="http://instagram.com/">
-                        <img style="margin-right: 20px;" src='<%= ResolveUrl("~/Icons/insta.png") %>' alt="Instagram" /></a>
-                    <a href="http://twitter.com">
-                        <img style="margin-right: 20px;" src='<%= ResolveUrl("~/Icons/twitter.png") %>' alt="Twitter" /></a>
-                    <a href="http://github.com">
-                        <img style="margin-right: 20px;" src='<%= ResolveUrl("~/Icons/git.png") %>' alt="GitHub" /></a>
-                    <a href="http://google.com">
-                        <img style="margin-right: 20px;" src='<%= ResolveUrl("~/Icons/mail.png") %>' alt="Mail" /></a>
-                    <a href="http://linkedin.com">
-                        <img style="margin-right: 20px;" src='<%= ResolveUrl("~/Icons/lind.png") %>' alt="Linkedin" /></a>
+                <h6 class="mb-4">Podés encontrarnos en nuestras redes sociales:</h6>
+                <br />
+                <div class="row justify-content-center text-center">
+                    <div class="col-6 col-sm-2 mb-4">
+                        <a href="http://instagram.com/" target="_blank" class="text-white text-decoration-none">
+                            <img src='<%= ResolveUrl("~/Icons/insta.png") %>' alt="Instagram" class="img-fluid mb-2" style="height: 40px;" />
+                            <div class="small">Instagram</div>
+                        </a>
+                    </div>
+                    <div class="col-6 col-sm-2 mb-4">
+                        <a href="http://twitter.com" target="_blank" class="text-white text-decoration-none">
+                            <img src='<%= ResolveUrl("~/Icons/twitter.png") %>' alt="Twitter" class="img-fluid mb-2" style="height: 40px;" />
+                            <div class="small">Twitter</div>
+                        </a>
+                    </div>
+                    <div class="col-6 col-sm-2 mb-4">
+                        <a href="http://github.com" target="_blank" class="text-white text-decoration-none">
+                            <img src='<%= ResolveUrl("~/Icons/git.png") %>' alt="GitHub" class="img-fluid mb-2" style="height: 40px;" />
+                            <div class="small">GitHub</div>
+                        </a>
+                    </div>
+                    <div class="col-6 col-sm-2 mb-4">
+                        <a href="mailto:soporte@miscursos.com" target="_blank" class="text-white text-decoration-none">
+                            <img src='<%= ResolveUrl("~/Icons/mail.png") %>' alt="Mail" class="img-fluid mb-2" style="height: 40px;" />
+                            <div class="small">Email</div>
+                        </a>
+                    </div>
+                    <div class="col-6 col-sm-2 mb-4">
+                        <a href="http://linkedin.com" target="_blank" class="text-white text-decoration-none">
+                            <img src='<%= ResolveUrl("~/Icons/lind.png") %>' alt="Linkedin" class="img-fluid mb-2" style="height: 40px;" />
+                            <div class="small">LinkedIn</div>
+                        </a>
+                    </div>
                 </div>
+
+                <p class="mt-4 small text-secondary">Respondemos en menos de 24 hs. ¡Gracias por ser parte de nuestra comunidad! 🙌</p>
+                <br />
+                <p class="mt-4 small">
+                    ¿Aun no sos parte de MisCursos.com?  
+                    <a href="https://localhost:44341/Registro.aspx" class="text-info fw-bold text-decoration-none">¡Registrate, es gratis!</a>
+                </p>
 
             </div>
 
