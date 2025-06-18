@@ -11,7 +11,7 @@ namespace TPC_Equipo_12A
 {
     public partial class CrearCurso : System.Web.UI.Page
     {
-        private Curso cursoSeleccionado;
+        private Dominio.Curso cursoSeleccionado;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -52,7 +52,7 @@ namespace TPC_Equipo_12A
             else
             {
                
-                cursoSeleccionado = (Curso)Session["CursoSeleccionado"];
+                cursoSeleccionado = (Dominio.Curso)Session["CursoSeleccionado"];
             }
         }
 
@@ -100,7 +100,7 @@ namespace TPC_Equipo_12A
             }
 
             CursoServicio s = new CursoServicio();
-            Curso entidad = new Curso
+            Dominio.Curso entidad = new Dominio.Curso
             {
                 Titulo = txtTitulo.Text,
                 Resumen = txtResumen.Text,
