@@ -705,13 +705,17 @@ namespace Servicio
 
                 datos.ejecutarLectura();
 
+                carrito.CarritoCursos = new List<CarritoCurso>();
+
                 while (datos.Lector.Read())
                 {
-                    curso.IdCarrito = (int)datos.Lector["IdCarrito"]; ;
-                    curso.IdCurso = (int)datos.Lector["IdCurso"];
-                    curso.Precio = (decimal)datos.Lector["PrecioUnitario"];
-                    
-                    carrito.CarritoCursos.Add(curso);
+                    CarritoCurso cursoaux = new CarritoCurso();
+
+                    cursoaux.IdCarrito = idCarrito;
+                    cursoaux.IdCurso = (int)datos.Lector["IdCurso"];
+                    cursoaux.Precio = (decimal)datos.Lector["PrecioUnitario"];
+
+                    carrito.CarritoCursos.Add(cursoaux);
                 }
 
 
@@ -800,6 +804,7 @@ namespace Servicio
                 datos.setParametro("@idCurso", idCurso);
 
                 datos.ejecutarAccion();
+
 
             }
             catch (Exception ex)

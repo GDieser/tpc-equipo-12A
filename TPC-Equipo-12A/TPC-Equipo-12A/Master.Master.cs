@@ -27,10 +27,6 @@ namespace TPC_Equipo_12A
 
             if (!IsPostBack)
             {
-<<<<<<< Updated upstream
-=======
-                
->>>>>>> Stashed changes
                 if (Page is Login || usuario != null)
                 {
                     btnLogin.Visible = false;

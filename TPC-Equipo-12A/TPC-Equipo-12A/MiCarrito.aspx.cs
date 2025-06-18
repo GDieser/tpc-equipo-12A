@@ -13,35 +13,31 @@ namespace TPC_Equipo_12A
     public partial class MiCarrito : System.Web.UI.Page
     {
         CursoServicio servicio = new CursoServicio();
+
         protected Carrito carrito;
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
+            if (Session["UsuarioAutenticado"] == null)
+            {
+
+                lblMensaje.Visible = true;
+                lblMensaje.Text = "¡Nada por aca... Tenes que loguearte para ver tu carrito!";
+                return;
+            }
+
+            carrito = (Carrito)Session["Carrito"];
+
+            if (carrito == null || carrito.CarritoCursos == null || carrito.CarritoCursos.Count == 0)
+            {
+                lblMensaje.Visible = true;
+                lblMensaje.Text = "¡Nada por aca... Tenes que agregar algo a tu carrito!";
+
+            }
+
             if (!IsPostBack)
             {
-                if (Session["UsuarioAutenticado"] == null)
-                {
-
-                    lblMensaje.Visible = true;
-                    lblMensaje.Text = "¡Nada por aca... Tenes que loguearte para ver tu carrito!";
-                    return;
-                }
-
-                
-                carrito = (Carrito)Session["Carrito"];
-
-                if (carrito == null || carrito.CarritoCursos == null || carrito.CarritoCursos.Count == 0)
-                {
-                    lblMensaje.Visible = true;
-                    lblMensaje.Text = "¡Nada por aca... Tenes que agregar algo a tu carrito!";
-
-                }
-                else
-                {
-                    CargarCarrito();
-                }
-
-               
+                CargarCarrito();
             }
         }
 
@@ -49,7 +45,8 @@ namespace TPC_Equipo_12A
         {
             carrito = (Carrito)Session["Carrito"];
 
-            List<Curso> cursos = new List<Curso>();
+            List<Dominio.Curso> cursos = new List<Dominio.Curso>();
+
 
             foreach (var curso in carrito.CarritoCursos)
             {
@@ -64,18 +61,25 @@ namespace TPC_Equipo_12A
 
             pnlCarrito.Visible = true;
             lblMensaje.Visible = false;
-            
+
         }
 
         protected void repCarrito_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
+            UsuarioAutenticado usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
             CursoServicio servicio = new CursoServicio();
 
-            if(e.CommandName == "Eliminar")
+            if (e.CommandName == "Eliminar")
             {
+                carrito = (Carrito)Session["Carrito"];
+
                 int idCurso = Convert.ToInt32(e.CommandArgument.ToString());
 
                 servicio.EliminarCursoCarrito(idCurso);
+
+                Session["Carrito"] = null;
+                Session["Carrito"] = servicio.ListarCursoCarrito(usuario.IdUsuario); ;
+                CargarCarrito();
 
                 Response.Redirect(Request.RawUrl);
             }

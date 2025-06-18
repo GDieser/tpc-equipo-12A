@@ -132,7 +132,7 @@ namespace TPC_Equipo_12A
             {
                 if(!ValidarCursoCarrito())
                 {
-                    Curso curso = servicio.GetCursoPorId(idCurso);
+                    Dominio.Curso curso = servicio.GetCursoPorId(idCurso);
 
                     servicio.CrearCarrito(usuario.IdUsuario, idCurso, curso.Precio);
                 }
@@ -143,7 +143,7 @@ namespace TPC_Equipo_12A
                 {
                     carrito = (Carrito)Session["Carrito"];
 
-                    Curso curso = servicio.GetCursoPorId(idCurso);
+                    Dominio.Curso curso = servicio.GetCursoPorId(idCurso);
 
                     servicio.AgregrarCursoCarrito(carrito.IdCarrito, idCurso, curso.Precio);
                 }

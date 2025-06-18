@@ -177,19 +177,28 @@
                     <div class="row row-cols-1 row-cols-md-3 g-4">
                         <asp:Repeater ID="rptCursos" runat="server">
                             <ItemTemplate>
-                                <div class="col d-flex">
-                                    <div class="card h-100 border-primary w-100">
-                                        <img src='<%# Eval("ImagenPortada.Url") %>' class="card-img-top" alt="Imagen del curso">
-                                        <div class="card-body bg-dark text-white text-center">
-                                            <h5 class="card-title"><%# Eval("Titulo") %></h5>
-                                            <p class="card-text"><%# Eval("Resumen") %></p>
-                                        </div>
-                                        <div class="card-footer border-primary bg-dark text-center">
-                                            <a href='DescripcionCurso.aspx?id=<%# Eval("IdCurso") %>' class="btn btn-primary mx-auto">Ver más</a>
 
+
+                                <div class="col">
+                                    <div class="card h-100 bg-dark text-light border-secondary shadow-sm rounded-4 d-flex flex-column">
+
+                                        <img src='<%# Eval("ImagenPortada.Url") %>' class="card-img-top img-fluid object-fit-cover rounded-top" style="height: 220px;" alt="Imagen del curso" />
+
+                                        <div class="card-body text-center flex-grow-1">
+                                            <h4 class="card-title fw-semibold mb-1"><%# Eval("Titulo") %></h4>
+                                        </div>
+                                        <div class="card-body text-center flex-grow-1">
+                                            <p class="card-text text-white"><%# Eval("Resumen") %></p>
+                                        </div>
+
+                                        <div class="card-footer bg-transparent text-center border-0 mt-auto">
+                                            <a href='DescripcionCurso.aspx?id=<%# Eval("IdCurso") %>'
+                                                class="btn btn-outline-info btn-sm rounded-pill">Ver más
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
+
                             </ItemTemplate>
                         </asp:Repeater>
 
@@ -288,7 +297,7 @@
             <h2 class="text-center">Redes y contacto</h2>
             <br />
 
-            <div class="row row-cols-1 row-cols-md-2 g-2 ">
+            <div class="row row-cols-1 row-cols ">
 
                 <div class="text-center">
                     <a href="http://instagram.com/">
@@ -302,27 +311,6 @@
                     <a href="http://linkedin.com">
                         <img style="margin-right: 20px;" src='<%= ResolveUrl("~/Icons/lind.png") %>' alt="Linkedin" /></a>
                 </div>
-
-                <form>
-                    <div class="mb-3">
-                        <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Nombre</label>
-                            <input class="form-control" id="nombre">
-                        </div>
-                        <label for="exampleInputEmail1" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Mensaje</label>
-                        <input class="form-control" id="exampleInputPassword1">
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1">Recibir novedades</label>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Enviar</button>
-                </form>
 
             </div>
 

@@ -60,7 +60,7 @@
 
                                 <p class="card-text"><%# Eval("Resumen") %></p>
 
-                                <a href="DetalleNovedad.aspx?IdNovedad=<%# Eval("IdPublicacion") %>" class="btn btn-info">Ver más.</a>
+                                <a href="DetalleNovedad.aspx?IdNovedad=<%# Eval("IdPublicacion") %>" class="btn btn-outline-info">Ver más.</a>
 
                             </div>
                         </div>
