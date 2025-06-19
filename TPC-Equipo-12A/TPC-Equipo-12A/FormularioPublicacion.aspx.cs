@@ -82,13 +82,13 @@ namespace TPC_Equipo_12A
 
                 //nueva.Descripcion = txtDescripcion.Text;
 
-                string descIngreso = Request.Form[txtDes.UniqueID];
+                /*string descIngreso = Request.Form[txtDes.UniqueID];
                 HtmlSanitizer sanit = new HtmlSanitizer();
 
 
-                string descAux = sanit.Sanitize(descIngreso);
+                string descAux = sanit.Sanitize(descIngreso);*/
 
-                nueva.Descripcion = descAux;
+                nueva.Descripcion = Request.Form[txtDes.UniqueID];
 
 
                 nueva.Categoria = new Categoria();

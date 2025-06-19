@@ -52,21 +52,44 @@ namespace TPC_Equipo_12A
                 ddlFiltro.DataBind();
                 ddlFiltro.Items.Insert(0, new ListItem("Todo", "0"));
 
-                ListaPublicaciones = servicio.listar();
-                List<Publicacion> listaFiltrada = new List<Publicacion>();
-
-                foreach (var publi in ListaPublicaciones)
-                {
-                    if(publi.Estado == EstadoPublicacion.Publicado)
-                    {
-                        listaFiltrada.Add(publi);
-                    }
-                }
-
-                rptNovedades.DataSource = listaFiltrada;
-                rptNovedades.DataBind();
+                CargarNovedades();
             }
 
+        }
+
+        private void CargarNovedades()
+        {
+            NovedadesServicio servicio = new NovedadesServicio();
+            ListaPublicaciones = servicio.listar();
+            List<Publicacion> listaFiltrada = new List<Publicacion>();
+
+            foreach (var publi in ListaPublicaciones)
+            {
+                if (publi.Estado == EstadoPublicacion.Publicado)
+                {
+                    listaFiltrada.Add(publi);
+                }
+            }
+
+            PagedDataSource paged = new PagedDataSource();
+
+
+            paged.DataSource = listaFiltrada;
+            paged.PageSize = 10;
+            paged.AllowPaging = true;
+            paged.CurrentPageIndex = PageNumber;
+
+            rptNovedades.DataSource = paged;
+            rptNovedades.DataBind();
+
+            btnAnterior.Enabled = !paged.IsFirstPage;
+            btnSiguiente.Enabled = !paged.IsLastPage;
+        }
+
+        private int PageNumber
+        {
+            get { return ViewState["PageNumber"] != null ? (int)ViewState["PageNumber"] : 0; }
+            set { ViewState["PageNumber"] = value; }
         }
 
         protected void btnAgregar_Click(object sender, EventArgs e)
@@ -112,5 +135,19 @@ namespace TPC_Equipo_12A
 
             }
         }
+
+        protected void btnAnterior_Click(object sender, EventArgs e)
+        {
+            PageNumber--;
+            CargarNovedades();
+        }
+
+        protected void btnSiguiente_Click(object sender, EventArgs e)
+        {
+            PageNumber++;
+            CargarNovedades();
+        }
+
+
     }
 }

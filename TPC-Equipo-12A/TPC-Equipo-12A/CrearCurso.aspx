@@ -7,8 +7,9 @@
 
     <div class="container">
 
-        <h1><asp:Literal ID="litTituloFormulario" runat="server" /></h1>
-        
+        <h1>
+            <asp:Literal ID="litTituloFormulario" runat="server" /></h1>
+
 
         <hr />
 
@@ -22,9 +23,21 @@
 
                 <h4>Descripción:</h4>
                 <textarea id="txtDescripcion" runat="server" rows="10" cols="60"></textarea>
+
+                <!-- Version para iframe de youtube -->
                 <script>
-                    CKEDITOR.replace('<%= txtDescripcion.ClientID %>');
+                    CKEDITOR.replace('<%= txtDescripcion.ClientID %>', {
+                        extraAllowedContent: 'iframe[width,height,src,frameborder,allow,allowfullscreen,referrerpolicy,sandbox,title];',
+                        removeButtons: '',
+                        toolbar: 'full',
+                        removePlugins: 'iframe',
+                        extraPlugins: 'iframe',
+                        filebrowserBrowseUrl: '',
+                        filebrowserUploadUrl: '',
+                        customConfig: ''
+                    });
                 </script>
+
 
                 <h4>Categoría:</h4>
                 <asp:DropDownList ID="ddlCategoria" runat="server" CssClass="form-select" Style="width: 60%;" />
@@ -41,11 +54,11 @@
             <div class="col-6">
                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                     <ContentTemplate>
-                <h4>Precio:</h4>
-                <asp:TextBox ID="txtPrecio" runat="server" CssClass="form-control" />
+                        <h4>Precio:</h4>
+                        <asp:TextBox ID="txtPrecio" runat="server" CssClass="form-control" />
 
-                <h4>Duración (horas):</h4>
-                <asp:TextBox ID="txtDuracion" runat="server" CssClass="form-control" />
+                        <h4>Duración (horas):</h4>
+                        <asp:TextBox ID="txtDuracion" runat="server" CssClass="form-control" />
 
                         <h4>URL de imagen:</h4>
                         <asp:TextBox ID="txtImagen" runat="server" AutoPostBack="true"
