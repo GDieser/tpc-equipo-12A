@@ -63,7 +63,31 @@ namespace TPC_Equipo_12A
             ddlCategoria.DataTextField = "Nombre";
             ddlCategoria.DataValueField = "IdCategoria";
             ddlCategoria.DataBind();
+            ddlCategoria.Items.Add(new ListItem("Nueva categoría", "-1"));
         }
+        protected void btnGuardarCategoriaModal_Click(object sender, EventArgs e)
+        {
+            string nombre = txtNuevaCategoriaModal.Text.Trim();
+            if (nombre.Length == 0) return;
+
+            CategoriaServicio servicio = new CategoriaServicio();
+            Categoria nueva = servicio.AgregarCategoriaSiNoExiste(nombre);
+
+            cargarCategorias();
+            ddlCategoria.SelectedValue = nueva.IdCategoria.ToString();
+            txtNuevaCategoriaModal.Text = string.Empty;
+
+            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal", @"
+        setTimeout(function() {
+            var modal = bootstrap.Modal.getInstance(document.getElementById('modalNuevaCategoria'));
+            if (modal) {
+                modal.hide();
+            }
+        }, 200);", true);
+        }
+
+
+
 
         private void cargarEstados()
         {
