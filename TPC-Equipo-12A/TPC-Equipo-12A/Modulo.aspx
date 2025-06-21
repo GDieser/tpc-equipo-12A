@@ -1,9 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="Modulo.aspx.cs" Inherits="TPC_Equipo_12A.Modulo" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Aula.Master" AutoEventWireup="true" CodeBehind="Modulo.aspx.cs" Inherits="TPC_Equipo_12A.Modulo" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server" />
+<asp:Content ID="Content2" ContentPlaceHolderID="AulaContent" runat="server">
     <style>
         .img-banner-curso {
             width: 100%;
@@ -11,7 +8,6 @@
             object-fit: cover;
         }
     </style>
-
 
     <div class="container col-xl-8">
 
@@ -28,23 +24,23 @@
                 <p class="text-secondary mb-0">
                     <asp:Literal ID="litIntro" runat="server" />
                 </p>
-                <asp:Button ID="btnAgregarLeccion" 
-                    runat="server" 
-                    CssClass="btn btn-primary btn-sm mb-3" 
-                    Text="Agregar Leccion" 
-                    OnClientClick="limpiarModal(); return false;" 
-                    data-bs-toggle="modal" 
+                <asp:Button ID="btnAgregarLeccion"
+                    runat="server"
+                    CssClass="btn btn-primary btn-sm mb-3"
+                    Text="Agregar Leccion"
+                    OnClientClick="limpiarModal(); return false;"
+                    data-bs-toggle="modal"
                     data-bs-target="#modalLeccion" />
             </div>
             <hr />
             <asp:UpdatePanel ID="updLecciones" runat="server">
                 <ContentTemplate>
-                    <asp:Repeater ID="rptLecciones" 
-                        runat="server" 
+                    <asp:Repeater ID="rptLecciones"
+                        runat="server"
                         OnItemCommand="rptLecciones_ItemCommand">
                         <ItemTemplate>
-                            <div class="card mb-2">
-                                <div class="card-header d-flex justify-content-between align-items-center">
+                            <div class="card mb-2 border-0" style="background-color:#211c1c ; color: aliceblue;">
+                                <div class="card-header d-flex justify-content-between align-items-center border-0" >
                                     <div style="flex-grow: 1; cursor: pointer;"
                                         data-bs-toggle="collapse"
                                         data-bs-target='<%# "#intro" + Eval("IdLeccion") %>'>
@@ -81,24 +77,24 @@
                                      ✏️
                                         </asp:LinkButton>
                                     </div>
-                                    <a href='<%# "Leccion.aspx?id=" + Eval("IdLeccion") %>' 
-                                        class="btn btn-primary btn-sm" 
-                                        onclick="event.stopPropagation();">
-                                        Ir a la leccion
+                                    <a href='<%# Eval("IdLeccion").ToString() != "0" ? "Leccion.aspx?id=" + Eval("IdLeccion") : "#" %>'
+                                        class='<%# (Convert.ToInt32(Eval("IdLeccion")) > 0 ? "btn btn-primary btn-sm" : "btn btn-secondary btn-sm disabled") %>'
+                                        onclick="event.stopPropagation();">Ir a la lección
                                     </a>
 
                                 </div>
                                 <div id='<%# "intro" + Eval("IdLeccion") %>'
-                                    class="collapse card-body bg-light text-secondary">
+                                    class="collapse card-body border-0"
+                                    style="background-color:#211c1c ; color: aliceblue;">
                                     <%# Eval("Introduccion") %>
                                 </div>
                             </div>
                         </ItemTemplate>
                     </asp:Repeater>
-                    <asp:Button ID="btnGuardarCambios" 
-                        runat="server" 
-                        CssClass="btn btn-success btn-sm mb-3" 
-                        Text="Guardar cambios" 
+                    <asp:Button ID="btnGuardarCambios"
+                        runat="server"
+                        CssClass="btn btn-success btn-sm mb-3"
+                        Text="Guardar cambios"
                         OnClick="btnGuardarCambios_Click" />
 
                     <div class="modal fade" id="modalLeccion" tabindex="-1" aria-labelledby="modalLeccionLabel" aria-hidden="true">
@@ -119,10 +115,6 @@
                                         <label for="txtIntroLeccion" class="form-label">Introducción</label>
                                         <asp:TextBox ID="txtIntroLeccion" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="4" />
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="txtImagenLeccion" class="form-label">URL Imagen (opcional)</label>
-                                        <asp:TextBox ID="txtImagenLeccion" runat="server" CssClass="form-control" />
-                                    </div>
                                 </div>
                                 <div class="modal-footer border-0">
                                     <asp:Button ID="btnGuardarLeccion" runat="server" CssClass="btn btn-success" Text="Guardar" OnClick="btnGuardarLeccion_Click" />
@@ -141,8 +133,14 @@
             document.getElementById("<%= hfIdLeccion.ClientID %>").value = "";
             document.getElementById("<%= txtTituloLeccion.ClientID %>").value = "";
             document.getElementById("<%= txtIntroLeccion.ClientID %>").value = "";
-            document.getElementById("<%= txtImagenLeccion.ClientID %>").value = "";
         }
+
+        Sys.Application.add_load(function () {
+            document.body.classList.remove('modal-open');
+            document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
+            document.body.style.overflowY = 'auto';
+            document.body.style.position = 'relative';
+        });
 
         document.addEventListener('DOMContentLoaded', function () {
             const modalEl = document.getElementById('modalLeccion');

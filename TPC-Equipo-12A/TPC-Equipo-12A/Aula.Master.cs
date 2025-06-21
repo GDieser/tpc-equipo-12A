@@ -12,11 +12,48 @@ namespace TPC_Equipo_12A
     public partial class Aula : System.Web.UI.MasterPage
     {
         protected UsuarioAutenticado usuario;
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+            if (!IsPostBack)
+            {
+                var usuario = Session["UsuarioAutenticado"] as UsuarioAutenticado;
+                if (usuario != null)
+                {
+                    CursoServicio cursoServicio = new CursoServicio();
+                    var cursos = cursoServicio.ObtenerCursosCompletosDeUsuario(usuario.IdUsuario); 
+                    rptCursos.DataSource = cursos;
+                    rptCursos.DataBind();
+                }
+            }
+        }
 
+        protected void rptCursos_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "VerCurso")
+            {
+                int idCurso = Convert.ToInt32(e.CommandArgument);
+                Response.Redirect($"Curso.aspx?id={idCurso}");
+            }
+        }
 
+        protected void rptModulos_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "VerModulo")
+            {
+                int idModulo = Convert.ToInt32(e.CommandArgument);
+                Response.Redirect($"Modulo.aspx?id={idModulo}");
+            }
+        }
+
+        protected void rptLecciones_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "VerLeccion")
+            {
+                int idLeccion = Convert.ToInt32(e.CommandArgument);
+                Response.Redirect($"Leccion.aspx?id={idLeccion}");
+            }
         }
     }
 }

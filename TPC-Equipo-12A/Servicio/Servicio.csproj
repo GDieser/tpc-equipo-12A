@@ -78,7 +78,6 @@
     <Compile Include="AccesoDatos.cs" />
     <Compile Include="AutenticarUsuario.cs" />
     <Compile Include="CategoriaServicio.cs" />
-    <Compile Include="ComponenteServicio.cs" />
     <Compile Include="CursoServicio.cs" />
     <Compile Include="FaqServicio.cs" />
     <Compile Include="ImagenServicio.cs" />

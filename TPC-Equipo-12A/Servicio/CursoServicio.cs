@@ -162,7 +162,7 @@ namespace Servicio
         }
 
 
-        public void GuardarCurso(Curso nuevo)
+        public int GuardarCurso(Curso nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
             try
@@ -216,6 +216,7 @@ namespace Servicio
                 datos.setParametro("@idcurso", nuevo.IdCurso);
 
                 datos.ejecutarAccion();
+                return nuevo.IdCurso;
             }
             catch (Exception ex)
             {
@@ -312,62 +313,62 @@ namespace Servicio
 
 
 
-       /*  public Curso ObtenerCursoPorId(int id)
+        /*  public Curso ObtenerCursoPorId(int id)
 
-         {
-             AccesoDatos accesoDatos = new AccesoDatos();
-             try
-             {
-                 accesoDatos.setConsulta(@"
-                 SELECT 
-                     c.IdCurso, 
-                     c.Titulo, 
-                     c.Descripcion, 
-                     c.Precio, 
-                     c.FechaCreacion, 
-                     c.FechaPublicacion, 
-                     c.Estado, 
-                     c.Duracion, 
-                     c.Certificado,
-                     i.UrlImagen AS ImagenPortadaUrl
-                 FROM Curso c
-                 INNER JOIN Imagen i ON c.ImagenPortada = i.IdImagen
-                 WHERE c.IdCurso = @idCurso
-                 ");
-                 accesoDatos.limpiarParametros();
-                 accesoDatos.setParametro("@idCurso", id);
-                 accesoDatos.ejecutarLectura();
-                 if (accesoDatos.Lector.Read())
-                 {
-                     Curso curso = new Curso
-                     {
-                         IdCurso = (int)accesoDatos.Lector["IdCurso"],
-                         Titulo = accesoDatos.Lector["Titulo"].ToString(),
-                         Descripcion = accesoDatos.Lector["Descripcion"].ToString(),
-                         Precio = (decimal)accesoDatos.Lector["Precio"],
-                         FechaCreacion = (DateTime)accesoDatos.Lector["FechaCreacion"],
-                         FechaPublicacion = (DateTime)accesoDatos.Lector["FechaPublicacion"],
-                         Estado = (EstadoPublicacion)Enum.Parse(typeof(EstadoPublicacion), accesoDatos.Lector["EstadoPublicacion"].ToString()),
-                         Duracion = (int)accesoDatos.Lector["Duracion"],
-                         Certificado = (bool)accesoDatos.Lector["Certificado"],
-                         ImagenPortada = new Imagen { Url = accesoDatos.Lector["ImagenPortadaUrl"].ToString() }
-                     };
-                     return curso;
-                 }
-                 else
-                 {
-                     return null;
-                 }
-             }
-             catch (Exception ex)
-             {
-                 throw new Exception("No se pudo obtener el curso por ID", ex);
-             }
-             finally
-             {
-                 accesoDatos.cerrarConexion();
-             }
-         }*/
+          {
+              AccesoDatos accesoDatos = new AccesoDatos();
+              try
+              {
+                  accesoDatos.setConsulta(@"
+                  SELECT 
+                      c.IdCurso, 
+                      c.Titulo, 
+                      c.Descripcion, 
+                      c.Precio, 
+                      c.FechaCreacion, 
+                      c.FechaPublicacion, 
+                      c.Estado, 
+                      c.Duracion, 
+                      c.Certificado,
+                      i.UrlImagen AS ImagenPortadaUrl
+                  FROM Curso c
+                  INNER JOIN Imagen i ON c.ImagenPortada = i.IdImagen
+                  WHERE c.IdCurso = @idCurso
+                  ");
+                  accesoDatos.limpiarParametros();
+                  accesoDatos.setParametro("@idCurso", id);
+                  accesoDatos.ejecutarLectura();
+                  if (accesoDatos.Lector.Read())
+                  {
+                      Curso curso = new Curso
+                      {
+                          IdCurso = (int)accesoDatos.Lector["IdCurso"],
+                          Titulo = accesoDatos.Lector["Titulo"].ToString(),
+                          Descripcion = accesoDatos.Lector["Descripcion"].ToString(),
+                          Precio = (decimal)accesoDatos.Lector["Precio"],
+                          FechaCreacion = (DateTime)accesoDatos.Lector["FechaCreacion"],
+                          FechaPublicacion = (DateTime)accesoDatos.Lector["FechaPublicacion"],
+                          Estado = (EstadoPublicacion)Enum.Parse(typeof(EstadoPublicacion), accesoDatos.Lector["EstadoPublicacion"].ToString()),
+                          Duracion = (int)accesoDatos.Lector["Duracion"],
+                          Certificado = (bool)accesoDatos.Lector["Certificado"],
+                          ImagenPortada = new Imagen { Url = accesoDatos.Lector["ImagenPortadaUrl"].ToString() }
+                      };
+                      return curso;
+                  }
+                  else
+                  {
+                      return null;
+                  }
+              }
+              catch (Exception ex)
+              {
+                  throw new Exception("No se pudo obtener el curso por ID", ex);
+              }
+              finally
+              {
+                  accesoDatos.cerrarConexion();
+              }
+          }*/
 
         public bool EsUsuarioHabilitado(int idUsuario, int idCurso)
         {
@@ -380,28 +381,28 @@ namespace Servicio
                  INNER JOIN DetalleCompra dc ON c.IdCompra = dc.IdCompra
                  WHERE c.IdUsuario = @IdUsuario AND dc.IdCurso = @IdCurso;
                  ");
-                 accesoDatos.limpiarParametros();
-                 accesoDatos.setParametro("@IdUsuario", idUsuario);
-                 accesoDatos.setParametro("@IdCurso", idCurso);
-                 accesoDatos.ejecutarLectura();
-                 if (accesoDatos.Lector.Read())
-                 {
-                     return true;
-                 }
-                 else
-                 {
-                     return false;
-                 }
-             }
-             catch (Exception ex)
-             {
-                 throw new Exception("Error al verificar si el usuario esta habilitado", ex);
-             }
-             finally
-             {
-                 accesoDatos.cerrarConexion();
-             }
-         }
+                accesoDatos.limpiarParametros();
+                accesoDatos.setParametro("@IdUsuario", idUsuario);
+                accesoDatos.setParametro("@IdCurso", idCurso);
+                accesoDatos.ejecutarLectura();
+                if (accesoDatos.Lector.Read())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al verificar si el usuario esta habilitado", ex);
+            }
+            finally
+            {
+                accesoDatos.cerrarConexion();
+            }
+        }
 
         public Curso ObtenerCursoPorId(int id)
         {
@@ -441,7 +442,7 @@ namespace Servicio
                         Titulo = accesoDatos.Lector["Titulo"].ToString(),
                         Descripcion = accesoDatos.Lector["Descripcion"].ToString(),
                         Resumen = accesoDatos.Lector["Resumen"].ToString(),
-                        
+
                         Categoria = new Categoria
                         {
                             IdCategoria = (int)accesoDatos.Lector["IdCategoria"],
@@ -451,7 +452,8 @@ namespace Servicio
                             ? (DateTime)accesoDatos.Lector["FechaPublicacion"]
                             : (DateTime?)null),
                         Estado = (EstadoPublicacion)(int)accesoDatos.Lector["Estado"],
-                        ImagenPortada = new Imagen{
+                        ImagenPortada = new Imagen
+                        {
                             Url = accesoDatos.Lector["ImagenPortadaUrl"] != DBNull.Value ? accesoDatos.Lector["ImagenPortadaUrl"].ToString() : "https://www.aprender21.com/images/colaboradores/sql.jpeg",
                             Nombre = accesoDatos.Lector["NombreImagen"] != DBNull.Value ? accesoDatos.Lector["NombreImagen"].ToString() : "default",
                             IdImagen = accesoDatos.Lector["IdImagen"] != DBNull.Value ? (int)accesoDatos.Lector["IdImagen"] : 0,
@@ -742,7 +744,7 @@ namespace Servicio
             {
                 datos.setConsulta("INSERT INTO Carrito(IdUsuario, FechaCreacion, UltimaModificacion) VALUES(@idUsuario, GETDATE(), GETDATE()) SELECT SCOPE_IDENTITY();;");
                 datos.setParametro("@idUsuario", idUsuario);
-                                
+
                 datos.ejecutarLectura();
                 if (datos.Lector.Read())
                     idCarrito = Convert.ToInt32(datos.Lector[0]);
@@ -818,6 +820,49 @@ namespace Servicio
             }
         }
 
+        public List<CursoDTO> ObtenerCursosCompletosDeUsuario(int idUsuario)
+        {
+            AccesoDatos accesoCursos = new AccesoDatos();
+            try
+            {
+                accesoCursos.setConsulta(@"
+                    SELECT 
+                        c.IdCurso,
+                        c.Titulo
+                    FROM Curso c
+                    LEFT JOIN DetalleCompra dc ON c.IdCurso = dc.IdCurso 
+                    LEFT JOIN Compra co ON dc.IdCompra = co.IdCompra
+                   "
+                    );
+                //  WHERE co.IdUsuario = @idUsuario - AGREGAR ESTA LINEA TAMBIEN EN LA OCNSULTA
+                // DESPUES REEMPLAZAR EL LEFT JOIN POR EL INNER, ESTO ES PRUEBA PAARA QUE TRAIGA TODOS LOS CURSOS
+                accesoCursos.limpiarParametros();
+                accesoCursos.setParametro("@idUsuario", idUsuario);
+                accesoCursos.ejecutarLectura();
 
+                List<CursoDTO> cursos = new List<CursoDTO>();
+                ModuloServicio moduloServicio = new ModuloServicio();
+                while (accesoCursos.Lector.Read())
+                {
+                    CursoDTO curso = new CursoDTO
+                    {
+                        IdCurso = (int)accesoCursos.Lector["IdCurso"],
+                        NombreCurso = accesoCursos.Lector["Titulo"].ToString(),
+                        UrlCurso = $"Curso.aspx?id={(int)accesoCursos.Lector["IdCurso"]}"
+                    };
+                    curso.Modulos = moduloServicio.ObtenerModulosDTOPorIdCurso(curso.IdCurso);
+                    cursos.Add(curso);
+                }
+                return cursos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cargar los cursos:", ex);
+            }
+            finally
+            {
+                accesoCursos.cerrarConexion();
+            }
+        }
     }
 }

@@ -108,9 +108,12 @@ namespace Servicio
                 else
                 {
                     datos.setConsulta(@"INSERT INTO Imagen (UrlImagen, Nombre, IdTipoImagen) 
-                                    OUTPUT INSERTED.IdImagen 
-                                    VALUES (@UrlImagen, @Nombre, 1)");
-                    return datos.ejecutarNonQuery();
+                    VALUES (@UrlImagen, @Nombre, 1);
+                    SELECT SCOPE_IDENTITY();");
+
+                    int idInsertado = Convert.ToInt32(datos.ejecutarEscalar());
+                    return idInsertado;
+
                 }
             }
             catch (Exception ex)

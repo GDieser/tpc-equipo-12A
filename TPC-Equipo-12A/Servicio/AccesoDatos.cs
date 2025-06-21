@@ -97,5 +97,18 @@ namespace Servicio
                 conexion.Open();
         }
 
+        public object ejecutarEscalar()
+        {
+            comando.Connection = conexion;
+            try
+            {
+                abrirConexion();
+                return comando.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

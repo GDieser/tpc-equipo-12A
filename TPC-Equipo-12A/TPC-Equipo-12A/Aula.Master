@@ -4,20 +4,186 @@
 </asp:Content>
 
 <asp:Content ID="ContentBody" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server" />
 
+    <style>
+        .btn-xs {
+            padding: 0.15rem 0.15rem;
+            font-size: 0.75rem;
+            line-height: 1;
+        }
+
+        .sidebar-scroll {
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .text-curso a {
+            font-size: 0.9rem;
+            color: #ffffff;
+        }
+
+        .menu-curso,
+        .menu-modulo,
+        .menu-leccion {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .menu-modulo a {
+            font-size: 0.85rem;
+            color: #aad8ff;
+        }
+
+        .menu-modulo li {
+            border-left: 2px solid rgba(255, 255, 255, 0.15);
+            padding-left: 0.75rem;
+            margin-left: 0.25rem;
+            position: relative;
+            transition: border-color 0.2s ease;
+        }
+
+        .menu-modulo li:hover {
+            border-left-color: #66b6ff;
+        }
+
+        .menu-leccion a {
+            font-size: 0.8rem;
+            color: #ffc78f;
+        }
+
+        .menu-leccion li {
+            border-left: 2px solid rgba(255, 255, 255, 0.25);
+            padding-left: 1rem;
+            margin-left: 0.5rem;
+            position: relative;
+            transition: border-color 0.2s ease;
+        }
+
+        .menu-leccion li:hover {
+            border-left-color: #ffae64;
+        }
+
+        .menu-leccion li:hover::before {
+            background-color: #ffae64;
+        }
+
+        .sidebar-scroll {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-scroll.loaded {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
     <div class="container-fluid">
         <div class="row">
-            
-            <div class="col-md-3 col-lg-2 bg-dark text-white vh-100 position-fixed p-4">
+
+            <div class="col-md-3 col-lg-3 bg-dark text-white vh-100 position-fixed p-4 sidebar-scroll">
                 <h4 class="mb-4 border-bottom pb-2">
                     <i class="bi bi-house-door me-2"></i>Mi Aula
                 </h4>
                 <ul class="nav flex-column">
+                    <!-- Mis Cursos -->
                     <li class="nav-item mb-2">
-                        <a class="nav-link text-white" href="MisCursos.aspx">
-                            <i class="bi bi-book me-2"></i>Mis Cursos
-                        </a>
+                    <li class="nav-item mb-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a class="nav-link text-white" href="MisCursos.aspx">
+                                <i class="bi bi-book me-2"></i>Mis Cursos
+                            </a>
+                            <button class="btn btn-outline-light btn-xs" type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#cursosUsuario"
+                                aria-expanded="false">
+                                <i class="bi bi-plus-lg" id="iconCursosUsuario"></i>
+                            </button>
+                        </div>
+
+
+                        <!-- Cursos del usuario -->
+                        <ul class="collapse ps-3 pt-2 menu-curso" id="cursosUsuario" data-icon-ref="iconCursosUsuario">
+                            <asp:Repeater ID="rptCursos" runat="server" OnItemCommand="rptCursos_ItemCommand">
+                                <ItemTemplate>
+                                    <li class="nav-item mb-2">
+                                        <div class="d-flex justify-content-between align-items-center text-curso">
+                                            <!-- Curso -->
+                                            <asp:LinkButton ID="lnkCurso" runat="server"
+                                                CssClass="nav-link text-white flex-grow-1"
+                                                CommandName="VerCurso"
+                                                CommandArgument='<%# Eval("IdCurso") %>'>
+                                <i class="bi bi-journal-text me-2"></i><%# Eval("NombreCurso") %>
+                                            </asp:LinkButton>
+
+                                            <!-- Botón expansión curso -->
+                                            <button class="btn btn-outline-light btn-xs" type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target='<%# "#modulosCurso" + Eval("IdCurso") %>'
+                                                aria-expanded="false">
+                                                <i class="bi bi-plus-lg" id='<%# "iconCurso" + Eval("IdCurso") %>'></i>
+                                            </button>
+                                        </div>
+
+                                        <!-- Módulos -->
+                                        <ul class="collapse ps-3 pt-1 menu-modulo"
+                                            id='<%# "modulosCurso" + Eval("IdCurso") %>'
+                                            data-icon-ref='<%# "iconCurso" + Eval("IdCurso") %>'>
+                                            <asp:Repeater ID="rptModulos" runat="server"
+                                                OnItemCommand="rptModulos_ItemCommand"
+                                                DataSource='<%# Eval("Modulos") %>'>
+                                                <ItemTemplate>
+                                                    <li>
+                                                        <div class="d-flex justify-content-between align-items-center text-modulo">
+                                                            <!-- Módulo -->
+                                                            <asp:LinkButton ID="lnkModulo" runat="server"
+                                                                CssClass="nav-link flex-grow-1"
+                                                                CommandName="VerModulo"
+                                                                CommandArgument='<%# Eval("IdModulo") %>'>
+                                                                    <i class="bi bi-layers me-2"></i><%# Eval("NombreModulo") %>
+                                                            </asp:LinkButton>
+
+                                                            <!-- Botón expansión módulo -->
+                                                            <button class="btn btn-outline-light btn-xs" type="button"
+                                                                data-bs-toggle="collapse"
+                                                                data-bs-target='<%# "#leccionesModulo" + Eval("IdModulo") %>'
+                                                                aria-expanded="false">
+                                                                <i class="bi bi-plus-lg" id='<%# "iconModulo" + Eval("IdModulo") %>'></i>
+                                                            </button>
+                                                        </div>
+
+                                                        <!-- Lecciones -->
+                                                        <ul class="collapse ps-3 pt-1 menu-leccion"
+                                                            id='<%# "leccionesModulo" + Eval("IdModulo") %>'
+                                                            data-icon-ref='<%# "iconModulo" + Eval("IdModulo") %>'>
+                                                            <asp:Repeater ID="rptLecciones" runat="server"
+                                                                OnItemCommand="rptLecciones_ItemCommand"
+                                                                DataSource='<%# Eval("Lecciones") %>'>
+                                                                <ItemTemplate>
+                                                                    <li>
+                                                                        <asp:LinkButton ID="lnkLeccion" runat="server"
+                                                                            CssClass="nav-link text-leccion"
+                                                                            CommandName="VerLeccion"
+                                                                            CommandArgument='<%# Eval("IdLeccion") %>'>
+                                                            <i class="bi bi-play-btn me-2"></i><%# Eval("Titulo") %>
+                                                                        </asp:LinkButton>
+                                                                    </li>
+                                                                </ItemTemplate>
+                                                            </asp:Repeater>
+                                                        </ul>
+                                                    </li>
+                                                </ItemTemplate>
+                                            </asp:Repeater>
+                                        </ul>
+                                    </li>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </ul>
                     </li>
+
+
                     <li class="nav-item mb-2">
                         <a class="nav-link text-white" href="MisCursosFavoritos.aspx">
                             <i class="bi bi-book me-2"></i>Cursos Favoritos
@@ -40,12 +206,52 @@
                     </li>
                 </ul>
             </div>
-
-
-            <div class="col-md-9 col-lg-10 ms-auto p-4">
-                <asp:ContentPlaceHolder ID="AulaContent" runat="server"></asp:ContentPlaceHolder>
+            <div class="col-md-9 col-lg-9 ms-auto p-4">
+                <asp:ContentPlaceHolder ID="AulaContent" runat="server" />
             </div>
         </div>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const botones = document.querySelectorAll('[data-bs-toggle="collapse"]');
+
+            botones.forEach(boton => {
+                const targetSelector = boton.getAttribute('data-bs-target');
+                const target = document.querySelector(targetSelector);
+                const storageKey = 'collapse_' + target?.id;
+
+                if (!target || !target.id) return;
+
+                const collapseInstance = new bootstrap.Collapse(target, { toggle: false });
+
+                // Restaurar según storage (true = abierto)
+                const estado = localStorage.getItem(storageKey);
+                if (estado === 'true') {
+                    collapseInstance.show();
+                } else {
+                    collapseInstance.hide();
+                }
+
+                // Click: alternar estado según valor actual en storage
+                boton.addEventListener('click', () => {
+                    const estadoActual = localStorage.getItem(storageKey) === 'true';
+                    const nuevoEstado = (!estadoActual).toString();
+
+                    localStorage.setItem(storageKey, nuevoEstado);
+
+                    if (nuevoEstado === 'true') {
+                        collapseInstance.show();
+                    } else {
+                        collapseInstance.hide();
+                    }
+                });
+            });
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            requestAnimationFrame(() => {
+                document.querySelector('.sidebar-scroll')?.classList.add('loaded');
+            });
+        });
+    </script>
 </asp:Content>

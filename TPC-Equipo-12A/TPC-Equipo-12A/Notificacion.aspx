@@ -20,7 +20,6 @@
                         <asp:Button Text="Volver" CssClass="btn btn-primary" OnClick="btnVolver_Click" runat="server" />
                     </div>
                 </div>
-                </div>
             </div>
         </div>
     </div>
