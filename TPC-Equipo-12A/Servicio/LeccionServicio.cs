@@ -20,8 +20,11 @@ namespace Servicio
                     l.Titulo, 
                     l.Introduccion,
                     l.Orden,
+                    l.Contenido,
                     m.IdModulo as IdModulo,
+                    m.Titulo as NombreModulo,
                     c.IdCurso as IdCurso,
+                    c.Titulo as NombreCurso,
                     c.Estado,
                     lu.EsFinalizado
                 FROM Leccion l
@@ -44,12 +47,13 @@ namespace Servicio
                         Introduccion = accesoDatos.Lector["Introduccion"].ToString(),
                         Orden = Convert.ToInt32(accesoDatos.Lector["Orden"]),
                         Estado = (EstadoPublicacion)accesoDatos.Lector["Estado"],
+                        Contenido = accesoDatos.Lector["Contenido"] != DBNull.Value ? accesoDatos.Lector["Contenido"].ToString() : string.Empty,
                         IdCurso = (int)accesoDatos.Lector["IdCurso"],
+                        NombreCurso = accesoDatos.Lector["NombreCurso"].ToString(),
                         IdModulo = (int)accesoDatos.Lector["IdModulo"],
+                        NombreModulo = accesoDatos.Lector["NombreModulo"].ToString(),
                         Completado = accesoDatos.Lector["EsFinalizado"] != DBNull.Value && (bool)accesoDatos.Lector["EsFinalizado"]
                     };
-                    ComponenteServicio cs = new ComponenteServicio();
-                    leccion.Componentes = cs.ListarComponentesPorLeccionId(id);
                     return leccion;
                 }
                 else
@@ -77,6 +81,7 @@ namespace Servicio
                     l.IdLeccion,
                     l.Titulo, 
                     l.Introduccion,
+                    l.Contenido,
                     l.Orden,
                     c.Estado,
                     m.IdModulo as IdModulo,
@@ -99,6 +104,7 @@ namespace Servicio
                         IdLeccion = (int)accesoDatos.Lector["IdLeccion"],
                         Titulo = accesoDatos.Lector["Titulo"].ToString(),
                         Introduccion = accesoDatos.Lector["Introduccion"].ToString(),
+                        Contenido = accesoDatos.Lector["Contenido"].ToString(),
                         Orden = Convert.ToInt32(accesoDatos.Lector["Orden"]),
                         Estado = (EstadoPublicacion)accesoDatos.Lector["Estado"],
                         IdCurso = (int)accesoDatos.Lector["IdCurso"],
@@ -186,6 +192,7 @@ namespace Servicio
                 datos.setParametro("@IdModulo", leccion.IdModulo);
                 datos.setParametro("@Titulo", leccion.Titulo);
                 datos.setParametro("@Introduccion", leccion.Introduccion);
+                datos.setParametro("@Contenido", leccion.Contenido ?? (object)DBNull.Value);
                 datos.setParametro("@Orden", leccion.Orden);
 
                 if (leccion.IdLeccion > 0)
@@ -193,13 +200,13 @@ namespace Servicio
                     datos.setParametro("@IdLeccion", leccion.IdLeccion);
                     datos.setConsulta(@"UPDATE Leccion 
                                 SET Titulo = @Titulo, Introduccion = @Introduccion, 
-                                    Orden = @Orden, IdModulo = @IdModulo 
+                                    Orden = @Orden, IdModulo = @IdModulo, Contenido = @Contenido 
                                 WHERE IdLeccion = @IdLeccion");
                 }
                 else
                 {
-                    datos.setConsulta(@"INSERT INTO Leccion (IdModulo, Titulo, Introduccion, Orden) 
-                                VALUES (@IdModulo, @Titulo, @Introduccion, @Orden)");
+                    datos.setConsulta(@"INSERT INTO Leccion (IdModulo, Titulo, Introduccion, Orden, Contenido) 
+                                VALUES (@IdModulo, @Titulo, @Introduccion, @Orden, @Contenido)");
                 }
 
                 datos.ejecutarAccion();
@@ -211,6 +218,48 @@ namespace Servicio
             finally
             {
                 datos.cerrarConexion();
+            }
+        }
+
+        internal List<LeccionDTO> ObtenerLeccionesDTOPorIdModulo(int idModulo)
+        {
+            AccesoDatos accesoLeccion = new AccesoDatos();
+            try
+            {
+                accesoLeccion.setConsulta(@"
+                    SELECT 
+                        l.IdModulo,
+                        l.IdLeccion,
+                        l.Titulo
+                    FROM Leccion l
+                    WHERE l.IdModulo = @idModulo
+                    ORDER BY l.Orden ASC"
+                    );
+                accesoLeccion.limpiarParametros();
+                accesoLeccion.setParametro("@idModulo", idModulo);
+                accesoLeccion.ejecutarLectura();
+
+                List<LeccionDTO> lecciones = new List<LeccionDTO>();
+                while (accesoLeccion.Lector.Read())
+                {
+                    LeccionDTO leccion = new LeccionDTO
+                    {
+                        IdLeccion = (int)accesoLeccion.Lector["IdLeccion"],
+                        IdModulo = (int)accesoLeccion.Lector["IdModulo"],
+                        Titulo = accesoLeccion.Lector["Titulo"].ToString(),
+                        UrlLeccion = $"Leccion.aspx?id={(int)accesoLeccion.Lector["IdLeccion"]}"
+                    };
+                    lecciones.Add(leccion);
+                }
+                return lecciones;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cargar las lecciones:", ex);
+            }
+            finally
+            {
+                accesoLeccion.cerrarConexion();
             }
         }
     }

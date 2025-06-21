@@ -7,8 +7,10 @@
 
     <div class="container">
 
-        <h1><asp:Literal ID="litTituloFormulario" runat="server" /></h1>
-        
+        <h1>
+            <asp:Literal ID="litTituloFormulario" runat="server" /></h1>
+
+
         <hr />
 
         <div class="row">
@@ -21,9 +23,21 @@
 
                 <h4>Descripción:</h4>
                 <textarea id="txtDescripcion" runat="server" rows="10" cols="60"></textarea>
+
+                <!-- Version para iframe de youtube -->
                 <script>
-                    CKEDITOR.replace('<%= txtDescripcion.ClientID %>');
+                    CKEDITOR.replace('<%= txtDescripcion.ClientID %>', {
+                        extraAllowedContent: 'iframe[width,height,src,frameborder,allow,allowfullscreen,referrerpolicy,sandbox,title];',
+                        removeButtons: '',
+                        toolbar: 'full',
+                        removePlugins: 'iframe',
+                        extraPlugins: 'iframe',
+                        filebrowserBrowseUrl: '',
+                        filebrowserUploadUrl: '',
+                        customConfig: ''
+                    });
                 </script>
+
 
                 <h4>Categoría:</h4>
                 <div class="input-group mb-3" style="width: 80%;">

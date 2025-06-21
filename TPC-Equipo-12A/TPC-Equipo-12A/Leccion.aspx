@@ -1,142 +1,135 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="Leccion.aspx.cs" Inherits="TPC_Equipo_12A.Leccion" %>
+﻿<%@ Page Title="" Language="C#"
+    MasterPageFile="~/Aula.Master" AutoEventWireup="true" CodeBehind="Leccion.aspx.cs" Inherits="TPC_Equipo_12A.Leccion" ValidateRequest="false" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server" />
+<asp:Content ID="Content2" ContentPlaceHolderID="AulaContent" runat="server">
+    <style>
+        .cke_dialog_ui_input_text {
+            z-index: 10055 !important;
+        }
+
+        .cke_dialog {
+            z-index: 10055 !important; /* mayor que el modal de Bootstrap (1050) */
+        }
+
+        .literal {
+            color: rgb(182, 180, 159);
+        }
+
+        .literal h1,
+        .literal h2,
+        .literal h3,
+        .literal h4,
+        .literal h5,
+        .literal h6 {
+            color: darkcyan;
+        }
+    </style>
     <div class="container col-xl-8">
         <div class="container mt-4 mb-4">
+                        <asp:PlaceHolder runat="server" ID="phContenido" Visible="false">
+                <div class="card text-white bg-dark border-secondary mb-4">
+                    <div class="card-header border-secondary">
+                        <h1>
+                        <strong>📝 Editar lección</strong></h1>
+                    </div>
+                    <div class="card-body">
 
+                        <div class="mb-3">
+                            <label for="txtTitulo" class="form-label">Título</label>
+                            <asp:TextBox ID="txtTitulo" runat="server" CssClass="form-control bg-dark text-white" />
+                        </div>
+                        <asp:RequiredFieldValidator
+                            ID="rfvTitulo"
+                            runat="server"
+                            ControlToValidate="txtTitulo"
+                            CssClass="text-danger"
+                            ErrorMessage="⚠️ El título es obligatorio"
+                            Display="Dynamic" />
+
+
+                        <div class="mb-3">
+                            <label for="txtIntroduccion" class="form-label">Introducción</label>
+                            <asp:TextBox ID="txtIntroduccion" runat="server" TextMode="MultiLine" Rows="3" CssClass="form-control bg-dark text-white" />
+                        </div>
+                        <asp:RequiredFieldValidator
+                            ID="rfvIntroduccion"
+                            runat="server"
+                            ControlToValidate="txtIntroduccion"
+                            CssClass="text-danger"
+                            ErrorMessage="⚠️ La introducción no puede estar vacía"
+                            Display="Dynamic" />
+
+                        <div class="mb-3">
+                            <label for="txtContenidoHTML" class="form-label">Contenido</label>
+                            <textarea id="txtContenidoHTML" runat="server" class="form-control bg-dark text-white" rows="10"></textarea>
+                            <script>
+                                CKEDITOR.replace('<%= txtContenidoHTML.ClientID %>', {
+                                    extraAllowedContent: 'iframe[*]',
+                                    contentsCss: ['https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css']
+                                });
+                             </script>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <asp:Button ID="btnGuardarContenido"
+                                runat="server"
+                                Text="💾 Guardar"
+                                CssClass="btn btn-success"
+                                OnClientClick="sincronizarEditor(); return true;"
+                                OnClick="btnGuardarContenido_Click" />
+                            <asp:Button ID="btnCancelarEdicion"
+                                runat="server"
+                                Text="❌ Cancelar"
+                                CssClass="btn btn-outline-light"
+                                OnClick="btnCancelarEdicion_Click"
+                                CausesValidation="false" />
+                        </div>
+                    </div>
+                </div>
+            </asp:PlaceHolder>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href='<%= "Curso.aspx?id=" + IdCurso.ToString() %>'>Nombre del curso</a>
+                        Curso: <a href='<%= "Curso.aspx?id=" + IdCurso.ToString() %>'><%= NombreCurso %></a>
                     </li>
+                    <li> <strong>/</strong></li>
                     <li class="breadcrumb-item">
-                        <a href='<%= "Modulo.aspx?id=" + IdModulo.ToString() %>'>Nombre del módulo</a>
+                        <a href='<%= "Modulo.aspx?id=" + IdModulo.ToString() %>'><%= NombreModulo %></a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        <asp:Literal ID="litBreadcrumbLeccion" runat="server" />
-                    </li>
+
                 </ol>
             </nav>
             <hr />
+            <asp:PlaceHolder ID="phCuerpo" runat="server">
+                <h1 class="text-success">
+                    <asp:Literal ID="litTitulo" runat="server" /></h1>
 
-            <h2 class="text-success">
-                <asp:Literal ID="litTitulo" runat="server" /></h2>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="text-secondary mb-0">
+                        <asp:Literal ID="litDescripcion" runat="server" />
+                    </h5>
+                    <asp:Button ID="btnAgregarContenido"
+                        runat="server"
+                        CssClass="btn btn-primary btn-sm mb-3"
+                        Text="Editar Contenido"
+                        OnClick="btnAgregarContenido_Click" />
+                </div>
+                <hr class="mt-2 mb-2" />
+                <div class="literal">
+                    <asp:Literal ID="litContenido" runat="server" />
+                </div>
 
-            <div class="d-flex justify-content-between align-items-center">
-                <p class="text-secondary mb-0">
-                    <asp:Literal ID="litDescripcion" runat="server" />
-                </p>
-                <asp:Button ID="btnAgregarComponente"
-                    runat="server"
-                    CssClass="btn btn-primary btn-sm mb-3"
-                    Text="Agregar Componente"
-                    OnClientClick="limpiarModal(); return false;"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalComponente" />
-            </div>
-            <hr class="mt-2 mb-2" />
-            <asp:UpdatePanel runat="server">
-                <ContentTemplate>
-                    <!-- Modal Agregar/Editar Componente -->
-                    <div class="modal fade" id="modalComponente" tabindex="-1" aria-labelledby="modalComponenteLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content bg-dark text-white">
-                                <div class="modal-header border-0">
-                                    <h5 class="modal-title" id="modalComponenteLabel">Agregar/Editar Componente</h5>
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                                </div>
-                                <div class="modal-body">
-
-                                    <asp:HiddenField ID="hfIdComponente" runat="server" />
-
-                                    <div class="mb-3">
-                                        <label for="txtTituloComponente" class="form-label">Título</label>
-                                        <asp:TextBox ID="txtTituloComponente" runat="server" CssClass="form-control" />
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="txtContenidoComponente" class="form-label">Contenido</label>
-                                        <asp:TextBox ID="txtContenidoComponente" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="4" />
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="ddlTipoComponente" class="form-label">Tipo</label>
-                                        <asp:DropDownList ID="ddlTipoComponente" runat="server" CssClass="form-select">
-                                            <asp:ListItem Text="Seleccionar..." Value="" />
-                                            <asp:ListItem Text="Texto" Value="0" />
-                                            <asp:ListItem Text="Imagen" Value="1" />
-                                            <asp:ListItem Text="Video" Value="2" />
-                                            <asp:ListItem Text="Archivo" Value="3" />
-                                        </asp:DropDownList>
-                                    </div>
-
-                                </div>
-                                <div class="modal-footer border-0">
-                                    <asp:Button ID="btnGuardarComponente" runat="server" CssClass="btn btn-success" Text="Guardar" OnClick="btnGuardarComponente_Click" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <asp:Repeater ID="rptComponentes" runat="server" OnItemDataBound="rptComponentes_ItemDataBound">
-                        <ItemTemplate>
-                            <div class="mb-4">
-
-                                <!-- Texto -->
-                                <asp:Panel ID="pnlTexto" runat="server" Visible="false" CssClass="text-justify my-2">
-                                    <asp:Literal ID="litTexto" runat="server" />
-                                </asp:Panel>
-
-                                <!-- Imagen -->
-                                <asp:Panel ID="pnlImagen" runat="server" Visible="false" CssClass="my-4">
-                                    <div class="row justify-content-center">
-                                        <div class="col-sm-6 text-center">
-                                            <asp:Image ID="imgContenido" runat="server" CssClass="img-fluid rounded" />
-                                        </div>
-                                    </div>
-                                </asp:Panel>
-
-                                <!-- Video -->
-                                <asp:PlaceHolder ID="phVideo" runat="server" Visible="false" />
-
-                                <!-- Archivo -->
-                                <asp:Panel ID="pnlArchivo" runat="server" Visible="false" CssClass="my-2">
-                                    <i class="bi bi-file-earmark-text-fill text-primary"></i>
-                                    <asp:HyperLink ID="lnkArchivo" runat="server" Target="_blank" Text="" />
-                                </asp:Panel>
-
-                            </div>
-                        </ItemTemplate>
-                    </asp:Repeater>
-                    <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-success btn-sm mb-3" Text="Guardar cambios" OnClick="btnGuardarCambios_Click" />
-
-                </ContentTemplate>
-            </asp:UpdatePanel>
-            <hr class="mt-2 mb-2" />
-            <div class="text-end">
-                <asp:Button Text="Marcar como completada" CssClass="btn btn-primary" runat="server" ID="btnMarcarCompletada" OnClick="btnMarcarCompletada_Click" />
-            </div>
+                <hr class="mt-2 mb-2" />
+                <div class="text-end">
+                    <asp:Button Text="Marcar como completada" CssClass="btn btn-primary" runat="server" ID="btnMarcarCompletada" OnClick="btnMarcarCompletada_Click" />
+                </div>
+            </asp:PlaceHolder>
         </div>
     </div>
     <script>
-        function limpiarModal() {
-            document.getElementById("<%= hfIdComponente.ClientID %>").value = "";
-            document.getElementById("<%= txtContenidoComponente.ClientID %>").value = "";
-            document.getElementById("<%= txtTituloComponente.ClientID %>").value = "";
-            document.getElementById("<%= ddlTipoComponente.ClientID %>").value = "";
+        function sincronizarEditor() {
+            for (var instance in CKEDITOR.instances)
+                CKEDITOR.instances[instance].updateElement();
         }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const modalEl = document.getElementById('modalLeccion');
-            modalEl?.addEventListener('hidden.bs.modal', function () {
-                document.body.classList.remove('modal-open');
-                const backdrop = document.querySelector('.modal-backdrop');
-                if (backdrop) backdrop.remove();
-            });
-        });
     </script>
-
 </asp:Content>

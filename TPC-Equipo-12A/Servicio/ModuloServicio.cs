@@ -45,7 +45,7 @@ namespace Servicio
                         Orden = (int)accesoDatos.Lector["Orden"],
                         imagen = new Imagen
                         {
-                            IdImagen = accesoDatos.Lector["IdImagen"] != DBNull.Value ? (int)accesoDatos.Lector["IdImagen"] : 0,
+                            IdImagen = accesoDatos.Lector["IdImagen"] != DBNull.Value ? (int)accesoDatos.Lector["IdImagen"] : -1,
                             Url = accesoDatos.Lector["UrlImagen"] != DBNull.Value ? accesoDatos.Lector["UrlImagen"].ToString() : string.Empty,
                             Tipo = accesoDatos.Lector["IdTipoImagen"] != DBNull.Value ? (int)accesoDatos.Lector["IdTipoImagen"] : 0,
                             Nombre = accesoDatos.Lector["Nombre"] != DBNull.Value ? accesoDatos.Lector["Nombre"].ToString() : string.Empty
@@ -159,8 +159,8 @@ namespace Servicio
             {
                 if (modulo.imagen != null && modulo.imagen.Url != null)
                 {
-                    //ImagenServicio imagenServicio = new ImagenServicio();
-                    //modulo.imagen.IdImagen = imagenServicio.ActualizarOCrear(modulo.imagen);
+                    ImagenServicio imagenServicio = new ImagenServicio();
+                    modulo.imagen.IdImagen = imagenServicio.ActualizarOCrear(modulo.imagen);
                 }
 
                 datos.limpiarParametros();
@@ -201,6 +201,50 @@ namespace Servicio
             finally
             {
                 datos.cerrarConexion();
+            }
+        }
+
+        internal List<ModuloDTO> ObtenerModulosDTOPorIdCurso(int idCurso)
+        {
+            AccesoDatos accesoModulo = new AccesoDatos();
+            try
+            {
+                accesoModulo.setConsulta(@"
+                    SELECT 
+                        m.IdModulo,
+                        m.Titulo,
+                        m.IdCurso
+                    FROM Modulo m
+                    WHERE m.IdCurso = @idCurso
+                    ORDER BY m.Orden ASC"
+                    );
+                accesoModulo.limpiarParametros();
+                accesoModulo.setParametro("@idCurso", idCurso);
+                accesoModulo.ejecutarLectura();
+
+                List<ModuloDTO> modulos = new List<ModuloDTO>();
+                LeccionServicio leccionServicio = new LeccionServicio();
+                while (accesoModulo.Lector.Read())
+                {
+                    ModuloDTO modulo = new ModuloDTO
+                    {
+                        IdCurso = (int)accesoModulo.Lector["IdCurso"],
+                        IdModulo = (int)accesoModulo.Lector["IdModulo"],
+                        NombreModulo = accesoModulo.Lector["Titulo"].ToString(),
+                        UrlModulo = $"Modulo.aspx?id={(int)accesoModulo.Lector["IdModulo"]}"
+                    };
+                    modulo.Lecciones = leccionServicio.ObtenerLeccionesDTOPorIdModulo(modulo.IdModulo);
+                    modulos.Add(modulo);
+                }
+                return modulos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cargar los modulos:", ex);
+            }
+            finally
+            {
+                accesoModulo.cerrarConexion();
             }
         }
     }

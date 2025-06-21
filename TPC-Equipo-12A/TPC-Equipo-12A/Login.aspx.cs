@@ -27,6 +27,8 @@ namespace TPC_Equipo_12A
 
                 if (usuario != null && usuario.Habilitado)
                 {
+                    ClientScript.RegisterStartupScript(this.GetType(), "limpiarStorage",
+                        "localStorage.clear();", true);
                     Session["UsuarioAutenticado"] = usuario;
                     ScriptManager.RegisterStartupScript(this, GetType(), "sweetalert",
                      $@"Swal.fire({{

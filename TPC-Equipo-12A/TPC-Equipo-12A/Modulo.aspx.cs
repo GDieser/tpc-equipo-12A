@@ -39,9 +39,11 @@ namespace TPC_Equipo_12A
                     }
 
                     Session["Modulo"] = modulo;
+                    imgModulo.ImageUrl = modulo.imagen.Url;
+
                     litTitulo.Text = modulo.Titulo;
                     litIntro.Text = modulo.Introduccion;
-                    rptLecciones.DataSource = modulo.Lecciones;
+                    rptLecciones.DataSource = modulo.Lecciones.OrderBy(m => m.Orden).ToList();
                     rptLecciones.DataBind();
                 }
             }
@@ -55,7 +57,7 @@ namespace TPC_Equipo_12A
             string titulo = txtTituloLeccion.Text;
             string introduccion = txtIntroLeccion.Text;
 
-            if (titulo == "" || introduccion == "")
+            if (string.IsNullOrWhiteSpace(titulo) || string.IsNullOrWhiteSpace(introduccion))
                 return;
 
             Dominio.Leccion leccion = new Dominio.Leccion
@@ -63,7 +65,7 @@ namespace TPC_Equipo_12A
                 IdLeccion = idLeccion,
                 Titulo = titulo,
                 Introduccion = introduccion,
-                Orden = modulo.Lecciones != null ? modulo.Lecciones.Count : 0,
+                Orden = modulo.Lecciones != null ? modulo.Lecciones.Count + 1 : 0,
             };
 
             if (modulo.Lecciones == null)
@@ -79,26 +81,12 @@ namespace TPC_Equipo_12A
             {
                 modulo.Lecciones.Add(leccion);
             }
-
             Session["Modulo"] = modulo;
-
             rptLecciones.DataSource = modulo.Lecciones.OrderBy(m => m.Orden).ToList();
             rptLecciones.DataBind();
 
-            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal", @"
-            const modalEl = document.getElementById('modalLeccion');
-            if (modalEl) {
-                const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-                modal.hide();
-                document.body.classList.remove('modal-open');
-                const backdrop = document.querySelector('.modal-backdrop');
-                if (backdrop) backdrop.remove();
-            }", true);
-
-            txtTituloLeccion.Text = "";
-            txtIntroLeccion.Text = "";
-            txtImagenLeccion.Text = "";
-            hfIdLeccion.Value = "";
+            CerrarModalLeccion();
+            LimpiarCamposLeccion();
         }
 
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
@@ -106,13 +94,23 @@ namespace TPC_Equipo_12A
             Dominio.Modulo modulo = (Dominio.Modulo)Session["Modulo"];
             LeccionServicio leccionServicio = new LeccionServicio();
 
-            if (modulo.Lecciones != null && modulo.Lecciones.Any())
+            try
             {
-                foreach (Dominio.Leccion leccion in modulo.Lecciones)
+                if (modulo.Lecciones != null && modulo.Lecciones.Any())
                 {
-                    leccion.IdModulo = modulo.IdModulo;
-                    leccionServicio.ActualizarOCrear(leccion);
+                    foreach (Dominio.Leccion leccion in modulo.Lecciones)
+                    {
+                        leccion.IdModulo = modulo.IdModulo;
+                        leccionServicio.ActualizarOCrear(leccion);
+                    }
                 }
+
+                MostrarMensaje("¡Todo ok!", "¡Modulo Actualizado Correctamente!", "success");
+                ActualizarModuloEnSesionYBindear();
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje("¡Ups...!", $"¡Ocurrio un problema: {ex.Message}!", "error");
             }
         }
 
@@ -166,6 +164,65 @@ namespace TPC_Equipo_12A
             int temp = actual.Orden;
             actual.Orden = destino.Orden;
             destino.Orden = temp;
+
+            LeccionServicio leccionServicio = new LeccionServicio();
+
+            try
+            {
+                foreach (Dominio.Leccion leccion in listaOrdenada)
+                {
+                    leccionServicio.ActualizarOCrear(leccion);
+                }
+
+                MostrarMensaje("¡Todo ok!", "¡Modulo Actualizado Correctamente!", "success");
+                ActualizarModuloEnSesionYBindear();
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje("¡Ups...!", $"¡Ocurrio un problema: {ex.Message}!", "error");
+            }
         }
+
+        private void MostrarMensaje(string titulo, string mensaje, string icono)
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "sweetalert",
+                $@"Swal.fire({{
+            title: '{titulo}',
+            text: '{mensaje}',
+            icon: '{icono}',
+            confirmButtonText: 'OK'
+        }});", true);
+        }
+
+        private void CerrarModalLeccion()
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal", @"
+        const modalEl = document.getElementById('modalLeccion');
+        if (modalEl) {
+            const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+            modal.hide();
+            document.body.classList.remove('modal-open');
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) backdrop.remove();
+        }", true);
+        }
+
+        private void LimpiarCamposLeccion()
+        {
+            txtTituloLeccion.Text = "";
+            txtIntroLeccion.Text = "";
+            hfIdLeccion.Value = "";
+        }
+
+        private void ActualizarModuloEnSesionYBindear()
+        {
+            ModuloServicio moduloServicio = new ModuloServicio();
+            UsuarioAutenticado usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+            Dominio.Modulo modulo = moduloServicio.ObtenerModuloPorId(((Dominio.Modulo)Session["Modulo"]).IdModulo, usuario.IdUsuario);
+            Session["Modulo"] = modulo;
+            rptLecciones.DataSource = modulo.Lecciones.OrderBy(l => l.Orden).ToList();
+            rptLecciones.DataBind();
+        }
+
     }
 }

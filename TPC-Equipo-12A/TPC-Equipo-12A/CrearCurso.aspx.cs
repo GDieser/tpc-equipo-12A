@@ -139,18 +139,20 @@ namespace TPC_Equipo_12A
                 ImagenPortada = new Imagen { Url = txtImagen.Text, Nombre = "Imagen curso", Tipo = 1 }
             };
 
+            int idCurso;
             if (cursoSeleccionado != null)
             {
                 entidad.IdCurso = cursoSeleccionado.IdCurso;
                 entidad.ImagenPortada.IdImagen = cursoSeleccionado.ImagenPortada.IdImagen;
+                idCurso = cursoSeleccionado.IdCurso;
                 s.ModificarCurso(entidad);
             }
             else
             {
-                s.GuardarCurso(entidad);
+                idCurso = s.GuardarCurso(entidad);
             }
 
-            Response.Redirect("ListaCursosAdmin.aspx");
+            Response.Redirect($"Curso.aspx?id={idCurso}");
         }
 
 

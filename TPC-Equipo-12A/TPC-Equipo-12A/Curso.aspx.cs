@@ -20,32 +20,38 @@ namespace TPC_Equipo_12A
                     Session["error"] = "Debe indicar un ID de curso para poder acceder a ella.";
                     Response.Redirect("Error.aspx");
                 }
+
                 UsuarioAutenticado usuarioAutenticado = Session["UsuarioAutenticado"] as UsuarioAutenticado;
                 if (usuarioAutenticado == null)
                 {
                     Response.Redirect("Login.aspx");
                 }
+
                 int idCurso = int.Parse(Request.QueryString["id"]);
                 bool isAdmin = (usuarioAutenticado.Rol == Rol.Administrador);
 
                 CursoServicio cursoServicio = new CursoServicio();
-
                 bool isHabilitado = cursoServicio.EsUsuarioHabilitado(usuarioAutenticado.IdUsuario, idCurso);
+
                 if (isAdmin || isHabilitado)
                 {
                     Dominio.Curso curso = cursoServicio.ObtenerCursoPorId(idCurso);
-
                     if (curso == null)
                     {
                         Session["error"] = "El curso no existe.";
                         Response.Redirect("Error.aspx");
                         return;
                     }
+
                     Session["Curso"] = curso;
                     litTituloCurso.Text = curso.Titulo;
                     litIntroCurso.Text = curso.Descripcion;
-                    imgBannerCurso.ImageUrl = curso.ImagenPortada == null ? "https://previews.123rf.com/images/monsitj/monsitj2007/monsitj200700029/153258909-programming-code-abstract-technology-background-of-software-developer-and-computer-script-banner-3d.jpg" : curso.ImagenPortada.Url;
+                    imgBannerCurso.ImageUrl = curso.ImagenPortada == null
+                        ? "https://previews.123rf.com/images/monsitj/monsitj2007/monsitj200700029/153258909-programming-code-abstract-technology-background-of-software-developer-and-computer-script-banner-3d.jpg"
+                        : curso.ImagenPortada.Url;
 
+                    curso.Modulos = curso.Modulos.OrderBy(m => m.Orden).ToList();
+                    Session["Curso"] = curso;
                     rptModulos.DataSource = curso.Modulos;
                     rptModulos.DataBind();
                 }
@@ -54,9 +60,7 @@ namespace TPC_Equipo_12A
 
         protected void btnGuardarModulo_Click(object sender, EventArgs e)
         {
-
             Dominio.Curso curso = (Dominio.Curso)Session["Curso"];
-
             string titulo = txtTituloLeccion.Text.Trim();
             string introduccion = txtIntroLeccion.Text.Trim();
             string imagenUrl = txtImagenLeccion.Text.Trim();
@@ -70,16 +74,8 @@ namespace TPC_Equipo_12A
             int.TryParse(hfIdLeccion.Value, out int idModulo);
             if (idModulo <= 0)
             {
-                int minimo = 0;
-                if (curso.Modulos.Min(m => m.IdModulo) > 0)
-                {
-                    minimo = 0;
-                }
-                else
-                {
-                    minimo = curso.Modulos.Min(m => m.IdModulo);
-                }
-                idModulo = minimo - 1;
+                int minimo = curso.Modulos.Any() ? curso.Modulos.Min(m => m.IdModulo) : 0;
+                idModulo = (minimo <= 0 ? minimo : 0) - 1;
             }
 
             Imagen imagen = new Imagen
@@ -91,13 +87,15 @@ namespace TPC_Equipo_12A
                     : imagenUrl
             };
 
+            int orden = curso.Modulos.FirstOrDefault(m => m.IdModulo == idModulo)?.Orden ?? (curso.Modulos.Count + 1);
+
             Dominio.Modulo modulo = new Dominio.Modulo
             {
                 IdModulo = idModulo,
                 Titulo = titulo,
                 Introduccion = introduccion,
                 imagen = imagen,
-                Orden = curso.Modulos.Count
+                Orden = orden
             };
 
             int index = curso.Modulos.FindIndex(m => m.IdModulo == idModulo);
@@ -108,25 +106,11 @@ namespace TPC_Equipo_12A
 
             curso.Modulos = curso.Modulos.OrderBy(m => m.Orden).ToList();
             Session["Curso"] = curso;
-
             rptModulos.DataSource = curso.Modulos;
             rptModulos.DataBind();
 
-            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal", @"
-            const modalEl = document.getElementById('modalLeccion');
-            if (modalEl) {
-                const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-                modal.hide();
-                document.body.classList.remove('modal-open');
-                const backdrop = document.querySelector('.modal-backdrop');
-                if (backdrop) backdrop.remove();
-            }", true);
-
-            txtTituloLeccion.Text = "";
-            txtIntroLeccion.Text = "";
-            txtImagenLeccion.Text = "";
-            hfIdLeccion.Value = "";
-            hfIdImagen.Value = "";
+            CerrarModal("modalLeccion");
+            LimpiarCamposFormulario();
         }
 
         protected void rptModulos_ItemCommand(object source, RepeaterCommandEventArgs e)
@@ -170,7 +154,6 @@ namespace TPC_Equipo_12A
         {
             List<Dominio.Modulo> listaOrdenada = modulos.OrderBy(m => m.Orden).ToList();
             int index = listaOrdenada.FindIndex(m => m.IdModulo == idModulo);
-
             int nuevoIndex = index + desplazamiento;
 
             if (index < 0 || nuevoIndex < 0 || nuevoIndex >= listaOrdenada.Count)
@@ -182,6 +165,23 @@ namespace TPC_Equipo_12A
             int temp = actual.Orden;
             actual.Orden = destino.Orden;
             destino.Orden = temp;
+
+            ModuloServicio moduloServicio = new ModuloServicio();
+
+            try
+            {
+                foreach (Dominio.Modulo modulo in modulos)
+                {
+                    moduloServicio.ActualizarOCrear(modulo);
+                }
+
+                MostrarMensaje("¡Todo ok!", "¡Curso Actualizado Correctamente!", "success");
+                ActualizarCursoEnSesionYBindear();
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje("¡Ups...!", $"¡Ocurrió un problema: {ex.Message}!", "error");
+            }
         }
 
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
@@ -189,14 +189,74 @@ namespace TPC_Equipo_12A
             Dominio.Curso curso = (Dominio.Curso)Session["Curso"];
             ModuloServicio moduloServicio = new ModuloServicio();
 
-            if (curso.Modulos != null && curso.Modulos.Any())
+            try
             {
-                foreach (Dominio.Modulo modulo in curso.Modulos)
+                if (curso.Modulos != null && curso.Modulos.Any())
                 {
-                    modulo.IdCurso = curso.IdCurso;
-                    moduloServicio.ActualizarOCrear(modulo);
+                    foreach (Dominio.Modulo modulo in curso.Modulos)
+                    {
+                        modulo.IdCurso = curso.IdCurso;
+                        moduloServicio.ActualizarOCrear(modulo);
+                    }
                 }
+
+                MostrarMensaje("¡Todo ok!", "¡Curso Actualizado Correctamente!", "success");
+                ActualizarCursoEnSesionYBindear();
             }
+            catch (Exception ex)
+            {
+                MostrarMensaje("¡Ups...!", $"¡Ocurrió un problema: {ex.Message}!", "error");
+            }
+        }
+
+        private void MostrarMensaje(string titulo, string mensaje, string icono)
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "sweetalert",
+                $@"Swal.fire({{
+            title: '{titulo}',
+            text: '{mensaje}',
+            icon: '{icono}',
+            confirmButtonText: 'OK'
+        }});", true);
+        }
+
+        private void CerrarModal(string idModal)
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal", $@"
+        const modalEl = document.getElementById('{idModal}');
+        if (modalEl) {{
+            const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+            modal.hide();
+        }}
+        document.body.classList.remove('modal-open');
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) backdrop.remove();", true);
+        }
+
+        private void LimpiarCamposFormulario()
+        {
+            txtTituloLeccion.Text = "";
+            txtIntroLeccion.Text = "";
+            txtImagenLeccion.Text = "";
+            hfIdLeccion.Value = "";
+            hfIdImagen.Value = "";
+        }
+
+        private void ActualizarCursoEnSesionYBindear()
+        {
+            CursoServicio cursoServicio = new CursoServicio();
+            Dominio.Curso curso = cursoServicio.ObtenerCursoPorId(((Dominio.Curso)Session["Curso"]).IdCurso);
+
+            if (curso == null)
+            {
+                Session["error"] = "El curso no existe.";
+                Response.Redirect("Error.aspx");
+                return;
+            }
+
+            Session["Curso"] = curso;
+            rptModulos.DataSource = curso.Modulos.OrderBy(m => m.Orden).ToList();
+            rptModulos.DataBind();
         }
     }
 }

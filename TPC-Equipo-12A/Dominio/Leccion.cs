@@ -12,11 +12,14 @@ namespace Dominio
         public int IdLeccion { get; set; }
         public string Titulo { get; set; }
         public string Introduccion { get; set; }
+        public string Contenido { get; set; }
         public int Orden { get; set; }
         public EstadoPublicacion Estado { get; set; }
         public int IdCurso { get; set; }
+        public string NombreCurso { get; set; }
+
         public int IdModulo { get; set; }
+        public string NombreModulo { get; set; }
         public bool Completado { get; set; }
-        public List<Componente> Componentes { get; set; } = new List<Componente>();
     }
 }

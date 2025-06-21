@@ -15,22 +15,85 @@ namespace TPC_Equipo_12A
     {
 
         /// <summary>
-        /// ScriptManager1 control.
+        /// phContenido control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        protected global::System.Web.UI.WebControls.PlaceHolder phContenido;
 
         /// <summary>
-        /// litBreadcrumbLeccion control.
+        /// txtTitulo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litBreadcrumbLeccion;
+        protected global::System.Web.UI.WebControls.TextBox txtTitulo;
+
+        /// <summary>
+        /// rfvTitulo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvTitulo;
+
+        /// <summary>
+        /// txtIntroduccion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtIntroduccion;
+
+        /// <summary>
+        /// rfvIntroduccion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvIntroduccion;
+
+        /// <summary>
+        /// txtContenidoHTML control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTextArea txtContenidoHTML;
+
+        /// <summary>
+        /// btnGuardarContenido control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnGuardarContenido;
+
+        /// <summary>
+        /// btnCancelarEdicion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCancelarEdicion;
+
+        /// <summary>
+        /// phCuerpo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phCuerpo;
 
         /// <summary>
         /// litTitulo control.
@@ -51,76 +114,22 @@ namespace TPC_Equipo_12A
         protected global::System.Web.UI.WebControls.Literal litDescripcion;
 
         /// <summary>
-        /// btnAgregarComponente control.
+        /// btnAgregarContenido control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAgregarComponente;
+        protected global::System.Web.UI.WebControls.Button btnAgregarContenido;
 
         /// <summary>
-        /// hfIdComponente control.
+        /// litContenido control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfIdComponente;
-
-        /// <summary>
-        /// txtTituloComponente control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTituloComponente;
-
-        /// <summary>
-        /// txtContenidoComponente control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtContenidoComponente;
-
-        /// <summary>
-        /// ddlTipoComponente control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlTipoComponente;
-
-        /// <summary>
-        /// btnGuardarComponente control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnGuardarComponente;
-
-        /// <summary>
-        /// rptComponentes control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptComponentes;
-
-        /// <summary>
-        /// btnGuardarCambios control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnGuardarCambios;
+        protected global::System.Web.UI.WebControls.Literal litContenido;
 
         /// <summary>
         /// btnMarcarCompletada control.

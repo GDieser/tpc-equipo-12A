@@ -1,9 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="Curso.aspx.cs" Inherits="TPC_Equipo_12A.Curso" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Aula.Master" AutoEventWireup="true" CodeBehind="Curso.aspx.cs" Inherits="TPC_Equipo_12A.Curso" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server" />
+
+<asp:Content ID="Content2" ContentPlaceHolderID="AulaContent" runat="server">
     <style>
         .img-banner-curso {
             width: 100%;
@@ -35,14 +33,14 @@
                 <ContentTemplate>
                     <asp:Repeater ID="rptModulos" runat="server" OnItemCommand="rptModulos_ItemCommand">
                         <ItemTemplate>
-                            <div class="card mb-2">
-                                <div class="card-header d-flex justify-content-between align-items-center">
+                            <div class="card mb-2 border-0" style="background-color:#211c1c; color: aliceblue;">
+                                <div class="card-header d-flex justify-content-between align-items-center border-0">
                                     <div style="flex-grow: 1; cursor: pointer;"
                                         data-bs-toggle="collapse"
                                         data-bs-target='<%# "#intro" + Eval("IdModulo") %>'>
                                         <span><%# Eval("Titulo") %></span>
                                     </div>
-                                    <div class="btn-group">
+                                    <div class="btn-group" id="grupoAdmin" runat="server">
                                         <asp:LinkButton
                                             ID="btnSubir"
                                             runat="server"
@@ -73,11 +71,15 @@
                                      ✏️
                                         </asp:LinkButton>
                                     </div>
-                                    <a href='<%# "Modulo.aspx?id=" + Eval("IdModulo") %>' class="btn btn-primary btn-sm" onclick="event.stopPropagation();">Ir al módulo
+                                    <a  href='<%# "Modulo.aspx?id=" + Eval("IdModulo") != "0" ? "Modulo.aspx?id=" + Eval("IdModulo") : "#" %>'
+                                        class='<%# (Convert.ToInt32(Eval("IdModulo")) > 0 ? "btn btn-primary btn-sm" : "btn btn-secondary btn-sm disabled") %>'
+                                        onclick="event.stopPropagation();">Ir al módulo
                                     </a>
-
+ 
                                 </div>
-                                <div id='<%# "intro" + Eval("IdModulo") %>' class="collapse card-body bg-light text-secondary">
+                                <div id='<%# "intro" + Eval("IdModulo") %>' 
+                                    class="collapse card-body border-0" 
+                                    style="background-color:#211c1c; color: aliceblue;">
                                     <%# Eval("Introduccion") %>
                                 </div>
                             </div>
@@ -116,7 +118,6 @@
                             </div>
                         </div>
                     </div>
-
                 </ContentTemplate>
             </asp:UpdatePanel>
         </div>
@@ -128,6 +129,13 @@
             document.getElementById("<%= txtIntroLeccion.ClientID %>").value = "";
             document.getElementById("<%= txtImagenLeccion.ClientID %>").value = "";
         }
+
+        Sys.Application.add_load(function () {
+            document.body.classList.remove('modal-open');
+            document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
+            document.body.style.overflowY = 'auto';
+            document.body.style.position = 'relative';
+        });
 
         document.addEventListener('DOMContentLoaded', function () {
             const modalEl = document.getElementById('modalLeccion');
