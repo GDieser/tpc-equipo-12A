@@ -40,15 +40,45 @@
 
 
                 <h4>Categoría:</h4>
-                <asp:DropDownList ID="ddlCategoria" runat="server" CssClass="form-select" Style="width: 60%;" />
+                <div class="input-group mb-3" style="width: 80%;">
+                    <asp:DropDownList ID="ddlCategoria" runat="server" CssClass="form-select" onchange="handleCategoriaChange(this)"></asp:DropDownList>
+                </div>
+
+                <asp:Panel ID="panelModalCategoria" runat="server">
+                    <div class="modal fade" id="modalNuevaCategoria" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Agregar categoria</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <asp:TextBox ID="txtNuevaCategoriaModal" runat="server" CssClass="form-control" />
+                      
+
+                                </div>
+                                <div class="modal-footer">
+                                    <asp:Button ID="btnGuardarCategoriaModal" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="btnGuardarCategoriaModal_Click" UseSubmitBehavior="false" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </asp:Panel>
+
+                <script>
+                    function handleCategoriaChange(select) {
+                        if (select.value === '-1') {
+                            var modal = new bootstrap.Modal(document.getElementById('modalNuevaCategoria'));
+                            modal.show();
+                        }
+                    }
+                </script>
 
                 <h4>Estado</h4>
                 <asp:DropDownList ID="ddlEstado" runat="server" CssClass="form-select" Style="width: 60%;" />
 
-
                 <h4>Certificado:</h4>
                 <asp:CheckBox ID="chkCertificado" runat="server" />
-
             </div>
 
             <div class="col-6">
@@ -61,13 +91,9 @@
                         <asp:TextBox ID="txtDuracion" runat="server" CssClass="form-control" />
 
                         <h4>URL de imagen:</h4>
-                        <asp:TextBox ID="txtImagen" runat="server" AutoPostBack="true"
-                            OnTextChanged="txtImagen_TextChanged"
-                            CssClass="form-control" />
+                        <asp:TextBox ID="txtImagen" runat="server" AutoPostBack="true" OnTextChanged="txtImagen_TextChanged" CssClass="form-control" />
                         <div class="mt-3">
-                            <asp:Image ID="imgPreview" runat="server"
-                                ImageUrl="https://www.aprender21.com/images/colaboradores/sql.jpeg"
-                                CssClass="img-thumbnail" />
+                            <asp:Image ID="imgPreview" runat="server" ImageUrl="https://www.aprender21.com/images/colaboradores/sql.jpeg" CssClass="img-thumbnail" />
                         </div>
                     </ContentTemplate>
                 </asp:UpdatePanel>
