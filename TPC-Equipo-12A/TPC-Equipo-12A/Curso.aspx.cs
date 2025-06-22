@@ -60,7 +60,7 @@ namespace TPC_Equipo_12A
 
                     Session["Curso"] = curso;
                     litTituloCurso.Text = curso.Titulo;
-                    litIntroCurso.Text = curso.Descripcion;
+                    litIntroCurso.Text = curso.Resumen;
                     imgBannerCurso.ImageUrl = curso.ImagenPortada == null
                         ? "https://previews.123rf.com/images/monsitj/monsitj2007/monsitj200700029/153258909-programming-code-abstract-technology-background-of-software-developer-and-computer-script-banner-3d.jpg"
                         : curso.ImagenPortada.Url;

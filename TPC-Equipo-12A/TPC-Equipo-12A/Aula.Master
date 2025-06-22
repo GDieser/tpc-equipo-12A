@@ -68,6 +68,11 @@
                         background-color: #ffae64;
                     }
 
+        .text-curso a {
+            font-size: 0.9rem;
+            color: #a4e5a4; /* Verde pastel */
+        }
+
         .menu-curso-li {
             border-left: 2px solid rgba(255, 255, 255, 0.10);
             padding-left: 0.5rem;
@@ -77,8 +82,12 @@
         }
 
             .menu-curso-li:hover {
-                border-left-color: #55d5ff;
+                border-left-color: #87d187; /* Verde un poco más intenso para hover */
             }
+
+        body.oculto {
+            visibility: hidden;
+        }
     </style>
     <div class="container-fluid">
         <div class="row">
@@ -109,7 +118,7 @@
                                     <li class="nav-item menu-curso-li">
                                         <div class="d-flex justify-content-between align-items-center text-curso">
                                             <!-- Curso -->
-                                            <a href='<%# Eval("UrlCurso") %>' class="nav-link text-white flex-grow-1">
+                                            <a href='<%# Eval("UrlCurso") %>' class="nav-link flex-grow-1">
                                                 <i class="bi bi-journal-text me-2"></i><%# Eval("NombreCurso") %>
                                             </a>
 
@@ -177,21 +186,21 @@
                             <i class="bi bi-book me-2"></i>Cursos Favoritos
                         </a>
                     </li>
-                <li class="nav-item mb-2">
-                    <a class="nav-link text-white" href="">
-                        <i class="bi bi-award me-2"></i>Mis Certificados
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a class="nav-link text-white" href="">
-                        <i class="bi bi-clipboard-data me-2"></i>Mis Notas
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a class="nav-link text-white" href="Perfil.aspx?id=<%= usuario.IdUsuario %>">
-                        <i class="bi bi-person-circle me-2"></i>Mi Perfil
-                    </a>
-                </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-white" href="">
+                            <i class="bi bi-award me-2"></i>Mis Certificados
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-white" href="">
+                            <i class="bi bi-clipboard-data me-2"></i>Mis Notas
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-white" href="Perfil.aspx?id=<%= usuario.IdUsuario %>">
+                            <i class="bi bi-person-circle me-2"></i>Mi Perfil
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="col-md-9 col-lg-9 ms-auto p-4">
@@ -201,70 +210,116 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        // Oculta el body al inicio
+        document.body.classList.add('oculto');
+
+        // Se asegura de restaurar solo cuando los targets están listos
+        function restaurarEstadoColapsables() {
+            const intentosMaximos = 20;
+            let intentos = 0;
+
+            const intentarRestaurar = () => {
+                const botones = document.querySelectorAll('[data-bs-toggle="collapse"]');
+                if (botones.length === 0 && intentos < intentosMaximos) {
+                    intentos++;
+                    return setTimeout(intentarRestaurar, 100);
+                }
+
+                let completos = true;
+
+                botones.forEach(boton => {
+                    const targetSelector = boton.getAttribute('data-bs-target');
+                    const target = document.querySelector(targetSelector);
+                    if (!target || !target.id) {
+                        completos = false;
+                        return;
+                    }
+
+                    const key = 'collapse_' + target.id;
+                    const estado = localStorage.getItem(key);
+
+                    const instance = bootstrap.Collapse.getOrCreateInstance(target, { toggle: false });
+
+                    if (estado === 'true') {
+                        instance.show();
+                    } else {
+                        instance.hide();
+                    }
+                });
+
+                if (!completos && intentos < intentosMaximos) {
+                    intentos++;
+                    return setTimeout(intentarRestaurar, 100);
+                }
+
+                // ✅ Mostrar el body al final
+                document.body.classList.remove('oculto');
+            };
+
+            intentarRestaurar();
+        }
+
+        function inicializarColapsables() {
             const botones = document.querySelectorAll('[data-bs-toggle="collapse"]');
 
             botones.forEach(boton => {
                 const targetSelector = boton.getAttribute('data-bs-target');
                 const target = document.querySelector(targetSelector);
-                const storageKey = 'collapse_' + target?.id;
-
                 if (!target || !target.id) return;
 
-                const collapseInstance = new bootstrap.Collapse(target, { toggle: false });
-
-                const estado = localStorage.getItem(storageKey);
-                if (estado === 'true') {
-                    collapseInstance.show();
-                } else {
-                    collapseInstance.hide();
-                }
+                const key = 'collapse_' + target.id;
+                const instance = bootstrap.Collapse.getOrCreateInstance(target, { toggle: false });
 
                 boton.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    const yaAbierto = localStorage.getItem(storageKey) === 'true';
 
-                    let grupo = [];
+                    const abierto = localStorage.getItem(key) === 'true';
 
-                    const esCurso = target.closest('ul.menu-curso')?.id === 'cursosUsuario';
-                    if (esCurso) {
-                        grupo = document.querySelectorAll('.menu-curso > li > ul.collapse');
-                    }
-
-                    const esModulo = target.closest('ul.menu-modulo');
-                    if (esModulo) {
-                        const moduloContainer = esModulo;
-                        grupo = moduloContainer.querySelectorAll(':scope > li > ul.collapse');
-                    }
-
-                    grupo.forEach(otro => {
-                        if (otro !== target && otro.classList.contains('show')) {
-                            bootstrap.Collapse.getInstance(otro)?.hide();
-                            localStorage.setItem('collapse_' + otro.id, 'false');
-                        }
-                    });
-
-                    if (yaAbierto) {
-                        collapseInstance.hide();
-                        localStorage.setItem(storageKey, 'false');
+                    if (abierto) {
+                        instance.hide();
+                        localStorage.setItem(key, 'false');
                     } else {
-                        collapseInstance.show();
-                        localStorage.setItem(storageKey, 'true');
-                    }
-
-                    const contenedorCursos = document.getElementById('cursosUsuario');
-                    if (contenedorCursos) {
-                        contenedorCursos.addEventListener('hidden.bs.collapse', () => {
-                            Object.keys(localStorage).forEach(key => {
-                                if (key.startsWith('collapse_modulosCurso') || key.startsWith('collapse_leccionesModulo') || key.startsWith('collapse_')) {
-                                    localStorage.removeItem(key);
-                                }
-                            });
-                        });
+                        instance.show();
+                        localStorage.setItem(key, 'true');
                     }
                 });
             });
+        }
+
+        function agregarListenerLimpieza() {
+            const cursos = document.querySelectorAll('#cursosUsuario > li > ul.collapse');
+
+            cursos.forEach(curso => {
+                if (!curso.id) return;
+                const keyCurso = 'collapse_' + curso.id;
+
+                curso.addEventListener('hidden.bs.collapse', () => {
+                    Object.keys(localStorage).forEach(key => {
+                        if (
+                            key === keyCurso ||
+                            key.startsWith(`collapse_modulosCurso_${curso.id}`) ||
+                            key.startsWith(`collapse_leccionesModulo_${curso.id}`)
+                        ) {
+                            localStorage.removeItem(key);
+                        }
+                    });
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            inicializarColapsables();
+            agregarListenerLimpieza();
+            restaurarEstadoColapsables();
         });
+
+        if (typeof Sys !== 'undefined') {
+            Sys.WebForms.PageRequestManager.getInstance().add_endRequest(() => {
+                inicializarColapsables();
+                agregarListenerLimpieza();
+                restaurarEstadoColapsables();
+            });
+        }
     </script>
 
 </asp:Content>
