@@ -45,6 +45,7 @@ namespace TPC_Equipo_12A
                     litIntro.Text = modulo.Introduccion;
                     rptLecciones.DataSource = modulo.Lecciones.OrderBy(m => m.Orden).ToList();
                     rptLecciones.DataBind();
+                    btnGuardarCambios.Enabled = false;
                 }
             }
         }
@@ -60,30 +61,40 @@ namespace TPC_Equipo_12A
             if (string.IsNullOrWhiteSpace(titulo) || string.IsNullOrWhiteSpace(introduccion))
                 return;
 
+            if (modulo.Lecciones == null)
+                modulo.Lecciones = new List<Dominio.Leccion>();
+
+            if (idLeccion == 0)
+            {
+                int minimo = modulo.Lecciones.Any() ? modulo.Lecciones.Min(l => l.IdLeccion) : 0;
+                idLeccion = (minimo <= 0 ? minimo : 0) - 1;
+            }
+
+            var lecExistente = modulo.Lecciones.FirstOrDefault(l => l.IdLeccion == idLeccion);
+            int orden = lecExistente != null
+                ? lecExistente.Orden
+                : modulo.Lecciones.Any() ? modulo.Lecciones.Max(l => l.Orden) + 1 : 1;
+
             Dominio.Leccion leccion = new Dominio.Leccion
             {
                 IdLeccion = idLeccion,
                 Titulo = titulo,
                 Introduccion = introduccion,
-                Orden = modulo.Lecciones != null ? modulo.Lecciones.Count + 1 : 0,
+                Orden = orden
             };
 
-            if (modulo.Lecciones == null)
-                modulo.Lecciones = new List<Dominio.Leccion>();
-
-            if (idLeccion > 0)
-            {
-                int index = modulo.Lecciones.FindIndex(l => l.IdLeccion == idLeccion);
-                if (index >= 0)
-                    modulo.Lecciones[index] = leccion;
-            }
+            int index = modulo.Lecciones.FindIndex(l => l.IdLeccion == idLeccion);
+            if (index >= 0)
+                modulo.Lecciones[index] = leccion;
             else
-            {
                 modulo.Lecciones.Add(leccion);
-            }
+
             Session["Modulo"] = modulo;
-            rptLecciones.DataSource = modulo.Lecciones.OrderBy(m => m.Orden).ToList();
+
+            rptLecciones.DataSource = modulo.Lecciones.OrderBy(l => l.Orden).ToList();
             rptLecciones.DataBind();
+            btnGuardarCambios.Enabled = true;
+            updLecciones.Update();
 
             CerrarModalLeccion();
             LimpiarCamposLeccion();
@@ -107,6 +118,8 @@ namespace TPC_Equipo_12A
 
                 MostrarMensaje("¡Todo ok!", "¡Modulo Actualizado Correctamente!", "success");
                 ActualizarModuloEnSesionYBindear();
+                btnGuardarCambios.Enabled = false;
+
             }
             catch (Exception ex)
             {
@@ -139,6 +152,23 @@ namespace TPC_Equipo_12A
 
                         ScriptManager.RegisterStartupScript(this, GetType(), "abrirModal",
                             "var modal = new bootstrap.Modal(document.getElementById('modalLeccion')); modal.show();", true);
+                    }
+                    updtModal.Update();
+                    break;
+
+                case "Eliminar":
+                    LeccionServicio leccionServicio = new LeccionServicio();
+                    try
+                    {
+                        leccionServicio.Eliminar(id);
+                    }
+                    catch (Exception ex)
+                    {
+                        MostrarMensaje("¡Ups...!", $"¡Ocurrio un problema: {ex.Message}!", "error");
+                    }
+                    finally
+                    {
+                        Response.Redirect($"Modulo.aspx?id={((Dominio.Modulo)Session["Modulo"]).IdModulo}");
                     }
                     break;
             }
@@ -224,5 +254,38 @@ namespace TPC_Equipo_12A
             rptLecciones.DataBind();
         }
 
+        protected void rptLecciones_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                LinkButton btnEliminar = (LinkButton)e.Item.FindControl("btnEliminar");
+                btnEliminar.Attributes["data-uid"] = btnEliminar.UniqueID;
+            }
+        }
+
+        protected void rptLecciones_ItemCreated(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                ScriptManager scriptMan = ScriptManager.GetCurrent(this);
+
+                LinkButton btnSubir = e.Item.FindControl("btnSubir") as LinkButton;
+                LinkButton btnBajar = e.Item.FindControl("btnBajar") as LinkButton;
+                LinkButton btnEditar = e.Item.FindControl("btnEditar") as LinkButton;
+                LinkButton btnEliminar = e.Item.FindControl("btnEliminar") as LinkButton;
+
+                if (btnSubir != null)
+                    scriptMan.RegisterAsyncPostBackControl(btnSubir);
+
+                if (btnBajar != null)
+                    scriptMan.RegisterAsyncPostBackControl(btnBajar);
+
+                if (btnEditar != null)
+                    scriptMan.RegisterAsyncPostBackControl(btnEditar);
+
+                if (btnEliminar != null)
+                    scriptMan.RegisterAsyncPostBackControl(btnEliminar);
+            }
+        }
     }
 }

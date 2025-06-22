@@ -262,5 +262,25 @@ namespace Servicio
                 accesoLeccion.cerrarConexion();
             }
         }
+
+        public void Eliminar(int id)
+        {
+            AccesoDatos accesoDatos = new AccesoDatos();
+            try
+            {
+                accesoDatos.limpiarParametros();
+                accesoDatos.setConsulta(@"DELETE FROM Leccion WHERE IdLeccion = @IdLeccion");
+                accesoDatos.setParametro("@IdLeccion", id);
+                accesoDatos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al borrar la leccion:", ex);
+            }
+            finally
+            {
+                accesoDatos.cerrarConexion();
+            }
+        }
     }
 }

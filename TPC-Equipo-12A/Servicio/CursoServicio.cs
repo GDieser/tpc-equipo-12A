@@ -820,28 +820,50 @@ namespace Servicio
             }
         }
 
-        public List<CursoDTO> ObtenerCursosCompletosDeUsuario(int idUsuario)
+        public List<CursoDTO> ObtenerCursosCompletosDeUsuario(UsuarioAutenticado usuario)
         {
+            int id = usuario.IdUsuario;
+            bool isAdmin = usuario.Rol == Rol.Administrador;
+
             AccesoDatos accesoCursos = new AccesoDatos();
             try
             {
-                accesoCursos.setConsulta(@"
-                    SELECT 
-                        c.IdCurso,
-                        c.Titulo
-                    FROM Curso c
-                    LEFT JOIN DetalleCompra dc ON c.IdCurso = dc.IdCurso 
-                    LEFT JOIN Compra co ON dc.IdCompra = co.IdCompra
-                   "
-                    );
-                //  WHERE co.IdUsuario = @idUsuario - AGREGAR ESTA LINEA TAMBIEN EN LA OCNSULTA
-                // DESPUES REEMPLAZAR EL LEFT JOIN POR EL INNER, ESTO ES PRUEBA PAARA QUE TRAIGA TODOS LOS CURSOS
+                string consulta;
+                if (isAdmin)
+                {
+                    consulta = @"
+                SELECT 
+                    c.IdCurso,
+                    c.Titulo
+                FROM Curso c
+            ";
+                }
+                else
+                {
+                    consulta = @"
+                SELECT 
+                    c.IdCurso,
+                    c.Titulo
+                FROM Curso c
+                INNER JOIN DetalleCompra dc ON c.IdCurso = dc.IdCurso 
+                INNER JOIN Compra co ON dc.IdCompra = co.IdCompra
+                WHERE co.IdUsuario = @idUsuario AND c.Activo = 1
+            ";
+                }
+
+                accesoCursos.setConsulta(consulta);
                 accesoCursos.limpiarParametros();
-                accesoCursos.setParametro("@idUsuario", idUsuario);
+
+                if (!isAdmin)
+                {
+                    accesoCursos.setParametro("@idUsuario", id);
+                }
+
                 accesoCursos.ejecutarLectura();
 
                 List<CursoDTO> cursos = new List<CursoDTO>();
                 ModuloServicio moduloServicio = new ModuloServicio();
+
                 while (accesoCursos.Lector.Read())
                 {
                     CursoDTO curso = new CursoDTO

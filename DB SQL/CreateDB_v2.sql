@@ -24,14 +24,14 @@ CREATE TABLE Publicacion(
 	Resumen VARCHAR(255) NOT NULL,
 	FechaCreacion DATE,
 	FechaPublicacion DATE,
-	Estado INT,
+	Estado INT
 
 	FOREIGN KEY (IdCategoria) REFERENCES Categoria(IdCategoria),
 );
 
 CREATE TABLE ImagenPublicacion(
 	IdImagen INT NOT NULL,
-	IdPublicacion INT NOT NULL,
+	IdPublicacion INT NOT NULL
 
 	PRIMARY KEY (IdImagen, IDPublicacion),
 	FOREIGN KEY (IdImagen) REFERENCES Imagen(IdImagen),
@@ -49,7 +49,7 @@ CREATE TABLE Curso (
 	FechaPublicacion DATETIME,
 	FechaCreacion DATETIME,
 	Duracion INT,
-	Certificado BIT,
+	Certificado BIT
 
 	FOREIGN KEY (IdCategoria) REFERENCES Categoria(IdCategoria)
 );
@@ -69,14 +69,14 @@ CREATE TABLE Usuario(
 	EmailValidado BIT,
 	RecuperoContrasenia BIT,
 	TokenValidacion VARCHAR(255),
-	FotoPerfil INT,
+	FotoPerfil INT
 
 	FOREIGN KEY (FotoPerfil) REFERENCES Imagen(IdImagen) ON DELETE SET NULL
 )
 
 CREATE TABLE ImagenCurso(
 	IdImagen INT NOT NULL,
-	IdCurso INT NOT NULL,
+	IdCurso INT NOT NULL
 
 	PRIMARY KEY (IdImagen, IdCurso),
 	FOREIGN KEY (IdImagen) REFERENCES Imagen(IdImagen),
@@ -86,23 +86,27 @@ CREATE TABLE ImagenCurso(
 CREATE TABLE Modulo(
 	IdModulo INT PRIMARY KEY IDENTITY(1,1),
 	IdCurso INT NOT NULL,
-	Titulo VARCHAR(150),
-	Introduccion TEXT,
-	Orden INT,
+	IdImagen INT,
+	Titulo NVARCHAR(150), -- CAMBIADO A NVARCHAR
+	Introduccion NVARCHAR(MAX), -- CAMBIADO A NVARCHAR
+	Orden INT
 
-	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso)
+	FOREIGN KEY (IdImagen) REFERENCES Imagen(IdImagen) ON DELETE CASCADE, -- AGREGADO CAMPO IMAGEN
+	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso) ON DELETE CASCADE --IMPORTANTE PARA LA ELIMINACION DE UN CURSO
 );
 
 CREATE TABLE Leccion(
 	IdLeccion INT PRIMARY KEY IDENTITY(1,1),
 	IdModulo INT NOT NULL,
-	Titulo VARCHAR(150),
-	Introduccion TEXT,
-	Orden INT,
+	Titulo NVARCHAR(80),
+	Introduccion NVARCHAR(MAX),
+	Contenido NVARCHAR(MAX), -- AGREGADO CONTENIDO
+	Orden INT
 
-	FOREIGN KEY (IdModulo) REFERENCES Modulo(IdModulo)
-);
+	FOREIGN KEY (IdModulo) REFERENCES Modulo(IdModulo) ON DELETE CASCADE --IMPORTANTE PARA LA ELIMINACION DE UN MODULO
+)
 
+/*
 CREATE TABLE Componente(
 	IdComponente INT PRIMARY KEY IDENTITY(1,1),
 	IdLeccion INT,
@@ -113,12 +117,13 @@ CREATE TABLE Componente(
 
 	FOREIGN KEY (IdLeccion) REFERENCES Leccion(IdLeccion)
 );
+*/ -- borramos esta entidad ya que vamos a utilizar CKEditor para las lecciones
 
 CREATE TABLE LeccionUsuario(
 	IdLeccion INT NOT NULL,
 	IdUsuario INT NOT NULL,
 	EsFinalizado BIT DEFAULT 0,
-	Finalizado DATETIME,
+	Finalizado DATETIME
 
 	PRIMARY KEY(IdLeccion, IdUsuario),
 	FOREIGN KEY (IdLeccion) REFERENCES Leccion(IdLeccion),
@@ -128,7 +133,7 @@ CREATE TABLE LeccionUsuario(
 CREATE TABLE CursoFavorito(
 	IdUsuario INT NOT NULL,
 	IdCurso INT NOT NULL,
-	Agregado DATETIME,
+	Agregado DATETIME
 
 	PRIMARY KEY(IdCurso, IdUsuario),
 	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso),
@@ -140,7 +145,7 @@ CREATE TABLE Carrito(
 	IdUsuario INT NOT NULL,
 	FechaCreacion DATETIME,
 	UltimaModificacion DATETIME,
-	EstadoCarrito INT DEFAULT 0,
+	EstadoCarrito INT DEFAULT 0
 
 	FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario)
 );
@@ -151,7 +156,7 @@ CREATE TABLE Compra(
 	IdCarrito INT NOT NULL,
 	FechaCompra DATETIME,
 	MontoTotal DECIMAL NOT NULL,
-	CodigoTransaccion VARCHAR(255) NOT NULL,
+	CodigoTransaccion VARCHAR(255) NOT NULL
 
 	FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario),
 	FOREIGN KEY (IdCarrito) REFERENCES Carrito(IdCarrito)
@@ -160,7 +165,7 @@ CREATE TABLE Compra(
 CREATE TABLE DetalleCompra(
 	IdCompra INT NOT NULL,
 	IdCurso INT NOT NULL,
-	PrecioUnitario DECIMAL NOT NULL,
+	PrecioUnitario DECIMAL NOT NULL
 
 	PRIMARY KEY(IdCurso, IdCompra),
 	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso),
@@ -170,7 +175,7 @@ CREATE TABLE DetalleCompra(
 CREATE TABLE CarritoCurso(
 	IdCarrito INT NOT NULL,
 	IdCurso INT NOT NULL,
-	PrecioUnitario DECIMAL NOT NULL,
+	PrecioUnitario DECIMAL NOT NULL
 
 	PRIMARY KEY(IdCurso, IdCarrito),
 	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso),
@@ -184,6 +189,7 @@ CREATE TABLE PreguntasFrecuentes(
 	Activo BIT NOT NULL DEFAULT 1
 );
 
+/*
 CREATE TABLE ImagenModulo(
 	IdImagen INT,
 	IdModulo INT,
@@ -191,4 +197,4 @@ CREATE TABLE ImagenModulo(
 	FOREIGN KEY (IdImagen) REFERENCES Imagen(IdImagen),
 	FOREIGN KEY (IdModulo) REFERENCES Modulo(IdModulo)
 )
-
+*/ -- Eliminamos entidad ya que la relacion es 1:N poniendo el IdImagen en el Modulo

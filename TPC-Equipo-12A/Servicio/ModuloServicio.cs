@@ -247,5 +247,25 @@ namespace Servicio
                 accesoModulo.cerrarConexion();
             }
         }
+
+        public void Eliminar(int id)
+        {
+            AccesoDatos accesoDatos = new AccesoDatos();
+            try
+            {
+                accesoDatos.limpiarParametros();
+                accesoDatos.setConsulta(@"DELETE FROM Modulo WHERE IdModulo = @IdModulo");
+                accesoDatos.setParametro("@IdModulo", id);
+                accesoDatos.ejecutarAccion();
+            }
+            catch (Exception ex )
+            {
+                throw new Exception("Error al borrar el modulo:", ex);
+            }
+            finally
+            {
+                accesoDatos.cerrarConexion();
+            }
+        }
     }
 }

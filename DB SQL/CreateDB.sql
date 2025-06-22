@@ -52,7 +52,8 @@ CREATE TABLE Curso(
 	Duracion INT,
 	Certificado BIT,
 
-	FOREIGN KEY (IdCategoria) REFERENCES Categoria(IdCategoria)
+
+	FOREIGN KEY (IdCategoria) REFERENCES Categoria(IdCategoria) ON DELETE CASCADE
 );
 
 CREATE TABLE Usuario(
@@ -83,19 +84,23 @@ CREATE TABLE Modulo (
 	Orden INT,
 
 	IdCurso INT NOT NULL,
-	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso)
+	IdImagen INT
+
+	FOREIGN KEY (IdImagen) REFERENCES Imagen(IdImagen) ON DELETE CASCADE, -- AGREGADO CAMPO IMAGEN
+	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso) ON DELETE CASCADE --IMPORTANTE PARA LA ELIMINACION DE UN CURSO
 )
 
 CREATE TABLE Leccion(
 	IdLeccion INT PRIMARY KEY IDENTITY(1,1),
 	Titulo NVARCHAR(80),
 	Introduccion NVARCHAR(MAX),
+	Contenido NVARCHAR(MAX), -- AGREGADO CONTENIDO
 	Orden INT,
 
 	IdModulo INT NOT NULL,
-	FOREIGN KEY (IdModulo) REFERENCES Modulo(IdModulo)
+	FOREIGN KEY (IdModulo) REFERENCES Modulo(IdModulo) ON DELETE CASCADE --IMPORTANTE PARA LA ELIMINACION DE UN MODULO
 )
-
+/*
 CREATE TABLE Componente(
 	IdComponente INT PRIMARY KEY IDENTITY(1,1),
 	Titulo NVARCHAR(80),
@@ -105,7 +110,8 @@ CREATE TABLE Componente(
 
 	IdLeccion INT NOT NULL,
 	FOREIGN KEY (IdLeccion) REFERENCES Leccion(IdLeccion)
-)
+)*/ 
+-- YA NO USAMOS COMPONENTES EN LA APLICACION, TRABAJAMOS CON CKEDITOR
 
 CREATE TABLE LeccionUsuario(
 	IdLeccion INT NOT NULL,
@@ -180,7 +186,5 @@ CREATE TABLE CarritoCurso(
 	FOREIGN KEY (IdCarrito) REFERENCES Carrito(IdCarrito),
 	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso)
 )
-
-select * from Usuario;
 
 update usuario set IdRol=0 where IdUsuario=1

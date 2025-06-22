@@ -15,6 +15,15 @@ namespace TPC_Equipo_12A
     {
 
         /// <summary>
+        /// updLecciones control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel updLecciones;
+
+        /// <summary>
         /// imgModulo control.
         /// </summary>
         /// <remarks>
@@ -51,15 +60,6 @@ namespace TPC_Equipo_12A
         protected global::System.Web.UI.WebControls.Button btnAgregarLeccion;
 
         /// <summary>
-        /// updLecciones control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updLecciones;
-
-        /// <summary>
         /// rptLecciones control.
         /// </summary>
         /// <remarks>
@@ -76,6 +76,15 @@ namespace TPC_Equipo_12A
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnGuardarCambios;
+
+        /// <summary>
+        /// updtModal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel updtModal;
 
         /// <summary>
         /// hfIdLeccion control.

@@ -15,10 +15,29 @@ namespace TPC_Equipo_12A
 {
     public partial class Leccion : System.Web.UI.Page
     {
-        public int IdCurso { get; set; } = 0;
-        public int IdModulo { get; set; } = 0;
-        public string NombreCurso { get; set; } = string.Empty;
-        public string NombreModulo { get; set; } = string.Empty;
+        public int IdCurso
+        {
+            get => ViewState["IdCurso"] != null ? (int)ViewState["IdCurso"] : 0;
+            set => ViewState["IdCurso"] = value;
+        }
+
+        public int IdModulo
+        {
+            get => ViewState["IdModulo"] != null ? (int)ViewState["IdModulo"] : 0;
+            set => ViewState["IdModulo"] = value;
+        }
+
+        public string NombreCurso
+        {
+            get => ViewState["NombreCurso"] != null ? (string)ViewState["NombreCurso"] : string.Empty;
+            set => ViewState["NombreCurso"] = value;
+        }
+
+        public string NombreModulo
+        {
+            get => ViewState["NombreModulo"] != null ? (string)ViewState["NombreModulo"] : string.Empty;
+            set => ViewState["NombreModulo"] = value;
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -81,6 +100,14 @@ namespace TPC_Equipo_12A
                     btnMarcarCompletada.Enabled = false;
                     btnMarcarCompletada.CssClass = "btn btn-success";
                 }
+
+                RegistrarScriptCKEditor();
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "initCKEditor",
+                    "CKEDITOR.replace('" + txtContenidoHTML.ClientID + "', { extraAllowedContent: 'iframe[*]', contentsCss: ['https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css'], height: 1000 });",
+                    true);
             }
         }
 
@@ -206,6 +233,18 @@ namespace TPC_Equipo_12A
             phContenido.Visible = false;
             btnAgregarContenido.Visible = true;
             phCuerpo.Visible = true;
+        }
+
+        private void RegistrarScriptCKEditor()
+        {
+            string script = @"
+        CKEDITOR.replace('" + txtContenidoHTML.ClientID + @"', {
+            extraAllowedContent: 'iframe[*]',
+            contentsCss: ['https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css'],
+            height: 1000
+        });
+    ";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "initCKEditor", script, true);
         }
     }
 }

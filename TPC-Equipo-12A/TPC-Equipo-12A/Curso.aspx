@@ -2,16 +2,22 @@
 
 
 <asp:Content ID="Content2" ContentPlaceHolderID="AulaContent" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" />
+
     <style>
         .img-banner-curso {
             width: 100%;
             height: 25vh;
             object-fit: cover;
         }
+
+        .card-header {
+            border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+        }
     </style>
 
 
-    <div class="container col-xl-8">
+    <div class="container p-3">
 
         <div class="container mt-4">
 
@@ -29,11 +35,14 @@
                 <asp:Button ID="btnAgregarLeccion" runat="server" CssClass="btn btn-primary btn-sm mb-3" Text="Agregar Módulo" OnClientClick="limpiarModal(); return false;" data-bs-toggle="modal" data-bs-target="#modalLeccion" />
             </div>
             <hr />
-            <asp:UpdatePanel ID="updModulos" runat="server">
+            <asp:UpdatePanel runat="server" ID="updtCurso">
                 <ContentTemplate>
-                    <asp:Repeater ID="rptModulos" runat="server" OnItemCommand="rptModulos_ItemCommand">
+                    <asp:Repeater ID="rptModulos" runat="server"
+                        OnItemCommand="rptModulos_ItemCommand"
+                        OnItemDataBound="rptModulos_ItemDataBound"
+                        OnItemCreated="rptModulos_ItemCreated">
                         <ItemTemplate>
-                            <div class="card mb-2 border-0" style="background-color:#211c1c; color: aliceblue;">
+                            <div class="card mb-2 border-0" style="background-color: #211c1c; color: aliceblue;">
                                 <div class="card-header d-flex justify-content-between align-items-center border-0">
                                     <div style="flex-grow: 1; cursor: pointer;"
                                         data-bs-toggle="collapse"
@@ -44,42 +53,53 @@
                                         <asp:LinkButton
                                             ID="btnSubir"
                                             runat="server"
-                                            CssClass="btn btn-link text-decoration-none p-0 m-0"
+                                            CssClass="btn btn-link text-decoration-none m-0"
                                             CommandName="Subir"
                                             CommandArgument='<%# Eval("IdModulo") %>'
                                             ToolTip="Subir módulo">
-                                     ⬆️
+                                            <i class="bi bi-arrow-up text-white"></i>
                                         </asp:LinkButton>
 
                                         <asp:LinkButton
                                             ID="btnBajar"
                                             runat="server"
-                                            CssClass="btn btn-link text-decoration-none p-0 m-0"
+                                            CssClass="btn btn-link text-decoration-none m-0"
                                             CommandName="Bajar"
                                             CommandArgument='<%# Eval("IdModulo") %>'
                                             ToolTip="Bajar módulo">
-                                     ⬇️
+                                            <i class="bi bi-arrow-down text-white"></i>
                                         </asp:LinkButton>
 
                                         <asp:LinkButton
                                             ID="btnEditar"
                                             runat="server"
-                                            CssClass="btn btn-link text-decoration-none p-0 m-0"
+                                            CssClass="btn btn-link text-decoration-none m-0"
                                             CommandName="Editar"
                                             CommandArgument='<%# Eval("IdModulo") %>'
                                             ToolTip="Editar módulo">
-                                     ✏️
+                                            <i class="bi bi-pencil text-white"></i>
+                                        </asp:LinkButton>
+
+                                        <asp:LinkButton
+                                            ID="btnEliminar"
+                                            runat="server"
+                                            CssClass="btn btn-link text-decoration-none m-0"
+                                            OnClientClick="return confirmarEliminacion(this);"
+                                            CommandName="Eliminar"
+                                            CommandArgument='<%# Eval("IdModulo") %>'
+                                            ToolTip="Eliminar módulo">
+                                            <i class="bi bi-trash text-white"></i>
                                         </asp:LinkButton>
                                     </div>
-                                    <a  href='<%# "Modulo.aspx?id=" + Eval("IdModulo") != "0" ? "Modulo.aspx?id=" + Eval("IdModulo") : "#" %>'
-                                        class='<%# (Convert.ToInt32(Eval("IdModulo")) > 0 ? "btn btn-primary btn-sm" : "btn btn-secondary btn-sm disabled") %>'
+                                    <a href='<%# "Modulo.aspx?id=" + Eval("IdModulo") != "0" ? "Modulo.aspx?id=" + Eval("IdModulo") : "#" %>'
+                                        class='<%# (Convert.ToInt32(Eval("IdModulo")) > 0 ? "btn btn-primary btn-sm " : "btn btn-secondary btn-sm disabled") %>'
                                         onclick="event.stopPropagation();">Ir al módulo
                                     </a>
- 
+
                                 </div>
-                                <div id='<%# "intro" + Eval("IdModulo") %>' 
-                                    class="collapse card-body border-0" 
-                                    style="background-color:#211c1c; color: aliceblue;">
+                                <div id='<%# "intro" + Eval("IdModulo") %>'
+                                    class="collapse card-body border-0"
+                                    style="background-color: #211c1c; color: aliceblue;">
                                     <%# Eval("Introduccion") %>
                                 </div>
                             </div>
@@ -87,10 +107,17 @@
                     </asp:Repeater>
                     <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-success btn-sm mb-3" Text="Guardar cambios" OnClick="btnGuardarCambios_Click" />
 
+                </ContentTemplate>
+                <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="btnGuardarLeccion" EventName="Click" />
+                </Triggers>
+            </asp:UpdatePanel>
+            <asp:UpdatePanel runat="server" ID="updModal" UpdateMode="Conditional">
+                <ContentTemplate>
                     <div class="modal fade" id="modalLeccion" tabindex="-1" aria-labelledby="modalLeccionLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content bg-dark text-white">
-                                <div class="modal-header border-0">
+                                <div class="modal-header border-bottom border-secondary">
                                     <h5 class="modal-title" id="modalLeccionLabel">Agregar/Editar Módulo</h5>
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                                 </div>
@@ -112,7 +139,11 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer border-0">
-                                    <asp:Button ID="btnGuardarLeccion" runat="server" CssClass="btn btn-success" Text="Guardar" OnClick="btnGuardarModulo_Click" />
+                                    <asp:Button ID="btnGuardarLeccion" runat="server"
+                                        CssClass="btn btn-success"
+                                        Text="Guardar"
+                                        OnClick="btnGuardarModulo_Click"
+                                        UseSubmitBehavior="false" />
                                 </div>
 
                             </div>
@@ -145,6 +176,29 @@
                 if (backdrop) backdrop.remove();
             });
         });
+
+        function confirmarEliminacion(btn) {
+            event.preventDefault();
+
+            const uniqueId = btn.getAttribute("data-uid"); // ← clave
+
+            Swal.fire({
+                title: '¡ATENCION ESTA ACCION ES IRREVERSIBLE!',
+                text: "Esta acción eliminará el modulo definitivamente, ¿queres continuar?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Continuar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed && uniqueId) {
+                    __doPostBack(uniqueId, '');
+                }
+            });
+
+            return false;
+        }
+
     </script>
 
 </asp:Content>

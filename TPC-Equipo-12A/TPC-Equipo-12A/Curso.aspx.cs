@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Dominio;
 using Servicio;
@@ -11,6 +12,15 @@ namespace TPC_Equipo_12A
 {
     public partial class Curso : System.Web.UI.Page
     {
+
+        public UsuarioAutenticado UsuarioAutenticado
+        {
+            get
+            {
+                return Session["UsuarioAutenticado"] as UsuarioAutenticado;
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -21,20 +31,25 @@ namespace TPC_Equipo_12A
                     Response.Redirect("Error.aspx");
                 }
 
-                UsuarioAutenticado usuarioAutenticado = Session["UsuarioAutenticado"] as UsuarioAutenticado;
-                if (usuarioAutenticado == null)
+                if (UsuarioAutenticado == null)
                 {
                     Response.Redirect("Login.aspx");
                 }
 
                 int idCurso = int.Parse(Request.QueryString["id"]);
-                bool isAdmin = (usuarioAutenticado.Rol == Rol.Administrador);
-
+                bool isAdmin = (UsuarioAutenticado.Rol == Rol.Administrador);
                 CursoServicio cursoServicio = new CursoServicio();
-                bool isHabilitado = cursoServicio.EsUsuarioHabilitado(usuarioAutenticado.IdUsuario, idCurso);
+                bool isHabilitado = cursoServicio.EsUsuarioHabilitado(UsuarioAutenticado.IdUsuario, idCurso);
 
                 if (isAdmin || isHabilitado)
                 {
+
+                    btnAgregarLeccion.Visible = isAdmin;
+                    btnGuardarCambios.Visible = isAdmin;
+                    //var modalEdicion = (HtmlGenericControl)updtCurso.FindControl("modalLeccion");
+                    //modalEdicion.Visible = isAdmin;
+
+
                     Dominio.Curso curso = cursoServicio.ObtenerCursoPorId(idCurso);
                     if (curso == null)
                     {
@@ -51,6 +66,7 @@ namespace TPC_Equipo_12A
                         : curso.ImagenPortada.Url;
 
                     curso.Modulos = curso.Modulos.OrderBy(m => m.Orden).ToList();
+                    btnGuardarCambios.Enabled = false;
                     Session["Curso"] = curso;
                     rptModulos.DataSource = curso.Modulos;
                     rptModulos.DataBind();
@@ -72,7 +88,7 @@ namespace TPC_Equipo_12A
                 curso.Modulos = new List<Dominio.Modulo>();
 
             int.TryParse(hfIdLeccion.Value, out int idModulo);
-            if (idModulo <= 0)
+            if (idModulo == 0)
             {
                 int minimo = curso.Modulos.Any() ? curso.Modulos.Min(m => m.IdModulo) : 0;
                 idModulo = (minimo <= 0 ? minimo : 0) - 1;
@@ -87,7 +103,10 @@ namespace TPC_Equipo_12A
                     : imagenUrl
             };
 
-            int orden = curso.Modulos.FirstOrDefault(m => m.IdModulo == idModulo)?.Orden ?? (curso.Modulos.Count + 1);
+            var mod = curso.Modulos.FirstOrDefault(m => m.IdModulo == idModulo);
+            int orden = mod != null
+                ? mod.Orden
+                : curso.Modulos.Any() ? curso.Modulos.Max(m => m.Orden) + 1 : 1;
 
             Dominio.Modulo modulo = new Dominio.Modulo
             {
@@ -106,12 +125,15 @@ namespace TPC_Equipo_12A
 
             curso.Modulos = curso.Modulos.OrderBy(m => m.Orden).ToList();
             Session["Curso"] = curso;
+            btnGuardarCambios.Enabled = true;
+
             rptModulos.DataSource = curso.Modulos;
             rptModulos.DataBind();
 
             CerrarModal("modalLeccion");
             LimpiarCamposFormulario();
         }
+        
 
         protected void rptModulos_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
@@ -137,9 +159,38 @@ namespace TPC_Equipo_12A
                         txtTituloLeccion.Text = modulo.Titulo;
                         txtIntroLeccion.Text = modulo.Introduccion;
                         txtImagenLeccion.Text = modulo.imagen?.Url ?? "";
-
+                        updModal.Update();
                         ScriptManager.RegisterStartupScript(this, GetType(), "abrirModal",
                             "var modal = new bootstrap.Modal(document.getElementById('modalLeccion')); modal.show();", true);
+                    }
+                    break;
+
+                case "Eliminar":
+                    if (id > 0)
+                    {
+                        ModuloServicio moduloServicio = new ModuloServicio();
+                        try
+                        {
+                            moduloServicio.Eliminar(id);
+                        }
+                        catch (Exception ex)
+                        {
+                            MostrarMensaje("¡Ups...!", $"¡Ocurrio un problema: {ex.Message}!", "error");
+                        }
+                        finally
+                        {
+                            Response.Redirect($"Curso.aspx?id={((Dominio.Curso)Session["Curso"]).IdCurso}");
+                        }
+                    }
+                    else
+                    {
+                        curso.Modulos.RemoveAll(m => m.IdModulo == id);
+                        Session["Curso"] = curso;
+
+                        rptModulos.DataSource = curso.Modulos.OrderBy(m => m.Orden).ToList();
+                        rptModulos.DataBind();
+
+                        MostrarMensaje("¡Info!", "Módulo eliminado correctamente.", "success");
                     }
                     break;
             }
@@ -174,9 +225,8 @@ namespace TPC_Equipo_12A
                 {
                     moduloServicio.ActualizarOCrear(modulo);
                 }
-
-                MostrarMensaje("¡Todo ok!", "¡Curso Actualizado Correctamente!", "success");
                 ActualizarCursoEnSesionYBindear();
+                MostrarMensaje("¡Exito!", "¡Curso Actualizado Correctamente!", "success");
             }
             catch (Exception ex)
             {
@@ -200,8 +250,10 @@ namespace TPC_Equipo_12A
                     }
                 }
 
-                MostrarMensaje("¡Todo ok!", "¡Curso Actualizado Correctamente!", "success");
+                MostrarMensaje("¡Exito!", "¡Curso Actualizado Correctamente!", "success");
                 ActualizarCursoEnSesionYBindear();
+                btnGuardarCambios.Enabled = false;
+
             }
             catch (Exception ex)
             {
@@ -257,6 +309,49 @@ namespace TPC_Equipo_12A
             Session["Curso"] = curso;
             rptModulos.DataSource = curso.Modulos.OrderBy(m => m.Orden).ToList();
             rptModulos.DataBind();
+        }
+
+        protected void rptModulos_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                LinkButton btnEliminar = (LinkButton)e.Item.FindControl("btnEliminar");
+                if (btnEliminar != null)
+                {
+                    btnEliminar.Attributes["data-uid"] = btnEliminar.UniqueID;
+                }
+
+                var grupoAdmin = (HtmlGenericControl)e.Item.FindControl("grupoAdmin");
+                if (grupoAdmin != null && UsuarioAutenticado != null)
+                {
+                    grupoAdmin.Visible = UsuarioAutenticado.Rol == Rol.Administrador;
+                }
+            }
+        }
+
+        protected void rptModulos_ItemCreated(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                ScriptManager scriptMan = ScriptManager.GetCurrent(this);
+
+                LinkButton btnSubir = e.Item.FindControl("btnSubir") as LinkButton;
+                LinkButton btnBajar = e.Item.FindControl("btnBajar") as LinkButton;
+                LinkButton btnEditar = e.Item.FindControl("btnEditar") as LinkButton;
+                LinkButton btnEliminar = e.Item.FindControl("btnEliminar") as LinkButton;
+
+                if (btnSubir != null)
+                    scriptMan.RegisterAsyncPostBackControl(btnSubir);
+
+                if (btnBajar != null)
+                    scriptMan.RegisterAsyncPostBackControl(btnBajar);
+
+                if (btnEditar != null)
+                    scriptMan.RegisterAsyncPostBackControl(btnEditar);
+
+                if (btnEliminar != null)
+                    scriptMan.RegisterAsyncPostBackControl(btnEliminar);
+            }
         }
     }
 }
