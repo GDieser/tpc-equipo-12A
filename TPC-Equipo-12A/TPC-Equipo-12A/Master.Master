@@ -83,12 +83,23 @@
                                     <a href="CrearCurso.aspx" class="btn btn-success">Crear curso</a>
                                 </li>
                                 -->
+                                <li class="nav-item me-2">
+                                    <asp:HyperLink NavigateUrl="ListaNotificaciones.aspx" CssClass="btn btn-outline-light position-relative" runat="server"> 🔔 
+
+                                         <%if (usuario != null && cantidadNotificaciones != 0)
+                                             { %>
+                                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> <%: Session["CantidadNotificaciones"] ?? "" %> </span> 
+                                         <%} %>
+
+                                    </asp:HyperLink>
+                                </li>
 
                                 <li class="nav-item me-2">
 
                                     <asp:HyperLink NavigateUrl="MiCarrito.aspx" CssClass="btn btn-outline-light position-relative" runat="server"> 🛒 
 
-                                        <%if (usuario != null && carrito != null && cantidadCarrito != 0) { %>
+                                        <%if (usuario != null && carrito != null && cantidadCarrito != 0)
+                                            { %>
                                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> <%= cantidadCarrito %> </span> 
                                         <%} %>
 

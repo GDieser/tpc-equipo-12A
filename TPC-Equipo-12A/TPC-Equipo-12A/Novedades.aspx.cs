@@ -10,10 +10,11 @@ using Servicio;
 
 namespace TPC_Equipo_12A
 {
+    
     public partial class Novedades : System.Web.UI.Page
     {
         public List<Publicacion> ListaPublicaciones;
-
+        public bool tipoNovedades = true;
         protected void Page_Load(object sender, EventArgs e)
         {
             NovedadesServicio servicio = new NovedadesServicio();
@@ -74,13 +75,26 @@ namespace TPC_Equipo_12A
             PagedDataSource paged = new PagedDataSource();
 
 
-            paged.DataSource = listaFiltrada;
-            paged.PageSize = 10;
-            paged.AllowPaging = true;
-            paged.CurrentPageIndex = PageNumber;
+            if(tipoNovedades)
+            {
+                paged.DataSource = listaFiltrada;
+                paged.PageSize = 10;
+                paged.AllowPaging = true;
+                paged.CurrentPageIndex = PageNumber;
 
-            rptNovedades.DataSource = paged;
-            rptNovedades.DataBind();
+                rptNovedades.DataSource = paged;
+                rptNovedades.DataBind();
+            }
+            else
+            {
+                paged.DataSource = listaFiltrada;
+                paged.PageSize = 40;
+                paged.AllowPaging = true;
+                paged.CurrentPageIndex = PageNumber;
+
+                rptNovedadesCards.DataSource = paged;
+                rptNovedadesCards.DataBind();
+            }
 
             btnAnterior.Enabled = !paged.IsFirstPage;
             btnSiguiente.Enabled = !paged.IsLastPage;
@@ -145,6 +159,18 @@ namespace TPC_Equipo_12A
         protected void btnSiguiente_Click(object sender, EventArgs e)
         {
             PageNumber++;
+            CargarNovedades();
+        }
+
+        protected void btnHorizontal_Click(object sender, EventArgs e)
+        {
+            tipoNovedades = true;
+            CargarNovedades();
+        }
+
+        protected void btnCard_Click(object sender, EventArgs e)
+        {
+            tipoNovedades = false;
             CargarNovedades();
         }
 

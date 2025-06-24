@@ -11,8 +11,10 @@ namespace TPC_Equipo_12A
         protected UsuarioAutenticado usuario;
         protected Carrito carrito;
         protected int cantidadCarrito;
+        protected int cantidadNotificaciones;
         protected void Page_Load(object sender, EventArgs e)
         {
+            NotificacionesServicio servicio = new NotificacionesServicio();
             usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
             
 
@@ -23,6 +25,9 @@ namespace TPC_Equipo_12A
                 carrito = (Carrito)Session["Carrito"];
 
                 cantidadCarrito = carrito.CarritoCursos.Count;
+
+                cantidadNotificaciones = servicio.ContarNoVistas(usuario.IdUsuario);
+                Session["CantidadNotificaciones"] = cantidadNotificaciones;
             }
 
             if (!IsPostBack)
@@ -36,6 +41,8 @@ namespace TPC_Equipo_12A
                     return;
 
                 Session.Remove("LeccionesCompletadas");
+
+                
             }
         }
 

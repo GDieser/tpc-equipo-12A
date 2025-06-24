@@ -198,3 +198,49 @@ CREATE TABLE ImagenModulo(
 	FOREIGN KEY (IdModulo) REFERENCES Modulo(IdModulo)
 )
 */ -- Eliminamos entidad ya que la relacion es 1:N poniendo el IdImagen en el Modulo
+
+
+---Ejemplo sistema de comentarios
+
+CREATE TABLE Comentario (
+    IdComentario INT PRIMARY KEY IDENTITY(1,1),
+    IdUsuario INT NOT NULL,
+    
+    TipoOrigen VARCHAR(50) NOT NULL,
+    IdOrigen INT NOT NULL,
+    
+    IdComentarioPadre INT NULL,
+    Contenido TEXT NOT NULL, 
+    FechaCreacion DATETIME NOT NULL,
+    FechaEdicion DATETIME NULL,
+    EsEditado BIT DEFAULT 0,
+    EsEliminado BIT DEFAULT 0,
+    Visible BIT DEFAULT 1,
+
+    FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario),
+    FOREIGN KEY (IdComentarioPadre) REFERENCES Comentario(IdComentario)
+);
+
+
+CREATE TABLE NotificacionAdmin(
+	IdNotificacion  INT PRIMARY KEY IDENTITY(1,1),
+	IdComentario  INT NOT NULL,
+	Visto BIT NOT NULL DEFAULT 0,
+	FechaNotificacion DATE NOT NULL DEFAULT GETDATE(),
+	IdAdministrador INT NULL,
+	
+	FOREIGN KEY (IdComentario) REFERENCES Comentario(IdComentario),
+    FOREIGN KEY (IdAdministrador) REFERENCES Usuario(IdUsuario)
+);
+
+---AUN EN DESARROLLO
+--CREATE TABLE NotificacionUsuario(
+--	IdNotificacion INT PRIMARY KEY IDENTITY(1,1),
+--	IdComentario INT NOT NULL,
+--	IdUsuarioDestino INT NOT NULL,
+--	Tipo VARCHAR(50),
+--	Leido BIT NOT NULL DEFAULT 0,
+--	FechaNotificacion DATE NOT NULL DEFAULT GETDATE(),
+--
+--	FOREIGN KEY (IdComentario) REFERENCES Comentario(IdComentario)
+--);

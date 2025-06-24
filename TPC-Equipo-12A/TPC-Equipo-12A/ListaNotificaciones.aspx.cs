@@ -1,0 +1,83 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Servicio;
+using Dominio;
+
+namespace TPC_Equipo_12A
+{
+    public partial class ListaNotificaciones : System.Web.UI.Page
+    {
+        protected UsuarioAutenticado usuario;
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+
+            if (!Seguridad.esAdmin(Session["UsuarioAutenticado"]))
+            {
+                Session.Add("error", "Acceso no permitido");
+                Response.Redirect("Error.aspx");
+            }
+
+            if (!IsPostBack)
+            {
+                CargarNotificaciones(false);
+            }
+        }
+
+        private void CargarNotificaciones(bool soloNuevas)
+        {
+            NotificacionesServicio servicio = new NotificacionesServicio();
+            int idAdmin = usuario.IdUsuario;
+
+            List<Notificacion> lista = servicio.Listar(idAdmin, soloNuevas);
+
+            gvNotificaciones.DataSource = lista;
+            gvNotificaciones.DataBind();
+        }
+
+        protected void btnVerTodas_Click(object sender, EventArgs e)
+        {
+            CargarNotificaciones(false);
+        }
+
+        protected void btnVerNuevas_Click(object sender, EventArgs e)
+        {
+            CargarNotificaciones(true); 
+        }
+
+        protected void chkVisto_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox chk = (CheckBox)sender;
+            GridViewRow fila = (GridViewRow)chk.NamingContainer;
+            HiddenField hf = (HiddenField)fila.FindControl("hfIdNotificacion");
+
+            int idNotif = int.Parse(hf.Value);
+            NotificacionesServicio ser = new NotificacionesServicio();
+            ser.MarcarComoVista(idNotif);
+
+            // refrescar lista
+            CargarNotificaciones(false);
+        }
+
+        protected void gvNotificaciones_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "ver")
+            {
+                string[] valores = e.CommandArgument.ToString().Split('|');
+                int idNotificacion = int.Parse(valores[0]);
+                int idOrigen = int.Parse(valores[1]);
+
+                // marcar como vista
+                NotificacionesServicio ser = new NotificacionesServicio();
+                ser.MarcarComoVista(idNotificacion);
+
+                // redirigir a detalle
+                Response.Redirect("DetalleNovedad.aspx?IdNovedad=" + idOrigen);
+            }
+        }
+    }
+}
