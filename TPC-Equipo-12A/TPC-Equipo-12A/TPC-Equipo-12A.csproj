@@ -99,6 +99,8 @@
     <Content Include="Curso.aspx" />
     <Content Include="DescripcionCurso.aspx" />
     <Content Include="DetalleNovedad.aspx" />
+    <Content Include="images\bg2.jpg" />
+    <Content Include="images\bg3.jpg" />
     <Content Include="Leccion.aspx" />
     <Content Include="ListaCursos.aspx" />
     <Content Include="ListaCursosAdmin.aspx" />
@@ -310,6 +312,7 @@
   <ItemGroup>
     <Content Include="Master.Master" />
     <Content Include="Aula.Master" />
+    <Content Include="imagenes\perfil\default-perfil.webp" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

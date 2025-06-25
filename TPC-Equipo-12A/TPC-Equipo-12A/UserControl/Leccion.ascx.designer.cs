@@ -7,155 +7,164 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TPC_Equipo_12A
+namespace TPC_Equipo_12A.UserControl
 {
 
 
-    public partial class Perfil
+    public partial class Leccion
     {
 
         /// <summary>
-        /// litPerfilTitulo control.
+        /// updLeccion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litPerfilTitulo;
+        protected global::System.Web.UI.UpdatePanel updLeccion;
 
         /// <summary>
-        /// litEmail control.
+        /// phContenido control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litEmail;
+        protected global::System.Web.UI.WebControls.PlaceHolder phContenido;
 
         /// <summary>
-        /// ScriptManager1 control.
+        /// Button1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        protected global::System.Web.UI.WebControls.Button Button1;
 
         /// <summary>
-        /// updFotoPerfil control.
+        /// Button2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updFotoPerfil;
+        protected global::System.Web.UI.WebControls.Button Button2;
 
         /// <summary>
-        /// imgFotoPerfil control.
+        /// txtTitulo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgFotoPerfil;
+        protected global::System.Web.UI.WebControls.TextBox txtTitulo;
 
         /// <summary>
-        /// litFechaRegistro control.
+        /// rfvTitulo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litFechaRegistro;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvTitulo;
 
         /// <summary>
-        /// txtNombre control.
+        /// txtIntroduccion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNombre;
+        protected global::System.Web.UI.WebControls.TextBox txtIntroduccion;
 
         /// <summary>
-        /// txtApellido control.
+        /// rfvIntroduccion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtApellido;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvIntroduccion;
 
         /// <summary>
-        /// txtCelular control.
+        /// txtContenidoHTML control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCelular;
+        protected global::System.Web.UI.HtmlControls.HtmlTextArea txtContenidoHTML;
 
         /// <summary>
-        /// txtFechaNacimiento control.
+        /// btnGuardarContenido control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFechaNacimiento;
+        protected global::System.Web.UI.WebControls.Button btnGuardarContenido;
 
         /// <summary>
-        /// txtNombreArchivo control.
+        /// btnCancelarEdicion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNombreArchivo;
+        protected global::System.Web.UI.WebControls.Button btnCancelarEdicion;
 
         /// <summary>
-        /// fuFotoPerfil control.
+        /// phCuerpo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fuFotoPerfil;
+        protected global::System.Web.UI.WebControls.PlaceHolder phCuerpo;
 
         /// <summary>
-        /// btnGuardar control.
+        /// litTitulo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnGuardar;
+        protected global::System.Web.UI.WebControls.Literal litTitulo;
 
         /// <summary>
-        /// btnInhabilitar control.
+        /// litDescripcion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnInhabilitar;
+        protected global::System.Web.UI.WebControls.Literal litDescripcion;
 
         /// <summary>
-        /// lblError control.
+        /// btnAgregarContenido control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblError;
+        protected global::System.Web.UI.WebControls.Button btnAgregarContenido;
 
         /// <summary>
-        /// lblExito control.
+        /// litContenido control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblExito;
+        protected global::System.Web.UI.WebControls.Literal litContenido;
+
+        /// <summary>
+        /// btnMarcarCompletada control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnMarcarCompletada;
     }
 }

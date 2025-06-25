@@ -1,6 +1,11 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="Perfil.aspx.cs" Inherits="TPC_Equipo_12A.Perfil" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style>
+        .hidden-file {
+            display: none;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
@@ -23,10 +28,10 @@
                             <ContentTemplate>
                                 <div class="text-center mb-3">
                                     <div style="width: 150px; height: 150px; overflow: hidden; border-radius: 50%; margin: auto;">
-                                        <asp:Image ID="imgFotoPerfil" runat="server"
+                                        <asp:Image ID="imgFotoPerfil" runat="server" ClientIDMode="Static"
                                             CssClass="w-100 h-100"
                                             Style="object-fit: cover;"
-                                            ImageUrl="https://openclipart.org/download/247324/abstract-user-flat-1.svg" />
+                                           />
                                     </div>
                                     <div class="text-center">
                                         <small>
@@ -56,13 +61,22 @@
                                     <asp:TextBox ID="txtFechaNacimiento" CssClass="form-control" TextMode="Date" runat="server" />
                                 </div>
 
-                                <div class="form-outline mb-3">
-                                    <label class="form-label" for="txtUrlFoto">Url foto de perfil</label>
-                                    <asp:TextBox ID="txtUrlFoto" runat="server" CssClass="form-control mt-2"
-                                        AutoPostBack="true" OnTextChanged="txtUrlFoto_TextChanged"
-                                        placeholder="Ingresá una URL de imagen" />
-                                </div>
 
+
+                                <div class="form-outline mb-3">
+                                    <label class="form-label">Foto de perfil</label>
+
+                                    <div class="input-group ">
+                                        <!-- TextBox solo para mostrar el nombre del archivo -->
+                                        <asp:TextBox ID="txtNombreArchivo" runat="server" CssClass="form-control" ReadOnly="true" />
+                                        <!-- Botón personalizado con ícono -->
+                                        <button type="button" class="btn btn-outline-secondary rounded-end" onclick="document.getElementById('<%= fuFotoPerfil.ClientID %>').click();">
+                                            <i class="bi bi-folder"></i>
+                                        </button>
+                                        <!-- FileUpload real oculto -->
+                                        <asp:FileUpload ID="fuFotoPerfil" runat="server" CssClass="hidden-file" />
+                                    </div>
+                                </div>
 
                                 <asp:Button ID="btnGuardar" runat="server" Text="Guardar Cambios" CssClass="btn btn-primary w-100 mb-3" OnClick="btnGuardar_Click" />
                                 <asp:Button ID="btnInhabilitar" runat="server" Text="" CssClass="btn btn-primary w-100 mb-3" OnClick="btnInhabilitar_Click" />
@@ -70,11 +84,37 @@
                                 <asp:Label ID="lblExito" runat="server" CssClass="text-succes mt-3 d-block text-center" />
 
                             </ContentTemplate>
+                            <Triggers>
+                                <asp:PostBackTrigger ControlID="btnGuardar" />
+                            </Triggers>
+
                         </asp:UpdatePanel>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var fileInput = document.getElementById("<%= fuFotoPerfil.ClientID %>");
+            var txtNombre = document.getElementById("<%= txtNombreArchivo.ClientID %>");
 
+            fileInput.addEventListener("change", function () {
+                if (fileInput.files.length > 0) {
+                    // Mostrar nombre del archivo
+                    txtNombre.value = fileInput.files[0].name;
+
+                    // Mostrar vista previa si es imagen
+                    const lector = new FileReader();
+                    lector.onload = function (e) {
+                        const img = document.getElementById("imgFotoPerfil");
+                        if (img) img.src = e.target.result;
+                    };
+                    lector.readAsDataURL(fileInput.files[0]);
+                } else {
+                    txtNombre.value = "";
+                }
+            });
+        });
+    </script>
 </asp:Content>

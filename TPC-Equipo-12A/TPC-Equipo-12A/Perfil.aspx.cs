@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Servicio;
 using Dominio;
+using System.IO;
 
 namespace TPC_Equipo_12A
 {
@@ -15,7 +16,7 @@ namespace TPC_Equipo_12A
         protected void Page_Load(object sender, EventArgs e)
         {
             UsuarioAutenticado usuarioAutenticado = Session["UsuarioAutenticado"] as UsuarioAutenticado;
-
+            Page.Form.Attributes.Add("enctype", "multipart/form-data");
 
             if (usuarioAutenticado == null || string.IsNullOrEmpty(Request.QueryString["id"]))
             {
@@ -53,16 +54,9 @@ namespace TPC_Equipo_12A
                     litEmail.Text = usuario.Email.ToString();
                     litPerfilTitulo.Text = $"{usuario.NombreUsuario}";
                     litFechaRegistro.Text = $"{usuario.Rol.ToString()} desde el {usuario.FechaRegistro?.ToString("dd/MM/yyyy") ?? "-"}";
-                    txtUrlFoto.Text = usuario.FotoPerfil.Url ?? "https://static-00.iconduck.com/assets.00/profile-user-icon-512x512-nm62qfu0.png";
-                    imgFotoPerfil.ImageUrl = txtUrlFoto.Text;
-
+                    imgFotoPerfil.ImageUrl = ResolveUrl(usuario.FotoPerfil.Url ?? "~/imagenes/perfil/user-default.webp");
                 }
             }
-        }
-
-        protected void txtUrlFoto_TextChanged(object sender, EventArgs e)
-        {
-            imgFotoPerfil.ImageUrl = txtUrlFoto.Text == "" ? "https://static-00.iconduck.com/assets.00/profile-user-icon-512x512-nm62qfu0.png" : txtUrlFoto.Text;
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
@@ -88,15 +82,6 @@ namespace TPC_Equipo_12A
                 return;
             }
 
-            Uri uriResult;
-            bool esUrlValida = Uri.TryCreate(txtUrlFoto.Text, UriKind.Absolute, out uriResult) &&
-                               (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
-
-            if (!esUrlValida)
-            {
-                lblError.Text = "La URL de la imagen no es valida.";
-                return;
-            }
 
             DateTime fechaNacimiento;
             bool fechaIsValida = DateTime.TryParse(txtFechaNacimiento.Text, out fechaNacimiento);
@@ -120,23 +105,38 @@ namespace TPC_Equipo_12A
                 usuario.Celular = txtCelular.Text;
                 usuario.FechaNacimiento = fechaNacimiento;
 
-                if (usuario.FotoPerfil == null || usuario.FotoPerfil.Url != txtUrlFoto.Text)
+                if (fuFotoPerfil.HasFile)
                 {
-                    ImagenServicio imagenServicio = new ImagenServicio();
-                    usuario.FotoPerfil = new Imagen { Url = txtUrlFoto.Text };
-                    usuario.FotoPerfil.IdImagen = imagenServicio.agregarImagen(usuario.FotoPerfil);
+                    string extension = Path.GetExtension(fuFotoPerfil.FileName).ToLower();
+                    string nombreArchivo = $"{usuario.NombreUsuario}-foto-perfil{extension}";
+                    string rutaRelativa = $"~/imagenes/perfil/{nombreArchivo}";
+                    string rutaFisica = Server.MapPath(rutaRelativa);
+
+                    fuFotoPerfil.SaveAs(rutaFisica);
+                    string nuevaUrl = ResolveUrl(rutaRelativa);
+
+                    if (usuario.FotoPerfil == null || usuario.FotoPerfil.Url != nuevaUrl)
+                    {
+                        ImagenServicio imagenServicio = new ImagenServicio();
+                        usuario.FotoPerfil = new Imagen { Url = nuevaUrl, Nombre = nombreArchivo };
+                        usuario.FotoPerfil.IdImagen = imagenServicio.agregarImagen(usuario.FotoPerfil);
+                    }
                 }
 
                 usuarioServicio.ActualizarUsuario(usuario);
 
                 if (Session["UsuarioAutenticado"] is UsuarioAutenticado usuarioAutenticado &&
-                    usuarioAutenticado.IdUsuario == idQueryParam &&
-                    usuario.FotoPerfil?.Url != usuarioAutenticado.FotoPerfil?.Url)
+                    usuarioAutenticado.IdUsuario == idQueryParam)
                 {
                     usuarioAutenticado.FotoPerfil = usuario.FotoPerfil;
                     Session["UsuarioAutenticado"] = usuarioAutenticado;
                 }
-                ScriptManager.RegisterStartupScript(this, GetType(), "sweetalert", 
+
+                imgFotoPerfil.ImageUrl = ResolveUrl(usuario.FotoPerfil.Url);
+
+                updFotoPerfil.Update();
+
+                ScriptManager.RegisterStartupScript(this, GetType(), "sweetalert",
                     @"Swal.fire({
                         title: '¡Guardado!',
                         text: 'El perfil fue actualizado correctamente.',

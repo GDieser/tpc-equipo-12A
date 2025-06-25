@@ -7,155 +7,146 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TPC_Equipo_12A
+namespace TPC_Equipo_12A.UserControl
 {
 
 
-    public partial class Perfil
+    public partial class Curso
     {
 
         /// <summary>
-        /// litPerfilTitulo control.
+        /// updCurso control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litPerfilTitulo;
+        protected global::System.Web.UI.UpdatePanel updCurso;
 
         /// <summary>
-        /// litEmail control.
+        /// imgBannerCurso control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litEmail;
+        protected global::System.Web.UI.WebControls.Image imgBannerCurso;
 
         /// <summary>
-        /// ScriptManager1 control.
+        /// litTituloCurso control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        protected global::System.Web.UI.WebControls.Literal litTituloCurso;
 
         /// <summary>
-        /// updFotoPerfil control.
+        /// litIntroCurso control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updFotoPerfil;
+        protected global::System.Web.UI.WebControls.Literal litIntroCurso;
 
         /// <summary>
-        /// imgFotoPerfil control.
+        /// btnAgregarLeccion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgFotoPerfil;
+        protected global::System.Web.UI.WebControls.Button btnAgregarLeccion;
 
         /// <summary>
-        /// litFechaRegistro control.
+        /// updtCurso control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litFechaRegistro;
+        protected global::System.Web.UI.UpdatePanel updtCurso;
 
         /// <summary>
-        /// txtNombre control.
+        /// rptModulos control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNombre;
+        protected global::System.Web.UI.WebControls.Repeater rptModulos;
 
         /// <summary>
-        /// txtApellido control.
+        /// btnGuardarCambios control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtApellido;
+        protected global::System.Web.UI.WebControls.Button btnGuardarCambios;
 
         /// <summary>
-        /// txtCelular control.
+        /// updModal control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCelular;
+        protected global::System.Web.UI.UpdatePanel updModal;
 
         /// <summary>
-        /// txtFechaNacimiento control.
+        /// hfIdLeccion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFechaNacimiento;
+        protected global::System.Web.UI.WebControls.HiddenField hfIdLeccion;
 
         /// <summary>
-        /// txtNombreArchivo control.
+        /// hfIdImagen control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNombreArchivo;
+        protected global::System.Web.UI.WebControls.HiddenField hfIdImagen;
 
         /// <summary>
-        /// fuFotoPerfil control.
+        /// txtTituloLeccion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fuFotoPerfil;
+        protected global::System.Web.UI.WebControls.TextBox txtTituloLeccion;
 
         /// <summary>
-        /// btnGuardar control.
+        /// txtIntroLeccion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnGuardar;
+        protected global::System.Web.UI.WebControls.TextBox txtIntroLeccion;
 
         /// <summary>
-        /// btnInhabilitar control.
+        /// txtImagenLeccion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnInhabilitar;
+        protected global::System.Web.UI.WebControls.TextBox txtImagenLeccion;
 
         /// <summary>
-        /// lblError control.
+        /// btnGuardarLeccion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblError;
-
-        /// <summary>
-        /// lblExito control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblExito;
+        protected global::System.Web.UI.WebControls.Button btnGuardarLeccion;
     }
 }

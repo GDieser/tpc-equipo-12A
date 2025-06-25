@@ -102,7 +102,12 @@ namespace Servicio
                 }
                 else
                 {
-                    usuario.FotoPerfil = new Imagen();
+                    usuario.FotoPerfil = new Imagen
+                    {
+                        IdImagen = 0,
+                        Nombre = "default-perfil.webp",
+                        Url = "~/images/perfil/default-perfil.webp"
+                    };
                 }
                 return usuario;
             }
@@ -344,7 +349,7 @@ namespace Servicio
                     i.IdImagen, 
                     i.UrlImagen, 
                     i.Nombre;"
-                ); // IdRol = 0 es para el ADMIN
+                ); 
                 datos.limpiarParametros();
                 datos.ejecutarLectura();
 
@@ -375,7 +380,12 @@ namespace Servicio
                     }
                     else
                     {
-                        usuario.FotoPerfil = new Imagen();
+                        usuario.FotoPerfil = new Imagen
+                        {
+                            IdImagen = 0,
+                            Nombre = "default-perfil.webp",
+                            Url = "~/images/perfil/default-perfil.webp"
+                        };
                     }
                     usuarios.Add(usuario);
                 }

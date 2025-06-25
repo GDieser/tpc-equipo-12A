@@ -50,6 +50,15 @@ namespace Servicio
                         Url = datos.Lector["UrlImagen"].ToString()
                     };
                 }
+                else
+                {
+                    usuario.FotoPerfil = new Imagen
+                    {
+                        IdImagen = 0,
+                        Nombre = "default-perfil.webp",
+                        Url = "~/images/perfil/default-perfil.webp"
+                    };
+                }
 
                 return usuario;
 
