@@ -16,6 +16,8 @@ namespace TPC_Equipo_12A
         protected void Page_Load(object sender, EventArgs e)
         {
             usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+
+
             if (!IsPostBack)
             {
                 var usuario = Session["UsuarioAutenticado"] as UsuarioAutenticado;

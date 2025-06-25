@@ -27,6 +27,7 @@ namespace TPC_Equipo_12A
 
                 if (usuario != null && usuario.Habilitado)
                 {
+                    /*
                     ClientScript.RegisterStartupScript(this.GetType(), "limpiarStorage",
                         "localStorage.clear();", true);
                     Session["UsuarioAutenticado"] = usuario;
@@ -41,6 +42,34 @@ namespace TPC_Equipo_12A
                             window.location.href = 'Default.aspx';
                         }}
                     }});", true);
+                    */
+
+                    ClientScript.RegisterStartupScript(this.GetType(), "limpiarStorage",
+                        "localStorage.clear();", true);
+                    
+                        Session["UsuarioAutenticado"] = usuario;
+                    
+                        ScriptManager.RegisterStartupScript(this, GetType(), "sweetalert",
+                        $@"Swal.fire({{
+                        title: '¡Bienvenido!',
+                        text: '¡Hola {usuario.Nombre}!',
+                        icon: 'success',
+                        toast: true,
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        timerProgressBar: true,
+                        background: '#1e1e2f',
+                        color: '#fff',
+                        iconColor: '#a5dc86',
+                        didOpen: (toast) => {{
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }}
+                    }});
+                    setTimeout(function() {{
+                        window.location.href = 'Default.aspx';
+                    }}, 1600);", true);
 
                 }
                 else
