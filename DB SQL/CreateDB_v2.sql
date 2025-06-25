@@ -221,6 +221,9 @@ CREATE TABLE Comentario (
     FOREIGN KEY (IdComentarioPadre) REFERENCES Comentario(IdComentario)
 );
 
+ALTER TABLE Comentario 
+ALTER COLUMN Contenido NVARCHAR(2048) NOT NULL;
+
 
 CREATE TABLE NotificacionAdmin(
 	IdNotificacion  INT PRIMARY KEY IDENTITY(1,1),
@@ -233,6 +236,13 @@ CREATE TABLE NotificacionAdmin(
     FOREIGN KEY (IdAdministrador) REFERENCES Usuario(IdUsuario)
 );
 
+ALTER TABLE NotificacionAdmin
+ADD 
+    EsReporte BIT NOT NULL DEFAULT 0,
+    MotivoReporte VARCHAR(50) NULL,
+    IdUsuarioReportador INT NULL,
+    FOREIGN KEY (IdUsuarioReportador) REFERENCES Usuario(IdUsuario);
+
 ---AUN EN DESARROLLO
 --CREATE TABLE NotificacionUsuario(
 --	IdNotificacion INT PRIMARY KEY IDENTITY(1,1),
@@ -244,3 +254,5 @@ CREATE TABLE NotificacionAdmin(
 --
 --	FOREIGN KEY (IdComentario) REFERENCES Comentario(IdComentario)
 --);
+
+

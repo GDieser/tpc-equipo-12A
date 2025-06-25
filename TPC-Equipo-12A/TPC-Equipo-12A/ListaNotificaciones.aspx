@@ -7,17 +7,39 @@
 
     <div class="container text-center">
         <br />
-        <h1>Notificacion del sistema</h1>
+        <h1>Notificaciones del sistema</h1>
         <br />
 
-        <asp:Panel ID="pnlNotificaciones" runat="server">
+        <div class="mb-4">
 
-            <asp:GridView ID="gvNotificaciones" runat="server" AutoGenerateColumns="False" OnRowCommand="gvNotificaciones_RowCommand" CssClass="table table-striped table-dark table-hover table-bordered align-middle text-center">
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                <asp:Label runat="server" Text="Comentarios:" CssClass="fw-bold me-2" />
+                <asp:Button ID="btnVerTodas" runat="server" Text="Ver todos" OnClick="btnVerTodas_Click"
+                    CssClass="btn btn-primary btn-sm" />
+                <asp:Button ID="btnVerNuevas" runat="server" Text="Sin leer" OnClick="btnVerNuevas_Click"
+                    CssClass="btn btn-success btn-sm" />
+
+                <asp:Label runat="server" Text="Reportes:" CssClass="fw-bold ms-3 me-2" />
+                <asp:Button ID="btnTodosReportes" runat="server" Text="Ver todos" OnClick="btnTodosReportes_Click"
+                    CssClass="btn btn-primary btn-sm" />
+                <asp:Button ID="btnReportenuevos" runat="server" Text="Sin leer" OnClick="btnReportenuevos_Click"
+                    CssClass="btn btn-success btn-sm" />
+            </div>
+        </div>
+        <hr />
+        <asp:Label ID="lblTitulo" runat="server" CssClass="h2" />
+        
+
+        <asp:Panel ID="pnlNotificaciones" runat="server">
+            <br />
+            <asp:GridView ID="gvNotificaciones" Visible="false" runat="server" AutoGenerateColumns="False" OnRowCommand="gvNotificaciones_RowCommand" CssClass="table table-striped table-dark table-hover table-bordered align-middle text-center">
                 <Columns>
                     <asp:BoundField DataField="Contenido" HeaderText="Comentario" />
                     <asp:BoundField DataField="TituloPublicacion" HeaderText="Publicación" />
                     <asp:BoundField DataField="NombreUsuario" HeaderText="Usuario" />
                     <asp:BoundField DataField="Fecha" HeaderText="Fecha" DataFormatString="{0:dd/MM/yyyy HH:mm}" />
+                    <asp:BoundField DataField="NombreUsuarioReportador" Visible="false" HeaderText="Reportado por" />
+                    <asp:BoundField DataField="MotivoReporte" Visible="false" HeaderText="Motivo" />
                     <asp:TemplateField HeaderText="Acción">
                         <ItemTemplate>
                             <asp:Button ID="btnVer" runat="server" Text="Ver" CommandName="ver" CommandArgument='<%# Eval("IdNotificacion") + "|" + Eval("IdOrigen") %>' CssClass="btn btn-success btn-sm" />
@@ -31,9 +53,6 @@
                     </asp:TemplateField>
                 </Columns>
             </asp:GridView>
-
-            <asp:Button ID="btnVerTodas" runat="server" Text="Ver todas las notificaciones" OnClick="btnVerTodas_Click" CssClass="btn btn-secondary mb-2" />
-            <asp:Button ID="btnVerNuevas" runat="server" Text="Ver nuevas notificaciones" OnClick="btnVerNuevas_Click" CssClass="btn btn-primary mb-2 ml-2" />
 
         </asp:Panel>
 

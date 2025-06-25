@@ -16,5 +16,12 @@ namespace Dominio
         public DateTime Fecha { get; set; }
         public string NombreUsuario { get; set; }
         public bool Visto { get; set; }
+
+        //Para las notif de los reportes
+        public bool EsReporte { get; set; }
+        public string MotivoReporte { get; set; }
+
+        public int IdUsuarioReportador { get; set; }
+        public string NombreUsuarioReportador { get; set; }
     }
 }

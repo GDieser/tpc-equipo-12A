@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Servicio;
 using Dominio;
+using System.Collections;
 
 namespace TPC_Equipo_12A
 {
@@ -30,15 +31,36 @@ namespace TPC_Equipo_12A
 
         private void CargarNotificaciones(bool soloNuevas)
         {
+            lblTitulo.Text = "Comentarios:";
             NotificacionesServicio servicio = new NotificacionesServicio();
             int idAdmin = usuario.IdUsuario;
 
-            List<Notificacion> lista = servicio.Listar(idAdmin, soloNuevas);
+            List<Notificacion> lista = servicio.ListarComentarios(idAdmin, soloNuevas);
 
             gvNotificaciones.DataSource = lista;
             gvNotificaciones.DataBind();
+
+            gvNotificaciones.Columns[4].Visible = false;
+            gvNotificaciones.Columns[5].Visible = false;
+
+            gvNotificaciones.Visible = true;
         }
 
+        private void CargarReportes(bool soloNoVistos)
+        {
+            lblTitulo.Text = "Reportes:";
+            NotificacionesServicio servicio = new NotificacionesServicio();
+            int idAdmin = usuario.IdUsuario;
+
+            List<Notificacion> lista = servicio.ListarReportes(idAdmin, soloNoVistos);
+
+            gvNotificaciones.DataSource = lista;
+
+            gvNotificaciones.Columns[4].Visible = true;
+            gvNotificaciones.Columns[5].Visible = true;
+            gvNotificaciones.DataBind();
+            gvNotificaciones.Visible = true;
+        }
         protected void btnVerTodas_Click(object sender, EventArgs e)
         {
             CargarNotificaciones(false);
@@ -46,7 +68,7 @@ namespace TPC_Equipo_12A
 
         protected void btnVerNuevas_Click(object sender, EventArgs e)
         {
-            CargarNotificaciones(true); 
+            CargarNotificaciones(true);
         }
 
         protected void chkVisto_CheckedChanged(object sender, EventArgs e)
@@ -78,6 +100,16 @@ namespace TPC_Equipo_12A
                 // redirigir a detalle
                 Response.Redirect("DetalleNovedad.aspx?IdNovedad=" + idOrigen);
             }
+        }
+
+        protected void btnTodosReportes_Click(object sender, EventArgs e)
+        {
+            CargarReportes(false);
+        }
+
+        protected void btnReportenuevos_Click(object sender, EventArgs e)
+        {
+            CargarReportes(true);
         }
     }
 }

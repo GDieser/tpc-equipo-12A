@@ -114,7 +114,7 @@ namespace Servicio
 
                 datos.setConsulta("INSERT INTO NotificacionAdmin (IdComentario, FechaNotificacion, IdAdministrador) VALUES (@idComentario, GETDATE(), @idAdmin)");
                 datos.setParametro("@idComentario", idNuevoComentario);
-                datos.setParametro("@idAdmin", idAdmin); // Acá deberíamos ver quien es el admin por defecto...
+                datos.setParametro("@idAdmin", idAdmin); // Acá deberíamos ver quien es el admin por defecto... (listooo)
                 datos.ejecutarAccion();
 
 
@@ -129,6 +129,60 @@ namespace Servicio
             {
                 datos.cerrarConexion();
             }
+        }
+
+        public void EliminarComentario(int idComentario)
+        {
+            try
+            {
+                datos.setConsulta("UPDATE Comentario SET EsEliminado = 1, Visible = 0 WHERE IdComentario = @idComentario");
+                datos.setParametro("@idComentario", idComentario);
+                datos.ejecutarAccion();
+
+                datos.cerrarConexion();
+                datos.limpiarParametros();
+
+                datos.setConsulta("UPDATE Comentario SET EsEliminado = 1, Visible = 0 WHERE IdComentarioPadre = @idComentario");
+                datos.setParametro("@idComentario", idComentario);
+                datos.ejecutarAccion();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+
+                datos.cerrarConexion();
+            }
+
+        }
+
+
+        public void ModificarComentario(int idComentario, string contenido)
+        {
+            try
+            {
+                datos.setConsulta("UPDATE Comentario SET FechaEdicion = GETDATE(), EsEditado = 1, Contenido = @contenido WHERE IdComentario = @idComentario");
+                datos.setParametro("@idComentario", idComentario);
+                datos.setParametro("@contenido", contenido);
+                datos.ejecutarAccion();
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+
+                datos.cerrarConexion();
+            }
+
         }
 
 

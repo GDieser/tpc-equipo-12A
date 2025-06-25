@@ -81,11 +81,13 @@ namespace TPC_Equipo_12A
             List<Comentario> comentariosPrincipales = new List<Comentario>();
             List<Comentario> respuestas = new List<Comentario>();
 
-            
+
             foreach (Comentario comentario in todos)
             {
+
                 if (comentario.IdComentarioPadre == null)
                 {
+
                     comentariosPrincipales.Add(comentario);
                 }
                 else
@@ -98,7 +100,7 @@ namespace TPC_Equipo_12A
             {
                 Comentario comentarioConRespuestas = new Comentario
                 {
-                    
+
                     IdComentario = principal.IdComentario,
 
                     IdUsuario = principal.IdUsuario,
@@ -119,6 +121,8 @@ namespace TPC_Equipo_12A
                 {
                     if (respuesta.IdComentarioPadre == principal.IdComentario)
                     {
+
+
                         comentarioConRespuestas.Respuestas.Add(respuesta);
                     }
                 }
@@ -206,7 +210,68 @@ namespace TPC_Equipo_12A
             }
         }
 
-       
+        protected void btnEnviar_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(hfComentarioReportado.Value))
+            {
+                NotificacionesServicio ser = new NotificacionesServicio();
+                Notificacion notifiacion = new Notificacion();
 
+                notifiacion.IdOrigen = Convert.ToInt32(hfComentarioReportado.Value);
+                notifiacion.EsReporte = true;
+                notifiacion.MotivoReporte = ddlReporte.SelectedItem.Text.ToLower();
+                notifiacion.IdUsuarioReportador = usuarioAutenticado.IdUsuario;
+
+                ser.EnviarNotificacion(notifiacion);
+
+                ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal", "$('#exampleModal').modal('hide');", true);
+            }
+        }
+
+        protected void btnEliminarComentario_Click(object sender, EventArgs e)
+        {
+            ComentarioServicio ser = new ComentarioServicio();
+
+            int idComentario = Convert.ToInt32(hfEliminar.Value);
+
+            ser.EliminarComentario(idComentario);
+
+            CargarComentarios();
+
+            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal", "$('#exampleModal').modal('hide');", true);
+        }
+
+        protected bool PuedeEditarComentario(int idUsuarioComentario, DateTime fechaCreacion)
+        {
+
+            if (usuarioAutenticado == null || usuarioAutenticado.IdUsuario != idUsuarioComentario)
+            {
+                return false;
+            }
+
+            TimeSpan diferencia = DateTime.Now - fechaCreacion;
+
+            return diferencia.TotalHours <= 1;
+        }
+
+        protected void btnGuardarEdicion_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtComentarioEditado.Text))
+            {
+                ComentarioServicio ser = new ComentarioServicio();
+
+                int idComentario = Convert.ToInt32(hfIdComentarioEditar.Value);
+                string nuevoContenido = txtComentarioEditado.Text;
+
+                ser.ModificarComentario(idComentario, nuevoContenido);
+
+                CargarComentarios();
+                upComentarios.Update();
+
+                ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal",
+                    "$('#modalEdicion').modal('hide');", true);
+            }
+
+        }
     }
 }
