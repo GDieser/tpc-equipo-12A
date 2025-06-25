@@ -572,7 +572,7 @@ namespace Servicio
             }
         }
 
-        public List<Curso> ListarFavoritos()
+        public List<Curso> ListarFavoritos(int idUsuario)
         {
             AccesoDatos datos = new AccesoDatos();
             List<Curso> cursos = new List<Curso>();
@@ -593,8 +593,10 @@ namespace Servicio
                     LEFT JOIN Imagen I ON IC.IdImagen = I.IdImagen
                     LEFT JOIN CursoFavorito CF ON C.IdCurso = CF.IdCurso
                     LEFT JOIN Usuario US ON CF.IdUsuario = US.IdUsuario
-                    WHERE US.IdUsuario = 3 AND CF.Activo = 1
+                    WHERE US.IdUsuario = @idUsuario AND CF.Activo = 1 
                     ";
+
+                datos.setParametro("@idUsuario", idUsuario);
 
                 datos.setConsulta(consulta);
                 datos.ejecutarLectura();
@@ -847,7 +849,7 @@ namespace Servicio
                 FROM Curso c
                 INNER JOIN DetalleCompra dc ON c.IdCurso = dc.IdCurso 
                 INNER JOIN Compra co ON dc.IdCompra = co.IdCompra
-                WHERE co.IdUsuario = @idUsuario AND c.Activo = 1
+                WHERE co.IdUsuario = @idUsuario AND c.Estado = 1
             ";
                 }
 

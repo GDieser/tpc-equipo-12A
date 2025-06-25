@@ -13,6 +13,8 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+
     <hr class="text-secondary" />
     <div class="container">
         <div class="text-white ">
@@ -47,13 +49,13 @@
 
         <div class="row align-items-center mb-3">
 
-            
+
             <div class="col-md-6 d-flex align-items-center">
-                <asp:Button ID="btnHorizontal" runat="server" Text="▤" CssClass="btn btn-outline-light btn-lg me-2" />
-                <asp:Button ID="btnCard" runat="server" Text="⊞" CssClass="btn btn-outline-light btn-lg" />
+                <asp:Button ID="btnHorizontal" runat="server" Text="▤" OnClick="btnHorizontal_Click" CssClass="btn btn-outline-light btn-lg me-2" />
+                <asp:Button ID="btnCard" runat="server" Text="⊞" OnClick="btnCard_Click" CssClass="btn btn-outline-light btn-lg" />
             </div>
 
-            
+
             <div class="col-md-6 text-end">
                 <div class="d-inline-flex align-items-center gap-2">
                     <asp:DropDownList ID="ddlFiltro" runat="server" CssClass="form-select form-select-md" Width="150px"></asp:DropDownList>
@@ -63,40 +65,80 @@
 
         </div>
 
-        <div class="row row-cols-1">
+        <asp:UpdatePanel ID="pnNovedades" runat="server">
+            <ContentTemplate>
 
-            <asp:Repeater ID="rptNovedades" runat="server">
-                <ItemTemplate>
-                    <a href='DetalleNovedad.aspx?IdNovedad=<%# Eval("IdPublicacion") %>' class="text-decoration-none text-reset">
-                        <div class="shadow-sm bg-black-tertiary rounded">
-                            <div class="card mb-4 bg-dark border border-secondary card-hover">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src='<%# Eval("UrlImagen") %>' class="img-fluid rounded-end-5" alt="Alternate Text" />
-                                    </div>
+                <%if (tipoNovedades)
+                    {  %>
+                <div class="row row-cols-1">
+                    <asp:Repeater ID="rptNovedades" runat="server">
+                        <ItemTemplate>
+                            <a href='DetalleNovedad.aspx?IdNovedad=<%# Eval("IdPublicacion") %>' class="text-decoration-none text-reset">
+                                <div class="shadow-sm bg-black-tertiary rounded">
+                                    <div class="card mb-4 bg-dark border border-secondary card-hover">
+                                        <div class="row g-0">
+                                            <div class="col-md-4">
+                                                <img src='<%# Eval("UrlImagen") %>' class="img-fluid rounded-end-5" alt="Alternate Text" />
+                                            </div>
 
-                                    <div class="col-md-8">
-                                        <div class="card-body text-white">
-                                            <h4 class="card-title"><%# Eval("Titulo") %></h4>
-                                            <hr />
-                                            <p class="card-text"><%# Eval("Resumen") %></p>
-                                            <p class="card-text"><small class="text-body-secondary">Publicado el: <%# Eval("FechaPublicacion") %></small></p>
-                                            <span class="stretched-link"></span>
+                                            <div class="col-md-8">
+                                                <div class="card-body text-white">
+                                                    <h4 class="card-title"><%# Eval("Titulo") %></h4>
+                                                    <hr />
+                                                    <p class="card-text"><%# Eval("Resumen") %></p>
+                                                    <p class="card-text"><small class="text-body-secondary">Publicado el: <%# Eval("FechaPublicacion") %></small></p>
+                                                    <span class="stretched-link"></span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            </a>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </div>
+                <%} %>
+
+                <%if (!tipoNovedades)
+                    {  %>
+                <div class="row row-cols-1 row-cols-md-4 g-4 text-center">
+                    <asp:Repeater ID="rptNovedadesCards" runat="server">
+                        <ItemTemplate>
+
+                            <div class="col">
+                                <div class="card bg-dark card-hover " style="width: 19rem;">
+
+
+                                    <div class="card shadow-sm d-inline-block">
+                                        <img width="250px" height="150px" style="object-fit: cover;" class="card-img-top text-center" src='<%# Eval("UrlImagen") %>' alt="Alternate Text" />
+                                    </div>
+
+                                    <div class="card-body text-white">
+                                        <h6 class="card-subtitle mb-2 text-body-secondary-white"><%# Eval("Titulo") %></h6>
+
+                                        <p class="card-text" style="font-size: 0.9rem; max-height: 3.6em; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"><%# Eval("Resumen") %></p>
+
+                                        <a href="DetalleNovedad.aspx?IdNovedad=<%# Eval("IdPublicacion") %>" class="btn btn-outline-info">Ver más.</a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </ItemTemplate>
-            </asp:Repeater>
 
-            <div class="d-flex">
-                <asp:Button ID="btnAnterior" runat="server" Text="Anterior" OnClick="btnAnterior_Click" CssClass="btn btn-outline-light btn-sm me-2" />
-                <asp:Button ID="btnSiguiente" runat="server" Text="Siguiente" OnClick="btnSiguiente_Click" CssClass="btn btn-outline-light btn-sm" />
-            </div>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </div>
 
+                <%} %>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+
+
+
+        <div class="d-flex">
+            <asp:Button ID="btnAnterior" runat="server" Text="Anterior" OnClick="btnAnterior_Click" CssClass="btn btn-outline-light btn-sm me-2" />
+            <asp:Button ID="btnSiguiente" runat="server" Text="Siguiente" OnClick="btnSiguiente_Click" CssClass="btn btn-outline-light btn-sm" />
         </div>
+
     </div>
+
     <hr class="text-secondary" />
 </asp:Content>

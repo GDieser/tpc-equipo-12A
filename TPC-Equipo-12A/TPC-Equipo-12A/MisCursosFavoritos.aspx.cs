@@ -17,10 +17,17 @@ namespace TPC_Equipo_12A
 
             usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
 
-            if(!IsPostBack)
+            if (usuario == null)
+            {
+                Session.Add("error", "Hey, no deberías andar por acá 🤨. Acceso no permitido");
+                Response.Redirect("Error.aspx");
+            }
+
+            if (!IsPostBack)
             {
                 CursoServicio servicio = new CursoServicio();
-                rptCursos.DataSource = servicio.ListarFavoritos();
+
+                rptCursos.DataSource = servicio.ListarFavoritos(usuario.IdUsuario);
                 rptCursos.DataBind();
             }
 

@@ -124,11 +124,14 @@ namespace TPC_Equipo_12A
             int idCurso = Convert.ToInt32(Request.QueryString["id"]);
             UsuarioAutenticado usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
             CursoServicio servicio = new CursoServicio();
-            
+
+            Carrito aux = (Carrito)Session["Carrito"];
+
+
 
             Carrito carrito = new Carrito();
 
-            if (Session["Carrito"] == null)
+            if (aux.IdCarrito == 0)
             {
                 if(!ValidarCursoCarrito())
                 {

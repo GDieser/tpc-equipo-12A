@@ -11,61 +11,70 @@ namespace TPC_Equipo_12A
 {
 
 
-    public partial class Master
+    public partial class ListaNotificaciones
     {
 
         /// <summary>
-        /// head control.
+        /// btnVerTodas control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+        protected global::System.Web.UI.WebControls.Button btnVerTodas;
 
         /// <summary>
-        /// form1 control.
+        /// btnVerNuevas control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.Button btnVerNuevas;
 
         /// <summary>
-        /// btnNotificaciones control.
+        /// btnTodosReportes control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink btnNotificaciones;
+        protected global::System.Web.UI.WebControls.Button btnTodosReportes;
 
         /// <summary>
-        /// btnLogin control.
+        /// btnReportenuevos control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink btnLogin;
+        protected global::System.Web.UI.WebControls.Button btnReportenuevos;
 
         /// <summary>
-        /// btnCerrarSesion control.
+        /// lblTitulo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnCerrarSesion;
+        protected global::System.Web.UI.WebControls.Label lblTitulo;
 
         /// <summary>
-        /// ContentPlaceHolder1 control.
+        /// pnlNotificaciones control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
+        protected global::System.Web.UI.WebControls.Panel pnlNotificaciones;
+
+        /// <summary>
+        /// gvNotificaciones control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvNotificaciones;
     }
 }

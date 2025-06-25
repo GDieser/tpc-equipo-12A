@@ -16,7 +16,7 @@ namespace TPC_Equipo_12A
         {
             if (!Seguridad.esAdmin(Session["UsuarioAutenticado"]))
             {
-                Session.Add("error", "Acceso no permitido");
+                Session.Add("error", "Hey, no deberías andar por acá 🤨. Acceso no permitido");
                 Response.Redirect("Error.aspx");
             }
 

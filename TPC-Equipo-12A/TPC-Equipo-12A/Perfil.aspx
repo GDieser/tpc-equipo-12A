@@ -67,19 +67,18 @@
                                     <label class="form-label">Foto de perfil</label>
 
                                     <div class="input-group ">
-                                        <!-- TextBox solo para mostrar el nombre del archivo -->
                                         <asp:TextBox ID="txtNombreArchivo" runat="server" CssClass="form-control" ReadOnly="true" />
-                                        <!-- Botón personalizado con ícono -->
                                         <button type="button" class="btn btn-outline-secondary rounded-end" onclick="document.getElementById('<%= fuFotoPerfil.ClientID %>').click();">
                                             <i class="bi bi-folder"></i>
                                         </button>
-                                        <!-- FileUpload real oculto -->
                                         <asp:FileUpload ID="fuFotoPerfil" runat="server" CssClass="hidden-file" />
                                     </div>
                                 </div>
 
                                 <asp:Button ID="btnGuardar" runat="server" Text="Guardar Cambios" CssClass="btn btn-primary w-100 mb-3" OnClick="btnGuardar_Click" />
-                                <asp:Button ID="btnInhabilitar" runat="server" Text="" CssClass="btn btn-primary w-100 mb-3" OnClick="btnInhabilitar_Click" />
+                                
+                                <asp:Button ID="btnInhabilitar" Enabled="false" runat="server" Text="" CssClass="btn btn-primary w-100 mb-3" OnClick="btnInhabilitar_Click" />
+
                                 <asp:Label ID="lblError" runat="server" CssClass="text-danger mt-3 d-block text-center" />
                                 <asp:Label ID="lblExito" runat="server" CssClass="text-succes mt-3 d-block text-center" />
 
@@ -101,10 +100,8 @@
 
             fileInput.addEventListener("change", function () {
                 if (fileInput.files.length > 0) {
-                    // Mostrar nombre del archivo
                     txtNombre.value = fileInput.files[0].name;
 
-                    // Mostrar vista previa si es imagen
                     const lector = new FileReader();
                     lector.onload = function (e) {
                         const img = document.getElementById("imgFotoPerfil");

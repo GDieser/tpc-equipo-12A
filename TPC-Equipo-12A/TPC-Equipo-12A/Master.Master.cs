@@ -11,18 +11,28 @@ namespace TPC_Equipo_12A
         protected UsuarioAutenticado usuario;
         protected Carrito carrito;
         protected int cantidadCarrito;
+        protected int cantidadNotificaciones;
         protected void Page_Load(object sender, EventArgs e)
         {
+            NotificacionesServicio servicio = new NotificacionesServicio();
             usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
-            
+            btnNotificaciones.Visible = false;
 
-            if(usuario != null)
+            if (usuario != null)
             {
                 cargarCarrito();
 
                 carrito = (Carrito)Session["Carrito"];
 
                 cantidadCarrito = carrito.CarritoCursos.Count;
+
+                cantidadNotificaciones = servicio.ContarNoVistas(usuario.IdUsuario);
+                Session["CantidadNotificaciones"] = cantidadNotificaciones;
+            }
+
+            if (Seguridad.esAdmin(usuario))
+            {
+                btnNotificaciones.Visible = true;
             }
 
             if (!IsPostBack)
@@ -36,6 +46,8 @@ namespace TPC_Equipo_12A
                     return;
 
                 Session.Remove("LeccionesCompletadas");
+
+
             }
         }
 
@@ -51,6 +63,7 @@ namespace TPC_Equipo_12A
 
         protected void btnLogout_Click(object sender, EventArgs e)
         {
+            /*
             var usuario = Session["UsuarioAutenticado"] as UsuarioAutenticado; 
             string mensaje = usuario != null ? $"¡Esperamos verte pronto {usuario.Nombre}!" : "¡Esperamos verte pronto!";
 
@@ -67,6 +80,36 @@ namespace TPC_Equipo_12A
             }});", true);
 
             Session["UsuarioAutenticado"] = null; 
+            */
+
+            var usuario = Session["UsuarioAutenticado"] as UsuarioAutenticado;
+            string mensaje = usuario != null ? $"¡Esperamos verte pronto {usuario.Nombre}!" : "¡Esperamos verte pronto!";
+
+            ScriptManager.RegisterStartupScript(this, GetType(), "sweetalert",
+            $@"Swal.fire({{
+                title: '¡Sesión cerrada correctamente!',
+                text: '{mensaje}',
+                icon: 'info',
+                toast: true,
+                position: 'top',
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                background: '#1e1e2f',
+                color: '#fff',
+                iconColor: '#3fc3ee',
+                didOpen: (toast) => {{
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }}
+            }});
+            setTimeout(function() {{
+                window.location.href = 'Default.aspx';
+            }}, 1600);", true);
+
+            Session["UsuarioAutenticado"] = null;
+
+
         }
     }
 }

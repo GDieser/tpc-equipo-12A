@@ -23,8 +23,14 @@ namespace TPC_Equipo_12A
                 Session["error"] = "Debe iniciar sesion o indicar un ID para poder acceder al perfil.";
                 Response.Redirect("Error.aspx");
                 return;
+
+
             }
             idQueryParam = int.Parse(Request.QueryString["id"]);
+
+            if (usuarioAutenticado.IdUsuario != int.Parse(Request.QueryString["id"]))
+                btnInhabilitar.Enabled = true;
+
             if (!(usuarioAutenticado.Rol == Rol.Administrador || usuarioAutenticado.IdUsuario == idQueryParam))
             {
                 Session["error"] = "Usted no es el dueño del perfil al que quiere acceder.";
