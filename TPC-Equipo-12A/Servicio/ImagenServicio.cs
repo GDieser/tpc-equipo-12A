@@ -17,14 +17,9 @@ namespace Servicio
 
             try
             {
-                datos.setConsulta(@"
-            SELECT I.IdImagen, I.UrlImagen, I.IdTipoImagen, I.Nombre
-            FROM ImagenPublicacion IP
-            INNER JOIN Imagen I ON IP.IdImagen = I.IdImagen
-            WHERE IP.IdPublicacion = @id
-        ");
+                datos.setProcedimiento(@"sp_ObtenerImagenesPorPublicacion");
                 datos.limpiarParametros();
-                datos.setParametro("@id", idPublicacion);
+                datos.setParametro("@IdPublicacion", idPublicacion);
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -58,10 +53,10 @@ namespace Servicio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setConsulta(@"INSERT INTO Imagen (UrlImagen, IdTipoImagen, Nombre) 
-                                    VALUES (@url, @tipo, @nombre);
-                                    SELECT SCOPE_IDENTITY();");
+                datos.setProcedimiento(@"sp_InsertarImagen");
+
                 datos.limpiarParametros();
+
                 datos.setParametro("@url", imagen.Url);
                 datos.setParametro("@tipo", imagen.Tipo);
                 datos.setParametro("@nombre", imagen.Nombre);

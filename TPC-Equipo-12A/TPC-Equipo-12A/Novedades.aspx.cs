@@ -61,7 +61,7 @@ namespace TPC_Equipo_12A
         private void CargarNovedades()
         {
             NovedadesServicio servicio = new NovedadesServicio();
-            ListaPublicaciones = servicio.listar();
+            ListaPublicaciones = servicio.ListarPublicaciones();
             List<Publicacion> listaFiltrada = new List<Publicacion>();
 
             foreach (var publi in ListaPublicaciones)
@@ -115,7 +115,7 @@ namespace TPC_Equipo_12A
         protected void btnFiltrar_Click(object sender, EventArgs e)
         {
             NovedadesServicio servicio = new NovedadesServicio();
-            ListaPublicaciones = servicio.listar();
+            ListaPublicaciones = servicio.ListarPublicaciones();
             List<Publicacion> listaFiltrada = new List<Publicacion>();
 
 

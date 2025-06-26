@@ -41,22 +41,11 @@ namespace Servicio
 
             try
             {
-                string consulta = @"SELECT N.IdNotificacion, C.Contenido, P.Titulo, C.TipoOrigen, C.IdOrigen, C.FechaCreacion, 
-                                   U.NombreUsuario, N.Visto
-                            FROM NotificacionAdmin N
-                            INNER JOIN Comentario C ON C.IdComentario = N.IdComentario
-                            INNER JOIN Usuario U ON U.IdUsuario = C.IdUsuario
-                            INNER JOIN Publicacion P ON P.IdPublicacion = C.IdOrigen
-                            WHERE N.IdAdministrador = @idadmin AND EsReporte = 0 AND C.EsEliminado = 0
-                            ";
 
-                if (soloNuevas)
-                    consulta += "AND N.Visto = 0 ";
+                datos.setProcedimiento(@"sp_ListarNotificacionesComentarios");
 
-                consulta += "ORDER BY N.IdNotificacion DESC";
-
-                datos.setConsulta(consulta);
-                datos.setParametro("@idadmin", idAdmin);
+                datos.setParametro("@IdAdmin", idAdmin);
+                datos.setParametro("@SoloNuevas", soloNuevas);
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -93,32 +82,10 @@ namespace Servicio
 
             try
             {
-                string consulta = @"
-                                   SELECT 
-                                       N.IdNotificacion,
-                                       C.Contenido,
-                                       P.Titulo,
-                                       C.TipoOrigen,
-                                       C.IdOrigen,
-                                       C.FechaCreacion,
-                                       U.NombreUsuario AS UsuarioComentario,
-                                       UR.NombreUsuario AS UsuarioReporte,
-                                       N.Visto,
-                                       N.MotivoReporte
-                                   FROM NotificacionAdmin N
-                                   INNER JOIN Comentario C ON C.IdComentario = N.IdComentario
-                                   INNER JOIN Usuario U ON U.IdUsuario = C.IdUsuario
-                                   LEFT JOIN Usuario UR ON UR.IdUsuario = N.IdUsuarioReportador
-                                   INNER JOIN Publicacion P ON P.IdPublicacion = C.IdOrigen
-                                   WHERE N.IdAdministrador = @idadmin AND EsReporte = 1 AND C.EsEliminado = 0";
+                datos.setProcedimiento(@"sp_ListarNotificacionesReportes");
 
-                if (soloNuevas)
-                    consulta += "AND N.Visto = 0 ";
-
-                consulta += "ORDER BY N.IdNotificacion DESC";
-
-                datos.setConsulta(consulta);
-                datos.setParametro("@idadmin", idAdmin);
+                datos.setParametro("@IdAdmin", idAdmin);
+                datos.setParametro("@SoloNuevas", soloNuevas);
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -188,10 +155,7 @@ namespace Servicio
                 datos.cerrarConexion();
                 datos.limpiarParametros();
 
-                datos.setConsulta(@"INSERT INTO 
-                                    NotificacionAdmin
-                                    (IdComentario, FechaNotificacion, IdAdministrador, EsReporte, MotivoReporte, IdUsuarioReportador) 
-                                    VALUES (@idcomentario, GETDATE(), @idadmin, @reporte, @motivo, @idusuario)");
+                datos.setProcedimiento("sp_InsertarNotificacionAdmin");
 
                 datos.setParametro("@idcomentario", notificacion.IdOrigen);
                 datos.setParametro("@idadmin", idAdmin);

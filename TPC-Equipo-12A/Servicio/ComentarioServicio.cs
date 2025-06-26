@@ -21,15 +21,9 @@ namespace Servicio
             {
                 List<Comentario> lista = new List<Comentario>();
 
-                datos.setConsulta(@"SELECT IdComentario, C.IdUsuario, TipoOrigen, IdOrigen, IdComentarioPadre, Contenido, FechaCreacion, FechaEdicion, EsEditado, 
-                                     U.NombreUsuario, I.UrlImagen
-                              FROM Comentario C 
-                              INNER JOIN Usuario U ON C.IdUsuario = U.IdUsuario
-                              INNER JOIN Imagen I ON U.FotoPerfil = I.IdImagen
-                              WHERE Visible = 1 AND EsEliminado = 0 AND IdOrigen = @idorigen
-                              ORDER BY FechaCreacion DESC");
+                datos.setProcedimiento(@"sp_ObtenerComentariosPorOrigen");
 
-                datos.setParametro("@idorigen", idOrigen);
+                datos.setParametro("@IdOrigen", idOrigen);
 
                 datos.ejecutarLectura();
 
@@ -81,8 +75,7 @@ namespace Servicio
             {
                 
 
-                datos.setConsulta(@"INSERT INTO Comentario(IdUsuario, TipoOrigen, IdOrigen, IdComentarioPadre, Contenido, FechaCreacion, FechaEdicion) 
-                                    VALUES(@IdUsuario, @TipoOrigen, @IdOrigen, @IdComentarioPadre, @Contenido, GETDATE(), NULL);  SELECT SCOPE_IDENTITY()");
+                datos.setProcedimiento(@"sp_InsertarComentario");
 
                 datos.setParametro("@IdUsuario", comentario.IdUsuario);
                 datos.setParametro("@TipoOrigen", comentario.TipoOrigen);

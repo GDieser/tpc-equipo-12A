@@ -12,7 +12,7 @@ namespace Servicio
     public class NovedadesServicio
     {
         AccesoDatos datos = new AccesoDatos();
-        public List<Publicacion> listar()
+        public List<Publicacion> ListarPublicaciones()
         {
             List<Publicacion> publicaciones = new List<Publicacion>();
 
@@ -20,7 +20,8 @@ namespace Servicio
 
             try
             {
-                datos.setConsulta("SELECT IdPublicacion, P.IdCategoria, C.Nombre Nombre, Titulo, Descripcion, Resumen, FechaCreacion, FechaPublicacion, Estado FROM Publicacion P, Categoria C WHERE C.IdCategoria = P.IdCategoria;");
+                datos.setProcedimiento("sp_ListarPublicaciones");
+
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -39,7 +40,7 @@ namespace Servicio
 
                     pub.Categoria = new Categoria();
                     pub.Categoria.IdCategoria = (int)datos.Lector["IdCategoria"];
-                    pub.Categoria.Nombre = (string)datos.Lector["Nombre"];
+                    pub.Categoria.Nombre = (string)datos.Lector["NombreCategoria"];
 
                     pub.Estado = (EstadoPublicacion)Convert.ToInt32(datos.Lector["Estado"]);
 
@@ -73,7 +74,8 @@ namespace Servicio
 
             try
             {
-                datos.setConsulta("SELECT IdPublicacion, IdCategoria, Titulo, Descripcion, Resumen, FechaCreacion, FechaPublicacion, Estado FROM Publicacion WHERE IdPublicacion = @id;");
+                datos.setProcedimiento("sp_ObtenerPublicacionPorId");
+
                 datos.setParametro("@id", id);
                 datos.ejecutarLectura();
 
@@ -111,13 +113,14 @@ namespace Servicio
 
         }
 
-        public void agregar(Publicacion nueva)
+        public void AgregarPublicacion(Publicacion nueva)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setConsulta("INSERT INTO Publicacion(IdCategoria, Titulo, Descripcion, Resumen, FechaCreacion, FechaPublicacion, Estado) VALUES (@idcategoria, @titulo, @descripcion, @resumen, @fechacreacion, @fechapublicacion, @estado); SELECT SCOPE_IDENTITY()");
+                datos.setProcedimiento("sp_InsertarPublicacion");
+
                 datos.setParametro("@idcategoria", nueva.Categoria.IdCategoria);
                 //datos.setParametro("@idimagen", nueva.);
                 datos.setParametro("@titulo", nueva.Titulo);
@@ -181,7 +184,7 @@ namespace Servicio
 
             try
             {
-                datos.setConsulta("UPDATE Publicacion SET IdCategoria = @idcategoria, Titulo = @titulo, Descripcion = @descripcion, Resumen = @resumen, Estado = @estado WHERE IdPublicacion = @id");
+                datos.setProcedimiento("sp_ActualizarPublicacion");
 
                 datos.setParametro("@id", publi.IdPublicacion);
                 datos.setParametro("@idcategoria", publi.Categoria.IdCategoria);
