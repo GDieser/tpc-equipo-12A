@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -46,9 +47,6 @@ namespace TPC_Equipo_12A
 
                     btnAgregarLeccion.Visible = isAdmin;
                     btnGuardarCambios.Visible = isAdmin;
-                    //var modalEdicion = (HtmlGenericControl)updtCurso.FindControl("modalLeccion");
-                    //modalEdicion.Visible = isAdmin;
-
 
                     Dominio.Curso curso = cursoServicio.ObtenerCursoPorId(idCurso);
                     if (curso == null)
@@ -79,13 +77,54 @@ namespace TPC_Equipo_12A
             Dominio.Curso curso = (Dominio.Curso)Session["Curso"];
             string titulo = txtTituloLeccion.Text.Trim();
             string introduccion = txtIntroLeccion.Text.Trim();
-            string imagenUrl = txtImagenLeccion.Text.Trim();
 
             if (string.IsNullOrEmpty(titulo) || string.IsNullOrEmpty(introduccion))
                 return;
 
             if (curso.Modulos == null)
                 curso.Modulos = new List<Dominio.Modulo>();
+
+            string imagenUrl = null;
+            int idImagen = 0;
+            string nombreImagen = "";
+
+            if (fuImagenLeccion.HasFile)
+            {
+                string extension = Path.GetExtension(fuImagenLeccion.FileName).ToLower();
+                var extensionesPermitidas = new[] { ".jpg", ".jpeg", ".png", ".webp", ".gif" };
+
+                if (!extensionesPermitidas.Contains(extension))
+                {
+                    MostrarMensaje("Error", "El archivo debe ser extension: .jpg, .jpeg, .png, .webp, .gif", "error");
+                    return;
+                }
+
+                string nombreArchivo = $"leccion-{Guid.NewGuid()}{extension}";
+                string rutaRelativa = $"~/imagenes/modulos/{nombreArchivo}";
+                string rutaFisica = Server.MapPath(rutaRelativa);
+
+                try
+                {
+                    fuImagenLeccion.SaveAs(rutaFisica);
+                }
+                catch (Exception)
+                {
+                    MostrarMensaje("Error", "Error al cargar el archivo", "error");
+                    return;
+                }
+
+                imagenUrl = rutaRelativa;
+                nombreImagen = nombreArchivo;
+
+                Imagen img = new Imagen { Url = rutaRelativa, Nombre = nombreArchivo };
+                idImagen = new ImagenServicio().agregarImagen(img);
+            }
+            else
+            {
+                imagenUrl = "~/imagenes/modulos/default-leccion.jpg";
+                nombreImagen = "Imagen por defecto";
+                idImagen = 0;
+            }
 
             int.TryParse(hfIdLeccion.Value, out int idModulo);
             if (idModulo == 0)
@@ -94,19 +133,17 @@ namespace TPC_Equipo_12A
                 idModulo = (minimo <= 0 ? minimo : 0) - 1;
             }
 
+            var modExistente = curso.Modulos.FirstOrDefault(m => m.IdModulo == idModulo);
+            int orden = modExistente != null
+                ? modExistente.Orden
+                : curso.Modulos.Any() ? curso.Modulos.Max(m => m.Orden) + 1 : 1;
+
             Imagen imagen = new Imagen
             {
-                IdImagen = 0,
-                Nombre = string.IsNullOrEmpty(imagenUrl) ? "Imagen por defecto" : $"Banner módulo {curso.Titulo}",
-                Url = string.IsNullOrEmpty(imagenUrl)
-                    ? "https://www.entramar.mvl.edu.ar/wp-content/uploads/2018/06/lenguajes-800x445.webp"
-                    : imagenUrl
+                IdImagen = idImagen,
+                Nombre = nombreImagen,
+                Url = imagenUrl
             };
-
-            var mod = curso.Modulos.FirstOrDefault(m => m.IdModulo == idModulo);
-            int orden = mod != null
-                ? mod.Orden
-                : curso.Modulos.Any() ? curso.Modulos.Max(m => m.Orden) + 1 : 1;
 
             Dominio.Modulo modulo = new Dominio.Modulo
             {
@@ -125,6 +162,7 @@ namespace TPC_Equipo_12A
 
             curso.Modulos = curso.Modulos.OrderBy(m => m.Orden).ToList();
             Session["Curso"] = curso;
+
             btnGuardarCambios.Enabled = true;
 
             rptModulos.DataSource = curso.Modulos;
@@ -133,7 +171,7 @@ namespace TPC_Equipo_12A
             CerrarModal("modalLeccion");
             LimpiarCamposFormulario();
         }
-        
+
 
         protected void rptModulos_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
@@ -158,7 +196,8 @@ namespace TPC_Equipo_12A
                         hfIdImagen.Value = modulo.imagen?.IdImagen.ToString() ?? "0";
                         txtTituloLeccion.Text = modulo.Titulo;
                         txtIntroLeccion.Text = modulo.Introduccion;
-                        txtImagenLeccion.Text = modulo.imagen?.Url ?? "";
+                        txtNombreArchivoLeccion.Text = Path.GetFileName(modulo.imagen?.Url ?? "");
+
                         updModal.Update();
                         ScriptManager.RegisterStartupScript(this, GetType(), "abrirModal",
                             "var modal = new bootstrap.Modal(document.getElementById('modalLeccion')); modal.show();", true);
@@ -289,7 +328,7 @@ namespace TPC_Equipo_12A
         {
             txtTituloLeccion.Text = "";
             txtIntroLeccion.Text = "";
-            txtImagenLeccion.Text = "";
+            txtNombreArchivoLeccion.Text = "";
             hfIdLeccion.Value = "";
             hfIdImagen.Value = "";
         }

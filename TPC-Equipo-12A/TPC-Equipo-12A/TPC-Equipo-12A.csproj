@@ -344,6 +344,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="imagenes\modulos\" />
     <Folder Include="Novedades\" />
   </ItemGroup>
   <PropertyGroup>

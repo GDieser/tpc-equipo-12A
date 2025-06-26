@@ -27,22 +27,6 @@ namespace TPC_Equipo_12A
 
                 if (usuario != null && usuario.Habilitado)
                 {
-                    /*
-                    ClientScript.RegisterStartupScript(this.GetType(), "limpiarStorage",
-                        "localStorage.clear();", true);
-                    Session["UsuarioAutenticado"] = usuario;
-                    ScriptManager.RegisterStartupScript(this, GetType(), "sweetalert",
-                     $@"Swal.fire({{
-                        title: '¡Bienvenido!',
-                        text: '¡Hola {usuario.Nombre}!',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    }}).then((result) => {{
-                        if (result.isConfirmed) {{
-                            window.location.href = 'Default.aspx';
-                        }}
-                    }});", true);
-                    */
 
                     ClientScript.RegisterStartupScript(this.GetType(), "limpiarStorage",
                         "localStorage.clear();", true);

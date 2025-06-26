@@ -132,13 +132,22 @@ namespace TPC_Equipo_12A
         protected global::System.Web.UI.WebControls.TextBox txtIntroLeccion;
 
         /// <summary>
-        /// txtImagenLeccion control.
+        /// txtNombreArchivoLeccion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtImagenLeccion;
+        protected global::System.Web.UI.WebControls.TextBox txtNombreArchivoLeccion;
+
+        /// <summary>
+        /// fuImagenLeccion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fuImagenLeccion;
 
         /// <summary>
         /// btnGuardarLeccion control.

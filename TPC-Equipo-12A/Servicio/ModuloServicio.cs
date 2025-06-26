@@ -83,9 +83,13 @@ namespace Servicio
                     m.Titulo, 
                     m.Introduccion, 
                     m.Orden,
+                    m.IdImagen,
+                    i.UrlImagen,
+                    i.Nombre,
                     c.Estado
                 FROM Modulo m
                 INNER JOIN Curso c ON c.IdCurso = m.IdCurso
+                LEFT JOIN Imagen i ON i.IdImagen = m.IdImagen
                 WHERE m.IdCurso = @idCurso
                 ORDER BY m.Orden
                 ");
@@ -101,7 +105,13 @@ namespace Servicio
                         IdModulo = (int)accesoDatos.Lector["IdModulo"],
                         Titulo = accesoDatos.Lector["Titulo"].ToString(),
                         Introduccion = accesoDatos.Lector["Introduccion"].ToString(),
-                        Orden = (int)accesoDatos.Lector["Orden"]
+                        Orden = (int)accesoDatos.Lector["Orden"],
+                        imagen = new Imagen
+                        {
+                            IdImagen = accesoDatos.Lector["IdImagen"] != DBNull.Value ? (int)accesoDatos.Lector["IdImagen"] : 0,
+                            Nombre = accesoDatos.Lector["Nombre"] != DBNull.Value ? accesoDatos.Lector["Nombre"].ToString() : "Imagen por defecto",
+                            Url = accesoDatos.Lector["UrlImagen"] != DBNull.Value ? accesoDatos.Lector["UrlImagen"].ToString() : "~/imagenes/modulos/default-modulo.jpg"
+                        }
                     };
                     modulos.Add(modulo);
                 }

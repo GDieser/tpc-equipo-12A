@@ -32,7 +32,9 @@
                 <p class="text-secondary mb-0">
                     <asp:Literal ID="litIntroCurso" runat="server" />
                 </p>
-                <asp:Button ID="btnAgregarLeccion" runat="server" CssClass="btn btn-primary btn-sm mb-3" Text="Agregar Módulo" OnClientClick="limpiarModal(); return false;" data-bs-toggle="modal" data-bs-target="#modalLeccion" />
+                <asp:Button ID="btnAgregarLeccion" runat="server" CssClass="btn btn-primary btn-sm mb-3"
+                    Text="Agregar Módulo" OnClientClick="limpiarModal(); return false;" data-bs-toggle="modal"
+                    data-bs-target="#modalLeccion" />
             </div>
             <hr />
             <asp:UpdatePanel runat="server" ID="updtCurso">
@@ -108,9 +110,6 @@
                     <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-success btn-sm mb-3" Text="Guardar cambios" OnClick="btnGuardarCambios_Click" />
 
                 </ContentTemplate>
-                <Triggers>
-                    <asp:AsyncPostBackTrigger ControlID="btnGuardarLeccion" EventName="Click" />
-                </Triggers>
             </asp:UpdatePanel>
             <asp:UpdatePanel runat="server" ID="updModal" UpdateMode="Conditional">
                 <ContentTemplate>
@@ -134,8 +133,15 @@
                                         <asp:TextBox ID="txtIntroLeccion" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="4" />
                                     </div>
                                     <div class="mb-3">
-                                        <label for="txtImagenLeccion" class="form-label">URL Imagen (opcional)</label>
-                                        <asp:TextBox ID="txtImagenLeccion" runat="server" CssClass="form-control" />
+                                        <label class="form-label">Imagen destacada (opcional)</label>
+                                        <div class="input-group">
+                                            <asp:TextBox ID="txtNombreArchivoLeccion" runat="server" CssClass="form-control" ReadOnly="true" />
+                                            <button type="button" class="btn btn-outline-secondary rounded-end"
+                                                onclick="document.getElementById('<%= fuImagenLeccion.ClientID %>').click();">
+                                                <i class="bi bi-folder"></i>
+                                            </button>
+                                            <asp:FileUpload ID="fuImagenLeccion" runat="server" CssClass="d-none" />
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer border-0">
@@ -150,6 +156,9 @@
                         </div>
                     </div>
                 </ContentTemplate>
+                <Triggers>
+                    <asp:PostBackTrigger ControlID="btnGuardarLeccion" />
+                </Triggers>
             </asp:UpdatePanel>
         </div>
     </div>
@@ -158,8 +167,23 @@
             document.getElementById("<%= hfIdLeccion.ClientID %>").value = "";
             document.getElementById("<%= txtTituloLeccion.ClientID %>").value = "";
             document.getElementById("<%= txtIntroLeccion.ClientID %>").value = "";
-            document.getElementById("<%= txtImagenLeccion.ClientID %>").value = "";
+            document.getElementById("<%= txtNombreArchivoLeccion.ClientID %>").value = "";
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const inputFile = document.getElementById("<%= fuImagenLeccion.ClientID %>");
+            const txtNombre = document.getElementById("<%= txtNombreArchivoLeccion.ClientID %>");
+
+            console.log("Valor inicial del textbox (DOMContentLoaded):", txtNombre?.value);
+
+            if (inputFile) {
+                inputFile.addEventListener("change", function () {
+                    if (inputFile.files.length > 0) {
+                        txtNombre.value = inputFile.files[0].name;
+                    }
+                });
+            }
+        });
 
         Sys.Application.add_load(function () {
             document.body.classList.remove('modal-open');
