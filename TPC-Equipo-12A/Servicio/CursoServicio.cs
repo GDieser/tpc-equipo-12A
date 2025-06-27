@@ -18,22 +18,9 @@ namespace Servicio
 
             try
             {
-                string consulta = @"SELECT  C.IdCurso, C.Titulo, C.Resumen, C.Descripcion, C.Precio, C.FechaPublicacion, C.Estado,
-                                 C.IdCategoria,
-                                 Cat.Nombre          AS NombreCategoria,
-                                 I.IdImagen,
-                                 I.UrlImagen         AS Url,
-                                 I.Nombre            AS NombreImagen,
-                                 I.IdTipoImagen      AS Tipo
-                                 FROM    Curso C
-                                 INNER JOIN Categoria  Cat ON Cat.IdCategoria = C.IdCategoria
-                                 LEFT  JOIN ImagenCurso IC  ON IC.IdCurso     = C.IdCurso
-                                 LEFT  JOIN Imagen      I   ON I.IdImagen     = IC.IdImagen";
 
-                if (rolUsuario != 0)
-                    consulta += " WHERE C.Estado = 1";
-
-                datos.setConsulta(consulta);
+                datos.setProcedimiento("sp_ListarCursosPorRol");
+                datos.setParametro("@RolUsuario", rolUsuario);
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -91,29 +78,7 @@ namespace Servicio
 
             try
             {
-                datos.setConsulta(@"
-            SELECT TOP 1
-                   C.IdCurso,
-                   C.Titulo,
-                   C.Resumen,
-                   C.Descripcion,
-                   C.Precio,
-                   C.Duracion,
-                   C.Certificado,
-                   C.FechaCreacion,
-                   C.FechaPublicacion,
-                   C.Estado,
-                   Cat.IdCategoria,
-                   Cat.Nombre AS NombreCategoria,
-                   I.IdImagen,
-                   I.UrlImagen,
-                   I.Nombre,
-                   I.IdTipoImagen
-            FROM Curso C
-            INNER JOIN Categoria Cat ON C.IdCategoria = Cat.IdCategoria
-            LEFT JOIN ImagenCurso IC ON C.IdCurso = IC.IdCurso
-            LEFT JOIN Imagen I ON IC.IdImagen = I.IdImagen
-            WHERE C.IdCurso = @id");
+                datos.setProcedimiento("sp_ObtenerCursoPorID");
 
                 datos.setParametro("@id", id);
                 datos.ejecutarLectura();
@@ -168,10 +133,7 @@ namespace Servicio
             try
             {
                 // inserta la imagen a la db y extare su Id
-                datos.setConsulta(@"
-            INSERT INTO Imagen (UrlImagen, Nombre, IdTipoImagen)
-            VALUES (@url, @nombre, @tipo);
-            SELECT SCOPE_IDENTITY(); ");
+                datos.setProcedimiento("sp_InsertarImagen");
 
                 datos.setParametro("@url", nuevo.ImagenPortada?.Url ?? "/imagenes/default.jpg");
                 datos.setParametro("@nombre", nuevo.ImagenPortada?.Nombre ?? "Imagen curso");
@@ -185,14 +147,7 @@ namespace Servicio
                 datos.cerrarConexion();
 
 
-                datos.setConsulta(@"
-            INSERT INTO Curso (
-                IdCategoria, Estado, Titulo, Descripcion, Resumen,
-                Precio, FechaPublicacion, FechaCreacion, Duracion, Certificado)
-            VALUES (
-                @idcat, @estado, @titulo, @descripcion, @resumen,
-                @precio, @fechaPub, @fechaCrea, @duracion, @certificado);
-            SELECT SCOPE_IDENTITY(); ");
+                datos.setProcedimiento(@"sp_InsertarCurso");
 
                 datos.setParametro("@idcat", nuevo.Categoria.IdCategoria);
                 datos.setParametro("@estado", nuevo.Estado);
@@ -236,17 +191,7 @@ namespace Servicio
 
             try
             {
-                datos.setConsulta(@"UPDATE Curso
-                            SET Titulo = @titulo,
-                                Resumen = @resumen,
-                                Descripcion = @descripcion,
-                                Precio = @precio,
-                                Duracion = @duracion,
-                                Certificado = @certificado,
-                                FechaPublicacion = @fechaPublicacion,
-                                Estado = @estado,
-                                IdCategoria = @idCategoria
-                            WHERE IdCurso = @id");
+                datos.setProcedimiento(@"sp_ModificarCurso");
 
                 datos.setParametro("@titulo", curso.Titulo);
                 datos.setParametro("@resumen", curso.Resumen);
@@ -579,26 +524,10 @@ namespace Servicio
 
             try
             {
-                string consulta = @"
-                    SELECT 
-                        C.IdCurso,
-                        C.Titulo,
-                        C.Resumen,
-                        I.IdImagen,
-                        I.UrlImagen AS Url,
-                        I.Nombre AS NombreImagen,
-                        I.IdTipoImagen AS Tipo
-                    FROM Curso C
-                    LEFT JOIN ImagenCurso IC ON C.IdCurso = IC.IdCurso
-                    LEFT JOIN Imagen I ON IC.IdImagen = I.IdImagen
-                    LEFT JOIN CursoFavorito CF ON C.IdCurso = CF.IdCurso
-                    LEFT JOIN Usuario US ON CF.IdUsuario = US.IdUsuario
-                    WHERE US.IdUsuario = @idUsuario AND CF.Activo = 1 
-                    ";
+                datos.setProcedimiento("sp_ListarCursosFavoritos");
 
                 datos.setParametro("@idUsuario", idUsuario);
 
-                datos.setConsulta(consulta);
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())

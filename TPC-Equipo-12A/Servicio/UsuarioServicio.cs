@@ -54,24 +54,8 @@ namespace Servicio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setConsulta(@"
-                SELECT 
-                    u.IdUsuario, 
-                    u.Nombre, 
-                    u.Apellido, 
-                    u.Email, 
-                    u.IdRol, 
-                    u.Celular, 
-                    u.FechaNacimiento, 
-                    u.Habilitado, 
-                    u.NombreUsuario, 
-                    u.FechaRegistro, 
-                    i.IdImagen, 
-                    i.UrlImagen, 
-                    i.Nombre AS nombreImagen
-                FROM Usuario u
-                LEFT JOIN Imagen i ON u.FotoPerfil = i.IdImagen
-                WHERE u.IdUsuario = @IdUsuario");
+                datos.setProcedimiento("sp_ObtenerUsuarioPorId");
+
                 datos.limpiarParametros();
                 datos.setParametro("@IdUsuario", id);
                 datos.ejecutarLectura();
@@ -126,32 +110,7 @@ namespace Servicio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setConsulta(@"
-            INSERT INTO Usuario (
-                Nombre,
-                Apellido,
-                Email,
-                NombreUsuario,
-                IdRol,
-                Habilitado,
-                TokenValidacion,
-                EmailValidado,
-                FechaRegistro,
-                RecuperoContrasenia
-            )
-            VALUES (
-                @Nombre,
-                @Apellido,
-                @Email,
-                @NombreUsuario,
-                @IdRol,
-                @Habilitado,
-                @TokenValidacion,
-                @EmailValidado,
-                @FechaRegistro,
-                @RecuperoContrasenia
-            )
-        ");
+                datos.setProcedimiento(@"sp_InsertarUsuario");
 
                 datos.limpiarParametros();
                 datos.setParametro("@Nombre", usuario.Nombre);
@@ -192,15 +151,8 @@ namespace Servicio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setConsulta(@"
-            UPDATE Usuario
-            SET 
-                TokenValidacion = @TokenValidacion,
-                EmailValidado = @EmailValidado,
-                Pass = @Pass,
-                RecuperoContrasenia = @RecuperoContrasenia
-            WHERE IdUsuario = @IdUsuario AND NombreUsuario = @NombreUsuario"
-                );
+                datos.setProcedimiento(@"sp_GuardarContrasenia");
+
                 datos.limpiarParametros();
                 datos.setParametro("@TokenValidacion", usuario.TokenValidacion ?? (object)DBNull.Value);
                 datos.setParametro("@EmailValidado", usuario.EmailValidado);
@@ -225,21 +177,8 @@ namespace Servicio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setConsulta(@"
-            UPDATE Usuario
-            SET 
-                Nombre = @Nombre,
-                Apellido = @Apellido,
-                Email = @Email,
-                NombreUsuario = @NombreUsuario,
-                IdRol = @IdRol, 
-                Celular = @Celular,
-                FechaNacimiento = @FechaNacimiento,
-                Habilitado = @Habilitado,
-                FotoPerfil = @FotoPerfil,
-                FechaRegistro = @FechaRegistro
-            WHERE IdUsuario = @IdUsuario"
-                );
+                datos.setProcedimiento(@"sp_ActualizarUsuario");
+
                 datos.limpiarParametros();
                 datos.setParametro("@IdUsuario", usuario.IdUsuario);
                 datos.setParametro("@Nombre", usuario.Nombre);
@@ -269,13 +208,9 @@ namespace Servicio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setConsulta(@"
-            UPDATE Usuario
-            SET 
-                TokenValidacion = @TokenValidacion,
-                RecuperoContrasenia = @RecuperoContrasenia
-            WHERE IdUsuario = @IdUsuario AND NombreUsuario = @NombreUsuario"
-                );
+                datos.setProcedimiento(@"sp_RecuperarContrasenia");
+
+
                 datos.limpiarParametros();
                 datos.setParametro("@IdUsuario", usuario.IdUsuario);
                 datos.setParametro("@NombreUsuario", usuario.NombreUsuario);
@@ -314,42 +249,8 @@ namespace Servicio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setConsulta(@"
-                SELECT 
-                    u.IdUsuario, 
-                    u.Nombre, 
-                    u.Apellido, 
-                    u.Email, 
-                    u.IdRol, 
-                    u.Celular, 
-                    u.FechaNacimiento, 
-                    u.Habilitado, 
-                    u.NombreUsuario, 
-                    u.FechaRegistro, 
-                    i.IdImagen, 
-                    i.UrlImagen, 
-                    i.Nombre AS nombreImagen, 
-                    COUNT(dc.IdCompra) AS CursosComprados
-                FROM Usuario u
-                LEFT JOIN Imagen i ON u.FotoPerfil = i.IdImagen
-                LEFT JOIN Compra c ON c.IdUsuario = u.IdUsuario
-                LEFT JOIN DetalleCompra dc ON dc.IdCompra = c.IdCompra
-                WHERE u.IdRol <> 0
-                GROUP BY 
-                    u.IdUsuario, 
-                    u.Nombre, 
-                    u.Apellido, 
-                    u.Email, 
-                    u.IdRol, 
-                    u.Celular, 
-                    u.FechaNacimiento, 
-                    u.Habilitado, 
-                    u.NombreUsuario, 
-                    u.FechaRegistro, 
-                    i.IdImagen, 
-                    i.UrlImagen, 
-                    i.Nombre;"
-                ); 
+                datos.setProcedimiento(@"sp_ListarUsuarios"); 
+
                 datos.limpiarParametros();
                 datos.ejecutarLectura();
 

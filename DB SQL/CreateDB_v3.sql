@@ -1,7 +1,7 @@
 CREATE DATABASE TPC_CURSOS_G12A
 GO
 
-USE TPC_CURSOS_G12A
+USE TPC_CURSOS_PRUEBA
 GO
 
 CREATE TABLE Categoria(
@@ -19,14 +19,14 @@ CREATE TABLE Imagen(
 CREATE TABLE Publicacion(
 	IdPublicacion INT IDENTITY(1,1) PRIMARY KEY,
 	IdCategoria INT NOT NULL,
-	Titulo VARCHAR(100) NOT NULL,
-	Descripcion TEXT NOT NULL,
-	Resumen VARCHAR(255) NOT NULL,
-	FechaCreacion DATE,
-	FechaPublicacion DATE,
-	Estado INT
-
-	FOREIGN KEY (IdCategoria) REFERENCES Categoria(IdCategoria),
+	Titulo NVARCHAR(100) NOT NULL,
+	Descripcion NVARCHAR(MAX) NOT NULL,
+	Resumen NVARCHAR(255) NOT NULL,
+	FechaCreacion DATETIME,
+	FechaPublicacion DATETIME,
+	Estado INT,
+	
+	FOREIGN KEY (IdCategoria) REFERENCES Categoria(IdCategoria)
 );
 
 CREATE TABLE ImagenPublicacion(
@@ -87,12 +87,12 @@ CREATE TABLE Modulo(
 	IdModulo INT PRIMARY KEY IDENTITY(1,1),
 	IdCurso INT NOT NULL,
 	IdImagen INT,
-	Titulo NVARCHAR(150), -- CAMBIADO A NVARCHAR
-	Introduccion NVARCHAR(MAX), -- CAMBIADO A NVARCHAR
+	Titulo NVARCHAR(150),
+	Introduccion NVARCHAR(MAX),
 	Orden INT
 
-	FOREIGN KEY (IdImagen) REFERENCES Imagen(IdImagen) ON DELETE CASCADE, -- AGREGADO CAMPO IMAGEN
-	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso) ON DELETE CASCADE --IMPORTANTE PARA LA ELIMINACION DE UN CURSO
+	FOREIGN KEY (IdImagen) REFERENCES Imagen(IdImagen) ON DELETE CASCADE, 
+	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso) ON DELETE CASCADE 
 );
 
 CREATE TABLE Leccion(
@@ -104,20 +104,8 @@ CREATE TABLE Leccion(
 	Orden INT
 
 	FOREIGN KEY (IdModulo) REFERENCES Modulo(IdModulo) ON DELETE CASCADE --IMPORTANTE PARA LA ELIMINACION DE UN MODULO
-)
-
-/*
-CREATE TABLE Componente(
-	IdComponente INT PRIMARY KEY IDENTITY(1,1),
-	IdLeccion INT,
-	Titulo VARCHAR(150),
-	Contenido TEXT,
-	TipoContenido INT, -- 0 texto, 1 Imagen, 2 video, 3 archivo
-	Orden INT,
-
-	FOREIGN KEY (IdLeccion) REFERENCES Leccion(IdLeccion)
 );
-*/ -- borramos esta entidad ya que vamos a utilizar CKEditor para las lecciones
+
 
 CREATE TABLE LeccionUsuario(
 	IdLeccion INT NOT NULL,
@@ -133,7 +121,8 @@ CREATE TABLE LeccionUsuario(
 CREATE TABLE CursoFavorito(
 	IdUsuario INT NOT NULL,
 	IdCurso INT NOT NULL,
-	Agregado DATETIME
+	Agregado DATETIME,
+	Activo BIT NOT NULL DEFAULT 1
 
 	PRIMARY KEY(IdCurso, IdUsuario),
 	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso),
@@ -189,17 +178,6 @@ CREATE TABLE PreguntasFrecuentes(
 	Activo BIT NOT NULL DEFAULT 1
 );
 
-/*
-CREATE TABLE ImagenModulo(
-	IdImagen INT,
-	IdModulo INT,
-	PRIMARY KEY (IdImagen, IdModulo),
-	FOREIGN KEY (IdImagen) REFERENCES Imagen(IdImagen),
-	FOREIGN KEY (IdModulo) REFERENCES Modulo(IdModulo)
-)
-*/ -- Eliminamos entidad ya que la relacion es 1:N poniendo el IdImagen en el Modulo
-
-
 ---Ejemplo sistema de comentarios
 
 CREATE TABLE Comentario (
@@ -210,7 +188,7 @@ CREATE TABLE Comentario (
     IdOrigen INT NOT NULL,
     
     IdComentarioPadre INT NULL,
-    Contenido TEXT NOT NULL, 
+    Contenido NVARCHAR(2048) NOT NULL, 
     FechaCreacion DATETIME NOT NULL,
     FechaEdicion DATETIME NULL,
     EsEditado BIT DEFAULT 0,
@@ -221,38 +199,18 @@ CREATE TABLE Comentario (
     FOREIGN KEY (IdComentarioPadre) REFERENCES Comentario(IdComentario)
 );
 
-ALTER TABLE Comentario 
-ALTER COLUMN Contenido NVARCHAR(2048) NOT NULL;
-
-
 CREATE TABLE NotificacionAdmin(
 	IdNotificacion  INT PRIMARY KEY IDENTITY(1,1),
 	IdComentario  INT NOT NULL,
 	Visto BIT NOT NULL DEFAULT 0,
 	FechaNotificacion DATE NOT NULL DEFAULT GETDATE(),
 	IdAdministrador INT NULL,
+	EsReporte BIT NOT NULL DEFAULT 0,
+    MotivoReporte VARCHAR(50) NULL,
+    IdUsuarioReportador INT NULL,
 	
+    FOREIGN KEY (IdUsuarioReportador) REFERENCES Usuario(IdUsuario),
 	FOREIGN KEY (IdComentario) REFERENCES Comentario(IdComentario),
     FOREIGN KEY (IdAdministrador) REFERENCES Usuario(IdUsuario)
 );
-
-ALTER TABLE NotificacionAdmin
-ADD 
-    EsReporte BIT NOT NULL DEFAULT 0,
-    MotivoReporte VARCHAR(50) NULL,
-    IdUsuarioReportador INT NULL,
-    FOREIGN KEY (IdUsuarioReportador) REFERENCES Usuario(IdUsuario);
-
----AUN EN DESARROLLO
---CREATE TABLE NotificacionUsuario(
---	IdNotificacion INT PRIMARY KEY IDENTITY(1,1),
---	IdComentario INT NOT NULL,
---	IdUsuarioDestino INT NOT NULL,
---	Tipo VARCHAR(50),
---	Leido BIT NOT NULL DEFAULT 0,
---	FechaNotificacion DATE NOT NULL DEFAULT GETDATE(),
---
---	FOREIGN KEY (IdComentario) REFERENCES Comentario(IdComentario)
---);
-
 

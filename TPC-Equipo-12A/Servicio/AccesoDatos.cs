@@ -27,6 +27,12 @@ namespace Servicio
             comando.CommandText = consulta;
         }
 
+        public void setProcedimiento(string consulta)
+        {
+            comando.CommandType = System.Data.CommandType.StoredProcedure;
+            comando.CommandText = consulta;
+        }
+
         public void setParametro(string nombre, object valor)
         {
             comando.Parameters.AddWithValue(nombre, valor);

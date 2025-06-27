@@ -22,6 +22,7 @@ namespace Servicio
                                 LEFT JOIN Imagen i ON u.FotoPerfil = i.IdImagen
                                 WHERE u.NombreUsuario = @nombreUsuario 
                                 AND u.Pass = @password");
+
                 datos.setParametro("@nombreUsuario", nombreUsuario);
                 datos.setParametro("@password", password);
 

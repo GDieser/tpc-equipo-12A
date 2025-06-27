@@ -126,7 +126,7 @@ namespace TPC_Equipo_12A
                 }
                 else
                 {
-                    servicio.agregar(nueva);
+                    servicio.AgregarPublicacion(nueva);
                 }
 
 

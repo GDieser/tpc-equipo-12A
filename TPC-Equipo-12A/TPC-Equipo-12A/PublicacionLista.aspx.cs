@@ -22,7 +22,7 @@ namespace TPC_Equipo_12A
             if (!IsPostBack)
             {
                 NovedadesServicio servicio = new NovedadesServicio();
-                Session.Add("ListaPublicaciones", servicio.listar());
+                Session.Add("ListaPublicaciones", servicio.ListarPublicaciones());
                 dgvPublicaciones.DataSource = Session["ListaPublicaciones"];
                 dgvPublicaciones.DataBind();
             }
@@ -44,6 +44,8 @@ namespace TPC_Equipo_12A
         protected void dgvPublicaciones_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             dgvPublicaciones.PageIndex = e.NewPageIndex;
+
+            dgvPublicaciones.DataSource = Session["ListaPublicaciones"];
             dgvPublicaciones.DataBind();
         }
 
