@@ -84,9 +84,7 @@
                                             CssClass="btn btn-link text-decoration-none m-0"
                                             CommandName="Editar"
                                             CommandArgument='<%# Eval("IdModulo") %>'
-                                            ToolTip="Editar módulo"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modalLeccion">
+                                            ToolTip="Editar módulo">
                     <i class="bi bi-pencil text-white"></i>
                                         </asp:LinkButton>
 
@@ -141,7 +139,7 @@
                                 </div>
                             </div>
                         </ItemTemplate>
-                    </asp:Repeater>
+                      </asp:Repeater>
                     <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-success btn-sm mb-3" Text="Guardar cambios" OnClick="btnGuardarCambios_Click" />
 
                 </ContentTemplate>

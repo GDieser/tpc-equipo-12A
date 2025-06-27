@@ -37,6 +37,8 @@ namespace TPC_Equipo_12A
                     Response.Redirect("Login.aspx");
                 }
 
+                ScriptManager.GetCurrent(this.Page).RegisterAsyncPostBackControl(rptModulos);
+
                 int idCurso = int.Parse(Request.QueryString["id"]);
                 bool isAdmin = (UsuarioAutenticado.Rol == Rol.Administrador);
                 CursoServicio cursoServicio = new CursoServicio();

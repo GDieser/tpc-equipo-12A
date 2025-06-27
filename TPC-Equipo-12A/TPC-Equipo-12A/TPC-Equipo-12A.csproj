@@ -118,6 +118,7 @@
     <Content Include="Login.aspx" />
     <Content Include="Novedades.aspx" />
     <Content Include="FormularioPublicacion.aspx" />
+    <Content Include="Pagar.aspx" />
     <Content Include="Perfil.aspx" />
     <Content Include="PublicacionLista.aspx" />
     <Content Include="Registro.aspx" />
@@ -285,6 +286,13 @@
     </Compile>
     <Compile Include="FormularioPublicacion.aspx.designer.cs">
       <DependentUpon>FormularioPublicacion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pagar.aspx.cs">
+      <DependentUpon>Pagar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pagar.aspx.designer.cs">
+      <DependentUpon>Pagar.aspx</DependentUpon>
     </Compile>
     <Compile Include="Perfil.aspx.cs">
       <DependentUpon>Perfil.aspx</DependentUpon>

@@ -24,11 +24,11 @@
                         <asp:Image ID="imgModulo" runat="server" CssClass="img-fluid rounded shadow img-banner-curso" />
                     </div>
 
-                    <h2 class="text-primary">
+                    <h2 class="text-primary fw-bold">
                         <asp:Literal ID="litTitulo" runat="server" />
                     </h2>
                     <div class="d-flex justify-content-between align-items-center">
-                        <p class="text-secondary mb-0">
+                        <p class="text-secondary mb-0 fst-italic">
                             <asp:Literal ID="litIntro" runat="server" />
                         </p>
                         <asp:Button ID="btnAgregarLeccion"
@@ -50,7 +50,7 @@
                         <ItemTemplate>
                             <div class="card mb-2 border-0" style="background-color: #211c1c; color: aliceblue;">
                                 <div class="card-header d-flex justify-content-between align-items-center border-0">
-                                    <div style="flex-grow: 1; cursor: pointer;"
+                                    <div class="fw-bold" style="flex-grow: 1; cursor: pointer;"
                                         data-bs-toggle="collapse"
                                         data-bs-target='<%# "#intro" + Eval("IdLeccion") %>'>
                                         <span><%# Eval("Titulo") %></span>
@@ -98,16 +98,24 @@
                                         </asp:LinkButton>
 
                                     </div>
-                                    <a href='<%# Eval("IdLeccion").ToString() != "0" ? "Leccion.aspx?id=" + Eval("IdLeccion") : "#" %>'
-                                        class='<%# (Convert.ToInt32(Eval("IdLeccion")) > 0 ? "btn btn-primary btn-sm" : "btn btn-secondary btn-sm disabled") %>'
-                                        onclick="event.stopPropagation();">Ir a la lección
-                                    </a>
+
 
                                 </div>
                                 <div id='<%# "intro" + Eval("IdLeccion") %>'
                                     class="collapse card-body border-0"
-                                    style="background-color: #211c1c; color: aliceblue;">
-                                    <%# Eval("Introduccion") %>
+                                    style="background-color: #211c1c; color: lightgray;">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <p class="mb-0 fst-italic" style="color: lightgray;">
+                                            <%# Eval("Introduccion").ToString().Length > 100 
+                                            ? Eval("Introduccion").ToString().Substring(0, 100) + "..." 
+                                            : Eval("Introduccion").ToString() %>
+                                        </p>
+                                        <a href='<%# Eval("IdLeccion").ToString() != "0" ? "Leccion.aspx?id=" + Eval("IdLeccion") : "#" %>'
+                                            class='<%# (Convert.ToInt32(Eval("IdLeccion")) > 0 ? "btn btn-primary btn-sm" : "btn btn-secondary btn-sm disabled") %>'
+                                            onclick="event.stopPropagation();">¡Ingresar! 
+                                            <i class="bi bi-arrow-right text-white"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </ItemTemplate>
@@ -160,8 +168,8 @@
     <script>
         function limpiarModal() {
             document.getElementById("<%= hfIdLeccion.ClientID %>").value = "";
-                    document.getElementById("<%= txtTituloLeccion.ClientID %>").value = "";
-                    document.getElementById("<%= txtIntroLeccion.ClientID %>").value = "";
+            document.getElementById("<%= txtTituloLeccion.ClientID %>").value = "";
+            document.getElementById("<%= txtIntroLeccion.ClientID %>").value = "";
         }
 
         Sys.Application.add_load(function () {
