@@ -91,7 +91,9 @@ namespace Servicio
                 INNER JOIN Modulo m ON m.IdModulo=l.IdModulo
                 INNER JOIN Curso c ON c.IdCurso = m.IdCurso
                 LEFT JOIN LeccionUsuario lu ON lu.IdUsuario = @idUsuario AND lu.IdLeccion = l.IdLeccion
-                WHERE l.IdModulo = @id");
+                WHERE l.IdModulo = @id
+                ORDER BY l.Orden ASC"
+                );
                 accesoDatos.limpiarParametros();
                 accesoDatos.setParametro("@id", idModulo);
                 accesoDatos.setParametro("@idUsuario", idUsuario);

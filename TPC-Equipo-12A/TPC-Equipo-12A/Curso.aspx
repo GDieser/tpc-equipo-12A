@@ -25,8 +25,9 @@
                 <asp:Image ID="imgBannerCurso" runat="server" CssClass="img-fluid rounded shadow img-banner-curso" />
             </div>
 
-            <h2 class="text-primary">
+            <h2 class="text-primary fw-bold">
                 <asp:Literal ID="litTituloCurso" runat="server" />
+
             </h2>
             <div class="d-flex justify-content-between align-items-center">
                 <p class="text-secondary mb-0">
@@ -49,9 +50,14 @@
                                     <div style="flex-grow: 1; cursor: pointer;"
                                         data-bs-toggle="collapse"
                                         data-bs-target='<%# "#intro" + Eval("IdModulo") %>'>
-                                        <span><%# Eval("Titulo") %></span>
+                                        <asp:Literal
+                                            runat="server"
+                                            ID="ltEstadoModulo" />
+                                        <span class="fw-bold"><%# Eval("Titulo") %></span>
+
                                     </div>
-                                    <div class="btn-group" id="grupoAdmin" runat="server">
+
+                                    <div class="btn-group" runat="server" id="grupoAdmin">
                                         <asp:LinkButton
                                             ID="btnSubir"
                                             runat="server"
@@ -59,7 +65,7 @@
                                             CommandName="Subir"
                                             CommandArgument='<%# Eval("IdModulo") %>'
                                             ToolTip="Subir módulo">
-                                            <i class="bi bi-arrow-up text-white"></i>
+                    <i class="bi bi-arrow-up text-white"></i>
                                         </asp:LinkButton>
 
                                         <asp:LinkButton
@@ -69,7 +75,7 @@
                                             CommandName="Bajar"
                                             CommandArgument='<%# Eval("IdModulo") %>'
                                             ToolTip="Bajar módulo">
-                                            <i class="bi bi-arrow-down text-white"></i>
+                    <i class="bi bi-arrow-down text-white"></i>
                                         </asp:LinkButton>
 
                                         <asp:LinkButton
@@ -78,31 +84,60 @@
                                             CssClass="btn btn-link text-decoration-none m-0"
                                             CommandName="Editar"
                                             CommandArgument='<%# Eval("IdModulo") %>'
-                                            ToolTip="Editar módulo">
-                                            <i class="bi bi-pencil text-white"></i>
+                                            ToolTip="Editar módulo"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalLeccion">
+                    <i class="bi bi-pencil text-white"></i>
                                         </asp:LinkButton>
 
                                         <asp:LinkButton
                                             ID="btnEliminar"
                                             runat="server"
                                             CssClass="btn btn-link text-decoration-none m-0"
-                                            OnClientClick="return confirmarEliminacion(this);"
                                             CommandName="Eliminar"
                                             CommandArgument='<%# Eval("IdModulo") %>'
-                                            ToolTip="Eliminar módulo">
-                                            <i class="bi bi-trash text-white"></i>
+                                            ToolTip="Eliminar módulo"
+                                            OnClientClick="return confirmarEliminacion(this);">
+                    <i class="bi bi-trash text-white"></i>
                                         </asp:LinkButton>
                                     </div>
-                                    <a href='<%# "Modulo.aspx?id=" + Eval("IdModulo") != "0" ? "Modulo.aspx?id=" + Eval("IdModulo") : "#" %>'
-                                        class='<%# (Convert.ToInt32(Eval("IdModulo")) > 0 ? "btn btn-primary btn-sm " : "btn btn-secondary btn-sm disabled") %>'
-                                        onclick="event.stopPropagation();">Ir al módulo
-                                    </a>
-
+                                    <i class="bi bi-chevron-down text-white toggle-chevron"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target='<%# "#intro" + Eval("IdModulo") %>'
+                                        aria-expanded="false"
+                                        aria-controls='<%# "intro" + Eval("IdModulo") %>'
+                                        style="cursor: pointer;"></i>
                                 </div>
-                                <div id='<%# "intro" + Eval("IdModulo") %>'
-                                    class="collapse card-body border-0"
-                                    style="background-color: #211c1c; color: aliceblue;">
-                                    <%# Eval("Introduccion") %>
+
+                                <div id='<%# "intro" + Eval("IdModulo") %>' class="collapse card-body border-0" style="background-color: #211c1c; color: aliceblue;">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <p class="mb-0 fst-italic" style="color: lightgray;">
+                                            <%# Eval("Introduccion").ToString().Length > 100 
+                ? Eval("Introduccion").ToString().Substring(0, 100) + "..." 
+                : Eval("Introduccion").ToString() %>
+                                        </p>
+                                        <a href='<%# "Modulo.aspx?id=" + Eval("IdModulo") %>'
+                                            class="ms-3 text-decoration-none text-info fw-bold">Ver más
+                                        </a>
+                                    </div>
+
+                                    <ol class="list-group list-group-numbered">
+                                        <asp:Repeater ID="rptLecciones" runat="server" DataSource='<%# Eval("Lecciones") %>'>
+                                            <ItemTemplate>
+                                                <li class="list-group-item bg-dark text-light border-secondary d-flex justify-content-between align-items-center">
+                                                    <div class="flex-grow-1 text-start ps-2">
+                                                        <i class='<%# ((bool)Eval("Completado")) ? "bi bi-check-circle-fill text-success" : "bi bi-circle text-secondary" %>'
+                                                            title='<%# ((bool)Eval("Completado")) ? "Completada" : "Incompleta" %>'
+                                                            style="margin-right: 8px;"></i>
+                                                        <%# Eval("Titulo") %>
+                                                    </div>
+                                                    <a href='<%# "Leccion.aspx?id=" + Eval("IdLeccion") %>' class="btn btn-sm btn-outline-primary ms-2">
+                                                        <i class="bi bi-arrow-right text-white"></i>
+                                                    </a>
+                                                </li>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </ol>
                                 </div>
                             </div>
                         </ItemTemplate>
@@ -183,6 +218,24 @@
                     }
                 });
             }
+
+            document.querySelectorAll('.collapse').forEach(function (collapseEl) {
+                collapseEl.addEventListener('show.bs.collapse', function () {
+                    const chevron = this.closest('.card').querySelector('.toggle-chevron');
+                    if (chevron) {
+                        chevron.classList.remove('bi-chevron-down');
+                        chevron.classList.add('bi-chevron-up');
+                    }
+                });
+
+                collapseEl.addEventListener('hide.bs.collapse', function () {
+                    const chevron = this.closest('.card').querySelector('.toggle-chevron');
+                    if (chevron) {
+                        chevron.classList.remove('bi-chevron-up');
+                        chevron.classList.add('bi-chevron-down');
+                    }
+                });
+            });
         });
 
         Sys.Application.add_load(function () {

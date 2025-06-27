@@ -404,7 +404,7 @@ namespace Servicio
             }
         }
 
-        public Curso ObtenerCursoPorId(int id)
+        public Curso ObtenerCursoPorId(int id, int idUsuario)
         {
             AccesoDatos accesoDatos = new AccesoDatos();
             try
@@ -464,7 +464,7 @@ namespace Servicio
 
                     accesoDatos.cerrarConexion();
                     ModuloServicio moduloServicio = new ModuloServicio();
-                    curso.Modulos = moduloServicio.ObtenerModulosPorIdCurso(curso.IdCurso);
+                    curso.Modulos = moduloServicio.ObtenerModulosPorIdCurso(curso.IdCurso, idUsuario);
 
                     return curso;
                 }
@@ -887,6 +887,14 @@ namespace Servicio
             {
                 accesoCursos.cerrarConexion();
             }
+        }
+
+        public static bool EstaCompletoCurso(Curso curso)
+        {
+            if (curso.Modulos == null || curso.Modulos.Count == 0)
+                return false;
+
+            return curso.Modulos.All(m => m.Lecciones != null && m.Lecciones.All(l => l.Completado));
         }
     }
 }

@@ -72,7 +72,7 @@ namespace Servicio
         }
 
 
-        public List<Modulo> ObtenerModulosPorIdCurso(int id)
+        public List<Modulo> ObtenerModulosPorIdCurso(int id, int idUsuario)
         {
             AccesoDatos accesoDatos = new AccesoDatos();
             try
@@ -91,7 +91,7 @@ namespace Servicio
                 INNER JOIN Curso c ON c.IdCurso = m.IdCurso
                 LEFT JOIN Imagen i ON i.IdImagen = m.IdImagen
                 WHERE m.IdCurso = @idCurso
-                ORDER BY m.Orden
+                ORDER BY m.Orden ASC
                 ");
                 accesoDatos.limpiarParametros();
                 accesoDatos.setParametro("@idCurso", id);
@@ -113,6 +113,8 @@ namespace Servicio
                             Url = accesoDatos.Lector["UrlImagen"] != DBNull.Value ? accesoDatos.Lector["UrlImagen"].ToString() : "~/imagenes/modulos/default-modulo.jpg"
                         }
                     };
+                    LeccionServicio leccionServicio = new LeccionServicio();
+                    modulo.Lecciones = leccionServicio.ListarLeccionesPorModuloId((int)accesoDatos.Lector["IdModulo"], idUsuario);
                     modulos.Add(modulo);
                 }
                 return modulos;
@@ -277,5 +279,14 @@ namespace Servicio
                 accesoDatos.cerrarConexion();
             }
         }
+
+        public static bool EstaCompletoModulo(Modulo modulo)
+        {
+            if (modulo.Lecciones == null || modulo.Lecciones.Count == 0)
+                return false;
+
+            return modulo.Lecciones.All(l => l.Completado);
+        }
+
     }
 }

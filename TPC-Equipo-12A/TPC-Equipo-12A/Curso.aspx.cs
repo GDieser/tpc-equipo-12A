@@ -48,7 +48,7 @@ namespace TPC_Equipo_12A
                     btnAgregarLeccion.Visible = isAdmin;
                     btnGuardarCambios.Visible = isAdmin;
 
-                    Dominio.Curso curso = cursoServicio.ObtenerCursoPorId(idCurso);
+                    Dominio.Curso curso = cursoServicio.ObtenerCursoPorId(idCurso, UsuarioAutenticado.IdUsuario);
                     if (curso == null)
                     {
                         Session["error"] = "El curso no existe.";
@@ -336,7 +336,7 @@ namespace TPC_Equipo_12A
         private void ActualizarCursoEnSesionYBindear()
         {
             CursoServicio cursoServicio = new CursoServicio();
-            Dominio.Curso curso = cursoServicio.ObtenerCursoPorId(((Dominio.Curso)Session["Curso"]).IdCurso);
+            Dominio.Curso curso = cursoServicio.ObtenerCursoPorId(((Dominio.Curso)Session["Curso"]).IdCurso, UsuarioAutenticado.IdUsuario);
 
             if (curso == null)
             {
@@ -365,6 +365,15 @@ namespace TPC_Equipo_12A
                 {
                     grupoAdmin.Visible = UsuarioAutenticado.Rol == Rol.Administrador;
                 }
+
+                var modulo = (Dominio.Modulo)e.Item.DataItem;
+                var iconoEstado = (Literal)e.Item.FindControl("ltEstadoModulo");
+
+                bool estaCompleto = ModuloServicio.EstaCompletoModulo(modulo);
+                string color = estaCompleto ? "text-success bi-check-circle-fill" : "text-secondary bi-circle-fill";
+                string tooltip = estaCompleto ? "Completado" : "Incompleto";
+
+                iconoEstado.Text = $"<i class='bi {color}' title='{tooltip}' style='margin-left: 10px;'></i>";
             }
         }
 
