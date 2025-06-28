@@ -15,7 +15,7 @@ INSERT INTO Categoria (Nombre) VALUES('promoción');
 INSERT INTO Categoria (Nombre) VALUES('anuncio');
 
 INSERT INTO Categoria (Nombre) VALUES('redes');
-
+update Categoria SET Activo = 1;
 
 --Publicacion
 
@@ -1278,3 +1278,47 @@ INSERT INTO Imagen(UrlImagen, Nombre, IdTipoImagen) VALUES
 ('https://mstusa.com/wp-content/uploads/2023/10/APIs-banner-950.png', 'Miniatura', 1);
 
 INSERT INTO ImagenCurso(IdImagen, IdCurso) VALUES (21, 4);
+
+-- Curso 1: Fundamentos y Práctica de Bases de Datos
+INSERT INTO Modulo (IdCurso, IdImagen, Titulo, Introduccion, Orden)
+VALUES 
+(1, NULL, 'Introducción a las bases de datos', '¿Qué es una base de datos? Tipos y arquitectura de un SGBD.', 1),
+(1, NULL, 'Modelado de datos', 'Entidades, atributos y relaciones. Diagramas ER y paso al modelo lógico.', 2);
+
+-- Curso 2: Programación Básica con Python
+INSERT INTO Modulo (IdCurso, IdImagen, Titulo, Introduccion, Orden)
+VALUES 
+(2, NULL, 'Introducción a la programación y a Python', 'Conceptos básicos, instalación y primer script en Python.', 1),
+(2, NULL, 'Variables y tipos de datos', 'Tipos básicos en Python, conversiones y entrada/salida por consola.', 2);
+
+-- Curso 3: Fundamentos de Inteligencia Artificial
+INSERT INTO Modulo (IdCurso, IdImagen, Titulo, Introduccion, Orden)
+VALUES 
+(3, NULL, 'Introducción a la Inteligencia Artificial', 'Definiciones, historia y principales aplicaciones de la IA.', 1),
+(3, NULL, 'Ramas y enfoques de la IA', 'Sistemas expertos, aprendizaje automático, PLN y visión computacional.', 2);
+
+-- Curso 4: APIs desde Cero
+INSERT INTO Modulo (IdCurso, IdImagen, Titulo, Introduccion, Orden)
+VALUES 
+(4, NULL, 'Fundamentos de APIs', 'Qué es una API, tipos (REST, SOAP, GraphQL) y protocolos como HTTP y JSON.', 1),
+(4, NULL, 'Consumir APIs externas', 'Uso de herramientas como Postman para realizar solicitudes a APIs.', 2);
+
+-- Suponiendo que los IdModulo generados son del 2 al 9 (en ese orden)
+INSERT INTO Leccion (IdModulo, Titulo, Introduccion, Contenido, Orden, AltoVideo, AnchoVideo, UrlVideo, IframeVideo)
+VALUES 
+-- Curso 1
+(1, '¿Qué es una base de datos?', 'Conceptos fundamentales y motivación.', 'Contenido introductorio sobre bases de datos.', 1, NULL, NULL, NULL, NULL),
+(2, 'Modelado con diagramas ER', 'Representación gráfica de entidades y relaciones.', 'Cómo construir y entender un diagrama ER.', 1, NULL, NULL, NULL, NULL),
+
+-- Curso 2
+(3, 'Tu primer script en Python', 'Instalación de Python y ejecución básica.', 'Escribir y ejecutar un "Hola Mundo" en Python.', 1, NULL, NULL, NULL, NULL),
+(4, 'Trabajando con variables', 'Tipos de datos en Python.', 'Cómo declarar, asignar y manipular variables.', 1, NULL, NULL, NULL, NULL),
+
+-- Curso 3
+(5, '¿Qué es la IA?', 'Desde la definición hasta las aplicaciones reales.', 'Exploramos la historia y usos de la inteligencia artificial.', 1, NULL, NULL, NULL, NULL),
+(6, 'Aprendizaje supervisado vs no supervisado', 'Diferencias y usos prácticos.', 'Ejemplos de ambos enfoques de aprendizaje.', 1, NULL, NULL, NULL, NULL),
+
+-- Curso 4
+(7, 'Conceptos clave de las APIs', 'REST, SOAP y GraphQL explicados.', 'Cómo funciona una API moderna.', 1, NULL, NULL, NULL, NULL),
+(8, 'Usar Postman para probar APIs', 'Ejemplo práctico de consumo de una API.', 'Enviar solicitudes y analizar respuestas con Postman.', 1, NULL, NULL, NULL, NULL);
+

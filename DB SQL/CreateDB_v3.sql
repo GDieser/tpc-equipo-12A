@@ -16,6 +16,7 @@ CREATE TABLE Imagen(
 	Nombre VARCHAR(85),
 	IdTipoImagen INT NOT NULL
 );
+GO
 
 CREATE TABLE Publicacion(
 	IdPublicacion INT IDENTITY(1,1) PRIMARY KEY,
@@ -29,6 +30,7 @@ CREATE TABLE Publicacion(
 	
 	FOREIGN KEY (IdCategoria) REFERENCES Categoria(IdCategoria)
 );
+GO
 
 CREATE TABLE ImagenPublicacion(
 	IdImagen INT NOT NULL,
@@ -74,6 +76,7 @@ CREATE TABLE Usuario(
 
 	FOREIGN KEY (FotoPerfil) REFERENCES Imagen(IdImagen) ON DELETE SET NULL
 )
+GO
 
 CREATE TABLE ImagenCurso(
 	IdImagen INT NOT NULL,
@@ -95,30 +98,20 @@ CREATE TABLE Modulo(
 	FOREIGN KEY (IdImagen) REFERENCES Imagen(IdImagen) ON DELETE CASCADE, 
 	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso) ON DELETE CASCADE 
 );
+GO
+
 
 CREATE TABLE Leccion(
 	IdLeccion INT PRIMARY KEY IDENTITY(1,1),
 	IdModulo INT NOT NULL,
 	Titulo NVARCHAR(80),
 	Introduccion NVARCHAR(MAX),
-	AltoVideo INT,  -- AGREGADO PARA VIDEO DE YT
-	AnchoVideo INT, -- AGREGADO PARA VIDEO DE YT
-	UrlVideo VARCHAR(255), -- AGREGADO PARA VIDEO DE YT
-	IframeVideo VARCHAR(MAX), -- AGREGADO PARA VIDEO DE YT
 	Contenido NVARCHAR(MAX), -- AGREGADO CONTENIDO
 	Orden INT
 
 	FOREIGN KEY (IdModulo) REFERENCES Modulo(IdModulo) ON DELETE CASCADE --IMPORTANTE PARA LA ELIMINACION DE UN MODULO
 );
-
--- AGREGADO PARA VIDEO DE YT
-/*ALTER TABLE Leccion
-ADD 
-    AltoVideo INT,
-    AnchoVideo INT,
-    UrlVideo VARCHAR(255),
-	IframeVideo VARCHAR(MAX);*/
-
+GO
 
 CREATE TABLE LeccionUsuario(
 	IdLeccion INT NOT NULL,
@@ -130,6 +123,7 @@ CREATE TABLE LeccionUsuario(
 	FOREIGN KEY (IdLeccion) REFERENCES Leccion(IdLeccion),
 	FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario)
 );
+GO
 
 CREATE TABLE CursoFavorito(
 	IdUsuario INT NOT NULL,
@@ -141,6 +135,7 @@ CREATE TABLE CursoFavorito(
 	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso),
 	FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario)
 );
+GO
 
 CREATE TABLE Carrito(
 	IdCarrito INT PRIMARY KEY IDENTITY(1,1),
@@ -151,6 +146,7 @@ CREATE TABLE Carrito(
 
 	FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario)
 );
+GO
 
 CREATE TABLE Compra(
 	IdCompra INT PRIMARY KEY IDENTITY(1,1),
@@ -229,3 +225,10 @@ CREATE TABLE NotificacionAdmin(
 
 ALTER TABLE Carrito ADD IDOperacion VARCHAR(60); -- Para almacenar el Id de operacion de MP
 
+-- AGREGADO PARA VIDEO DE YT
+ALTER TABLE Leccion
+ADD 
+    AltoVideo INT,
+    AnchoVideo INT,
+    UrlVideo VARCHAR(255),
+	IframeVideo VARCHAR(MAX);

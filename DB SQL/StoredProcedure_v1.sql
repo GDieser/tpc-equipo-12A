@@ -449,6 +449,7 @@ BEGIN
         C.Estado,
         C.IdCategoria,
         Cat.Nombre     AS NombreCategoria,
+		Cat.Activo	   AS ActivoCategoria, -- Se agrego porque faltaba
         I.IdImagen,
         I.UrlImagen    AS Url,
         I.Nombre       AS NombreImagen,
