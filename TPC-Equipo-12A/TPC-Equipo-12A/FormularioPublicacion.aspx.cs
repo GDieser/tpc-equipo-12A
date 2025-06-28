@@ -87,7 +87,15 @@ namespace TPC_Equipo_12A
 
 
                 string descAux = sanit.Sanitize(descIngreso);*/
+                /*
+                string url = txtUrl.Text;
+                string ancho = txtAncho.Text;
+                string alto = txtAlto.Text;
 
+                string videoId = ObtenerIdDeYoutube(url);
+
+                string iframe = $"<hr /> <iframe width=\"{ancho}\" height=\"{alto}\" src=\"https://www.youtube.com/embed/{videoId}\" ></iframe> <hr />";
+                */
                 nueva.Descripcion = Request.Form[txtDes.UniqueID];
 
 
@@ -140,5 +148,26 @@ namespace TPC_Equipo_12A
                 Response.Redirect("Error.aspx");
             }
         }
+
+        /*private string ObtenerIdDeYoutube(string url)
+        {
+            try
+            {
+                Uri uri = new Uri(url);
+                var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+                string videoId = query["v"];
+                                
+                if (string.IsNullOrEmpty(videoId) && uri.Host.Contains("youtu.be"))
+                {
+                    videoId = uri.AbsolutePath.Trim('/');
+                }
+
+                return videoId;
+            }
+            catch
+            {
+                return null;
+            }
+        }*/
     }
 }

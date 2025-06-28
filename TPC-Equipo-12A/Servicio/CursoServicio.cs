@@ -146,6 +146,7 @@ namespace Servicio
 
                 datos.cerrarConexion();
 
+                datos.limpiarParametros();
 
                 datos.setProcedimiento(@"sp_InsertarCurso");
 
@@ -161,10 +162,12 @@ namespace Servicio
                 datos.setParametro("@certificado", nuevo.Certificado);
 
                 datos.ejecutarLectura();
+
                 if (datos.Lector.Read())
                     nuevo.IdCurso = Convert.ToInt32(datos.Lector[0]);
 
                 datos.cerrarConexion();
+                datos.limpiarParametros();
 
                 datos.setConsulta("INSERT INTO ImagenCurso (IdImagen, IdCurso) VALUES (@idimg, @idcurso)");
                 datos.setParametro("@idimg", idImagen);

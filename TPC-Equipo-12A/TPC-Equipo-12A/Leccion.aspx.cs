@@ -91,6 +91,7 @@ namespace TPC_Equipo_12A
                 litTitulo.Text = leccion.Titulo;
                 litDescripcion.Text = leccion.Introduccion;
                 litContenido.Text = leccion.Contenido;
+                litIframe.Text = leccion.IframeVideo;
                 Session["Leccion"] = leccion;
                 phContenido.Visible = false;
 
@@ -172,15 +173,29 @@ namespace TPC_Equipo_12A
 
                 Dominio.Leccion leccion = (Dominio.Leccion)Session["Leccion"];
 
+                //Para vid de yt :O
+                string alto = txtAlto.Text;
+                string ancho = txtAncho.Text;
+                string url = txtUrl.Text;
+                string videoId = ObtenerIdDeYoutube(url);
+                string iframe = $"<iframe width=\"{ancho}\" height=\"{alto}\" src=\"https://www.youtube.com/embed/{videoId}\" ></iframe>";
+
                 if (leccion != null)
                 {
                     leccion.Titulo = txtTitulo.Text;
                     leccion.Introduccion = txtIntroduccion.Text;
                     leccion.Contenido = contenidoHtml;
+
+                    leccion.AnchoVideo = Convert.ToInt32(txtAncho.Text);
+                    leccion.AltoVideo = Convert.ToInt32(txtAlto.Text);
+                    leccion.UrlVideo = txtUrl.Text;
+                    leccion.IframeVideo = iframe;
+
                     Session["Leccion"] = leccion;
                     litContenido.Text = leccion.Contenido;
                     litTitulo.Text = leccion.Titulo;
                     litDescripcion.Text = leccion.Introduccion;
+
                 }
                 else
                 {
@@ -196,6 +211,7 @@ namespace TPC_Equipo_12A
                 litContenido.Text = leccion.Contenido;
                 litTitulo.Text = leccion.Titulo;
                 litDescripcion.Text = leccion.Introduccion;
+                litIframe.Text = leccion.IframeVideo;
                 mensajeSweetAlert("¡Leccion guardada correctamente!", "¡Éxito!", "success");
 
 
@@ -216,9 +232,16 @@ namespace TPC_Equipo_12A
         }
         protected void btnAgregarContenido_Click(object sender, EventArgs e)
         {
+            Dominio.Leccion leccion = (Dominio.Leccion)Session["Leccion"];
+
             txtContenidoHTML.InnerText = litContenido.Text;
             txtTitulo.Text = litTitulo.Text;
             txtIntroduccion.Text = litDescripcion.Text;
+
+
+            txtUrl.Text = leccion.UrlVideo;
+            txtAlto.Text = leccion.AltoVideo.ToString();
+            txtAncho.Text = leccion.AnchoVideo.ToString();   
 
             phContenido.Visible = true;
             btnAgregarContenido.Visible = false;
@@ -245,6 +268,28 @@ namespace TPC_Equipo_12A
         });
     ";
             ScriptManager.RegisterStartupScript(this, this.GetType(), "initCKEditor", script, true);
+        }
+
+
+        private string ObtenerIdDeYoutube(string url)
+        {
+            try
+            {
+                Uri uri = new Uri(url);
+                var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+                string videoId = query["v"];
+
+                if (string.IsNullOrEmpty(videoId) && uri.Host.Contains("youtu.be"))
+                {
+                    videoId = uri.AbsolutePath.Trim('/');
+                }
+
+                return videoId;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

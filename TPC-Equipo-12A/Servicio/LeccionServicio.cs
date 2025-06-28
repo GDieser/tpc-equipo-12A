@@ -21,6 +21,10 @@ namespace Servicio
                     l.Introduccion,
                     l.Orden,
                     l.Contenido,
+                    l.AltoVideo,
+                    l.AnchoVideo,
+                    l.UrlVideo,
+                    l.IframeVideo,
                     m.IdModulo as IdModulo,
                     m.Titulo as NombreModulo,
                     c.IdCurso as IdCurso,
@@ -52,7 +56,13 @@ namespace Servicio
                         NombreCurso = accesoDatos.Lector["NombreCurso"].ToString(),
                         IdModulo = (int)accesoDatos.Lector["IdModulo"],
                         NombreModulo = accesoDatos.Lector["NombreModulo"].ToString(),
-                        Completado = accesoDatos.Lector["EsFinalizado"] != DBNull.Value && (bool)accesoDatos.Lector["EsFinalizado"]
+                        Completado = accesoDatos.Lector["EsFinalizado"] != DBNull.Value && (bool)accesoDatos.Lector["EsFinalizado"],
+                        
+                        
+                        AltoVideo = (int)accesoDatos.Lector["AltoVideo"],
+                        AnchoVideo = (int)accesoDatos.Lector["AnchoVideo"],
+                        UrlVideo = accesoDatos.Lector["UrlVideo"].ToString(),
+                        IframeVideo = accesoDatos.Lector["IframeVideo"].ToString()
                     };
                     return leccion;
                 }
@@ -197,18 +207,26 @@ namespace Servicio
                 datos.setParametro("@Contenido", leccion.Contenido ?? (object)DBNull.Value);
                 datos.setParametro("@Orden", leccion.Orden);
 
+
+                datos.setParametro("@AltoVideo", leccion.AltoVideo);
+                datos.setParametro("@AnchoVideo", leccion.AnchoVideo);
+                datos.setParametro("@UrlVideo", leccion.UrlVideo ?? (object)DBNull.Value);
+                datos.setParametro("@IframeVideo", leccion.IframeVideo ?? (object)DBNull.Value);
+
+
                 if (leccion.IdLeccion > 0)
                 {
                     datos.setParametro("@IdLeccion", leccion.IdLeccion);
                     datos.setConsulta(@"UPDATE Leccion 
                                 SET Titulo = @Titulo, Introduccion = @Introduccion, 
-                                    Orden = @Orden, IdModulo = @IdModulo, Contenido = @Contenido 
+                                    Orden = @Orden, IdModulo = @IdModulo, Contenido = @Contenido,
+                                    AltoVideo = @AltoVideo, AnchoVideo = @AnchoVideo, UrlVideo = @UrlVideo, IframeVideo = @IframeVideo
                                 WHERE IdLeccion = @IdLeccion");
                 }
                 else
                 {
-                    datos.setConsulta(@"INSERT INTO Leccion (IdModulo, Titulo, Introduccion, Orden, Contenido) 
-                                VALUES (@IdModulo, @Titulo, @Introduccion, @Orden, @Contenido)");
+                    datos.setConsulta(@"INSERT INTO Leccion (IdModulo, Titulo, Introduccion, Orden, Contenido, AltoVideo, AnchoVideo, UrlVideo, IframeVideo) 
+                                VALUES (@IdModulo, @Titulo, @Introduccion, @Orden, @Contenido, @AltoVideo, @AnchoVideo, @UrlVideo, @IframeVideo)");
                 }
 
                 datos.ejecutarAccion();

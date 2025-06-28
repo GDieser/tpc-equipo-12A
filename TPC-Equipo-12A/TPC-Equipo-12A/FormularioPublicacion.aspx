@@ -17,7 +17,7 @@
 
             <div class="col-md-6">
                 <div class="mb-3">
-                    <label for="txtTitulo" class="form-label fw-bold">Título: <span style="color:red">*</span> </label>
+                    <label for="txtTitulo" class="form-label fw-bold">Título: <span style="color: red">*</span> </label>
                     <asp:TextBox ID="txtTitulo" runat="server" CssClass="form-control" />
                     <asp:RequiredFieldValidator ID="rfvTitulo" runat="server"
                         ControlToValidate="txtTitulo"
@@ -28,7 +28,7 @@
 
 
             <div class="mb-3">
-                <label for="txtResumen" class="form-label fw-bold">Resumen: <span style="color:red">*</span> </label>
+                <label for="txtResumen" class="form-label fw-bold">Resumen: <span style="color: red">*</span> </label>
                 <asp:TextBox ID="txtResumen" runat="server" TextMode="MultiLine" Rows="3" CssClass="form-control" />
                 <asp:RequiredFieldValidator ID="rfvResumen" runat="server"
                     ControlToValidate="txtResumen"
@@ -38,8 +38,13 @@
 
 
             <div class="mb-3">
+                <!--
+                <asp:TextBox ID="txtUrl" runat="server" Placeholder="URL de YouTube" />
+                <asp:TextBox ID="txtAncho" runat="server" Placeholder="Ancho" />
+                <asp:TextBox ID="txtAlto" runat="server" Placeholder="Alto" />
+                -->
 
-                <label for="txtDes" class="form-label fw-bold">Descripción: <span style="color:red">*</span> </label>
+                <label for="txtDes" class="form-label fw-bold">Descripción: <span style="color: red">*</span> </label>
 
                 <textarea id="txtDes" runat="server" class="form-control" rows="8"></textarea>
 
@@ -54,7 +59,6 @@
                         height: '450px',
                         extraAllowedContent: 'iframe[width,height,src,frameborder,allow,allowfullscreen,referrerpolicy,sandbox,title];',
                         removeButtons: '',
-                        toolbar: 'full',
                         removePlugins: 'iframe',
                         extraPlugins: 'iframe',
                         filebrowserBrowseUrl: '',
@@ -66,7 +70,7 @@
             </div>
             <div class="col-md-4">
                 <div class="mb-3">
-                    <label for="ddlCategoria" class="form-label fw-bold">Categoria: <span style="color:red">*</span> </label>
+                    <label for="ddlCategoria" class="form-label fw-bold">Categoria: <span style="color: red">*</span> </label>
                     <asp:DropDownList ID="ddlCategoria" runat="server" CssClass="form-select">
                     </asp:DropDownList>
                     <asp:RequiredFieldValidator ID="rfvCategoria" runat="server"
@@ -79,7 +83,7 @@
 
             <div class="col-md-4">
                 <div class="mb-3">
-                    <label for="ddlEstado" class="form-label fw-bold">Estado de publicación: <span style="color:red">*</span> </label>
+                    <label for="ddlEstado" class="form-label fw-bold">Estado de publicación: <span style="color: red">*</span> </label>
                     <asp:DropDownList ID="ddlEstado" runat="server" CssClass="form-select">
                     </asp:DropDownList>
                     <asp:RequiredFieldValidator ID="rfvEstado" runat="server"
@@ -95,7 +99,7 @@
                     <ContentTemplate>
 
                         <div class="mb-3">
-                            <label for="txtImagen" class="form-label fw-bold">URL de Imagen (Miniatura): <span style="color:red">*</span> </label>
+                            <label for="txtImagen" class="form-label fw-bold">URL de Imagen (Miniatura): <span style="color: red">*</span> </label>
                             <asp:TextBox ID="txtMiniatura" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtImagen_TextChanged" />
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server"
                                 ControlToValidate="txtMiniatura"
@@ -114,7 +118,7 @@
                 <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                     <ContentTemplate>
                         <div class="mb-3">
-                            <label for="txtImagen" class="form-label fw-bold">URL de Imagen (Banner): <span style="color:red">*</span> </label>
+                            <label for="txtImagen" class="form-label fw-bold">URL de Imagen (Banner): <span style="color: red">*</span> </label>
                             <asp:TextBox ID="txtImagen" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtImagen_TextChanged" />
                             <asp:RequiredFieldValidator ID="rfvImagen" runat="server"
                                 ControlToValidate="txtImagen"

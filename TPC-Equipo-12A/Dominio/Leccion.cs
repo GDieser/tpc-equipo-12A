@@ -21,5 +21,12 @@ namespace Dominio
         public int IdModulo { get; set; }
         public string NombreModulo { get; set; }
         public bool Completado { get; set; }
+
+
+        //Para videos de yt
+        public int AltoVideo { get; set; }
+        public int AnchoVideo { get; set; }
+        public string UrlVideo { get; set; }
+        public string IframeVideo { get; set; }
     }
 }
