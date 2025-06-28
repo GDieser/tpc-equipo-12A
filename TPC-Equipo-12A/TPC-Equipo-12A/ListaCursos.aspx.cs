@@ -17,7 +17,7 @@ namespace TPC_Equipo_12A
             if (!IsPostBack)
             {
                 CategoriaServicio ser = new CategoriaServicio();
-                List<Categoria> lista = ser.listar();
+                List<Categoria> lista = ser.ListarActivas();
 
                 ddlFiltroCategoria.DataSource = lista;
                 ddlFiltroCategoria.DataValueField = "IdCategoria";

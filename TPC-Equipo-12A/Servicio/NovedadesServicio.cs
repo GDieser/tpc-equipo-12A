@@ -38,9 +38,13 @@ namespace Servicio
                     pub.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
                     pub.FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"];
 
-                    pub.Categoria = new Categoria();
-                    pub.Categoria.IdCategoria = (int)datos.Lector["IdCategoria"];
-                    pub.Categoria.Nombre = (string)datos.Lector["NombreCategoria"];
+                    pub.Categoria = new Categoria
+                    {
+                        IdCategoria = (int)datos.Lector["IdCategoria"],
+                        Nombre = !(bool)datos.Lector["ActivoCategoria"] ? "Sin Categoría" : (string)datos.Lector["NombreCategoria"],
+                        Activo = (bool)datos.Lector["ActivoCategoria"]
+                    };
+
 
                     pub.Estado = (EstadoPublicacion)Convert.ToInt32(datos.Lector["Estado"]);
 

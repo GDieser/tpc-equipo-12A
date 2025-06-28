@@ -37,8 +37,10 @@ namespace Servicio
                         Categoria = new Categoria
                         {
                             IdCategoria = (int)datos.Lector["IdCategoria"],
-                            Nombre = (string)datos.Lector["NombreCategoria"]
+                            Nombre = !(bool)datos.Lector["ActivoCategoria"] ? "Sin Categoría" : (string)datos.Lector["NombreCategoria"],
+                            Activo = (bool)datos.Lector["ActivoCategoria"]
                         },
+
 
                         ImagenPortada = datos.Lector["IdImagen"] != DBNull.Value
                                         ? new Imagen

@@ -25,7 +25,13 @@
                     <Columns>
                         <asp:BoundField HeaderText="ID" DataField="IdCategoria" ReadOnly="true" />
                         <asp:BoundField HeaderText="Nombre" DataField="Nombre" />
-                        <asp:BoundField HeaderText="Activo" DataField="Activo" />
+                        <asp:TemplateField HeaderText="Activo">
+    <ItemTemplate>
+        <div style='width: 15px; height: 15px; border-radius: 50%; background-color: <%# (bool)Eval("Activo") ? "green" : "red" %>; display: inline-block;'>
+        </div>
+    </ItemTemplate>
+</asp:TemplateField>
+
              <asp:TemplateField HeaderText="Modificar">
     <ItemTemplate>
         <asp:LinkButton ID="btnEditarCategoria" runat="server"

@@ -42,6 +42,39 @@ namespace Servicio
 				datos.cerrarConexion();
 			}
         }
+        public List<Categoria> ListarActivas()
+        {
+            List<Categoria> lista = new List<Categoria>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setConsulta("SELECT IdCategoria, Nombre FROM Categoria WHERE Activo = 1");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Categoria aux = new Categoria
+                    {
+                        IdCategoria = (int)datos.Lector["IdCategoria"],
+                        Nombre = (string)datos.Lector["Nombre"]
+                    };
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public Categoria AgregarCategoriaSiNoExiste(string nombre)
         {
             AccesoDatos datos = new AccesoDatos();
