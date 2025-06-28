@@ -1,6 +1,5 @@
 
 USE TPC_CURSOS_G12A
-
 GO
 
 --Insert Para categoria

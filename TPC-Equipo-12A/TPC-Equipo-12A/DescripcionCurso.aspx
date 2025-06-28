@@ -25,7 +25,8 @@
 
                     <div class="card-body text-center">
                         <h5 class="text-white mb-3 fw-semibold">
-                            <asp:Label ID="lblPrecio" runat="server" Text="" />
+                            <asp:Label ID="lblPrecio" CssClass="badge bg-warning text-dark me-2 fs-6" runat="server" Text="" />
+                            
                         </h5>
 
                         <div class="d-flex justify-content-center gap-3">

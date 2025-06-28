@@ -95,6 +95,7 @@ namespace TPC_Equipo_12A
                     respuestas.Add(comentario);
                 }
             }
+            respuestas = respuestas.OrderBy(r => r.FechaCreacion).ToList();
 
             foreach (Comentario principal in comentariosPrincipales)
             {
@@ -188,24 +189,31 @@ namespace TPC_Equipo_12A
             {
                 TextBox txtRespuesta = (TextBox)e.Item.FindControl("txtRespuesta");
 
-                if (!string.IsNullOrWhiteSpace(txtRespuesta.Text) && int.TryParse(e.CommandArgument.ToString(), out int idPadre) && !respuesta)
+                string[] args = e.CommandArgument.ToString().Split('|');
+                if (args.Length == 2 && int.TryParse(args[0], out int idPadre))
                 {
-                    Comentario comentario = new Comentario
+                    string nombreUsuario = args[1];
+                    string textoRespuesta = txtRespuesta?.Text?.Trim();
+
+                    if (!string.IsNullOrWhiteSpace(textoRespuesta) && !respuesta)
                     {
-                        IdUsuario = usuarioAutenticado.IdUsuario,
-                        TipoOrigen = "novedades",
-                        IdOrigen = int.Parse(Request.QueryString["IdNovedad"]),
-                        Contenido = txtRespuesta.Text,
-                        IdComentarioPadre = idPadre
-                    };
+                        Comentario comentario = new Comentario
+                        {
+                            IdUsuario = usuarioAutenticado.IdUsuario,
+                            TipoOrigen = "novedades",
+                            IdOrigen = int.Parse(Request.QueryString["IdNovedad"]),
+                            Contenido = $"@{nombreUsuario} {textoRespuesta}",
+                            IdComentarioPadre = idPadre
+                        };
 
-                    ComentarioServicio ser = new ComentarioServicio();
-                    ser.AgregarComentario(comentario);
-                    respuesta = true;
+                        ComentarioServicio ser = new ComentarioServicio();
+                        ser.AgregarComentario(comentario);
+                        respuesta = true;
 
-                    CargarComentarios();
-                    upComentarios.Update();
+                        CargarComentarios();
+                        upComentarios.Update();
 
+                    }
                 }
             }
         }
@@ -272,6 +280,47 @@ namespace TPC_Equipo_12A
                     "$('#modalEdicion').modal('hide');", true);
             }
 
+        }
+
+        protected void rptRespuestas_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "ResponderRespuesta")
+            {
+                Panel pnl = (Panel)e.Item.FindControl("pnlReRespuesta");
+                pnl.Visible = true;
+                respuesta = true;
+            }
+            else if (e.CommandName == "EnviarReRespuesta")
+            {
+                TextBox txtRespuesta = (TextBox)e.Item.FindControl("txtReRespuesta");
+
+                string[] args = e.CommandArgument.ToString().Split('|');
+                if (args.Length == 2 && int.TryParse(args[0], out int idPadre))
+                {
+                    string nombreUsuario = args[1];
+                    string textoRespuesta = txtRespuesta?.Text?.Trim();
+
+                    if (!string.IsNullOrWhiteSpace(textoRespuesta) && !respuesta)
+                    {
+                        Comentario comentario = new Comentario
+                        {
+                            IdUsuario = usuarioAutenticado.IdUsuario,
+                            TipoOrigen = "novedades",
+                            IdOrigen = int.Parse(Request.QueryString["IdNovedad"]),
+                            Contenido = $"@{nombreUsuario} {textoRespuesta}",
+                            IdComentarioPadre = idPadre
+                        };
+
+                        ComentarioServicio ser = new ComentarioServicio();
+                        ser.AgregarComentario(comentario);
+                        respuesta = true;
+
+                        CargarComentarios();
+                        upComentarios.Update();
+
+                    }
+                }
+            }
         }
     }
 }

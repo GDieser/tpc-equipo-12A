@@ -51,6 +51,24 @@ namespace TPC_Equipo_12A
         protected global::System.Web.UI.WebControls.Button btnCard;
 
         /// <summary>
+        /// ddlFiltrar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlFiltrar;
+
+        /// <summary>
+        /// btnFiltrarNovedades control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnFiltrarNovedades;
+
+        /// <summary>
         /// ddlFiltro control.
         /// </summary>
         /// <remarks>

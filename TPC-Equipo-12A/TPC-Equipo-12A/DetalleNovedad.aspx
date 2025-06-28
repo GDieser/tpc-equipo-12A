@@ -150,7 +150,7 @@
 
                                     <asp:Panel ID="pnlResponder" runat="server" Visible="false" CssClass="mt-2">
                                         <asp:TextBox ID="txtRespuesta" runat="server" CssClass="form-control form-control-lg bg-dark-subtle" placeholder="Escribí una respuesta..." />
-                                        <asp:Button Text="Enviar" runat="server" ID="btnEnviarRespuesta" CommandArgument='<%# Eval("IdComentario") %>' CommandName="EnviarRespuesta" CssClass="btn btn-outline-secondary btn-sm mt-1" />
+                                        <asp:Button Text="Enviar" runat="server" ID="btnEnviarRespuesta" CommandArgument='<%# Eval("IdComentario") + "|" + Eval("NombreUsuario") %>' CommandName="EnviarRespuesta" CssClass="btn btn-outline-secondary btn-sm mt-1" />
                                     </asp:Panel>
                                     <%} %>
 
@@ -159,7 +159,7 @@
                                      "<button class='btn btn-outline-info btn-sm ms-1' onclick=\"abrirModalEdicion('" + Eval("IdComentario") + "','" + Eval("Contenido") + "')\">Editar</button>" 
                                         : "" %>
 
-                                    <asp:Repeater ID="rptRespuestas" runat="server" DataSource='<%# Eval("Respuestas") %>'>
+                                    <asp:Repeater ID="rptRespuestas" OnItemCommand="rptRespuestas_ItemCommand" runat="server" DataSource='<%# Eval("Respuestas") %>'>
                                         <ItemTemplate>
                                             <hr />
                                             <div class="d-flex mb-3">
@@ -203,6 +203,19 @@
                                             <%# PuedeEditarComentario((int)Eval("IdUsuario"), (DateTime)Eval("FechaCreacion")) ? 
                                             "<button class='btn btn-outline-info btn-sm ms-1' onclick=\"abrirModalEdicion('" + Eval("IdComentario") + "','" + Eval("Contenido") + "')\">Editar</button>" 
                                                : "" %>
+                                            <%if (usuarioAutenticado != null)
+                                                {  %>
+
+                                            <asp:LinkButton Text="Responder" ID="btnResponderRespuesta" CommandName="ResponderRespuesta" CommandArgument='<%# Eval("IdComentarioPadre") %>' CssClass="btn btn-outline-secondary btn-sm mt-1" runat="server" />
+                                            <asp:HiddenField ID="hfIdComentarioRespuesta" runat="server" Value='<%# Eval("IdComentarioPadre") %>' />
+
+                                            <asp:Panel ID="pnlReRespuesta" Visible="false" CssClass="mt-2" runat="server">
+                                                <asp:TextBox ID="txtReRespuesta" CssClass="form-control form-control-lg bg-dark-subtle" placeholder="Escribí una respuesta..." runat="server" />
+                                                <asp:Button Text="Enviar" runat="server" ID="btnEnviarReRespuesta" CommandArgument='<%# Eval("IdComentarioPadre") + "|" + Eval("NombreUsuario") %>' CommandName="EnviarReRespuesta" CssClass="btn btn-outline-secondary btn-sm mt-1" />
+                                            </asp:Panel>
+
+                                            <%} %>
+
                                         </ItemTemplate>
                                     </asp:Repeater>
 
@@ -288,4 +301,3 @@
 
 
 </asp:Content>
-

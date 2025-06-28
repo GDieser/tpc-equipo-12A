@@ -58,7 +58,10 @@
 
             <div class="col-md-6 text-end">
                 <div class="d-inline-flex align-items-center gap-2">
-                    <asp:DropDownList ID="ddlFiltro" runat="server" CssClass="form-select form-select-md" Width="150px"></asp:DropDownList>
+                    <asp:DropDownList ID="ddlFiltrar" CssClass="btn btn-secondary dropdown-toggle" runat="server" />
+                    <asp:Button Text="Filtrar" CssClass="btn btn-info" OnClick="btnFiltrarNovedades_Click" ID="btnFiltrarNovedades" runat="server" />
+
+                    <asp:DropDownList ID="ddlFiltro" runat="server" CssClass="btn btn-secondary dropdown-toggle" Width="150px"></asp:DropDownList>
                     <asp:Button Text="Filtrar" CssClass="btn btn-info btn-md" ID="btnFiltrar" OnClick="btnFiltrar_Click" runat="server" />
                 </div>
             </div>

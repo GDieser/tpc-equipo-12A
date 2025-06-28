@@ -37,8 +37,10 @@ namespace Servicio
                         Categoria = new Categoria
                         {
                             IdCategoria = (int)datos.Lector["IdCategoria"],
-                            Nombre = (string)datos.Lector["NombreCategoria"]
+                            Nombre = !(bool)datos.Lector["ActivoCategoria"] ? "Sin Categoría" : (string)datos.Lector["NombreCategoria"],
+                            Activo = (bool)datos.Lector["ActivoCategoria"]
                         },
+
 
                         ImagenPortada = datos.Lector["IdImagen"] != DBNull.Value
                                         ? new Imagen
@@ -145,6 +147,7 @@ namespace Servicio
 
                 datos.cerrarConexion();
 
+                datos.limpiarParametros();
 
                 datos.setProcedimiento(@"sp_InsertarCurso");
 
@@ -160,10 +163,12 @@ namespace Servicio
                 datos.setParametro("@certificado", nuevo.Certificado);
 
                 datos.ejecutarLectura();
+
                 if (datos.Lector.Read())
                     nuevo.IdCurso = Convert.ToInt32(datos.Lector[0]);
 
                 datos.cerrarConexion();
+                datos.limpiarParametros();
 
                 datos.setConsulta("INSERT INTO ImagenCurso (IdImagen, IdCurso) VALUES (@idimg, @idcurso)");
                 datos.setParametro("@idimg", idImagen);

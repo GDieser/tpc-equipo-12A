@@ -80,6 +80,25 @@
                                     ErrorMessage="⚠️ La introducción no puede estar vacía"
                                     Display="Dynamic" />
 
+
+                                <!-- Agregado para videos de yt -->
+                                <div class="mb-3">
+                                    <label class="form-label">URL Video</label>
+                                    <asp:TextBox ID="txtUrl" runat="server" Placeholder="URL de YouTube" CssClass="form-control bg-dark text-white fs-5 mb-3" />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Ancho del Video</label>
+                                            <asp:TextBox ID="txtAncho" runat="server" Placeholder="Ancho" CssClass="form-control bg-dark text-white" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Alto del Video</label>
+                                            <asp:TextBox ID="txtAlto" runat="server" Placeholder="Alto" CssClass="form-control bg-dark text-white" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Agregado para videos de yt -->
+
                                 <div class="mb-3">
                                     <label for="txtContenidoHTML" class="form-label">Contenido</label>
                                     <textarea id="txtContenidoHTML" runat="server" class="form-control bg-dark text-white" rows="20"></textarea>
@@ -136,6 +155,13 @@
                                 Text="Editar Contenido"
                                 OnClick="btnAgregarContenido_Click" />
                         </div>
+
+
+                        <div style="text-align: center;">
+                            <asp:Literal ID="litIframe" runat="server" />
+                        </div>
+
+
                         <hr class="mt-2 mb-2" />
                         <div class="literal">
                             <asp:Literal ID="litContenido" runat="server" />

@@ -11,52 +11,70 @@ namespace TPC_Equipo_12A
 {
 
 
-    public partial class ListaCurso
+    public partial class ListaCategoriasAdmin
     {
 
         /// <summary>
-        /// ddlFiltrar control.
+        /// dgvCategorias control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlFiltrar;
+        protected global::System.Web.UI.WebControls.GridView dgvCategorias;
 
         /// <summary>
-        /// btnFiltrarCursos control.
+        /// btnAgregarCategoria control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFiltrarCursos;
+        protected global::System.Web.UI.WebControls.Button btnAgregarCategoria;
 
         /// <summary>
-        /// ddlFiltroCategoria control.
+        /// panelModalEditarCategoria control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlFiltroCategoria;
+        protected global::System.Web.UI.WebControls.Panel panelModalEditarCategoria;
 
         /// <summary>
-        /// btnFiltrar control.
+        /// hfIdEditarCategoria control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFiltrar;
+        protected global::System.Web.UI.WebControls.HiddenField hfIdEditarCategoria;
 
         /// <summary>
-        /// rptCursos control.
+        /// txtEditarNombreCategoria control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptCursos;
+        protected global::System.Web.UI.WebControls.TextBox txtEditarNombreCategoria;
+
+        /// <summary>
+        /// chkEditarActivo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkEditarActivo;
+
+        /// <summary>
+        /// btnGuardarEdicionCategoria control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnGuardarEdicionCategoria;
     }
 }

@@ -63,15 +63,16 @@ namespace TPC_Equipo_12A
             }
         }
 
-        private void cargarCategorias()
+        protected void cargarCategorias()
         {
             CategoriaServicio servicio = new CategoriaServicio();
-            ddlCategoria.DataSource = servicio.listar();
+            ddlCategoria.DataSource = servicio.ListarActivas();
             ddlCategoria.DataTextField = "Nombre";
             ddlCategoria.DataValueField = "IdCategoria";
             ddlCategoria.DataBind();
             ddlCategoria.Items.Add(new ListItem("Nueva categoría", "-1"));
         }
+
         protected void btnGuardarCategoriaModal_Click(object sender, EventArgs e)
         {
             string nombre = txtNuevaCategoriaModal.Text.Trim();
@@ -81,6 +82,14 @@ namespace TPC_Equipo_12A
             Categoria nueva = servicio.AgregarCategoriaSiNoExiste(nombre);
 
             cargarCategorias();
+
+            ListItem item = ddlCategoria.Items.FindByValue(nueva.IdCategoria.ToString());
+
+            if (item == null)
+            {
+                ddlCategoria.Items.Add(new ListItem(nueva.Nombre, nueva.IdCategoria.ToString()));
+            }
+
             ddlCategoria.SelectedValue = nueva.IdCategoria.ToString();
             txtNuevaCategoriaModal.Text = string.Empty;
 
@@ -92,8 +101,6 @@ namespace TPC_Equipo_12A
             }
         }, 200);", true);
         }
-
-
 
 
         private void cargarEstados()

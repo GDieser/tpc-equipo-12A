@@ -45,13 +45,16 @@ namespace TPC_Equipo_12A
             if (!IsPostBack)
             {
                 CategoriaServicio ser = new CategoriaServicio();
-                List<Categoria> lista = ser.listar();
+                List<Categoria> lista = ser.ListarActivas();
 
                 ddlFiltro.DataSource = lista;
                 ddlFiltro.DataValueField = "IdCategoria";
                 ddlFiltro.DataTextField = "Nombre";
                 ddlFiltro.DataBind();
                 ddlFiltro.Items.Insert(0, new ListItem("Todo", "0"));
+
+                ddlFiltrar.Items.Insert(0, new ListItem("Más Recientes", "0"));
+                ddlFiltrar.Items.Insert(1, new ListItem("Más Antiguos", "1"));
 
                 CargarNovedades();
             }
@@ -174,6 +177,42 @@ namespace TPC_Equipo_12A
             CargarNovedades();
         }
 
+        protected void btnFiltrarNovedades_Click(object sender, EventArgs e)
+        {
+            NovedadesServicio servicio = new NovedadesServicio();
+            ListaPublicaciones = servicio.ListarPublicaciones();
+            List<Publicacion> listaFiltrada = new List<Publicacion>();
 
+
+            if (ddlFiltrar.SelectedValue == "0")
+            {
+                foreach (var publi in ListaPublicaciones)
+                {
+                    if (publi.Estado == EstadoPublicacion.Publicado)
+                    {
+                        listaFiltrada.Add(publi);
+                    }
+                }
+
+                rptNovedades.DataSource = listaFiltrada;
+                rptNovedades.DataBind();
+            }
+            else
+            {
+                List<Categoria> aux = new List<Categoria>();
+
+                foreach (var publi in ListaPublicaciones)
+                {
+                    if (publi.Estado == EstadoPublicacion.Publicado)
+                    {
+                        listaFiltrada.Add(publi);
+                    }
+                }
+
+                rptNovedades.DataSource = listaFiltrada.OrderBy(c => c.FechaPublicacion).ToList();
+                rptNovedades.DataBind();
+
+            }
+        }
     }
 }
