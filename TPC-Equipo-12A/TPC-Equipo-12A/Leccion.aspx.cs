@@ -91,7 +91,16 @@ namespace TPC_Equipo_12A
                 litTitulo.Text = leccion.Titulo;
                 litDescripcion.Text = leccion.Introduccion;
                 litContenido.Text = leccion.Contenido;
-                litIframe.Text = leccion.IframeVideo;
+
+                litIframe.Visible = false;
+                if (leccion.IframeVideo != null || leccion.IframeVideo != "")
+                {
+                    litIframe.Visible = true;
+                    litIframe.Text = leccion.IframeVideo;
+
+                }
+
+
                 Session["Leccion"] = leccion;
                 phContenido.Visible = false;
 
@@ -174,11 +183,21 @@ namespace TPC_Equipo_12A
                 Dominio.Leccion leccion = (Dominio.Leccion)Session["Leccion"];
 
                 //Para vid de yt :O
-                string alto = txtAlto.Text;
-                string ancho = txtAncho.Text;
-                string url = txtUrl.Text;
-                string videoId = ObtenerIdDeYoutube(url);
-                string iframe = $"<iframe width=\"{ancho}\" height=\"{alto}\" src=\"https://www.youtube.com/embed/{videoId}\" ></iframe>";
+                string alto = txtAlto.Text.Trim();
+                string ancho = txtAncho.Text.Trim();
+                string url = txtUrl.Text.Trim();
+
+                string videoId = null;
+                string iframe = null;
+
+                if (!string.IsNullOrEmpty(url) && !string.IsNullOrEmpty(ancho) && !string.IsNullOrEmpty(alto))
+                {
+                    videoId = ObtenerIdDeYoutube(url);
+                    if (!string.IsNullOrEmpty(videoId))
+                    {
+                        iframe = $"<iframe width=\"{ancho}\" height=\"{alto}\" src=\"https://www.youtube.com/embed/{videoId}\" ></iframe>";
+                    }
+                }
 
                 if (leccion != null)
                 {
@@ -186,10 +205,20 @@ namespace TPC_Equipo_12A
                     leccion.Introduccion = txtIntroduccion.Text;
                     leccion.Contenido = contenidoHtml;
 
-                    leccion.AnchoVideo = Convert.ToInt32(txtAncho.Text);
-                    leccion.AltoVideo = Convert.ToInt32(txtAlto.Text);
-                    leccion.UrlVideo = txtUrl.Text;
-                    leccion.IframeVideo = iframe;
+
+                    if (!string.IsNullOrEmpty(ancho) && int.TryParse(ancho, out int anchoParsed))
+                        leccion.AnchoVideo = anchoParsed;
+                    else
+                        leccion.AnchoVideo = null;
+
+                    if (!string.IsNullOrEmpty(alto) && int.TryParse(alto, out int altoParsed))
+                        leccion.AltoVideo = altoParsed;
+                    else
+                        leccion.AltoVideo = null;
+
+                    leccion.UrlVideo = !string.IsNullOrEmpty(url) ? url : null;
+                    leccion.IframeVideo = !string.IsNullOrEmpty(iframe) ? iframe : null;
+
 
                     Session["Leccion"] = leccion;
                     litContenido.Text = leccion.Contenido;
@@ -241,7 +270,7 @@ namespace TPC_Equipo_12A
 
             txtUrl.Text = leccion.UrlVideo;
             txtAlto.Text = leccion.AltoVideo.ToString();
-            txtAncho.Text = leccion.AnchoVideo.ToString();   
+            txtAncho.Text = leccion.AnchoVideo.ToString();
 
             phContenido.Visible = true;
             btnAgregarContenido.Visible = false;

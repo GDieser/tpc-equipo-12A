@@ -57,12 +57,12 @@ namespace Servicio
                         IdModulo = (int)accesoDatos.Lector["IdModulo"],
                         NombreModulo = accesoDatos.Lector["NombreModulo"].ToString(),
                         Completado = accesoDatos.Lector["EsFinalizado"] != DBNull.Value && (bool)accesoDatos.Lector["EsFinalizado"],
-                        
-                        
-                        AltoVideo = (int)accesoDatos.Lector["AltoVideo"],
-                        AnchoVideo = (int)accesoDatos.Lector["AnchoVideo"],
-                        UrlVideo = accesoDatos.Lector["UrlVideo"].ToString(),
-                        IframeVideo = accesoDatos.Lector["IframeVideo"].ToString()
+
+
+                        AltoVideo = accesoDatos.Lector["AltoVideo"] != DBNull.Value ? (int?)accesoDatos.Lector["AltoVideo"] : null,
+                        AnchoVideo = accesoDatos.Lector["AnchoVideo"] != DBNull.Value ? (int?)accesoDatos.Lector["AnchoVideo"] : null,
+                        UrlVideo = accesoDatos.Lector["UrlVideo"] != DBNull.Value ? accesoDatos.Lector["UrlVideo"].ToString() : "",
+                        IframeVideo = accesoDatos.Lector["IframeVideo"] != DBNull.Value ? accesoDatos.Lector["IframeVideo"].ToString() : ""
                     };
                     return leccion;
                 }
@@ -208,8 +208,8 @@ namespace Servicio
                 datos.setParametro("@Orden", leccion.Orden);
 
 
-                datos.setParametro("@AltoVideo", leccion.AltoVideo);
-                datos.setParametro("@AnchoVideo", leccion.AnchoVideo);
+                datos.setParametro("@AltoVideo", leccion.AltoVideo ?? (object)DBNull.Value);
+                datos.setParametro("@AnchoVideo", leccion.AnchoVideo ?? (object)DBNull.Value);
                 datos.setParametro("@UrlVideo", leccion.UrlVideo ?? (object)DBNull.Value);
                 datos.setParametro("@IframeVideo", leccion.IframeVideo ?? (object)DBNull.Value);
 

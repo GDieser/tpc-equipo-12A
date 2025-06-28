@@ -90,12 +90,12 @@ namespace TPC_Equipo_12A
             txtNuevaCategoriaModal.Text = string.Empty;
 
             ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal", @"
-     setTimeout(function() {
-         var modal = bootstrap.Modal.getInstance(document.getElementById('modalNuevaCategoria'));
-         if (modal) {
-             modal.hide();
-         }
-     }, 200);", true);
+             setTimeout(function() {
+                 var modal = bootstrap.Modal.getInstance(document.getElementById('modalNuevaCategoria'));
+                 if (modal) {
+                     modal.hide();
+                 }
+             }, 200);", true);
         }
 
 

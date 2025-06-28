@@ -24,8 +24,8 @@ namespace Dominio
 
 
         //Para videos de yt
-        public int AltoVideo { get; set; }
-        public int AnchoVideo { get; set; }
+        public int? AltoVideo { get; set; }
+        public int? AnchoVideo { get; set; }
         public string UrlVideo { get; set; }
         public string IframeVideo { get; set; }
     }

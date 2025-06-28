@@ -156,9 +156,11 @@
                                 OnClick="btnAgregarContenido_Click" />
                         </div>
 
+
                         <div style="text-align: center;">
                             <asp:Literal ID="litIframe" runat="server" />
                         </div>
+
 
                         <hr class="mt-2 mb-2" />
                         <div class="literal">

@@ -1,3 +1,6 @@
+
+USE TPC_CURSOS_G12A
+GO
 --********************************************************************************************************
 --Procedimientos almacenados:
 
@@ -197,8 +200,7 @@ END
 
 GO
 
-
-ALTER PROCEDURE [dbo].[sp_ListarPublicaciones]
+CREATE PROCEDURE sp_ListarPublicaciones
 AS
 BEGIN
     SELECT 
@@ -461,7 +463,7 @@ END;
 
 GO
 
-ALTER PROCEDURE [dbo].[sp_ListarCursosPorRol]
+CREATE PROCEDURE sp_ListarCursosPorRol
     @RolUsuario INT
 AS
 BEGIN
