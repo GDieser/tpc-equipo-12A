@@ -77,11 +77,13 @@ namespace Servicio
 
         public Categoria AgregarCategoriaSiNoExiste(string nombre)
         {
+            string nombreNormalizado = nombre.Trim().ToUpper();
             AccesoDatos datos = new AccesoDatos();
+
             try
             {
-                datos.setConsulta("SELECT IdCategoria, Nombre, Activo FROM Categoria WHERE Nombre = @nombre");
-                datos.setParametro("@nombre", nombre);
+                datos.setConsulta("SELECT IdCategoria, Nombre, Activo FROM Categoria WHERE UPPER(Nombre) = @nombre");
+                datos.setParametro("@nombre", nombreNormalizado);
                 datos.ejecutarLectura();
 
                 if (datos.Lector.Read())
@@ -111,15 +113,15 @@ namespace Servicio
                 datos.cerrarConexion();
 
                 datos = new AccesoDatos();
-                datos.setConsulta("INSERT INTO Categoria (Nombre, Activo) OUTPUT INSERTED.IdCategoria VALUES (@nombre, 1)");
-                datos.setParametro("@nombre", nombre);
+                datos.setConsulta("INSERT INTO Categoria (Nombre, Activo) OUTPUT INSERTED.IdCategoria VALUES (@nombreReal, 1)");
+                datos.setParametro("@nombreReal", nombre.Trim());
                 datos.ejecutarLectura();
 
                 Categoria nueva = new Categoria();
                 if (datos.Lector.Read())
                 {
                     nueva.IdCategoria = (int)datos.Lector[0];
-                    nueva.Nombre = nombre;
+                    nueva.Nombre = nombre.Trim();
                     nueva.Activo = true;
                 }
 
