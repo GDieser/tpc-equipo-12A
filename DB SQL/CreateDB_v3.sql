@@ -112,12 +112,12 @@ CREATE TABLE Leccion(
 );
 
 -- AGREGADO PARA VIDEO DE YT
-ALTER TABLE Leccion
+/*ALTER TABLE Leccion
 ADD 
     AltoVideo INT,
     AnchoVideo INT,
     UrlVideo VARCHAR(255),
-	IframeVideo VARCHAR(MAX);
+	IframeVideo VARCHAR(MAX);*/
 
 
 CREATE TABLE LeccionUsuario(
