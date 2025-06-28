@@ -636,7 +636,7 @@ namespace Servicio
 
                 int idCarrito = carrito.IdCarrito;
 
-                datos.setConsulta("SELECT IdCarrito, IdCurso, PrecioUnitario FROM CarritoCurso WHERE IdCarrito = @idCarrito");
+                datos.setConsulta("SELECT cc.IdCarrito, cc.IdCurso, cc.PrecioUnitario, c.Titulo as Nombre FROM CarritoCurso cc INNER JOIN Curso c ON c.IdCurso = cc.IdCurso WHERE IdCarrito = @idCarrito");
                 datos.setParametro("@idCarrito", idCarrito);
 
                 datos.ejecutarLectura();
@@ -649,6 +649,7 @@ namespace Servicio
 
                     cursoaux.IdCarrito = idCarrito;
                     cursoaux.IdCurso = (int)datos.Lector["IdCurso"];
+                    cursoaux.Nombre = datos.Lector["Nombre"].ToString();
                     cursoaux.Precio = (decimal)datos.Lector["PrecioUnitario"];
 
                     carrito.CarritoCursos.Add(cursoaux);

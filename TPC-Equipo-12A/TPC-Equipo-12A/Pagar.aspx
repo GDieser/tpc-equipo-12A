@@ -17,7 +17,7 @@
             </HeaderTemplate>
             <ItemTemplate>
                 <tr>
-                    <td><%# Eval("Titulo") %></td>
+                    <td><%# Eval("Nombre") %></td>
                     <td>$<%# Eval("Precio", "{0:N2}") %></td>
                 </tr>
             </ItemTemplate>

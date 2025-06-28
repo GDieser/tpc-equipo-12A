@@ -34,7 +34,7 @@
                             <p class="card-text text-center">
                                 Total: <strong>$<asp:Label ID="lblTotal" runat="server" Text="0.00" /></strong>
                             </p>
-                            <asp:Button ID="btnComprar" runat="server" Text="🛒 Comprar" CssClass="btn btn-success w-100 mt-3" />
+                            <asp:HyperLink ID="hlComprar" runat="server" NavigateUrl="Pagar.aspx" CssClass="btn btn-success w-100 mt-3" Text="🛒 Comprar" />
                         </div>
                     </div>
                 </div>
