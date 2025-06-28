@@ -214,3 +214,5 @@ CREATE TABLE NotificacionAdmin(
     FOREIGN KEY (IdAdministrador) REFERENCES Usuario(IdUsuario)
 );
 
+ALTER TABLE Carrito ADD IDOperacion VARCHAR(60); -- Para almacenar el Id de operacion de MP
+
