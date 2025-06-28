@@ -71,11 +71,11 @@
             <div class="col-md-4">
                 <div class="mb-3">
                     <label for="ddlCategoria" class="form-label fw-bold">Categoria: <span style="color: red">*</span> </label>
-                    <asp:DropDownList ID="ddlCategoria" runat="server" CssClass="form-select">
-                    </asp:DropDownList>
+                   <asp:DropDownList ID="ddlCategoria" runat="server" CssClass="form-select" onchange="handleCategoriaChange(this)"></asp:DropDownList>
+
                     <asp:RequiredFieldValidator ID="rfvCategoria" runat="server"
                         ControlToValidate="ddlCategoria"
-                        InitialValue=""
+                        InitialValue="-1"
                         ErrorMessage="Debes seleccionar una categoria."
                         Display="Dynamic" ForeColor="Red" CssClass="small" />
                 </div>
@@ -142,4 +142,37 @@
         </div>
     </div>
     <hr />
+    <asp:Panel ID="panelModalCategoria" runat="server">
+    <div class="modal fade" id="modalNuevaCategoria" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Agregar categoría</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <asp:TextBox ID="txtNuevaCategoriaModal" runat="server" CssClass="form-control" />
+                </div>
+                <div class="modal-footer">
+                   <asp:Button ID="btnGuardarCategoriaModal" runat="server" 
+    Text="Guardar" CssClass="btn btn-primary"
+    OnClick="btnGuardarCategoriaModal_Click"
+    UseSubmitBehavior="false"
+    CausesValidation="false" />
+
+                </div>
+            </div>
+        </div>
+    </div>
+</asp:Panel>
+
+
+    <script>
+        function handleCategoriaChange(select) {
+            if (select.value === '-1') {
+                var modal = new bootstrap.Modal(document.getElementById('modalNuevaCategoria'));
+                modal.show();
+            }
+        }
+    </script>
 </asp:Content>

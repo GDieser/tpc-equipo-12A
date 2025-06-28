@@ -25,13 +25,8 @@ namespace TPC_Equipo_12A
 
                 if (!IsPostBack)
                 {
-                    CategoriaServicio servicio = new CategoriaServicio();
-                    List<Categoria> lista = servicio.ListarActivas();
+                    cargarCategorias();
 
-                    ddlCategoria.DataSource = lista;
-                    ddlCategoria.DataValueField = "IdCategoria";
-                    ddlCategoria.DataTextField = "Nombre";
-                    ddlCategoria.DataBind();
 
                     ddlEstado.Items.Add(new ListItem("Borrador", "0"));
                     ddlEstado.Items.Add(new ListItem("Publicado", "1"));
@@ -63,6 +58,47 @@ namespace TPC_Equipo_12A
                 Response.Redirect("Error.aspx");
             }
         }
+
+        protected void cargarCategorias()
+        {
+            CategoriaServicio servicio = new CategoriaServicio();
+            ddlCategoria.DataSource = servicio.ListarActivas();
+            ddlCategoria.DataTextField = "Nombre";
+            ddlCategoria.DataValueField = "IdCategoria";
+            ddlCategoria.DataBind();
+            ddlCategoria.Items.Add(new ListItem("Nueva categoría", "-1"));
+        }
+
+        protected void btnGuardarCategoriaModal_Click(object sender, EventArgs e)
+        {
+            string nombre = txtNuevaCategoriaModal.Text.Trim();
+            if (nombre.Length == 0) return;
+
+            CategoriaServicio servicio = new CategoriaServicio();
+            Categoria nueva = servicio.AgregarCategoriaSiNoExiste(nombre);
+
+            cargarCategorias();
+
+            ListItem item = ddlCategoria.Items.FindByValue(nueva.IdCategoria.ToString());
+
+            if (item == null)
+            {
+                ddlCategoria.Items.Add(new ListItem(nueva.Nombre, nueva.IdCategoria.ToString()));
+            }
+
+            ddlCategoria.SelectedValue = nueva.IdCategoria.ToString();
+            txtNuevaCategoriaModal.Text = string.Empty;
+
+            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal", @"
+     setTimeout(function() {
+         var modal = bootstrap.Modal.getInstance(document.getElementById('modalNuevaCategoria'));
+         if (modal) {
+             modal.hide();
+         }
+     }, 200);", true);
+        }
+
+
 
         protected void txtImagen_TextChanged(object sender, EventArgs e)
         {

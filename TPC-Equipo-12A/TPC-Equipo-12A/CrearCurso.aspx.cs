@@ -63,7 +63,7 @@ namespace TPC_Equipo_12A
             }
         }
 
-        private void cargarCategorias()
+        protected void cargarCategorias()
         {
             CategoriaServicio servicio = new CategoriaServicio();
             ddlCategoria.DataSource = servicio.ListarActivas();
