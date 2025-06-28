@@ -2,8 +2,7 @@
 --Procedimientos almacenados:
 
 --Comentarios: 
-USE TPC_CURSOS_G12A
-GO
+
 
 CREATE PROCEDURE sp_ObtenerComentariosPorOrigen
     @IdOrigen INT
@@ -181,7 +180,7 @@ END
 GO
 --Novedades
 
-/*CREATE PROCEDURE sp_ListarPublicaciones
+CREATE PROCEDURE sp_ListarPublicaciones
 AS
 BEGIN
     SELECT 
@@ -196,7 +195,7 @@ BEGIN
 	ORDER BY P.FechaPublicacion DESC;
 END
 
-GO*/
+GO
 
 
 ALTER PROCEDURE [dbo].[sp_ListarPublicaciones]
@@ -434,7 +433,7 @@ GO
 --*******************************************************************************--
 ---Parte de cursos
 
-/*CREATE PROCEDURE sp_ListarCursosPorRol
+CREATE PROCEDURE sp_ListarCursosPorRol
     @RolUsuario INT
 AS
 BEGIN
@@ -458,8 +457,9 @@ BEGIN
     LEFT JOIN Imagen I ON I.IdImagen = IC.IdImagen
     WHERE (@RolUsuario = 0 OR C.Estado = 1)
 	ORDER BY C.FechaPublicacion DESC;
-END;*/
+END;
 
+GO
 
 ALTER PROCEDURE [dbo].[sp_ListarCursosPorRol]
     @RolUsuario INT

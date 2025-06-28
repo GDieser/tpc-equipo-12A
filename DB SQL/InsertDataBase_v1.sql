@@ -1,8 +1,4 @@
 
-USE TPC_CURSOS_G12A
-
-GO
-
 --Insert Para categoria
 
 INSERT INTO Categoria (Nombre) VALUES('base de datos');
