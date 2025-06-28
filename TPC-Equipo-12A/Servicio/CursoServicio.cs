@@ -126,7 +126,6 @@ namespace Servicio
             }
         }
 
-
         public int GuardarCurso(Curso nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -182,8 +181,6 @@ namespace Servicio
                 datos.cerrarConexion();
             }
         }
-
-        /*public List<Curso> ObtenerCursosPorCategoria(int idCategoria)*/
 
         public void ModificarCurso(Curso curso)
         {
@@ -607,6 +604,7 @@ namespace Servicio
 
         }
 
+        // Metodo que devuelve el carrito (con el detalle) mediante el idUsuario
         public Carrito ListarCursoCarrito(int idUsuario)
         {
             //List<Carrito> carritos = new List<Carrito>();
@@ -666,6 +664,65 @@ namespace Servicio
             }
 
         }
+
+        // Metodo que devuelve el carrito (con el detalle) mediante el idCarrito
+        public Carrito getCarritoPorIdCarrito(int idCarrito)
+        {
+            Carrito carrito = new Carrito();
+            CarritoCurso curso = new CarritoCurso();
+            try
+            {
+                datos.setConsulta(@"SELECT IdCarrito, IdUsuario, FechaCreacion, UltimaModificacion, EstadoCarrito 
+                                    FROM Carrito 
+                                    WHERE IdCarrito = @idCarrito AND EstadoCarrito = 0");
+                datos.setParametro("@idCarrito", idCarrito);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    carrito.IdCarrito = (int)datos.Lector["IdCarrito"];
+                    carrito.IdUsuario = (int)datos.Lector["IdUsuario"];
+                    carrito.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
+                    carrito.UltimaModificacion = (DateTime)datos.Lector["UltimaModificacion"];
+                    carrito.Estado = (EstadoCarrito)datos.Lector["EstadoCarrito"];
+
+                }
+                datos.cerrarConexion();
+
+                datos.setConsulta("SELECT IdCarrito, IdCurso, PrecioUnitario FROM CarritoCurso WHERE IdCarrito = @idCarrito");
+                datos.setParametro("@idCarrito", idCarrito);
+
+                datos.ejecutarLectura();
+
+                carrito.CarritoCursos = new List<CarritoCurso>();
+
+                while (datos.Lector.Read())
+                {
+                    CarritoCurso cursoaux = new CarritoCurso();
+
+                    cursoaux.IdCarrito = idCarrito;
+                    cursoaux.IdCurso = (int)datos.Lector["IdCurso"];
+                    cursoaux.Precio = (decimal)datos.Lector["PrecioUnitario"];
+
+                    carrito.CarritoCursos.Add(cursoaux);
+                }
+
+                return carrito;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Error al cargar el carrito desde la BD",ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+        }
+
 
         public void CrearCarrito(int idUsuario, int idCurso, decimal monto)
         {
@@ -824,6 +881,86 @@ namespace Servicio
                 return false;
 
             return curso.Modulos.All(m => m.Lecciones != null && m.Lecciones.All(l => l.Completado));
+        }
+
+
+        public void AsignarIdOperacionCarrito(Carrito carrito)
+        {
+            AccesoDatos accesoDatos = new AccesoDatos();
+            try
+            {
+                accesoDatos.limpiarParametros();
+                accesoDatos.setConsulta("UPDATE Carrito SET IDOperacion = @idOperacion WHERE IdCarrito = @idCarrito");
+                accesoDatos.setParametro("@idOperacion", carrito.IDOperacion);
+                accesoDatos.setParametro("@idCarrito", carrito.IdCarrito);
+                accesoDatos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al actualizar la compra:", ex);
+            }
+            finally
+            {
+                accesoDatos.cerrarConexion();
+            }
+        }
+
+        public Carrito getCarritoPorIdOperacion(string iDOperacion)
+        {
+            Carrito carrito = new Carrito();
+            try
+            {
+                datos.setConsulta(@"SELECT IdCarrito, IdUsuario, FechaCreacion, UltimaModificacion, EstadoCarrito 
+                                    FROM Carrito 
+                                    WHERE IDOperacion = @idOperacion AND EstadoCarrito = 0");
+                datos.setParametro("@idOperacion", iDOperacion);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    carrito.IdCarrito = (int)datos.Lector["IdCarrito"];
+                    carrito.IdUsuario = (int)datos.Lector["IdUsuario"];
+                    carrito.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
+                    carrito.UltimaModificacion = (DateTime)datos.Lector["UltimaModificacion"];
+                    carrito.Estado = (EstadoCarrito)datos.Lector["EstadoCarrito"];
+
+                }
+                else
+                {
+                    return null;
+                }
+
+                datos.cerrarConexion();
+
+                datos.limpiarParametros();
+                datos.setConsulta("SELECT IdCarrito, IdCurso, PrecioUnitario FROM CarritoCurso WHERE IdCarrito = @idCarrito");
+                datos.setParametro("@idCarrito", carrito.IdCarrito);
+                datos.ejecutarLectura();
+
+                carrito.CarritoCursos = new List<CarritoCurso>();
+
+                while (datos.Lector.Read())
+                {
+                    carrito.CarritoCursos.Add(new CarritoCurso
+                    {
+                        IdCarrito = carrito.IdCarrito,
+                        IdCurso = (int)datos.Lector["IdCurso"],
+                        Precio = (decimal)datos.Lector["PrecioUnitario"]
+                    });
+                }
+
+                return carrito;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Error al cargar el carrito desde la BD", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
     }
 }

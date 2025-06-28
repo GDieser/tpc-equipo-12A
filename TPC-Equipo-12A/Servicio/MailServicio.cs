@@ -50,7 +50,7 @@ namespace Servicio
                     return false;
                 }
             }
-        }    
+        }
 
         public void EnviarCorreoBienvenida(Usuario usuario)
         {
@@ -149,6 +149,93 @@ namespace Servicio
                 </div>
             </body>
             </html>";
+        }
+
+        private string GenerarCuerpoHtmlSimplificado(string titulo, string mensajePersonalizado, string botonTexto, string enlace)
+        {
+            return $@"
+            <html>
+            <head>
+                <style>
+                    body {{
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                        background-color: #f2f4f6;
+                        padding: 40px;
+                    }}
+                    .container {{
+                        max-width: 600px;
+                        margin: auto;
+                        background-color: #ffffff;
+                        padding: 30px;
+                        border-radius: 10px;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                    }}
+                    h1 {{ color: #343a40; }}
+                    p {{ color: #555; line-height: 1.6; }}
+                    .btn {{
+                        display: inline-block;
+                        background-color: #007bff;
+                        color: white;
+                        padding: 12px 24px;
+                        margin-top: 20px;
+                        text-decoration: none;
+                        font-weight: bold;
+                        border-radius: 6px;
+                        transition: background-color 0.3s ease;
+                    }}
+                    .btn:hover {{ background-color: #0056b3; }}
+                    .footer {{
+                        margin-top: 40px;
+                        font-size: 12px;
+                        color: #999;
+                        text-align: center;
+                    }}
+                    @media (max-width: 600px) {{
+                        body {{ padding: 10px; }}
+                        .container {{ width: 90%; padding: 15px; }}
+                        h1 {{ font-size: 20px; }}
+                        p {{ font-size: 14px; }}
+                        .btn {{ padding: 10px 18px; font-size: 14px; }}
+                    }}
+                </style>
+            </head>
+            <body>
+                <div class='container'>
+                    <h1>{titulo}</h1>
+                    <p>{mensajePersonalizado}</p>
+                    <br />
+                    <p>Saludos cordiales,<br /><strong>El equipo de MisCursos.com</strong></p>
+                    <div class='footer'>
+                        &copy; {DateTime.Now.Year} MisCursos.com · Todos los derechos reservados.
+                    </div>
+                </div>
+            </body>
+            </html>";
+        }
+        public void EnviarConfirmacionCompra(Usuario usuario)
+        {
+            string cuerpo = GenerarCuerpoHtmlSimplificado(
+                $"¡Hola {usuario.Nombre}!",
+                $"Tu compra fue <strong>aprobada exitosamente</strong>. Ya podés acceder a los cursos desde tu perfil.",
+                "Ir a Mis Cursos",
+                ConfigurationManager.AppSettings["Dominio"] + "/MisCursos.aspx"
+            );
+
+            string asunto = $"🎉 ¡Compra confirmada en MisCursos.com!";
+            EnviarCorreo(cuerpo, usuario.Email, asunto);
+        }
+
+        public void EnviarCompraRechazada(Usuario usuario)
+        {
+            string cuerpo = GenerarCuerpoHtmlSimplificado(
+                $"¡Hola {usuario.Nombre}!",
+                $"Lamentablemente, tu compra fue <strong>rechazada</strong>. Puede haber sido un problema con el medio de pago. Podés volver a intentarlo desde tu carrito.",
+                "Volver al carrito",
+                ConfigurationManager.AppSettings["Dominio"] + "/Carrito.aspx"
+            );
+
+            string asunto = $"😞 Compra rechazada en MisCursos.com";
+            EnviarCorreo(cuerpo, usuario.Email, asunto);
         }
     }
 }

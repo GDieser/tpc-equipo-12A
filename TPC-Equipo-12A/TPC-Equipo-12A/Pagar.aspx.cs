@@ -41,16 +41,39 @@ namespace TPC_Equipo_12A
                 return;
             }
 
-            // Aca traigo los cursos por ID de CarritoCursos
+
             CursoServicio servicio = new CursoServicio();
             List<Dominio.Curso> cursos = new List<Dominio.Curso>();
-
-            foreach (var curso in carrito.CarritoCursos)
+            try
             {
-                cursos.Add(servicio.GetCursoPorId(curso.IdCurso));
+                foreach (var curso in carrito.CarritoCursos)
+                {
+                    cursos.Add(servicio.GetCursoPorId(curso.IdCurso));
+                }
             }
-            // ---------------------------------------------
-
+            catch (Exception ex)
+            {
+                MostrarMensaje("Error", $"Error al cargar el/los cursos: {ex.Message}", "error");
+            }
+            decimal total = carrito.CarritoCursos.Sum(c => c.Precio);
+            if (total == 0)
+            {
+                CompraServicio compraServicio = new CompraServicio();
+                UsuarioServicio usuarioServicio = new UsuarioServicio();
+                ServicioMail servicioMail = new ServicioMail();
+                try
+                {
+                    compraServicio.RegistrarCompra(carrito);
+                    Usuario usuario = usuarioServicio.BuscarPorId(carrito.IdUsuario);
+                    servicioMail.EnviarConfirmacionCompra(usuario);
+                    Response.Redirect("ExitoPago.aspx");
+                }
+                catch (Exception ex) 
+                {
+                    MostrarMensaje("Error", $"Error al procesar el curso gratuito: {ex.Message}", "error");
+                }
+                return;
+            }
             string accessToken = ConfigurationManager.AppSettings["MPAccessToken"];
 
             var items = new List<object>();
@@ -69,12 +92,14 @@ namespace TPC_Equipo_12A
             var preferencia = new
             {
                 items = items,
+                external_reference = carrito.IdCarrito.ToString(),
                 back_urls = new
                 {
-                    success = $"{dominioURL}Exito.aspx",
-                    failure = $"{dominioURL}Error.aspx",
-                    pending = $"{dominioURL}Pendiente.aspx"
+                    success = $"{dominioURL}ExitoPago.aspx",
+                    failure = $"{dominioURL}ErrorPago.aspx",
+                    pending = $"{dominioURL}PendientePago.aspx"
                 },
+                notification_url = $"{dominioURL}NotificacionMP.aspx",
                 auto_return = "approved"
             };
 
@@ -88,23 +113,39 @@ namespace TPC_Equipo_12A
                 writer.Write(json);
             try
             {
-
-
                 var response = (HttpWebResponse)request.GetResponse();
                 using (var reader = new StreamReader(response.GetResponseStream()))
                 {
                     string result = reader.ReadToEnd();
                     var jsonResponse = new JavaScriptSerializer().Deserialize<Dictionary<string, object>>(result);
+
+                    if (!jsonResponse.ContainsKey("init_point") || !jsonResponse.ContainsKey("id"))
+                        throw new Exception("La respuesta de Mercado Pago no contiene los datos esperados.");
+
                     string initPoint = jsonResponse["init_point"].ToString();
+                    string idOperacion = jsonResponse["id"].ToString();
+
+                    carrito.IDOperacion = idOperacion;
+                    CursoServicio cursoServicio = new CursoServicio();
+                    cursoServicio.AsignarIdOperacionCarrito(carrito);
 
                     Response.Redirect(initPoint);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                MostrarMensaje("Error", $"Error al procesar el pago: {ex.Message}", "error");
             }
+        }
+        private void MostrarMensaje(string titulo, string mensaje, string icono)
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "sweetalert",
+                $@"Swal.fire({{
+            title: '{titulo}',
+            text: '{mensaje}',
+            icon: '{icono}',
+            confirmButtonText: 'OK'
+        }});", true);
         }
     }
 }

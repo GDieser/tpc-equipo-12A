@@ -11,6 +11,7 @@ namespace Dominio
         public EstadoCarrito Estado { get; set; }
         public DateTime UltimaModificacion { get; set; }
         public decimal MontoTotal { get; set; }
+        public string IDOperacion { get; set; }
         public List<CarritoCurso> CarritoCursos { get; set; } = new List<CarritoCurso>();
     }
 }
