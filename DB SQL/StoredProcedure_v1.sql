@@ -181,7 +181,7 @@ END
 GO
 --Novedades
 
-CREATE PROCEDURE sp_ListarPublicaciones
+/*CREATE PROCEDURE sp_ListarPublicaciones
 AS
 BEGIN
     SELECT 
@@ -196,7 +196,30 @@ BEGIN
 	ORDER BY P.FechaPublicacion DESC;
 END
 
-GO
+GO*/
+
+
+ALTER PROCEDURE [dbo].[sp_ListarPublicaciones]
+AS
+BEGIN
+    SELECT 
+        P.IdPublicacion, 
+        P.IdCategoria, 
+        C.Nombre AS NombreCategoria,
+        C.Activo AS ActivoCategoria,
+        P.Titulo, 
+        P.Descripcion, 
+        P.Resumen, 
+        P.FechaCreacion, 
+        P.FechaPublicacion, 
+        P.Estado
+    FROM 
+        Publicacion P
+    LEFT JOIN 
+        Categoria C ON C.IdCategoria = P.IdCategoria;
+END
+
+Go
 
 CREATE PROCEDURE sp_ObtenerPublicacionPorId
     @id INT
@@ -411,7 +434,7 @@ GO
 --*******************************************************************************--
 ---Parte de cursos
 
-CREATE PROCEDURE sp_ListarCursosPorRol
+/*CREATE PROCEDURE sp_ListarCursosPorRol
     @RolUsuario INT
 AS
 BEGIN
@@ -435,6 +458,33 @@ BEGIN
     LEFT JOIN Imagen I ON I.IdImagen = IC.IdImagen
     WHERE (@RolUsuario = 0 OR C.Estado = 1)
 	ORDER BY C.FechaPublicacion DESC;
+END;*/
+
+
+ALTER PROCEDURE [dbo].[sp_ListarCursosPorRol]
+    @RolUsuario INT
+AS
+BEGIN
+    SELECT  
+        C.IdCurso, 
+        C.Titulo, 
+        C.Resumen, 
+        C.Descripcion, 
+        C.Precio, 
+        C.FechaPublicacion, 
+        C.Estado,
+        C.IdCategoria,
+        Cat.Nombre     AS NombreCategoria,
+        Cat.Activo     AS ActivoCategoria,
+        I.IdImagen,
+        I.UrlImagen    AS Url,
+        I.Nombre       AS NombreImagen,
+        I.IdTipoImagen AS Tipo
+    FROM Curso C
+    LEFT JOIN Categoria Cat ON Cat.IdCategoria = C.IdCategoria
+    LEFT JOIN ImagenCurso IC ON IC.IdCurso = C.IdCurso
+    LEFT JOIN Imagen I ON I.IdImagen = IC.IdImagen
+    WHERE (@RolUsuario = 0 OR C.Estado = 1);
 END;
 
 GO

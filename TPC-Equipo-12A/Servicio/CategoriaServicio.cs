@@ -86,11 +86,26 @@ namespace Servicio
 
                 if (datos.Lector.Read())
                 {
-                    Categoria existente = new Categoria();
-                    existente.IdCategoria = (int)datos.Lector["IdCategoria"];
-                    existente.Nombre = (string)datos.Lector["Nombre"];
-                    existente.Activo = (bool)datos.Lector["Activo"];
-                    return existente;
+                    int id = (int)datos.Lector["IdCategoria"];
+                    string nombreExistente = (string)datos.Lector["Nombre"];
+                    bool activo = (bool)datos.Lector["Activo"];
+
+                    datos.cerrarConexion();
+
+                    if (!activo)
+                    {
+                        datos = new AccesoDatos();
+                        datos.setConsulta("UPDATE Categoria SET Activo = 1 WHERE IdCategoria = @id");
+                        datos.setParametro("@id", id);
+                        datos.ejecutarAccion();
+                    }
+
+                    return new Categoria
+                    {
+                        IdCategoria = id,
+                        Nombre = nombreExistente,
+                        Activo = true
+                    };
                 }
 
                 datos.cerrarConexion();
@@ -119,7 +134,8 @@ namespace Servicio
                 datos.cerrarConexion();
             }
         }
-       
+
+
         public void ModificarConEstado(Categoria categoria)
         {
             AccesoDatos datos = new AccesoDatos();
