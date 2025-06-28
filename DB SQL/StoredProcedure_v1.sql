@@ -192,7 +192,8 @@ BEGIN
     FROM 
         Publicacion P
     INNER JOIN 
-        Categoria C ON C.IdCategoria = P.IdCategoria;
+        Categoria C ON C.IdCategoria = P.IdCategoria
+	ORDER BY P.FechaPublicacion DESC;
 END
 
 GO
@@ -432,7 +433,8 @@ BEGIN
     INNER JOIN Categoria Cat ON Cat.IdCategoria = C.IdCategoria
     LEFT JOIN ImagenCurso IC ON IC.IdCurso = C.IdCurso
     LEFT JOIN Imagen I ON I.IdImagen = IC.IdImagen
-    WHERE (@RolUsuario = 0 OR C.Estado = 1);
+    WHERE (@RolUsuario = 0 OR C.Estado = 1)
+	ORDER BY C.FechaPublicacion DESC;
 END;
 
 GO

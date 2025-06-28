@@ -32,9 +32,15 @@
         </div>
 
         <hr />
-        <div class="text-end">
-            <asp:DropDownList ID="ddlFiltroCategoria" runat="server" CssClass="btn btn-secondary dropdown-toggle" />
-            <asp:Button Text="Filtrar" CssClass="btn btn-info" ID="btnFiltrar" OnClick="btnFiltrar_Click" runat="server" />
+        <div class="d-flex justify-content-between">
+            <div>
+                <asp:DropDownList ID="ddlFiltrar" CssClass="btn btn-secondary dropdown-toggle" runat="server" />
+                <asp:Button Text="Filtrar" CssClass="btn btn-info" OnClick="btnFiltrarCursos_Click" ID="btnFiltrarCursos" runat="server" />
+            </div>
+            <div>
+                <asp:DropDownList ID="ddlFiltroCategoria" runat="server" CssClass="btn btn-secondary dropdown-toggle" />
+                <asp:Button Text="Filtrar" CssClass="btn btn-info" ID="btnFiltrar" OnClick="btnFiltrar_Click" runat="server" />
+            </div>
         </div>
         <br />
         <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-xl-4 g-3">
@@ -53,7 +59,8 @@
                                 <p class="card-text text-white"><%# Eval("Resumen") %></p>
                             </div>
 
-                            <div class="card-footer bg-transparent text-center border-0 mt-auto">
+                            <div class="card-footer bg-transparent text-center border-0 mt-auto d-flex justify-content-center align-items-center">
+                                <span class="badge bg-warning text-dark me-2 fs-6">$<%# Eval("Precio") %> (ARS)</span>
                                 <a href='DescripcionCurso.aspx?id=<%# Eval("IdCurso") %>'
                                     class="btn btn-outline-info btn-sm rounded-pill">Ver más
                                 </a>
