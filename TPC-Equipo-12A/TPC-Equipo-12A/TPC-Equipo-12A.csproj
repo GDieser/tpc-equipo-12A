@@ -102,6 +102,7 @@
     <Content Include="images\bg2.jpg" />
     <Content Include="images\bg3.jpg" />
     <Content Include="Leccion.aspx" />
+    <Content Include="ListaCategoriasAdmin.aspx" />
     <Content Include="ListaCursos.aspx" />
     <Content Include="ListaCursosAdmin.aspx" />
     <Content Include="ListaFaqs.aspx" />
@@ -166,6 +167,13 @@
     </Compile>
     <Compile Include="Leccion.aspx.designer.cs">
       <DependentUpon>Leccion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ListaCategoriasAdmin.aspx.cs">
+      <DependentUpon>ListaCategoriasAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ListaCategoriasAdmin.aspx.designer.cs">
+      <DependentUpon>ListaCategoriasAdmin.aspx</DependentUpon>
     </Compile>
     <Compile Include="ListaCursos.aspx.cs">
       <DependentUpon>ListaCursos.aspx</DependentUpon>
