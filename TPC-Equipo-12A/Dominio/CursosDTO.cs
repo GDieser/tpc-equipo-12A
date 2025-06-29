@@ -10,6 +10,7 @@ namespace Dominio
     {
         public int IdCurso { get; set; }
         public string NombreCurso { get; set; }
+        public string UrlImagen { get; set; }
         public string UrlCurso { get; set; }
         public List<ModuloDTO> Modulos { get; set; }
     }

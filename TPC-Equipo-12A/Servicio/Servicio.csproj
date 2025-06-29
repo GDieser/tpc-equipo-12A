@@ -81,6 +81,7 @@
     <Compile Include="ComentarioServicio.cs" />
     <Compile Include="CompraServicio.cs" />
     <Compile Include="CursoServicio.cs" />
+    <Compile Include="DebateServicio.cs" />
     <Compile Include="FaqServicio.cs" />
     <Compile Include="ImagenServicio.cs" />
     <Compile Include="LeccionServicio.cs" />

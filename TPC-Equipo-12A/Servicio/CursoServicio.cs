@@ -828,8 +828,11 @@ namespace Servicio
                     consulta = @"
                 SELECT 
                     c.IdCurso,
-                    c.Titulo
+                    c.Titulo,
+                	I.UrlImagen
                 FROM Curso c
+                INNER JOIN ImagenCurso IC ON IC.IdCurso = C.IdCategoria
+                INNER JOIN Imagen I ON I.IdImagen = IC.IdImagen 
             ";
                 }
                 else
@@ -837,10 +840,13 @@ namespace Servicio
                     consulta = @"
                 SELECT 
                     c.IdCurso,
-                    c.Titulo
+                    c.Titulo,
+                    I.UrlImagen
                 FROM Curso c
                 INNER JOIN DetalleCompra dc ON c.IdCurso = dc.IdCurso 
                 INNER JOIN Compra co ON dc.IdCompra = co.IdCompra
+                INNER JOIN ImagenCurso IC ON IC.IdCurso = C.IdCategoria
+                INNER JOIN Imagen I ON I.IdImagen = IC.IdImagen 
                 WHERE co.IdUsuario = @idUsuario AND c.Estado = 1
             ";
                 }
@@ -864,6 +870,7 @@ namespace Servicio
                     {
                         IdCurso = (int)accesoCursos.Lector["IdCurso"],
                         NombreCurso = accesoCursos.Lector["Titulo"].ToString(),
+                        UrlImagen = accesoCursos.Lector["UrlImagen"].ToString(),
                         UrlCurso = $"Curso.aspx?id={(int)accesoCursos.Lector["IdCurso"]}"
                     };
                     curso.Modulos = moduloServicio.ObtenerModulosDTOPorIdCurso(curso.IdCurso);
