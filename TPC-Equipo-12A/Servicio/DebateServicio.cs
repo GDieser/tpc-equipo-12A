@@ -27,7 +27,7 @@ namespace Servicio
                                 INNER JOIN Usuario U ON U.IdUsuario = D.IdUsuario
                                 INNER JOIN Imagen I ON U.FotoPerfil = I.IdImagen
                                 LEFT JOIN Comentario C 
-                                    ON C.TipoOrigen = 'curso' 
+                                    ON C.TipoOrigen = 'debates' 
                                     AND C.IdOrigen = D.IdDebate 
                                     AND C.EsEliminado = 0
                                 WHERE D.Activo = 1 AND D.IdOrigen = @IdOrigen AND EsAviso = @EsAviso
@@ -104,6 +104,7 @@ namespace Servicio
             try
             {
                 datos.setConsulta(@"SELECT 
+                                    D.IdOrigen,
                                     D.Titulo,
                                 	D.Contenido,
                                     D.FechaCreacion,
@@ -123,6 +124,7 @@ namespace Servicio
 
                 if(datos.Lector.Read())
                 {
+                    debate.IdOrigen = (int)datos.Lector["IdOrigen"];
                     debate.Titulo = datos.Lector["Titulo"].ToString();
                     debate.Contenido = datos.Lector["Contenido"].ToString();
                     debate.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];

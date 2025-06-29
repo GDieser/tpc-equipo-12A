@@ -15,7 +15,7 @@ namespace Servicio
         AccesoDatos datos = new AccesoDatos();
 
 
-        public List<Comentario> ListarPorOrigen(int idOrigen)
+        public List<Comentario> ListarPorOrigen(int idOrigen, string TipoOrigen = "novedades")
         {
             try
             {
@@ -24,6 +24,7 @@ namespace Servicio
                 datos.setProcedimiento(@"sp_ObtenerComentariosPorOrigen");
 
                 datos.setParametro("@IdOrigen", idOrigen);
+                datos.setParametro("@TipoOrigen", TipoOrigen);
 
                 datos.ejecutarLectura();
 
@@ -102,13 +103,16 @@ namespace Servicio
                     idAdmin = (int)datos.Lector["IdUsuario"];
                 }
 
-                datos.cerrarConexion();
-                datos.limpiarParametros();
+                if(idAdmin != comentario.IdUsuario)
+                {
+                    datos.cerrarConexion();
+                    datos.limpiarParametros();
 
-                datos.setConsulta("INSERT INTO NotificacionAdmin (IdComentario, FechaNotificacion, IdAdministrador) VALUES (@idComentario, GETDATE(), @idAdmin)");
-                datos.setParametro("@idComentario", idNuevoComentario);
-                datos.setParametro("@idAdmin", idAdmin); // Acá deberíamos ver quien es el admin por defecto... (listooo)
-                datos.ejecutarAccion();
+                    datos.setConsulta("INSERT INTO NotificacionAdmin (IdComentario, FechaNotificacion, IdAdministrador) VALUES (@idComentario, GETDATE(), @idAdmin)");
+                    datos.setParametro("@idComentario", idNuevoComentario);
+                    datos.setParametro("@idAdmin", idAdmin);
+                    datos.ejecutarAccion();
+                }
 
 
 
