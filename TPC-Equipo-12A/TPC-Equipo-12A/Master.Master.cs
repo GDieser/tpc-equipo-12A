@@ -133,7 +133,6 @@ namespace TPC_Equipo_12A
 
 
         }
-<<<<<<< Updated upstream
 
         protected void rptNotificaciones_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
         {
@@ -153,16 +152,30 @@ namespace TPC_Equipo_12A
                 Response.Redirect("ForoDetalle.aspx?id=" + idOrigen);
             }
         }
-=======
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
             string palabra = txtBuscar.Text.Trim();
-            if (string.IsNullOrWhiteSpace(palabra)) return;
+            if (string.IsNullOrWhiteSpace(palabra))
+            {
+                lblMensaje.Text = "Ingrese una palabra para buscar.";
+                lblMensaje.Visible = true;
+                return;
+            }
+
+            int rolUsuario = (int)Rol.Estudiante;
+            UsuarioAutenticado usuario = null;
+
+            if (Session["UsuarioAutenticado"] != null)
+            {
+                usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+                rolUsuario = (int)usuario.Rol;
+            }
+     
 
             CursoServicio cursoServicio = new CursoServicio();
             NovedadesServicio publicacionServicio = new NovedadesServicio();
 
-            var cursos = cursoServicio.BuscarPorTitulo(palabra);
+            var cursos = cursoServicio.BuscarPorTitulo(palabra, rolUsuario);
             var publicaciones = publicacionServicio.BuscarPorTitulo(palabra);
 
             int totalResultados = cursos.Count + publicaciones.Count;
@@ -170,14 +183,9 @@ namespace TPC_Equipo_12A
             if (totalResultados == 1)
             {
                 if (cursos.Count == 1)
-                {
                     Response.Redirect("DescripcionCurso.aspx?id=" + cursos[0].IdCurso);
-                }
                 else
-                {
                     Response.Redirect("DetalleNovedad.aspx?IdNovedad=" + publicaciones[0].IdPublicacion);
-
-                }
             }
             else if (totalResultados > 1)
             {
@@ -185,6 +193,5 @@ namespace TPC_Equipo_12A
             }
         }
 
->>>>>>> Stashed changes
     }
 }

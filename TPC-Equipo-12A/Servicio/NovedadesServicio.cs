@@ -230,33 +230,33 @@ namespace Servicio
                 datos.cerrarConexion();
             }
         }
-        public List<Publicacion> BuscarPorTitulo(string palabra)
+
+        public List<Publicacion> BuscarPorTitulo(string palabra, int rolUsuario = 0)
         {
             List<Publicacion> publicaciones = new List<Publicacion>();
-            ImagenServicio imagenServicio = new ImagenServicio();
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
                 datos.setConsulta(@"
-            SELECT 
-                P.IdPublicacion, 
-                P.Titulo, 
-                P.Resumen, 
-                P.IdCategoria, 
-                C.Nombre AS NombreCategoria, 
-                C.Activo AS ActivoCategoria
-            FROM Publicacion P
-            INNER JOIN Categoria C ON C.IdCategoria = P.IdCategoria
-            WHERE P.Titulo COLLATE Latin1_General_CI_AI LIKE @q
+        SELECT P.IdPublicacion, P.Titulo, P.Resumen,
+               C.IdCategoria, C.Nombre AS NombreCategoria, C.Activo AS ActivoCategoria,
+               I.IdImagen, I.UrlImagen, I.Nombre AS NombreImagen
+        FROM Publicacion P
+        INNER JOIN Categoria C ON C.IdCategoria = P.IdCategoria
+        LEFT JOIN ImagenPublicacion IP ON IP.IDPublicacion = P.IdPublicacion
+        LEFT JOIN Imagen I ON I.IdImagen = IP.IdImagen
+        WHERE P.Titulo COLLATE Latin1_General_CI_AI LIKE @q
+          AND (@RolUsuario = 0 OR P.Estado = 1)
         ");
 
                 datos.setParametro("@q", "%" + palabra + "%");
+                datos.setParametro("@RolUsuario", rolUsuario);
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
-                    Publicacion pub = new Publicacion
+                    var pub = new Publicacion
                     {
                         IdPublicacion = (int)datos.Lector["IdPublicacion"],
                         Titulo = datos.Lector["Titulo"].ToString(),
@@ -264,11 +264,23 @@ namespace Servicio
                         Categoria = new Categoria
                         {
                             IdCategoria = (int)datos.Lector["IdCategoria"],
-                            Nombre = !(bool)datos.Lector["ActivoCategoria"] ? "Sin Categoría" : datos.Lector["NombreCategoria"].ToString(),
-                            Activo = (bool)datos.Lector["ActivoCategoria"]
+                            Nombre = datos.Lector["ActivoCategoria"] != DBNull.Value && !(bool)datos.Lector["ActivoCategoria"]
+                                ? "Sin Categoría"
+                                : datos.Lector["NombreCategoria"].ToString(),
+                            Activo = datos.Lector["ActivoCategoria"] != DBNull.Value && (bool)datos.Lector["ActivoCategoria"]
                         },
-                        Imagenes = imagenServicio.getImagenesIdArticulo((int)datos.Lector["IdPublicacion"])
+                        Imagenes = new List<Imagen>()
                     };
+
+                    if (datos.Lector["IdImagen"] != DBNull.Value)
+                    {
+                        pub.Imagenes.Add(new Imagen
+                        {
+                            IdImagen = (int)datos.Lector["IdImagen"],
+                            Url = datos.Lector["UrlImagen"].ToString(),
+                            Nombre = datos.Lector["NombreImagen"].ToString()
+                        });
+                    }
 
                     publicaciones.Add(pub);
                 }
@@ -280,7 +292,6 @@ namespace Servicio
                 datos.cerrarConexion();
             }
         }
-
 
 
     }

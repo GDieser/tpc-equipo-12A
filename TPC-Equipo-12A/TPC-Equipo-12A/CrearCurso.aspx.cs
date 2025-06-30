@@ -177,7 +177,16 @@ namespace TPC_Equipo_12A
 
 
             int idCurso;
+            var cursoSeleccionado = Session["CursoSeleccionado"] as Dominio.Curso;
+
+            if (entidad.ImagenPortada == null && cursoSeleccionado?.ImagenPortada != null)
+            {
+                entidad.ImagenPortada = cursoSeleccionado.ImagenPortada;
+            }
+
+
             if (cursoSeleccionado != null)
+
             {
                 entidad.IdCurso = cursoSeleccionado.IdCurso;
                 idCurso = cursoSeleccionado.IdCurso;
@@ -187,6 +196,7 @@ namespace TPC_Equipo_12A
             {
                 idCurso = cursoServicio.GuardarCurso(entidad);
             }
+            Session.Remove("CursoSeleccionado");
 
             Response.Redirect($"Curso.aspx?id={idCurso}");
         }

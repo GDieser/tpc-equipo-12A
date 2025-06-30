@@ -210,13 +210,24 @@ namespace Servicio
 
                 datos = new AccesoDatos();
 
+                if (curso.ImagenPortada == null)
+                {
+                    curso.ImagenPortada = new Imagen
+                    {
+                        IdImagen = 0,
+                        Url = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png",
+                        Nombre = "default",
+                        Tipo = 0
+                    };
+                }
+
                 if (curso.ImagenPortada.IdImagen > 0)
                 {
                     datos.setConsulta(@"UPDATE Imagen
-                                SET UrlImagen = @url,
-                                    Nombre = @nombre,
-                                    IdTipoImagen = @tipo
-                                WHERE IdImagen = @idImagen");
+                        SET UrlImagen = @url,
+                            Nombre = @nombre,
+                            IdTipoImagen = @tipo
+                        WHERE IdImagen = @idImagen");
 
                     datos.setParametro("@url", curso.ImagenPortada.Url);
                     datos.setParametro("@nombre", curso.ImagenPortada.Nombre);
@@ -228,8 +239,8 @@ namespace Servicio
                 else
                 {
                     datos.setConsulta(@"INSERT INTO Imagen (UrlImagen, Nombre, IdTipoImagen)
-                                VALUES (@url, @nombre, @tipo);
-                                SELECT SCOPE_IDENTITY();");
+                        VALUES (@url, @nombre, @tipo);
+                        SELECT SCOPE_IDENTITY();");
 
                     datos.setParametro("@url", curso.ImagenPortada.Url);
                     datos.setParametro("@nombre", curso.ImagenPortada.Nombre);
@@ -243,7 +254,7 @@ namespace Servicio
                         datos = new AccesoDatos();
 
                         datos.setConsulta(@"INSERT INTO ImagenCurso (IdCurso, IdImagen)
-                                    VALUES (@idCurso, @idImagen)");
+                            VALUES (@idCurso, @idImagen)");
 
                         datos.setParametro("@idCurso", curso.IdCurso);
                         datos.setParametro("@idImagen", nuevoId);
@@ -1050,28 +1061,36 @@ namespace Servicio
             }
         }
 
-        public List<Curso> BuscarPorTitulo(string palabra)
+        public List<Curso> BuscarPorTitulo(string palabra, int rolUsuario = 0)
         {
             List<Curso> cursos = new List<Curso>();
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setConsulta(@"
-            SELECT 
-                C.IdCurso,
-                C.Titulo,
-                C.Resumen,
-                C.Precio,
-                I.IdImagen,
-                I.UrlImagen AS Url,
-                I.Nombre AS NombreImagen,
-                I.IdTipoImagen AS Tipo
-            FROM Curso C
-            LEFT JOIN ImagenCurso IC ON IC.IdCurso = C.IdCurso
-            LEFT JOIN Imagen I ON I.IdImagen = IC.IdImagen
-            WHERE C.Titulo COLLATE Latin1_General_CI_AI LIKE @q
-        ");
+                if (rolUsuario == (int)Rol.Estudiante)
+                {
+                    datos.setConsulta(@"
+                SELECT C.IdCurso, C.Titulo, C.Resumen, C.Precio,
+                       I.IdImagen, I.UrlImagen AS Url, I.Nombre AS NombreImagen, I.IdTipoImagen AS Tipo
+                FROM Curso C
+                LEFT JOIN ImagenCurso IC ON IC.IdCurso = C.IdCurso
+                LEFT JOIN Imagen I ON I.IdImagen = IC.IdImagen
+                WHERE C.Titulo COLLATE Latin1_General_CI_AI LIKE @q
+                  AND C.Estado = 1
+            ");
+                }
+                else
+                {
+                    datos.setConsulta(@"
+                SELECT C.IdCurso, C.Titulo, C.Resumen, C.Precio,
+                       I.IdImagen, I.UrlImagen AS Url, I.Nombre AS NombreImagen, I.IdTipoImagen AS Tipo
+                FROM Curso C
+                LEFT JOIN ImagenCurso IC ON IC.IdCurso = C.IdCurso
+                LEFT JOIN Imagen I ON I.IdImagen = IC.IdImagen
+                WHERE C.Titulo COLLATE Latin1_General_CI_AI LIKE @q
+            ");
+                }
 
                 datos.setParametro("@q", "%" + palabra + "%");
                 datos.ejecutarLectura();
@@ -1081,8 +1100,8 @@ namespace Servicio
                     Curso curso = new Curso
                     {
                         IdCurso = (int)datos.Lector["IdCurso"],
-                        Titulo = datos.Lector["Titulo"].ToString(),
-                        Resumen = datos.Lector["Resumen"].ToString(),
+                        Titulo = (string)datos.Lector["Titulo"],
+                        Resumen = (string)datos.Lector["Resumen"],
                         Precio = (decimal)datos.Lector["Precio"],
                         ImagenPortada = datos.Lector["IdImagen"] != DBNull.Value
                             ? new Imagen
@@ -1111,6 +1130,7 @@ namespace Servicio
                 datos.cerrarConexion();
             }
         }
+
 
 
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Dominio;
 using Servicio;
 
 namespace TPC_Equipo_12A
@@ -23,11 +24,20 @@ namespace TPC_Equipo_12A
                     return;
                 }
 
+                int rolUsuario = (int)Rol.Estudiante;
+
+                if (Session["UsuarioAutenticado"] != null)
+                {
+                    var usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+                    rolUsuario = (int)usuario.Rol;
+                }
+
                 CursoServicio cursoServicio = new CursoServicio();
                 NovedadesServicio publicacionServicio = new NovedadesServicio();
 
-                var cursos = cursoServicio.BuscarPorTitulo(palabra);
-                var publicaciones = publicacionServicio.BuscarPorTitulo(palabra);
+                var cursos = cursoServicio.BuscarPorTitulo(palabra, rolUsuario);
+                var publicaciones = publicacionServicio.BuscarPorTitulo(palabra, rolUsuario);
+
 
                 if (cursos.Count == 0 && publicaciones.Count == 0)
                 {
@@ -53,9 +63,18 @@ namespace TPC_Equipo_12A
                     rptCursos.DataBind();
                 }
 
-
                 if (publicaciones.Count > 0)
                 {
+                    publicaciones = publicaciones
+                    .GroupBy(p => p.IdPublicacion)
+                     .Select(g =>
+                     {
+                         var pub = g.First();
+                         pub.Imagenes = pub.Imagenes?.Take(1).ToList();
+                         return pub;
+                     })
+                    .ToList();
+
                     panelPublicaciones.Visible = true;
                     rptPublicaciones.DataSource = publicaciones.Select(p => new
                     {
@@ -65,11 +84,12 @@ namespace TPC_Equipo_12A
                         ImagenUrl = string.IsNullOrEmpty(p.UrlImagen) ? "~/imagenes/default.jpg" : p.UrlImagen
                     }).ToList();
 
-
                     rptPublicaciones.DataBind();
                 }
+
             }
         }
+
     }
 
 }

@@ -68,14 +68,18 @@
                             <%} %>
                         </ul>
 
-                       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
     <li class="nav-item">
-        <asp:Panel runat="server" CssClass="d-flex" DefaultButton="btnBuscar">
-            <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control me-2" placeholder="Buscar" />
-            <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="btn btn-outline-secondary" OnClick="btnBuscar_Click" />
+        <asp:Panel runat="server" CssClass="d-flex flex-column align-items-start" DefaultButton="btnBuscar">
+            <div class="d-flex align-items-center">
+                <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control me-2" placeholder="Buscar" />
+                <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="btn btn-outline-secondary" OnClick="btnBuscar_Click" />
+            </div>
+            <asp:Label ID="lblMensaje" runat="server" CssClass="text-danger small mt-1 ms-1" Visible="false" />
         </asp:Panel>
     </li>
 </ul>
+
 
                         <div class="d-flex">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">

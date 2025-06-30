@@ -28,6 +28,7 @@
                 </asp:Repeater>
             </div>
         </asp:Panel>
+      
 
         <asp:Panel ID="panelPublicaciones" runat="server" Visible="false">
             <h4 class="text-white mt-4 mb-3">📰 Publicaciones encontradas</h4>
