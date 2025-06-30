@@ -7,13 +7,22 @@ GO
 --Comentarios: 
 
 
-CREATE PROCEDURE sp_ObtenerComentariosPorOrigen
-    @IdOrigen INT
+ALTER PROCEDURE sp_ObtenerComentariosPorOrigen
+    @IdOrigen INT,
+    @TipoOrigen VARCHAR(50)
 AS
 BEGIN
     SELECT 
-        C.IdComentario, C.IdUsuario, C.TipoOrigen, C.IdOrigen, C.IdComentarioPadre, 
-        C.Contenido, C.FechaCreacion, C.FechaEdicion, C.EsEditado, U.NombreUsuario, 
+        C.IdComentario, 
+        C.IdUsuario, 
+        C.TipoOrigen, 
+        C.IdOrigen, 
+        C.IdComentarioPadre, 
+        C.Contenido, 
+        C.FechaCreacion, 
+        C.FechaEdicion, 
+        C.EsEditado, 
+        U.NombreUsuario, 
         I.UrlImagen
     FROM 
         Comentario C 
@@ -24,6 +33,7 @@ BEGIN
     WHERE 
         C.Visible = 1 
         AND C.EsEliminado = 0 
+        AND C.TipoOrigen = @TipoOrigen
         AND C.IdOrigen = @IdOrigen
     ORDER BY 
         C.FechaCreacion DESC;

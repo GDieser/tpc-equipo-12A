@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -44,7 +45,7 @@ namespace TPC_Equipo_12A
                         chkCertificado.Checked = cursoSeleccionado.Certificado;
                         ddlCategoria.SelectedValue = cursoSeleccionado.Categoria.IdCategoria.ToString();
                         ddlEstado.SelectedValue = ((int)cursoSeleccionado.Estado).ToString();
-                        txtImagen.Text = cursoSeleccionado.ImagenPortada.Url;
+                        txtNombreArchivoCurso.Text = cursoSeleccionado.ImagenPortada.Url;
                         imgPreview.ImageUrl = cursoSeleccionado.ImagenPortada.Url;
                         Session["CursoSeleccionado"] = cursoSeleccionado;
                     }
@@ -58,7 +59,6 @@ namespace TPC_Equipo_12A
             }
             else
             {
-               
                 cursoSeleccionado = (Dominio.Curso)Session["CursoSeleccionado"];
             }
         }
@@ -112,15 +112,8 @@ namespace TPC_Equipo_12A
             }
         }
 
-
-        protected void txtImagen_TextChanged(object sender, EventArgs e)
-        {
-            imgPreview.ImageUrl = txtImagen.Text;
-        }
-
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-            Dominio.Curso nuevo = new Dominio.Curso();
             CursoServicio cursoServicio = new CursoServicio();
             decimal precio;
             int duracion;
@@ -137,7 +130,6 @@ namespace TPC_Equipo_12A
                 return;
             }
 
-            CursoServicio s = new CursoServicio();
             Dominio.Curso entidad = new Dominio.Curso
             {
                 Titulo = txtTitulo.Text,
@@ -149,27 +141,60 @@ namespace TPC_Equipo_12A
                 FechaCreacion = DateTime.Now,
                 FechaPublicacion = DateTime.Now,
                 Estado = (EstadoPublicacion)int.Parse(ddlEstado.SelectedValue),
-                Categoria = new Categoria { IdCategoria = int.Parse(ddlCategoria.SelectedValue) },
-                ImagenPortada = new Imagen { Url = txtImagen.Text, Nombre = "Imagen curso", Tipo = 1 }
+                Categoria = new Categoria { IdCategoria = int.Parse(ddlCategoria.SelectedValue) }
             };
+
+            if (fuImagenCurso.HasFile)
+            {
+                string extension = Path.GetExtension(fuImagenCurso.FileName).ToLower();
+                var extensionesPermitidas = new[] { ".jpg", ".jpeg", ".png", ".webp", ".gif" };
+
+                if (!extensionesPermitidas.Contains(extension))
+                {
+                    Response.Write("<script>alert('Formato de imagen no válido.');</script>");
+                    return;
+                }
+
+                string nombreArchivo = $"curso-{Guid.NewGuid()}{extension}";
+                string rutaRelativa = $"~/imagenes/cursos/{nombreArchivo}";
+                string rutaFisica = Server.MapPath(rutaRelativa);
+
+                try
+                {
+                    fuImagenCurso.SaveAs(rutaFisica);
+                    entidad.ImagenPortada = new Imagen
+                    {
+                        Url = rutaRelativa,
+                        Nombre = nombreArchivo
+                    };
+                }
+                catch (Exception)
+                {
+                    Response.Write("<script>alert('Error al guardar la imagen.');</script>");
+                    return;
+                }
+            }
+
 
             int idCurso;
             if (cursoSeleccionado != null)
             {
                 entidad.IdCurso = cursoSeleccionado.IdCurso;
-                entidad.ImagenPortada.IdImagen = cursoSeleccionado.ImagenPortada.IdImagen;
                 idCurso = cursoSeleccionado.IdCurso;
-                s.ModificarCurso(entidad);
+                cursoServicio.ModificarCurso(entidad);
             }
             else
             {
-                idCurso = s.GuardarCurso(entidad);
+                idCurso = cursoServicio.GuardarCurso(entidad);
             }
 
             Response.Redirect($"Curso.aspx?id={idCurso}");
         }
 
-
+        protected void txtNombreArchivoCurso_TextChanged(object sender, EventArgs e)
+        {
+            imgPreview.ImageUrl = txtNombreArchivoCurso.Text;
+        }
     }
 }
 

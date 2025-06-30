@@ -123,7 +123,7 @@ namespace TPC_Equipo_12A
             }
             else
             {
-                imagenUrl = "~/imagenes/modulos/default-leccion.jpg";
+                imagenUrl = "~/imagenes/modulos/default-modulo.jpg";
                 nombreImagen = "Imagen por defecto";
                 idImagen = 0;
             }

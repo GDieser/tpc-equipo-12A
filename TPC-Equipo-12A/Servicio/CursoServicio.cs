@@ -133,10 +133,9 @@ namespace Servicio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                // inserta la imagen a la db y extare su Id
                 datos.setProcedimiento("sp_InsertarImagen");
 
-                datos.setParametro("@url", nuevo.ImagenPortada?.Url ?? "/imagenes/default.jpg");
+                datos.setParametro("@url", nuevo.ImagenPortada?.Url ?? "/imagenes/cursos/default-cursos-banner.jpg");
                 datos.setParametro("@nombre", nuevo.ImagenPortada?.Nombre ?? "Imagen curso");
                 datos.setParametro("@tipo", nuevo.ImagenPortada?.Tipo ?? 1);
 
@@ -401,7 +400,7 @@ namespace Servicio
                         Estado = (EstadoPublicacion)(int)accesoDatos.Lector["Estado"],
                         ImagenPortada = new Imagen
                         {
-                            Url = accesoDatos.Lector["ImagenPortadaUrl"] != DBNull.Value ? accesoDatos.Lector["ImagenPortadaUrl"].ToString() : "https://www.aprender21.com/images/colaboradores/sql.jpeg",
+                            Url = accesoDatos.Lector["ImagenPortadaUrl"].ToString() != "" ? accesoDatos.Lector["ImagenPortadaUrl"].ToString() : "/imagenes/cursos/default-cursos-banner.webp",
                             Nombre = accesoDatos.Lector["NombreImagen"] != DBNull.Value ? accesoDatos.Lector["NombreImagen"].ToString() : "default",
                             IdImagen = accesoDatos.Lector["IdImagen"] != DBNull.Value ? (int)accesoDatos.Lector["IdImagen"] : 0,
                             Tipo = accesoDatos.Lector["IdTipoImagen"] != DBNull.Value ? (int)accesoDatos.Lector["IdTipoImagen"] : 0
@@ -827,9 +826,18 @@ namespace Servicio
                 {
                     consulta = @"
                 SELECT 
-                    c.IdCurso,
-                    c.Titulo
-                FROM Curso c
+                    C.IdCurso,
+                    C.Titulo,
+                    I.UrlImagen,
+                    COUNT(DISTINCT L.IdLeccion) AS TotalLecciones,
+                    COUNT(DISTINCT CASE WHEN LU.IdUsuario = @idUsuario AND LU.EsFinalizado = 1 THEN L.IdLeccion END) AS LeccionesCompletadas
+                FROM Curso C
+                INNER JOIN ImagenCurso IC ON IC.IdCurso = C.IdCurso
+                INNER JOIN Imagen I ON I.IdImagen = IC.IdImagen 
+                LEFT JOIN Modulo M ON M.IdCurso = C.IdCurso
+                LEFT JOIN Leccion L ON L.IdModulo = M.IdModulo
+                LEFT JOIN LeccionUsuario LU ON LU.IdLeccion = L.IdLeccion AND LU.IdUsuario = @idUsuario
+                GROUP BY C.IdCurso, C.Titulo, I.UrlImagen
             ";
                 }
                 else
@@ -837,10 +845,13 @@ namespace Servicio
                     consulta = @"
                 SELECT 
                     c.IdCurso,
-                    c.Titulo
+                    c.Titulo,
+                    I.UrlImagen
                 FROM Curso c
                 INNER JOIN DetalleCompra dc ON c.IdCurso = dc.IdCurso 
                 INNER JOIN Compra co ON dc.IdCompra = co.IdCompra
+                INNER JOIN ImagenCurso IC ON IC.IdCurso = C.IdCategoria
+                INNER JOIN Imagen I ON I.IdImagen = IC.IdImagen 
                 WHERE co.IdUsuario = @idUsuario AND c.Estado = 1
             ";
                 }
@@ -848,10 +859,8 @@ namespace Servicio
                 accesoCursos.setConsulta(consulta);
                 accesoCursos.limpiarParametros();
 
-                if (!isAdmin)
-                {
-                    accesoCursos.setParametro("@idUsuario", id);
-                }
+                accesoCursos.setParametro("@idUsuario", id);
+
 
                 accesoCursos.ejecutarLectura();
 
@@ -864,7 +873,10 @@ namespace Servicio
                     {
                         IdCurso = (int)accesoCursos.Lector["IdCurso"],
                         NombreCurso = accesoCursos.Lector["Titulo"].ToString(),
-                        UrlCurso = $"Curso.aspx?id={(int)accesoCursos.Lector["IdCurso"]}"
+                        UrlImagen = accesoCursos.Lector["UrlImagen"].ToString() == "" ? "/imagenes/cursos/default-cursos-miniatura.webp" : accesoCursos.Lector["UrlImagen"].ToString(),
+                        UrlCurso = $"Curso.aspx?id={(int)accesoCursos.Lector["IdCurso"]}",
+                        TotalLecciones = (int)accesoCursos.Lector["TotalLecciones"],
+                        LeccionesCompletadas = (int)accesoCursos.Lector["LeccionesCompletadas"]
                     };
                     curso.Modulos = moduloServicio.ObtenerModulosDTOPorIdCurso(curso.IdCurso);
                     cursos.Add(curso);

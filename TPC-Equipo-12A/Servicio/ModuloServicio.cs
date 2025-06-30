@@ -46,7 +46,7 @@ namespace Servicio
                         imagen = new Imagen
                         {
                             IdImagen = accesoDatos.Lector["IdImagen"] != DBNull.Value ? (int)accesoDatos.Lector["IdImagen"] : -1,
-                            Url = accesoDatos.Lector["UrlImagen"] != DBNull.Value ? accesoDatos.Lector["UrlImagen"].ToString() : string.Empty,
+                            Url = accesoDatos.Lector["UrlImagen"].ToString() != "" ? accesoDatos.Lector["UrlImagen"].ToString() : "/imagenes/modulos/default-modulo.jpg",
                             Tipo = accesoDatos.Lector["IdTipoImagen"] != DBNull.Value ? (int)accesoDatos.Lector["IdTipoImagen"] : 0,
                             Nombre = accesoDatos.Lector["Nombre"] != DBNull.Value ? accesoDatos.Lector["Nombre"].ToString() : string.Empty
                         }

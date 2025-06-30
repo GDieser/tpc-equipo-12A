@@ -4,6 +4,8 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server" />
+
     <div class="container text-center">
         <br />
         <h1>Lista de Categorías</h1>
@@ -46,10 +48,11 @@
                 </asp:GridView>
 
                 <asp:Button ID="btnAgregarCategoria"
-                    runat="server"
-                    Text="➕ Agregar Nueva Categoría"
-                    CssClass="btn btn-success mt-4"
-                    OnClick="btnAgregarCategoria_Click" />
+    runat="server"
+    Text="➕ Agregar Nueva Categoría"
+    CssClass="btn btn-success mt-4"
+    OnClientClick="abrirModalAgregarCategoria(); return false;" />
+
             </div>
         </div>
     </div>
@@ -58,7 +61,7 @@
             <div class="modal-dialog">
                 <div class="modal-content text-start">
                     <div class="modal-header">
-                        <h5 class="modal-title">Editar Categoría</h5>
+                        <h5 class="modal-title" id="tituloModalCategoria">Editar Categoria</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body">
@@ -88,5 +91,17 @@
             modal.show();
         }
     </script>
+    <script>
+        function abrirModalAgregarCategoria() {
+            document.getElementById('<%= hfIdEditarCategoria.ClientID %>').value = '';
+        document.getElementById('<%= txtEditarNombreCategoria.ClientID %>').value = '';
+        document.getElementById('<%= chkEditarActivo.ClientID %>').checked = true;
+            document.getElementById('tituloModalCategoria').innerText = 'Agregar Categoría';
+
+            var modal = new bootstrap.Modal(document.getElementById('modalEditarCategoria'));
+            modal.show();
+        }
+    </script>
+
 
 </asp:Content>

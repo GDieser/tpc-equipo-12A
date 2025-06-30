@@ -223,6 +223,23 @@ CREATE TABLE NotificacionAdmin(
     FOREIGN KEY (IdAdministrador) REFERENCES Usuario(IdUsuario)
 );
 
+--Para Debates den Foro
+CREATE TABLE Debate (
+    IdDebate INT PRIMARY KEY IDENTITY(1,1),
+    IdUsuario INT NOT NULL,
+    IdOrigen INT NULL,
+    Titulo NVARCHAR(255) NOT NULL,
+    Contenido NVARCHAR(MAX) NOT NULL,
+    FechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
+	FechaEdicion DATETIME NULL,
+    EsEditado BIT DEFAULT 0,
+    EsAviso BIT NOT NULL DEFAULT 0,
+    Activo BIT NOT NULL DEFAULT 1 
+
+	FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario),
+	FOREIGN KEY (IdOrigen) REFERENCES Curso(IdCurso)
+);
+
 ALTER TABLE Carrito ADD IDOperacion VARCHAR(60); -- Para almacenar el Id de operacion de MP
 
 -- AGREGADO PARA VIDEO DE YT

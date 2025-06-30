@@ -107,6 +107,8 @@
     <Content Include="DetalleNovedad.aspx" />
     <Content Include="ErrorPago.aspx" />
     <Content Include="ExitoPago.aspx" />
+    <Content Include="ForoCurso.aspx" />
+    <Content Include="ForoDetalle.aspx" />
     <Content Include="images\bg2.jpg" />
     <Content Include="images\bg3.jpg" />
     <Content Include="Leccion.aspx" />
@@ -186,6 +188,20 @@
     </Compile>
     <Compile Include="ExitoPago.aspx.designer.cs">
       <DependentUpon>ExitoPago.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ForoCurso.aspx.cs">
+      <DependentUpon>ForoCurso.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForoCurso.aspx.designer.cs">
+      <DependentUpon>ForoCurso.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ForoDetalle.aspx.cs">
+      <DependentUpon>ForoDetalle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForoDetalle.aspx.designer.cs">
+      <DependentUpon>ForoDetalle.aspx</DependentUpon>
     </Compile>
     <Compile Include="Leccion.aspx.cs">
       <DependentUpon>Leccion.aspx</DependentUpon>

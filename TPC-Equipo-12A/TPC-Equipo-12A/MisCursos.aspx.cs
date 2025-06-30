@@ -11,44 +11,30 @@ namespace TPC_Equipo_12A
 {
     public partial class MisCursos : System.Web.UI.Page
     {
+        UsuarioAutenticado usuario;
         protected void Page_Load(object sender, EventArgs e)
         {
-            if ((UsuarioAutenticado)Session["UsuarioAutenticado"] == null)
+            usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
+            CursoServicio servicio = new CursoServicio();
+            List<CursoDTO> lista = new List<CursoDTO>();
+
+            if (usuario == null)
             {
                 Session.Add("error", "Hey, no deberías andar por acá 🤨. Acceso no permitido");
                 Response.Redirect("Error.aspx");
             }
-            if (!IsPostBack)
+
+            if(!IsPostBack)
             {
-                UsuarioAutenticado usuario = Session["UsuarioAutenticado"] as UsuarioAutenticado;
-                CursoServicio cursoServicio = new CursoServicio();
-                try
+                if(usuario.Rol == Dominio.Rol.Administrador)
                 {
-                    List<Dominio.Curso> cursos = cursoServicio.getListaCursosPorIdUsuario(usuario.IdUsuario, usuario.Rol == Rol.Administrador);
-                    if(cursos.Count() == 0)
-                    {
-                        lblMensaje.Visible = true;
-                        lblMensaje.Text = "¡Nada por aca todavia!";
-                        return;
-                    }
-                    rptCursos.DataSource = cursos;
-                    rptCursos.DataBind();
-                }
-                catch (Exception ex)
-                {
-                    MostrarMensaje("Error", $"Error al mostrar tus cursos: {ex.Message}", "error");
+                    lista = servicio.ObtenerCursosCompletosDeUsuario(usuario);
+
+                    rptMisCursos.DataSource = lista;
+                    rptMisCursos.DataBind();
                 }
             }
-        }
-        private void MostrarMensaje(string titulo, string mensaje, string icono)
-        {
-            ScriptManager.RegisterStartupScript(this, GetType(), "sweetalert",
-                $@"Swal.fire({{
-            title: '{titulo}',
-            text: '{mensaje}',
-            icon: '{icono}',
-            confirmButtonText: 'OK'
-        }});", true);
+
         }
 
     }

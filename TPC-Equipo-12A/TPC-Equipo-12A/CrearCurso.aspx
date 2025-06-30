@@ -86,10 +86,19 @@
             <div class="col-md-6">
                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                     <ContentTemplate>
+
                         <div class="mb-3">
-                            <label for="txtImagen" class="form-label fw-bold">URL de imagen: <span style="color: red">*</span></label>
-                            <asp:TextBox ID="txtImagen" runat="server" AutoPostBack="true" OnTextChanged="txtImagen_TextChanged" CssClass="form-control" />
+                            <label class="form-label">Imagen destacada</label>
+                            <div class="input-group">
+                                <asp:TextBox ID="txtNombreArchivoCurso" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtNombreArchivoCurso_TextChanged" ReadOnly="true" />
+                                <button type="button" class="btn btn-outline-secondary rounded-end"
+                                    onclick="document.getElementById('<%= fuImagenCurso.ClientID %>').click();">
+                                    <i class="bi bi-folder"></i>
+                                </button>
+                                <asp:FileUpload ID="fuImagenCurso" runat="server" CssClass="d-none" />
+                            </div>
                         </div>
+
                         <div class="text-center mb-3">
                             <asp:Image ID="imgPreview" runat="server" ImageUrl="https://www.aprender21.com/images/colaboradores/sql.jpeg" CssClass="img-thumbnail" Style="max-height: 200px;" />
                         </div>
@@ -123,6 +132,39 @@
                         modal.show();
                     }
                 }
+
+                Sys.Application.add_load(function () {
+                    const inputFile = document.getElementById('<%= fuImagenCurso.ClientID %>');
+                        const txtNombre = document.getElementById('<%= txtNombreArchivoCurso.ClientID %>');
+
+                        if (inputFile && txtNombre) {
+                            inputFile.addEventListener("change", function () {
+                                if (inputFile.files.length > 0) {
+                                    txtNombre.value = inputFile.files[0].name;
+                                }
+                            });
+                        }
+                });
+
+                document.addEventListener("DOMContentLoaded", function () {
+                    const fileInput = document.getElementById("<%= fuImagenCurso.ClientID %>");
+                    const txtNombre = document.getElementById("<%= txtNombreArchivoCurso.ClientID %>");
+                    const preview = document.getElementById("<%= imgPreview.ClientID %>");
+
+                    fileInput.addEventListener("change", function () {
+                        if (fileInput.files && fileInput.files[0]) {
+                            const file = fileInput.files[0];
+
+                            txtNombre.value = file.name;
+
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                preview.src = e.target.result;
+                            };
+                            reader.readAsDataURL(file); 
+                        }
+                    });
+                });
             </script>
 
             <div class="text-center mt-4">

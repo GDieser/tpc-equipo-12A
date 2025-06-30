@@ -81,6 +81,8 @@
     <Compile Include="Curso.cs" />
     <Compile Include="CursoFavorito.cs" />
     <Compile Include="CursosDTO.cs" />
+    <Compile Include="Debate.cs" />
+    <Compile Include="DebateDTO.cs" />
     <Compile Include="EstadoPublicacion.cs" />
     <Compile Include="EstadoCarrito.cs" />
     <Compile Include="FavoritoCurso.cs" />
