@@ -13,9 +13,18 @@ namespace TPC_Equipo_12A
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Seguridad.esAdmin(Session["UsuarioAutenticado"]))
+            {
+                Session.Add("error", "Hey, no deberías andar por acá 🤨. Acceso no permitido");
+                Response.Redirect("Error.aspx");
+            }
+
             if (!IsPostBack)
+            {
                 cargarCategorias();
+            }
         }
+
 
         private void cargarCategorias()
         {
@@ -51,16 +60,31 @@ namespace TPC_Equipo_12A
         protected void btnGuardarEdicionCategoria_Click(object sender, EventArgs e)
         {
             CategoriaServicio servicio = new CategoriaServicio();
-            Categoria categoria = new Categoria
-            {
-                IdCategoria = int.Parse(hfIdEditarCategoria.Value),
-                Nombre = txtEditarNombreCategoria.Text,
-                Activo = chkEditarActivo.Checked
-            };
+            string nombre = txtEditarNombreCategoria.Text.Trim();
+            bool activo = chkEditarActivo.Checked;
 
-            servicio.ModificarConEstado(categoria);
+            if (string.IsNullOrEmpty(hfIdEditarCategoria.Value))
+            {
+                servicio.AgregarCategoriaSiNoExiste(nombre);
+            }
+            else
+            {
+                Categoria categoria = new Categoria
+                {
+                    IdCategoria = int.Parse(hfIdEditarCategoria.Value),
+                    Nombre = nombre,
+                    Activo = activo
+                };
+
+                servicio.ModificarConEstado(categoria);
+            }
+
             cargarCategorias();
+
+            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal", "var modal = bootstrap.Modal.getInstance(document.getElementById('modalEditarCategoria')); if(modal) modal.hide();", true);
         }
+
+
 
 
     }
