@@ -101,6 +101,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BuscarResultado.aspx" />
     <Content Include="CrearCurso.aspx" />
     <Content Include="Curso.aspx" />
     <Content Include="DescripcionCurso.aspx" />
@@ -146,6 +147,13 @@
     </Compile>
     <Compile Include="Aula.Master.designer.cs">
       <DependentUpon>Aula.Master</DependentUpon>
+    </Compile>
+    <Compile Include="BuscarResultado.aspx.cs">
+      <DependentUpon>BuscarResultado.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BuscarResultado.aspx.designer.cs">
+      <DependentUpon>BuscarResultado.aspx</DependentUpon>
     </Compile>
     <Compile Include="CrearCurso.aspx.cs">
       <DependentUpon>CrearCurso.aspx</DependentUpon>

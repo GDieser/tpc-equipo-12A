@@ -68,14 +68,15 @@
                             <%} %>
                         </ul>
 
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <div class="d-flex" role="search">
-                                    <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar" />
-                                    <button class="btn btn-outline-secondary" type="submit">Buscar</button>
-                                </div>
-                            </li>
-                        </ul>
+                       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <li class="nav-item">
+        <asp:Panel runat="server" CssClass="d-flex" DefaultButton="btnBuscar">
+            <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control me-2" placeholder="Buscar" />
+            <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="btn btn-outline-secondary" OnClick="btnBuscar_Click" />
+        </asp:Panel>
+    </li>
+</ul>
+
                         <div class="d-flex">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <!-- Agregar solo para admis

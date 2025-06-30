@@ -230,6 +230,58 @@ namespace Servicio
                 datos.cerrarConexion();
             }
         }
+        public List<Publicacion> BuscarPorTitulo(string palabra)
+        {
+            List<Publicacion> publicaciones = new List<Publicacion>();
+            ImagenServicio imagenServicio = new ImagenServicio();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setConsulta(@"
+            SELECT 
+                P.IdPublicacion, 
+                P.Titulo, 
+                P.Resumen, 
+                P.IdCategoria, 
+                C.Nombre AS NombreCategoria, 
+                C.Activo AS ActivoCategoria
+            FROM Publicacion P
+            INNER JOIN Categoria C ON C.IdCategoria = P.IdCategoria
+            WHERE P.Titulo COLLATE Latin1_General_CI_AI LIKE @q
+        ");
+
+                datos.setParametro("@q", "%" + palabra + "%");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Publicacion pub = new Publicacion
+                    {
+                        IdPublicacion = (int)datos.Lector["IdPublicacion"],
+                        Titulo = datos.Lector["Titulo"].ToString(),
+                        Resumen = datos.Lector["Resumen"].ToString(),
+                        Categoria = new Categoria
+                        {
+                            IdCategoria = (int)datos.Lector["IdCategoria"],
+                            Nombre = !(bool)datos.Lector["ActivoCategoria"] ? "Sin Categoría" : datos.Lector["NombreCategoria"].ToString(),
+                            Activo = (bool)datos.Lector["ActivoCategoria"]
+                        },
+                        Imagenes = imagenServicio.getImagenesIdArticulo((int)datos.Lector["IdPublicacion"])
+                    };
+
+                    publicaciones.Add(pub);
+                }
+
+                return publicaciones;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
 
     }
 }

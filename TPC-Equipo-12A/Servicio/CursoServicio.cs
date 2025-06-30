@@ -1049,5 +1049,69 @@ namespace Servicio
                 datos.cerrarConexion();
             }
         }
+
+        public List<Curso> BuscarPorTitulo(string palabra)
+        {
+            List<Curso> cursos = new List<Curso>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setConsulta(@"
+            SELECT 
+                C.IdCurso,
+                C.Titulo,
+                C.Resumen,
+                C.Precio,
+                I.IdImagen,
+                I.UrlImagen AS Url,
+                I.Nombre AS NombreImagen,
+                I.IdTipoImagen AS Tipo
+            FROM Curso C
+            LEFT JOIN ImagenCurso IC ON IC.IdCurso = C.IdCurso
+            LEFT JOIN Imagen I ON I.IdImagen = IC.IdImagen
+            WHERE C.Titulo COLLATE Latin1_General_CI_AI LIKE @q
+        ");
+
+                datos.setParametro("@q", "%" + palabra + "%");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Curso curso = new Curso
+                    {
+                        IdCurso = (int)datos.Lector["IdCurso"],
+                        Titulo = datos.Lector["Titulo"].ToString(),
+                        Resumen = datos.Lector["Resumen"].ToString(),
+                        Precio = (decimal)datos.Lector["Precio"],
+                        ImagenPortada = datos.Lector["IdImagen"] != DBNull.Value
+                            ? new Imagen
+                            {
+                                IdImagen = (int)datos.Lector["IdImagen"],
+                                Url = datos.Lector["Url"].ToString(),
+                                Nombre = datos.Lector["NombreImagen"].ToString(),
+                                Tipo = datos.Lector["Tipo"] == DBNull.Value ? 0 : (int)datos.Lector["Tipo"]
+                            }
+                            : new Imagen
+                            {
+                                IdImagen = 0,
+                                Url = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png",
+                                Nombre = "default",
+                                Tipo = 0
+                            }
+                    };
+
+                    cursos.Add(curso);
+                }
+
+                return cursos;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
     }
 }
