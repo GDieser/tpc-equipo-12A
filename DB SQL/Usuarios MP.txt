@@ -1,1 +1,41 @@
-{\rtf1}
+Comprador:
+TESTUSER1925201242
+3Bg4H2NtOU
+APP_USR-8800200964224500-062913-0189c672fe0b78a2c77db912f545b267-2009760747 (Access Token)
+
+Dueño cuenta MP (cargado en web.config)
+TESTUSER1778726490
+A334FC8A#0f76#49f2#
+<add key="MPAccessToken" value="APP_USR-8625684490995771-062914-f457b82afd134bc08efb8d3f7d45c85e-2521775431"/>
+
+
+
+TC:
+VISA: 4509 9535 6623 3704
+Codigo: 123
+Vencimiento: 11/30
+(DNI) 12345678
+
+APRO
+Pago aprobado
+
+OTHE
+Rechazado por error general
+
+CONT
+Pendiente de pago
+
+CALL
+Rechazado con validación para autorizar
+
+FUND
+Rechazado por importe insuficiente
+
+SECU
+Rechazado por código de seguridad inválido
+
+EXPI
+Rechazado debido a un problema de fecha de vencimiento
+
+FORM
+Rechazado debido a un error de formulario
