@@ -103,11 +103,14 @@ namespace Servicio
             Debate debate = new Debate();
             try
             {
-                datos.setConsulta(@"SELECT 
+                datos.setConsulta(@"SELECT
+                                    D.IdUsuario,
+                                    D.IdDebate,
                                     D.IdOrigen,
                                     D.Titulo,
                                 	D.Contenido,
                                     D.FechaCreacion,
+                                    D.EsAviso,
                                     U.NombreUsuario,
                                 	U.Nombre,
                                 	U.Apellido,
@@ -124,10 +127,13 @@ namespace Servicio
 
                 if(datos.Lector.Read())
                 {
+                    debate.IdUsuario = (int)datos.Lector["IdUsuario"]; 
+                    debate.IdDebate = (int)datos.Lector["IdDebate"];
                     debate.IdOrigen = (int)datos.Lector["IdOrigen"];
                     debate.Titulo = datos.Lector["Titulo"].ToString();
                     debate.Contenido = datos.Lector["Contenido"].ToString();
                     debate.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
+                    debate.EsAviso = (bool)datos.Lector["EsAviso"];
                     debate.NombreUsuario = datos.Lector["NombreUsuario"].ToString();
                     debate.Nombre = datos.Lector["Nombre"].ToString();
                     debate.Apellido = datos.Lector["Apellido"].ToString();
@@ -137,6 +143,48 @@ namespace Servicio
 
 
                 return debate;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void EliminarDebate(int idDebate)
+        {
+            try
+            {
+                datos.setConsulta("UPDATE Debate SET Activo = 0 WHERE IdDebate = @idDebate");
+                datos.setParametro("@idDebate", idDebate);
+                datos.ejecutarAccion();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void EditarDebate(int idDebate, string nuevoTitulo, string nuevoContenido)
+        {
+            try
+            {
+                datos.setConsulta("UPDATE Debate SET Titulo = @nuevoTitulo, Contenido = @nuevoContenido, FechaEdicion = GETDATE(), EsEditado = 1 WHERE IdDebate = @idDebate");
+                datos.setParametro("@idDebate", idDebate);
+                datos.setParametro("@nuevoTitulo", nuevoTitulo);
+                datos.setParametro("@nuevoContenido", nuevoContenido);
+
+                datos.ejecutarAccion();
             }
             catch (Exception ex)
             {

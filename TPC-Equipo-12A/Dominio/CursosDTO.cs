@@ -9,10 +9,22 @@ namespace Dominio
     public class CursoDTO
     {
         public int IdCurso { get; set; }
+        public int TotalLecciones { get; set; }
+        public int LeccionesCompletadas { get; set; }
         public string NombreCurso { get; set; }
         public string UrlImagen { get; set; }
         public string UrlCurso { get; set; }
         public List<ModuloDTO> Modulos { get; set; }
+
+        public int PorcentajeCompletado
+        {
+            get
+            {
+                if (TotalLecciones == 0) return 0;
+                return (int)Math.Round((LeccionesCompletadas * 100.0) / TotalLecciones);
+            }
+        }
+
     }
 
     public class ModuloDTO

@@ -12,8 +12,9 @@ namespace TPC_Equipo_12A
     public partial class ForoDetalle : System.Web.UI.Page
     {
         public UsuarioAutenticado usuarioAutenticado;
-        Debate debate;
+        protected Debate debate;
         public bool respuesta = false;
+        protected bool puedeEditar;
         protected void Page_Load(object sender, EventArgs e)
         {
             usuarioAutenticado = (UsuarioAutenticado)Session["UsuarioAutenticado"];
@@ -33,9 +34,17 @@ namespace TPC_Equipo_12A
                 Session.Remove("DebateSeleccionado");
                 Session.Add("DebateSeleccionado", debate);
 
+                puedeEditar = PuedeEditarDebate(debate.IdUsuario, debate.FechaCreacion);
 
                 if (debate != null)
                 {
+                    if(!debate.EsAviso)
+                    {
+                        btnAgregarComentario.Visible = true;
+                        txtAgregarComentario.Visible = true;
+                        //btnReportarHilo.Visible = true;
+                    }
+
                     CargarDebate();
                     CargarComentarios();
                 }
@@ -44,6 +53,18 @@ namespace TPC_Equipo_12A
                     Response.Redirect("Error.aspx");
                 }
             }
+        }
+
+        protected bool PuedeEditarDebate(int idUsuarioDebate, DateTime fechaCreacion)
+        {
+            if (usuarioAutenticado == null || usuarioAutenticado.IdUsuario != idUsuarioDebate)
+            {
+                return false;
+            }
+
+            TimeSpan diferencia = DateTime.Now - fechaCreacion;
+
+            return diferencia.TotalMinutes <= 60;
         }
 
         protected void CargarDebate()
@@ -305,6 +326,90 @@ namespace TPC_Equipo_12A
                 ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal",
                     "$('#modalEdicion').modal('hide');", true);
             }
+        }
+
+        protected void btnEliminarHilo_Click(object sender, EventArgs e)
+        {
+            DebateServicio servicio = new DebateServicio();
+            int idDebate = Convert.ToInt32(hfEliminarHilo.Value);
+
+            Debate debate = (Debate)Session["DebateSeleccionado"];
+            servicio.EliminarDebate(idDebate);
+
+            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModalHilo", "$('#modalEliminarHilo').modal('hide');", true);
+
+            Response.Redirect("ForoCurso.aspx?IdCurso=" + debate.IdOrigen);
+        }
+
+        protected void btnEditarHilo_Click(object sender, EventArgs e)
+        {
+            phCuerpo.Visible = false;
+            Debate debate = (Debate)Session["DebateSeleccionado"];
+
+            if (debate.EsAviso)
+            {
+                phNuevoAviso.Visible = true;
+
+                txtTitulo.Text = debate.Titulo;
+                txtContenido.Text = debate.Contenido;
+
+                
+                ScriptManager.RegisterStartupScript(this, GetType(), "setCkEditorAviso",
+                    $"CKEDITOR.instances['{txtContenido.ClientID}'].setData({HttpUtility.JavaScriptStringEncode(debate.Contenido)});", true);
+            }
+            else
+            {
+                phNuevoHilo.Visible = true;
+
+                txtTituloHilo.Text = debate.Titulo;
+                txtContenidoHilo.InnerText = debate.Contenido;
+
+                ScriptManager.RegisterStartupScript(this, GetType(), "setCkEditorHilo",
+                    $"CKEDITOR.instances['{txtContenidoHilo.ClientID}'].setData({HttpUtility.JavaScriptStringEncode(debate.Contenido)});", true);
+            }
+        }
+
+        protected void btnCancelarAviso_Click(object sender, EventArgs e)
+        {
+            phCuerpo.Visible = true;
+            phNuevoAviso.Visible = false;
+
+            Response.Redirect(Request.RawUrl);
+        }
+
+        protected void btnEditarAviso_Click(object sender, EventArgs e)
+        {
+            DebateServicio servicio = new DebateServicio();
+
+            int idDebate = Convert.ToInt32(Request.QueryString["id"]);
+            string nuevoTitulo = txtTitulo.Text;
+            string nuevoContenido = Request.Form[txtContenido.ClientID];
+
+            servicio.EditarDebate(idDebate, nuevoTitulo, nuevoContenido);
+
+            Response.Redirect(Request.RawUrl);
+        }
+
+        protected void btnCancelarHilo_Click(object sender, EventArgs e)
+        {
+            phCuerpo.Visible = true;
+            phNuevoHilo.Visible = false;
+
+            Response.Redirect(Request.RawUrl);
+        }
+
+
+        protected void btnEditHilo_Click(object sender, EventArgs e)
+        {
+            DebateServicio servicio = new DebateServicio();
+
+            int idDebate = Convert.ToInt32(Request.QueryString["id"]);
+            string nuevoTitulo = txtTituloHilo.Text;
+            string nuevoContenido = Request.Form[txtContenidoHilo.UniqueID];
+
+            servicio.EditarDebate(idDebate, nuevoTitulo, nuevoContenido);
+
+            Response.Redirect(Request.RawUrl);
         }
     }
 }

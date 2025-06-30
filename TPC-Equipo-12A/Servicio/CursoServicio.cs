@@ -720,7 +720,7 @@ namespace Servicio
             catch (Exception ex)
             {
 
-                throw new Exception("Error al cargar el carrito desde la BD",ex);
+                throw new Exception("Error al cargar el carrito desde la BD", ex);
             }
             finally
             {
@@ -827,12 +827,18 @@ namespace Servicio
                 {
                     consulta = @"
                 SELECT 
-                    c.IdCurso,
-                    c.Titulo,
-                	I.UrlImagen
-                FROM Curso c
-                INNER JOIN ImagenCurso IC ON IC.IdCurso = C.IdCategoria
+                    C.IdCurso,
+                    C.Titulo,
+                    I.UrlImagen,
+                    COUNT(DISTINCT L.IdLeccion) AS TotalLecciones,
+                    COUNT(DISTINCT CASE WHEN LU.IdUsuario = @idUsuario AND LU.EsFinalizado = 1 THEN L.IdLeccion END) AS LeccionesCompletadas
+                FROM Curso C
+                INNER JOIN ImagenCurso IC ON IC.IdCurso = C.IdCurso
                 INNER JOIN Imagen I ON I.IdImagen = IC.IdImagen 
+                LEFT JOIN Modulo M ON M.IdCurso = C.IdCurso
+                LEFT JOIN Leccion L ON L.IdModulo = M.IdModulo
+                LEFT JOIN LeccionUsuario LU ON LU.IdLeccion = L.IdLeccion AND LU.IdUsuario = @idUsuario
+                GROUP BY C.IdCurso, C.Titulo, I.UrlImagen
             ";
                 }
                 else
@@ -854,10 +860,8 @@ namespace Servicio
                 accesoCursos.setConsulta(consulta);
                 accesoCursos.limpiarParametros();
 
-                if (!isAdmin)
-                {
-                    accesoCursos.setParametro("@idUsuario", id);
-                }
+                accesoCursos.setParametro("@idUsuario", id);
+
 
                 accesoCursos.ejecutarLectura();
 
@@ -871,7 +875,9 @@ namespace Servicio
                         IdCurso = (int)accesoCursos.Lector["IdCurso"],
                         NombreCurso = accesoCursos.Lector["Titulo"].ToString(),
                         UrlImagen = accesoCursos.Lector["UrlImagen"].ToString(),
-                        UrlCurso = $"Curso.aspx?id={(int)accesoCursos.Lector["IdCurso"]}"
+                        UrlCurso = $"Curso.aspx?id={(int)accesoCursos.Lector["IdCurso"]}",
+                        TotalLecciones = (int)accesoCursos.Lector["TotalLecciones"],
+                        LeccionesCompletadas = (int)accesoCursos.Lector["LeccionesCompletadas"]
                     };
                     curso.Modulos = moduloServicio.ObtenerModulosDTOPorIdCurso(curso.IdCurso);
                     cursos.Add(curso);

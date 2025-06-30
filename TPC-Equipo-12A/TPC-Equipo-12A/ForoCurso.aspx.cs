@@ -25,6 +25,9 @@ namespace TPC_Equipo_12A
                 Response.Redirect("Error.aspx");
             }
 
+            if (usuario.Rol == Rol.Administrador)
+                btnAviso.Visible = true;
+
             IdCurso = Convert.ToInt32(Request.QueryString["IdCurso"]);
 
             if (!IsPostBack)

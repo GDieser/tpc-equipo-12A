@@ -2,38 +2,82 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="AulaContent" runat="server">
 
-    <h1>Mis Cursos inscriptos</h1>
-    <hr />
+    <style>
+        .hover-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
 
-    <div class="row justify-content-center">
-        <div class="col-lg-8 col-md-10 col-12">
-            <div class="row row-cols-1 g-3">
-                <asp:Repeater ID="rptMisCursos" runat="server">
-                    <ItemTemplate>
-                        <a href='ForoCurso.aspx?IdCurso=<%# Eval("IdCurso") %>' class="text-decoration-none text-reset">
-                            <div class="shadow-sm bg-black-tertiary rounded mb-3">
-                                <div class="card bg-dark border border-secondary card-hover" style="height: 120px;">
-                                    <div class="row g-0 h-100">
-                                        <div class="col-md-4 h-100">
-                                            <img src='<%# Eval("UrlImagen") %>' class="img-fluid h-100 w-100 object-fit-cover rounded-start" alt="Imagen del curso" />
-                                        </div>
+            .hover-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 12px rgba(13, 202, 240, 0.15);
+                border-color: #0dcaf0 !important;
+            }
 
-                                        <div class="col-md-8 d-flex align-items-center h-100">
-                                            <div class="card-body text-white py-2">
-                                                <h5 class="card-title mb-0"><%# Eval("NombreCurso") %></h5>
-                                                <br />
-                                                <p>% Completado</p>
-                                                <span class="stretched-link"></span>
+
+        .card-title {
+            transition: color 0.2s ease;
+        }
+
+        a:hover .card-title {
+            color: #0dcaf0 !important;
+        }
+    </style>
+
+    <div class="container py-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="text-info mb-0">
+                <i class="bi bi-journal-bookmark-fill me-2"></i>Mis Cursos Inscritos
+            </h1>
+        </div>
+
+        <hr class="border-secondary mb-4" />
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-md-12">
+                <div class="row row-cols-1 g-4">
+                    <asp:Repeater ID="rptMisCursos" runat="server">
+                        <ItemTemplate>
+                            <div class="col">
+                                <a href='ForoCurso.aspx?IdCurso=<%# Eval("IdCurso") %>' class="text-decoration-none">
+                                    <div class="card bg-dark border border-secondary hover-card h-100">
+                                        <div class="row g-0 h-100">
+                                            <div class="col-md-4 h-100">
+                                                <img src='<%# Eval("UrlImagen") %>' class="img-fluid h-100 w-100 object-fit-cover rounded-start" alt="Imagen del curso" />
+                                            </div>
+
+                                            <div class="col-md-8 d-flex align-items-center">
+                                                <div class="card-body py-3">
+                                                    <h5 class="card-title text-white mb-2">
+                                                        <i class="bi bi-book me-2"></i><%# Eval("NombreCurso") %>
+                                                    </h5>
+
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <small class="text-muted">
+                                                            <i class="bi bi-clock-history me-1"></i>
+
+                                                        </small>
+                                                        <span class="badge bg-success fs-6 px-3 py-2 rounded-pill shadow-sm">
+                                                            <%# Eval("PorcentajeCompletado") %>% completado
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
-                        </a>
-                        <hr />
-                    </ItemTemplate>
-                </asp:Repeater>
+                        </ItemTemplate>
 
+                        <FooterTemplate>
+                            <asp:Label runat="server" Visible='<%# rptMisCursos.Items.Count == 0 %>'
+                                Text="Actualmente no estás inscrito en ningún curso"
+                                CssClass="text-center text-muted py-5" />
+                        </FooterTemplate>
+
+                    </asp:Repeater>
+                </div>
             </div>
         </div>
     </div>
