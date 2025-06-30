@@ -84,14 +84,77 @@
                                 </li>
                                 -->
                                 <li class="nav-item me-2">
-                                    <asp:HyperLink NavigateUrl="ListaNotificaciones.aspx" ID="btnNotificaciones" CssClass="btn btn-outline-light position-relative" runat="server"> 🔔 
+                                    <% if (usuario != null)
+                                        {
 
-                                         <%if (usuario != null && cantidadNotificaciones != 0)
-                                             { %>
-                                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> <%: Session["CantidadNotificaciones"] ?? "" %> </span> 
-                                         <%} %>
+                                            if (usuario.Rol == Dominio.Rol.Administrador)
+                                            {%>
+                                    <li class="nav-item me-2">
+                                        <asp:HyperLink NavigateUrl="ListaNotificaciones.aspx" ID="btnNotificaciones" CssClass="btn btn-outline-light position-relative" runat="server">
+                                       🔔
+                                       <% if (cantidadNotificaciones != 0)
+                                           { %>
 
-                                    </asp:HyperLink>
+                                       <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                           <%: Session["CantidadNotificaciones"] ?? "" %>
+                                       </span>
+
+                                        <% } %>
+
+                                        </asp:HyperLink>
+                                    </li>
+
+                                    <%}
+                                        else if (usuario.Rol == Dominio.Rol.Estudiante)
+                                        { %>
+
+                                    <li class="nav-item dropdown me-2">
+                                        <a class="btn btn-outline-light position-relative dropdown-toggle" href="#" role="button" id="dropdownNotificaciones"
+                                            data-bs-toggle="dropdown" aria-expanded="false">🔔
+                                             <% if (cantidadNotificaciones != 0)
+                                                 { %>
+                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                <%: Session["CantidadNotificaciones"] ?? "" %>
+                                            </span>
+                                            <% } %>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end shadow rounded-3" aria-labelledby="dropdownNotificaciones" style="min-width: 320px;">
+
+                                            <asp:Repeater ID="rptNotificaciones" OnItemCommand="rptNotificaciones_ItemCommand" runat="server">
+                                                <HeaderTemplate>
+                                                    <li class="px-3 py-2">
+                                                        <span class="fw-bold text-primary">🔔 Notificaciones</span>
+                                                    </li>
+                                                    <li>
+                                                        <hr class="dropdown-divider m-0" />
+                                                    </li>
+                                                </HeaderTemplate>
+
+                                                <ItemTemplate>
+                                                    <li>
+                                                        <asp:LinkButton ID="btnVerNotificacion" runat="server" CssClass="dropdown-item px-3 py-2 small text-body"
+                                                            CommandName="Ver" CommandArgument='<%# Eval("IdNotificacion") + ";" + Eval("IdOrigen") %>'>
+                                                            <span class="text-secondary">@<%# Eval("NombreUsuario") %></span> comentó tu hilo
+                                                        </asp:LinkButton>
+                                                    </li>
+                                                </ItemTemplate>
+
+                                                <FooterTemplate>
+                                                    <li>
+                                                        <hr class="dropdown-divider m-0" />
+                                                    </li>
+                                                </FooterTemplate>
+                                            </asp:Repeater>
+
+                                            <asp:Panel ID="pnlSinNotificaciones" runat="server" Visible="false">
+                                                <li class="dropdown-item text-muted text-center small py-3">No hay nuevas notificaciones.
+                                                </li>
+                                            </asp:Panel>
+
+                                        </ul>
+                                    </li>
+                                    <%}
+                                        }%>
                                 </li>
 
                                 <li class="nav-item me-2">
@@ -145,7 +208,7 @@
                                         </li>
                                         <li>
                                             <asp:LinkButton ID="btnCerrarSesion" runat="server" CssClass="dropdown-item text-danger" OnClick="btnLogout_Click">
-                🔓 Cerrar sesión
+                                            🔓 Cerrar sesión
                                             </asp:LinkButton>
                                         </li>
                                     </ul>
@@ -200,12 +263,22 @@
                     href="ListaCursosAdmin.aspx">
                     <i class="fas fa-graduation-cap"></i>Administrar Cursos
                 </a>
+<<<<<<< Updated upstream
             </li>
             <li class="nav-item mb-2">
                 <a class="nav-link text-white d-flex align-items-center gap-2 px-2 py-2 rounded hover-bg"
                     href="ListaCategoriasAdmin.aspx">
                     <i class="fas fa-tags"></i>Administrar Categorías
                 </a>
+=======
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-white d-flex align-items-center gap-2 px-2 py-2 rounded hover-bg"
+                        href="ListaCategoriasAdmin.aspx">
+                        <i class="fas fa-tags"></i>Administrar Categorías
+                    </a>
+                </li>
+
+>>>>>>> Stashed changes
             </li>
             <li class="nav-item mb-2">
                 <a class="nav-link text-white d-flex align-items-center gap-2 px-2 py-2 rounded hover-bg"

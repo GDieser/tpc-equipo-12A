@@ -250,7 +250,24 @@ ADD
     UrlVideo VARCHAR(255),
 	IframeVideo VARCHAR(MAX);
 
+<<<<<<< Updated upstream
 -- AGREGADO PARA ESTADO DE LA COMPRA
 ALTER TABLE COMPRA
 ADD
 	Estado INT;
+=======
+ALTER TABLE NotificacionAdmin
+ADD
+	Oculto BIT NOT NULL DEFAULT 0;
+
+CREATE TABLE NotificacionEstudiante (
+	IdNotificacion  INT PRIMARY KEY IDENTITY(1,1),
+	IdEstudiante INT NOT NULL,
+	IdComentario  INT NOT NULL,
+	Visto BIT NOT NULL DEFAULT 0,
+	FechaNotificacion DATE NOT NULL DEFAULT GETDATE(),
+
+	FOREIGN KEY (IdEstudiante) REFERENCES Usuario(IdUsuario),
+	FOREIGN KEY (IdComentario) REFERENCES Comentario(IdComentario)
+);
+>>>>>>> Stashed changes

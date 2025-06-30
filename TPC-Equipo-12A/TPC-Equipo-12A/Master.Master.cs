@@ -26,7 +26,29 @@ namespace TPC_Equipo_12A
 
                 cantidadCarrito = carrito.CarritoCursos.Count;
 
-                cantidadNotificaciones = servicio.ContarNoVistas(usuario.IdUsuario);
+                if (usuario.Rol == Rol.Administrador)
+                {
+                    cantidadNotificaciones = servicio.ContarNoVistas(usuario.IdUsuario);
+                }
+                else
+                {
+                    cantidadNotificaciones = servicio.ContarNoVistas(usuario.IdUsuario, false);
+
+                    var lista = servicio.ListaNotificaciones(usuario.IdUsuario);
+
+                    if (lista != null && lista.Count > 0)
+                    {
+                        rptNotificaciones.DataSource = lista;
+                        rptNotificaciones.DataBind();
+                        pnlSinNotificaciones.Visible = false;
+                    }
+                    else
+                    {
+                        pnlSinNotificaciones.Visible = true;
+                    }
+
+                }
+
                 Session["CantidadNotificaciones"] = cantidadNotificaciones;
             }
 
@@ -110,6 +132,25 @@ namespace TPC_Equipo_12A
             Session["UsuarioAutenticado"] = null;
 
 
+        }
+
+        protected void rptNotificaciones_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "Ver")
+            {
+                string[] datos = e.CommandArgument.ToString().Split(';');
+                int idNotificacion = int.Parse(datos[0]);
+                int idOrigen = int.Parse(datos[1]);
+                int idEstudiante = usuario.IdUsuario;
+
+                NotificacionesServicio servicio = new NotificacionesServicio();
+
+                servicio.MarcarNotificacionVista(idEstudiante, idNotificacion);
+
+                Session["CantidadNotificaciones"] = (int)Session["CantidadNotificaciones"] - 1;
+
+                Response.Redirect("ForoDetalle.aspx?id=" + idOrigen);
+            }
         }
     }
 }

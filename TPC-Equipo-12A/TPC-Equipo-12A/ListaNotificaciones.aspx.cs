@@ -81,7 +81,6 @@ namespace TPC_Equipo_12A
             NotificacionesServicio ser = new NotificacionesServicio();
             ser.MarcarComoVista(idNotif);
 
-            // refrescar lista
             CargarNotificaciones(false);
         }
 
@@ -90,15 +89,21 @@ namespace TPC_Equipo_12A
             if (e.CommandName == "ver")
             {
                 string[] valores = e.CommandArgument.ToString().Split('|');
+
                 int idNotificacion = int.Parse(valores[0]);
                 int idOrigen = int.Parse(valores[1]);
+                string tipo = (valores[2]).ToString();
 
-                // marcar como vista
+                // marcar como vista, veremos
                 NotificacionesServicio ser = new NotificacionesServicio();
                 ser.MarcarComoVista(idNotificacion);
 
-                // redirigir a detalle
-                Response.Redirect("DetalleNovedad.aspx?IdNovedad=" + idOrigen);
+                // redirigir a detalle, bueno aca ahora dberia ir a foro tmb
+
+                if(tipo == "novedades")
+                    Response.Redirect("DetalleNovedad.aspx?IdNovedad=" + idOrigen);
+                else
+                    Response.Redirect("ForoDetalle.aspx?id=" + idOrigen);
             }
         }
 
@@ -110,6 +115,20 @@ namespace TPC_Equipo_12A
         protected void btnReportenuevos_Click(object sender, EventArgs e)
         {
             CargarReportes(true);
+        }
+
+        protected void btnOcultarLeidos_Click(object sender, EventArgs e)
+        {
+            NotificacionesServicio servicio = new NotificacionesServicio();
+            servicio.OcurltarLeidos();
+
+            CargarNotificaciones(false);
+        }
+
+        protected void gvNotificaciones_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvNotificaciones.PageIndex = e.NewPageIndex;
+            CargarNotificaciones(false);
         }
     }
 }

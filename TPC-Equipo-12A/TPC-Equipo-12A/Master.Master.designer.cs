@@ -42,6 +42,24 @@ namespace TPC_Equipo_12A
         protected global::System.Web.UI.WebControls.HyperLink btnNotificaciones;
 
         /// <summary>
+        /// rptNotificaciones control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptNotificaciones;
+
+        /// <summary>
+        /// pnlSinNotificaciones control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlSinNotificaciones;
+
+        /// <summary>
         /// btnLogin control.
         /// </summary>
         /// <remarks>

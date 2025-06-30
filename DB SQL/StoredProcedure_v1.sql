@@ -106,27 +106,40 @@ GO
 
 --Notificacione
 --comentarios
-CREATE PROCEDURE sp_ListarNotificacionesComentarios
+ALTER PROCEDURE sp_ListarNotificacionesComentarios
     @IdAdmin INT,
     @SoloNuevas BIT = 0
 AS
 BEGIN
     SELECT 
-        N.IdNotificacion, C.Contenido, P.Titulo, C.TipoOrigen, 
-        C.IdOrigen, C.FechaCreacion, U.NombreUsuario, N.Visto
+        N.IdNotificacion,
+        C.Contenido,
+        CASE 
+            WHEN C.TipoOrigen = 'novedades' THEN P.Titulo
+            WHEN C.TipoOrigen = 'debates' THEN D.Titulo
+            ELSE 'Sin origen'
+        END AS Titulo,
+        C.TipoOrigen,
+        C.IdOrigen,
+        C.FechaCreacion,
+        U.NombreUsuario,
+        N.Visto
     FROM 
         NotificacionAdmin N
     INNER JOIN 
         Comentario C ON C.IdComentario = N.IdComentario
     INNER JOIN 
         Usuario U ON U.IdUsuario = C.IdUsuario
-    INNER JOIN 
-        Publicacion P ON P.IdPublicacion = C.IdOrigen
+    LEFT JOIN 
+        Publicacion P ON C.TipoOrigen = 'novedades' AND P.IdPublicacion = C.IdOrigen
+    LEFT JOIN 
+        Debate D ON C.TipoOrigen = 'debates' AND D.IdDebate = C.IdOrigen
     WHERE 
         N.IdAdministrador = @IdAdmin 
         AND C.EsEliminado = 0
-        AND EsReporte = 0
+        AND N.EsReporte = 0
         AND (@SoloNuevas = 0 OR N.Visto = 0)
+		AND Oculto = 0
     ORDER BY 
         N.IdNotificacion DESC;
 END
@@ -135,16 +148,27 @@ GO
 
 --reportes
 
-CREATE PROCEDURE sp_ListarNotificacionesReportes
+ALTER PROCEDURE sp_ListarNotificacionesReportes
     @IdAdmin INT,
     @SoloNuevas BIT = 0
 AS
 BEGIN
     SELECT 
-        N.IdNotificacion, C.Contenido, P.Titulo, C.TipoOrigen, C.IdOrigen, C.FechaCreacion,
+        N.IdNotificacion,
+        C.Contenido,
+        CASE 
+            WHEN C.TipoOrigen = 'novedades' THEN P.Titulo
+            WHEN C.TipoOrigen = 'debates' THEN D.Titulo
+            ELSE 'Sin origen'
+        END AS Titulo,
+        C.TipoOrigen,
+        C.IdOrigen,
+        C.FechaCreacion,
         U.NombreUsuario AS UsuarioComentario,
         UR.NombreUsuario AS UsuarioReporte,
-        N.Visto, N.MotivoReporte
+        N.Visto,
+        N.MotivoReporte,
+        C.TipoOrigen
     FROM 
         NotificacionAdmin N
     INNER JOIN 
@@ -153,8 +177,10 @@ BEGIN
         Usuario U ON U.IdUsuario = C.IdUsuario
     LEFT JOIN 
         Usuario UR ON UR.IdUsuario = N.IdUsuarioReportador
-    INNER JOIN 
-        Publicacion P ON P.IdPublicacion = C.IdOrigen
+    LEFT JOIN 
+        Publicacion P ON C.TipoOrigen = 'novedades' AND P.IdPublicacion = C.IdOrigen
+    LEFT JOIN 
+        Debate D ON C.TipoOrigen = 'debates' AND D.IdDebate = C.IdOrigen
     WHERE 
         N.IdAdministrador = @IdAdmin 
         AND N.EsReporte = 1 
@@ -165,6 +191,7 @@ BEGIN
 END
 
 GO
+
 
 CREATE PROCEDURE sp_InsertarNotificacionAdmin
     @idcomentario INT,
@@ -193,24 +220,7 @@ END
 GO
 --Novedades
 
-CREATE PROCEDURE sp_ListarPublicaciones
-AS
-BEGIN
-    SELECT 
-        P.IdPublicacion, P.IdCategoria, 
-        C.Nombre AS NombreCategoria,
-		P.Titulo, P.Descripcion, P.Resumen, P.FechaCreacion, 
-        P.FechaPublicacion, P.Estado
-    FROM 
-        Publicacion P
-    INNER JOIN 
-        Categoria C ON C.IdCategoria = P.IdCategoria
-	ORDER BY P.FechaPublicacion DESC;
-END
-
-GO
-
-CREATE PROCEDURE sp_ListarPublicaciones
+ALTER PROCEDURE sp_ListarPublicaciones
 AS
 BEGIN
     SELECT 
@@ -227,7 +237,8 @@ BEGIN
     FROM 
         Publicacion P
     LEFT JOIN 
-        Categoria C ON C.IdCategoria = P.IdCategoria;
+        Categoria C ON C.IdCategoria = P.IdCategoria
+		ORDER BY P.FechaPublicacion DESC;
 END
 
 Go

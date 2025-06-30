@@ -11,18 +11,32 @@ namespace Servicio
     {
         AccesoDatos datos = new AccesoDatos();
 
-        public int ContarNoVistas(int idAdmin)
+        public int ContarNoVistas(int idUsuario, bool EsAdmin = true)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setConsulta("SELECT COUNT(*) FROM NotificacionAdmin WHERE Visto = 0 AND IdAdministrador = @id");
-                datos.setParametro("@id", idAdmin);
-                datos.ejecutarLectura();
+                if(EsAdmin)
+                {
+                    datos.setConsulta("SELECT COUNT(*) FROM NotificacionAdmin WHERE Visto = 0 AND IdAdministrador = @id");
+                    datos.setParametro("@id", idUsuario);
+                    datos.ejecutarLectura();
 
-                if (datos.Lector.Read())
-                    return (int)datos.Lector[0];
-                return 0;
+                    if (datos.Lector.Read())
+                        return (int)datos.Lector[0];
+                    return 0;
+
+                }
+                else
+                {
+                    datos.setConsulta("SELECT COUNT(*) FROM NotificacionEstudiante WHERE Visto = 0 AND IdEstudiante = @id");
+                    datos.setParametro("@id", idUsuario);
+                    datos.ejecutarLectura();
+
+                    if (datos.Lector.Read())
+                        return (int)datos.Lector[0];
+                    return 0;
+                }
             }
             catch (Exception ex)
             {
@@ -75,6 +89,71 @@ namespace Servicio
             }
         }
 
+        public List<NotificacionDTO> ListaNotificaciones(int IdUsuario)
+        {
+            List<NotificacionDTO> lista = new List<NotificacionDTO>();
+            try
+            {
+                datos.setConsulta(@"SELECT N.IdNotificacion, U.NombreUsuario, C.IdOrigen FROM NotificacionEstudiante N 
+                                    INNER JOIN Comentario C ON C.IdComentario = N.IdComentario 
+                                    INNER JOIN Usuario U ON U.IdUsuario = C.IdUsuario 
+                                    WHERE IdEstudiante = @IdUsuario AND Visto = 0 
+                                    ORDER BY FechaNotificacion DESC");
+
+                datos.limpiarParametros();
+                datos.setParametro("@IdUsuario", IdUsuario);
+
+                datos.ejecutarLectura();
+
+                while(datos.Lector.Read())
+                {
+                    NotificacionDTO aux = new NotificacionDTO();
+
+                    aux.IdNotificacion = (int)datos.Lector["IdNotificacion"];
+                    aux.NombreUsuario = datos.Lector["NombreUsuario"].ToString();
+                    aux.IdOrigen = (int)datos.Lector["IdOrigen"];
+
+                    lista.Add(aux);
+                }
+
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void MarcarNotificacionVista(int IdEstudiante, int IdNotifiacion)
+        {
+            try
+            {
+                datos.setConsulta("UPDATE NotificacionEstudiante SET Visto = 1 WHERE IdEstudiante = @IdEstudiante AND IdNotificacion = @IdNotifiacion");
+
+                datos.limpiarParametros();
+                datos.setParametro("@IdEstudiante", IdEstudiante);
+                datos.setParametro("@IdNotifiacion", IdNotifiacion);
+
+                datos.ejecutarAccion();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public List<Notificacion> ListarReportes(int idAdmin, bool soloNuevas)
         {
             List<Notificacion> lista = new List<Notificacion>();
@@ -102,6 +181,7 @@ namespace Servicio
                     n.Visto = (bool)datos.Lector["Visto"];
                     n.EsReporte = true;
                     n.MotivoReporte = (string)datos.Lector["MotivoReporte"];
+                    n.TipoOrigen = (string)datos.Lector["TipoOrigen"];
 
                     lista.Add(n);
                 }
@@ -177,6 +257,23 @@ namespace Servicio
             }
         }
 
+        public void OcurltarLeidos()
+        {
+            try
+            {
+                datos.setConsulta("UPDATE NotificacionAdmin SET Oculto = 1 WHERE Visto = 1 ");
+                datos.ejecutarAccion();
 
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

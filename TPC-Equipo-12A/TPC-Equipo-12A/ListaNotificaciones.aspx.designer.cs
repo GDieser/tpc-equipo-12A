@@ -33,6 +33,15 @@ namespace TPC_Equipo_12A
         protected global::System.Web.UI.WebControls.Button btnVerNuevas;
 
         /// <summary>
+        /// btnOcultarLeidos control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnOcultarLeidos;
+
+        /// <summary>
         /// btnTodosReportes control.
         /// </summary>
         /// <remarks>

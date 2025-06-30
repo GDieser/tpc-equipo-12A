@@ -209,7 +209,7 @@ namespace TPC_Equipo_12A
                     }
                 }
 
-                rptNovedades.DataSource = listaFiltrada.OrderBy(c => c.FechaPublicacion).ToList();
+                rptNovedades.DataSource = listaFiltrada.OrderBy(c => c.FechaCreacion).ToList();
                 rptNovedades.DataBind();
 
             }
