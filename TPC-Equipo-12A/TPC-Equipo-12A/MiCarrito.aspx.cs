@@ -100,13 +100,13 @@ namespace TPC_Equipo_12A
             }
 
 
-            CursoServicio servicio = new CursoServicio();
+            CursoServicio cursoServicio = new CursoServicio();
             List<Dominio.Curso> cursos = new List<Dominio.Curso>();
             try
             {
                 foreach (var curso in carrito.CarritoCursos)
                 {
-                    cursos.Add(servicio.GetCursoPorId(curso.IdCurso));
+                    cursos.Add(cursoServicio.GetCursoPorId(curso.IdCurso));
                 }
             }
             catch (Exception ex)
@@ -121,6 +121,7 @@ namespace TPC_Equipo_12A
                 ServicioMail servicioMail = new ServicioMail();
                 try
                 {
+                    carrito.IDOperacion = $"CursoGratis-{Guid.NewGuid()}";
                     compraServicio.RegistrarCompra(carrito);
                     Usuario usuario = usuarioServicio.BuscarPorId(carrito.IdUsuario);
                     servicioMail.EnviarConfirmacionCompra(usuario);
@@ -132,63 +133,29 @@ namespace TPC_Equipo_12A
                 }
                 return;
             }
+
             string accessToken = ConfigurationManager.AppSettings["MPAccessToken"];
-
-            var items = new List<object>();
-
-            foreach (Dominio.Curso item in cursos)
-            {
-                items.Add(new
-                {
-                    title = item.Titulo,
-                    quantity = 1,
-                    currency_id = "ARS",
-                    unit_price = item.Precio
-                });
-            }
             string dominioURL = ConfigurationManager.AppSettings["Dominio"];
-            var preferencia = new
+
+            var mpServicio = new MercadoPagoServicio(accessToken, dominioURL);
+
+            var items = cursos.Select(item => new
             {
-                items = items,
-                external_reference = carrito.IdCarrito.ToString(),
-                back_urls = new
-                {
-                    success = $"{dominioURL}ExitoPago.aspx",
-                    failure = $"{dominioURL}ErrorPago.aspx",
-                    pending = $"{dominioURL}PendientePago.aspx"
-                },
-                notification_url = $"{dominioURL}NotificacionMP.aspx",
-                auto_return = "approved"
-            };
+                title = item.Titulo,
+                quantity = 1,
+                currency_id = "ARS",
+                unit_price = item.Precio
+            }).Cast<object>().ToList();
 
-            string json = new JavaScriptSerializer().Serialize(preferencia);
-
-            WebRequest request = (HttpWebRequest)WebRequest.Create("https://api.mercadopago.com/checkout/preferences?access_token=" + accessToken);
-            request.Method = "POST";
-            request.ContentType = "application/json";
-
-            using (var writer = new StreamWriter(request.GetRequestStream()))
-                writer.Write(json);
             try
             {
-                var response = (HttpWebResponse)request.GetResponse();
-                using (var reader = new StreamReader(response.GetResponseStream()))
-                {
-                    string result = reader.ReadToEnd();
-                    var jsonResponse = new JavaScriptSerializer().Deserialize<Dictionary<string, object>>(result);
+                var (initPoint, idOperacion) = mpServicio.CrearPreferenciaPago(items, carrito.IdCarrito.ToString());
 
-                    if (!jsonResponse.ContainsKey("init_point") || !jsonResponse.ContainsKey("id"))
-                        throw new Exception("La respuesta de Mercado Pago no contiene los datos esperados.");
+                carrito.IDOperacion = idOperacion;
 
-                    string initPoint = jsonResponse["init_point"].ToString();
-                    string idOperacion = jsonResponse["id"].ToString();
+                cursoServicio.AsignarIdOperacionCarrito(carrito);
 
-                    carrito.IDOperacion = idOperacion;
-                    CursoServicio cursoServicio = new CursoServicio();
-                    cursoServicio.AsignarIdOperacionCarrito(carrito);
-
-                    Response.Redirect(initPoint);
-                }
+                Response.Redirect(initPoint, false);
             }
             catch (Exception ex)
             {

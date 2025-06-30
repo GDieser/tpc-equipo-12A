@@ -52,7 +52,13 @@
     <Reference Include="HtmlSanitizer, Version=9.0.0.0, Culture=neutral, PublicKeyToken=61c49a1a9e79cc28, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlSanitizer.9.0.884\lib\net462\HtmlSanitizer.dll</HintPath>
     </Reference>
+    <Reference Include="MercadoPago, Version=1.0.4477.31589, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MercadoPago.1.0.4477.31589\lib\MercadoPago.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="RestSharp, Version=104.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.104.0\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
@@ -111,6 +117,7 @@
     <Content Include="ListaNotificaciones.aspx" />
     <Content Include="ListaUsuarios.aspx" />
     <Content Include="MiCarrito.aspx" />
+    <Content Include="MisCompras.aspx" />
     <Content Include="MisCursos.aspx" />
     <Content Include="MisCursosFavoritos.aspx" />
     <Content Include="Modulo.aspx" />
@@ -125,6 +132,7 @@
     <Content Include="PendientePago.aspx" />
     <Content Include="Perfil.aspx" />
     <Content Include="PublicacionLista.aspx" />
+    <Content Include="README-MercadoPago.html" />
     <Content Include="Registro.aspx" />
     <Content Include="RestablecerContrasenia.aspx" />
     <Content Include="Web.config" />
@@ -234,6 +242,13 @@
     </Compile>
     <Compile Include="MiCarrito.aspx.designer.cs">
       <DependentUpon>MiCarrito.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MisCompras.aspx.cs">
+      <DependentUpon>MisCompras.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MisCompras.aspx.designer.cs">
+      <DependentUpon>MisCompras.aspx</DependentUpon>
     </Compile>
     <Compile Include="MisCursos.aspx.cs">
       <DependentUpon>MisCursos.aspx</DependentUpon>
@@ -384,6 +399,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="imagenes\cursos\" />
     <Folder Include="imagenes\modulos\" />
     <Folder Include="Novedades\" />
   </ItemGroup>

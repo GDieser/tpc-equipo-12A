@@ -18,19 +18,83 @@ namespace TPC_Equipo_12A
         {
             try
             {
-                string topic = Request.QueryString["topic"];
-                string id = Request.QueryString["id"];
-
-                if (topic == "payment" && !string.IsNullOrEmpty(id))
+                if (Request.HttpMethod == "POST")
                 {
-                    ProcesarPago(id);
+                    using (var reader = new StreamReader(Request.InputStream))
+                    {
+                        string body = reader.ReadToEnd();
+                        var serializer = new JavaScriptSerializer();
+
+                        var json = serializer.Deserialize<Dictionary<string, object>>(body);
+
+                        if (json != null && json.ContainsKey("topic") && json.ContainsKey("resource"))
+                        {
+                            string topic = json["topic"].ToString();
+                            string resource = json["resource"].ToString();
+
+                            if (topic == "merchant_order" && !string.IsNullOrEmpty(resource))
+                            {
+                                string[] partes = resource.Split('/');
+                                string id = partes.LastOrDefault();
+
+                                if (!string.IsNullOrEmpty(id))
+                                {
+                                    ProcesarMerchantOrder(id);
+                                }
+                            }
+                        }
+                    }
                 }
 
                 Response.StatusCode = 200;
+                HttpContext.Current.ApplicationInstance.CompleteRequest();
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine("Error en ProcesarRequest: " + ex.Message);
                 Response.StatusCode = 500;
+                HttpContext.Current.ApplicationInstance.CompleteRequest();
+            }
+        }
+        private void ProcesarMerchantOrder(string idMerchantOrder)
+        {
+            try
+            {
+                string accessToken = ConfigurationManager.AppSettings["MPAccessToken"];
+                string url = $"https://api.mercadopago.com/merchant_orders/{idMerchantOrder}?access_token={accessToken}";
+
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "GET";
+
+                using (var response = (HttpWebResponse)request.GetResponse())
+                using (var reader = new StreamReader(response.GetResponseStream()))
+                {
+                    string result = reader.ReadToEnd();
+
+                    var json = new JavaScriptSerializer().Deserialize<Dictionary<string, object>>(result);
+
+                    if (json.ContainsKey("payments"))
+                    {
+                        var payments = json["payments"] as object[];
+                        if (payments != null) 
+                        {
+                            foreach (var p in payments)
+                            {
+                                var pago = p as Dictionary<string, object>;
+                                if (pago != null && pago.ContainsKey("status") && pago["status"].ToString() == "approved")
+                                {
+                                    string IdOrdenPago = json["preference_id"].ToString();
+                                    ProcesarPago(IdOrdenPago);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error en ProcesarMerchantOrder: " + ex.Message);
             }
         }
 

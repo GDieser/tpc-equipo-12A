@@ -720,7 +720,7 @@ namespace Servicio
             catch (Exception ex)
             {
 
-                throw new Exception("Error al cargar el carrito desde la BD",ex);
+                throw new Exception("Error al cargar el carrito desde la BD", ex);
             }
             finally
             {
@@ -911,6 +911,75 @@ namespace Servicio
             }
         }
 
+        public List<Curso> getListaCursosPorIdUsuario(int idUsuario, bool esAdmin)
+        {
+            List<Curso> cursos = new List<Curso>();
+            AccesoDatos accesoDatos = new AccesoDatos();
+            try
+            {
+                accesoDatos.limpiarParametros();
+                if (esAdmin)
+                {
+                    accesoDatos.setConsulta(
+                        @"
+                        SELECT 
+                            c.IdCurso,    
+                            c.Titulo,
+                            c.Resumen,
+                            i.UrlImagen
+                        FROM Curso c
+                        INNER JOIN ImagenCurso ic ON ic.IdCurso = c.IdCurso
+                        INNER JOIN Imagen i ON ic.IdImagen = i.IdImagen
+                        WHERE i.IdTipoImagen = 1 
+                          AND c.Estado <> 0
+                        "
+                    );
+                }
+                else
+                {
+                    accesoDatos.setConsulta(
+                        @" 
+                        SELECT 
+                            c.IdCurso,    
+                            c.Titulo,
+                            c.Resumen,
+                            i.UrlImagen
+                        FROM Curso c
+                        INNER JOIN ImagenCurso ic ON ic.IdCurso = c.IdCurso
+                        INNER JOIN Imagen i ON ic.IdImagen = i.IdImagen
+                        INNER JOIN DetalleCompra dc ON dc.IdCurso = c.IdCurso
+                        INNER JOIN Compra com ON com.IdCompra = dc.IdCompra
+                        WHERE com.IdUsuario = @idUsuario 
+                            AND i.IdTipoImagen = 1 
+                            AND c.Estado <> 0
+                        "
+                    );
+                }
+                accesoDatos.limpiarParametros();
+                accesoDatos.setParametro("@idUsuario", idUsuario);
+                accesoDatos.ejecutarLectura();
+
+                while (accesoDatos.Lector.Read())
+                {
+                    cursos.Add(new Curso
+                    {
+                        IdCurso = (int)accesoDatos.Lector["IdCurso"],
+                        Titulo = accesoDatos.Lector["Titulo"].ToString(),
+                        Resumen = accesoDatos.Lector["Resumen"].ToString(),
+                        ImagenUrl = accesoDatos.Lector["UrlImagen"].ToString()
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cargar los cursos por Id de Usuario", ex);
+            }
+            finally
+            {
+                accesoDatos.cerrarConexion();
+            }
+            return cursos;
+        }
         public Carrito getCarritoPorIdOperacion(string iDOperacion)
         {
             Carrito carrito = new Carrito();

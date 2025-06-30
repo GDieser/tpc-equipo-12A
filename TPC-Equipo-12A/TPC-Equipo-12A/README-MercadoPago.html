@@ -1,0 +1,84 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7 ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>	<html class="no-js lt-ie9 lt-ie8 ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>	<html class="no-js lt-ie9 ie8" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Unofficial MercadoPago .NET SDK</title>
+	<link rel="stylesheet" type="text/css" href="http://www.chico-ui.com.ar/versions/0.10.4/chico-0.10.4.css">
+	<style>
+	.titulo {
+		font-size: 36px;
+		margin-bottom: 15px;
+	}
+	
+	pre, code {
+		font-family: Monaco, "Courier New", monospace;
+		font-size: 12px;
+		background-color: #f8f8f8;
+		color: #333;
+		border: 1px solid #ccc;
+		margin: 10px 0;
+		padding: 7px 10px;
+		border-radius: 3px;
+	}
+	</style>
+</head>
+<body>
+	<br/>
+	<h1 class="titulo">Unofficial MercadoPago .NET SDK</h1>
+	<br />
+	<p class="ch-message-attention">THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+	KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+	WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+	PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+	OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+	OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+	</p>
+	<h2>Version 1.0.4477 / Date 4/4/2012</h2>
+	<br />
+	<ul class="ch-list">
+	<li>This unofficial SDK consists of a group of libraries made to simplify MercadoPago's APIs.</li>
+	<li>This version contains the interaction with three of them: Checkout Preference API, oAuth API and Collections API.</li>
+	<li>It is a port of the official PHP SDK <a href="https://github.com/mercadopago/sdk-php">available here</a>, same examples and documentation applies to this version.</li>
+	<li>More information at the official <a href="https://developers.mercadopago.com">developers site</a>.</li>
+	</ul>
+	<h2>VB.NET examples:</h2>
+	<h3>Obtaining the access token</h3>
+	<pre>
+Dim authService As New MercadoPago.AuthService
+
+Dim clientId As String = "12345"
+Dim clientSecret As String = "qwertyuiopasdfghhjjkk"
+Dim accessData As New MercadoPago.AccessData
+Dim accessToken As String = String.Empty
+
+Try
+  accessData = MP.create_access_data(clientId, clientSecret)
+  accessToken = accessData.access_token
+Catch ex As Exception
+  Debug.WriteLine("ERROR - " & ex.Message)
+End Try</pre>
+	<h3>Searching for a specific collection payment</h3>
+	<pre>
+Dim collectionService As New MercadoPago.CollectionService
+Dim site_id As String = "MLA" 'could be MLB, MLC, MLA, etc
+Dim filter = New MercadoPago.Filter(123456, site_id) 
+
+Dim collectionResultList As New List(Of MercadoPago.Collection)
+
+Try
+  collectionResultList = collectionService.search_collection(filter, accessToken)
+Catch ex As Exception
+  Debug.WriteLine("ERROR - " & ex.Message)
+End Try</pre>
+	<h2>Contact info</h2>
+	<br />
+	<p>Email: <a href="mailto:emmanuel.larrieux@gmail.com">emmanuel.larrieux@gmail.com</a></p>
+	<p>Twitter: <a href="https://twitter.com/#!/elarrieux">@elarrieux</a></p>
+	<br /><br />
+</body>
+</html>

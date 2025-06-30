@@ -70,7 +70,7 @@
 
         .text-curso a {
             font-size: 0.9rem;
-            color: #a4e5a4; /* Verde pastel */
+            color: #a4e5a4; 
         }
 
         .menu-curso-li {
@@ -82,7 +82,7 @@
         }
 
             .menu-curso-li:hover {
-                border-left-color: #87d187; /* Verde un poco más intenso para hover */
+                border-left-color: #87d187;
             }
 
         body.oculto {
@@ -97,7 +97,7 @@
                     <i class="bi bi-house-door me-2"></i>Mi Aula
                 </h4>
                 <ul class="nav flex-column">
-                    <!-- Mis Cursos -->
+
                     <li class="nav-item mb-2 ">
                         <div class="d-flex justify-content-between align-items-center">
                             <a class="nav-link text-white" href="MisCursos.aspx">
@@ -111,18 +111,18 @@
                             </button>
                         </div>
 
-                        <!-- Cursos del usuario -->
+
                         <ul class="collapse ps-3 pt-2 menu-curso" id="cursosUsuario" data-icon-ref="iconCursosUsuario">
                             <asp:Repeater ID="rptCursos" runat="server" OnItemCommand="rptCursos_ItemCommand">
                                 <ItemTemplate>
                                     <li class="nav-item menu-curso-li">
                                         <div class="d-flex justify-content-between align-items-center text-curso">
-                                            <!-- Curso -->
+
                                             <a href='<%# Eval("UrlCurso") %>' class="nav-link flex-grow-1">
                                                 <i class="bi bi-journal-text me-2"></i><%# Eval("NombreCurso") %>
                                             </a>
 
-                                            <!-- Botón expansión curso -->
+
                                             <button class="btn btn-outline-light btn-xs" type="button"
                                                 data-bs-toggle="collapse"
                                                 data-bs-target='<%# "#modulosCurso" + Eval("IdCurso") %>'
@@ -131,7 +131,7 @@
                                             </button>
                                         </div>
 
-                                        <!-- Módulos -->
+
                                         <ul class="collapse ps-3 pt-1 menu-modulo"
                                             id='<%# "modulosCurso" + Eval("IdCurso") %>'
                                             data-icon-ref='<%# "iconCurso" + Eval("IdCurso") %>'>
@@ -141,12 +141,12 @@
                                                 <ItemTemplate>
                                                     <li>
                                                         <div class="d-flex justify-content-between align-items-center text-modulo">
-                                                            <!-- Módulo -->
+
                                                             <a href='<%# Eval("UrlModulo") %>' class="nav-link flex-grow-1">
                                                                 <i class="bi bi-layers me-2"></i><%# Eval("NombreModulo") %>
                                                             </a>
 
-                                                            <!-- Botón expansión módulo -->
+
                                                             <button class="btn btn-outline-light btn-xs" type="button"
                                                                 data-bs-toggle="collapse"
                                                                 data-bs-target='<%# "#leccionesModulo" + Eval("IdModulo") %>'
@@ -155,7 +155,7 @@
                                                             </button>
                                                         </div>
 
-                                                        <!-- Lecciones -->
+
                                                         <ul class="collapse ps-3 pt-1 menu-leccion"
                                                             id='<%# "leccionesModulo" + Eval("IdModulo") %>'
                                                             data-icon-ref='<%# "iconModulo" + Eval("IdModulo") %>'>
@@ -211,10 +211,8 @@
     </div>
 
     <script>
-        // Oculta el body al inicio
         document.body.classList.add('oculto');
 
-        // Se asegura de restaurar solo cuando los targets están listos
         function restaurarEstadoColapsables() {
             const intentosMaximos = 20;
             let intentos = 0;
@@ -253,7 +251,6 @@
                     return setTimeout(intentarRestaurar, 100);
                 }
 
-                // ✅ Mostrar el body al final
                 document.body.classList.remove('oculto');
             };
 
