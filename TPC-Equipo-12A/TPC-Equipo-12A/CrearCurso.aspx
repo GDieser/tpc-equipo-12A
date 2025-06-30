@@ -90,7 +90,13 @@
                         <div class="mb-3">
                             <label class="form-label">Imagen destacada</label>
                             <div class="input-group">
-                                <asp:TextBox ID="txtNombreArchivoCurso" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtNombreArchivoCurso_TextChanged" ReadOnly="true" />
+                                <asp:TextBox ID="txtUrlImagen"
+                                    runat="server"
+                                    CssClass="form-control"
+                                    AutoPostBack="true"
+                                    OnTextChanged="txtUrlImagen_TextChanged"
+                                    placeholder="Ingresa una URL o selecciona un archivo"
+                                    ReadOnly="false" />
                                 <button type="button" class="btn btn-outline-secondary rounded-end"
                                     onclick="document.getElementById('<%= fuImagenCurso.ClientID %>').click();">
                                     <i class="bi bi-folder"></i>
@@ -98,7 +104,12 @@
                                 <asp:FileUpload ID="fuImagenCurso" runat="server" CssClass="d-none" />
                             </div>
                         </div>
-
+                        <div class="mb-1 d-flex align-items-center">
+                            <asp:Label Text="" ID="lblNombreArchivoCurso" runat="server" />
+                            <button type="button" id="btnBorrarArchivo" class="btn btn-link btn-sm ms-2 text-danger" style="display: none;" title="Eliminar archivo">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
                         <div class="text-center mb-3">
                             <asp:Image ID="imgPreview" runat="server" ImageUrl="https://www.aprender21.com/images/colaboradores/sql.jpeg" CssClass="img-thumbnail" Style="max-height: 200px;" />
                         </div>
@@ -135,35 +146,56 @@
 
                 Sys.Application.add_load(function () {
                     const inputFile = document.getElementById('<%= fuImagenCurso.ClientID %>');
-                        const txtNombre = document.getElementById('<%= txtNombreArchivoCurso.ClientID %>');
+                    const lblNombre = document.getElementById('<%= lblNombreArchivoCurso.ClientID %>');
+                    const btnBorrar = document.getElementById('btnBorrarArchivo');
+                    const txtUrlImagen = document.getElementById('<%= txtUrlImagen.ClientID %>');
+                    const preview = document.getElementById('<%= imgPreview.ClientID %>');
 
-                        if (inputFile && txtNombre) {
-                            inputFile.addEventListener("change", function () {
-                                if (inputFile.files.length > 0) {
-                                    txtNombre.value = inputFile.files[0].name;
-                                }
-                            });
+                    function actualizarEstadoBoton() {
+                        if (lblNombre.innerText.trim().length > 0) {
+                            btnBorrar.style.display = "inline-block";
+                        } else {
+                            btnBorrar.style.display = "none";
                         }
-                });
+                    }
 
-                document.addEventListener("DOMContentLoaded", function () {
-                    const fileInput = document.getElementById("<%= fuImagenCurso.ClientID %>");
-                    const txtNombre = document.getElementById("<%= txtNombreArchivoCurso.ClientID %>");
-                    const preview = document.getElementById("<%= imgPreview.ClientID %>");
-
-                    fileInput.addEventListener("change", function () {
-                        if (fileInput.files && fileInput.files[0]) {
-                            const file = fileInput.files[0];
-
-                            txtNombre.value = file.name;
+                    inputFile.addEventListener("change", function () {
+                        if (inputFile.files && inputFile.files[0]) {
+                            const file = inputFile.files[0];
+                            lblNombre.innerText = file.name;
+                            txtUrlImagen.value = file.name;
 
                             const reader = new FileReader();
                             reader.onload = function (e) {
                                 preview.src = e.target.result;
                             };
-                            reader.readAsDataURL(file); 
+                            reader.readAsDataURL(file);
+                        } else {
+                            lblNombre.innerText = "";
+                            preview.src = "";
+                        }
+                        actualizarEstadoBoton();
+                    });
+
+                    btnBorrar.addEventListener("click", function () {
+                        inputFile.value = "";
+                        lblNombre.innerText = "";
+                        txtUrlImagen.value = ""; 
+                        preview.src = "";  
+                        actualizarEstadoBoton();
+                    });
+
+                    txtUrlImagen.addEventListener("input", function () {
+                        const url = txtUrlImagen.value.trim();
+
+                        if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("~/")) {
+                            preview.src = url;
+                            lblNombre.innerText = ""; 
+                            actualizarEstadoBoton();
                         }
                     });
+
+                    actualizarEstadoBoton();
                 });
             </script>
 

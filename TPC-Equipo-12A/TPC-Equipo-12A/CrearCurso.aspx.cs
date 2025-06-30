@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -12,6 +14,7 @@ namespace TPC_Equipo_12A
 {
     public partial class CrearCurso : System.Web.UI.Page
     {
+
         private Dominio.Curso cursoSeleccionado;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -45,7 +48,7 @@ namespace TPC_Equipo_12A
                         chkCertificado.Checked = cursoSeleccionado.Certificado;
                         ddlCategoria.SelectedValue = cursoSeleccionado.Categoria.IdCategoria.ToString();
                         ddlEstado.SelectedValue = ((int)cursoSeleccionado.Estado).ToString();
-                        txtNombreArchivoCurso.Text = cursoSeleccionado.ImagenPortada.Url;
+                        txtUrlImagen.Text = cursoSeleccionado.ImagenPortada.Url;
                         imgPreview.ImageUrl = cursoSeleccionado.ImagenPortada.Url;
                         Session["CursoSeleccionado"] = cursoSeleccionado;
                     }
@@ -144,6 +147,8 @@ namespace TPC_Equipo_12A
                 Categoria = new Categoria { IdCategoria = int.Parse(ddlCategoria.SelectedValue) }
             };
 
+            bool imagenAsignada = false;
+
             if (fuImagenCurso.HasFile)
             {
                 string extension = Path.GetExtension(fuImagenCurso.FileName).ToLower();
@@ -164,9 +169,10 @@ namespace TPC_Equipo_12A
                     fuImagenCurso.SaveAs(rutaFisica);
                     entidad.ImagenPortada = new Imagen
                     {
-                        Url = rutaRelativa,
+                        Url = ResolveUrl(rutaRelativa),
                         Nombre = nombreArchivo
                     };
+                    imagenAsignada = true;
                 }
                 catch (Exception)
                 {
@@ -174,16 +180,46 @@ namespace TPC_Equipo_12A
                     return;
                 }
             }
+            else if (!string.IsNullOrWhiteSpace(txtUrlImagen.Text))
+            {
+                if (cursoSeleccionado?.ImagenPortada != null && cursoSeleccionado.ImagenPortada.Url == txtUrlImagen.Text)
+                {
+                    entidad.ImagenPortada = cursoSeleccionado.ImagenPortada;
+                }
+                else
+                {
+                    string nombreImagen = $"Imagen portada - {entidad.Titulo}";
 
+                    if (nombreImagen.Length > 50)
+                    {
+                        nombreImagen = nombreImagen.Substring(0, 50);
+                    }
+
+                    entidad.ImagenPortada = new Imagen
+                    {
+                        Url = txtUrlImagen.Text,
+                        Nombre = nombreImagen
+                    };
+                }
+                imagenAsignada = true;
+            }
+
+            if (cursoSeleccionado?.ImagenPortada != null &&
+                cursoSeleccionado.ImagenPortada.IdImagen > 0)
+            {
+                entidad.ImagenPortada.IdImagen = cursoSeleccionado.ImagenPortada.IdImagen;
+            }
+            else
+            {
+                entidad.ImagenPortada.IdImagen = 0;
+            }
 
             int idCurso;
-            var cursoSeleccionado = Session["CursoSeleccionado"] as Dominio.Curso;
 
-            if (entidad.ImagenPortada == null && cursoSeleccionado?.ImagenPortada != null)
+            if (!imagenAsignada && cursoSeleccionado?.ImagenPortada != null)
             {
                 entidad.ImagenPortada = cursoSeleccionado.ImagenPortada;
             }
-
 
             if (cursoSeleccionado != null)
 
@@ -201,9 +237,9 @@ namespace TPC_Equipo_12A
             Response.Redirect($"Curso.aspx?id={idCurso}");
         }
 
-        protected void txtNombreArchivoCurso_TextChanged(object sender, EventArgs e)
+        protected void txtUrlImagen_TextChanged(object sender, EventArgs e)
         {
-            imgPreview.ImageUrl = txtNombreArchivoCurso.Text;
+            imgPreview.ImageUrl = txtUrlImagen.Text;
         }
     }
 }

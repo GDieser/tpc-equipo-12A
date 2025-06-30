@@ -114,13 +114,13 @@ namespace TPC_Equipo_12A
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
 
         /// <summary>
-        /// txtNombreArchivoCurso control.
+        /// txtUrlImagen control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNombreArchivoCurso;
+        protected global::System.Web.UI.WebControls.TextBox txtUrlImagen;
 
         /// <summary>
         /// fuImagenCurso control.
@@ -130,6 +130,15 @@ namespace TPC_Equipo_12A
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fuImagenCurso;
+
+        /// <summary>
+        /// lblNombreArchivoCurso control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNombreArchivoCurso;
 
         /// <summary>
         /// imgPreview control.
