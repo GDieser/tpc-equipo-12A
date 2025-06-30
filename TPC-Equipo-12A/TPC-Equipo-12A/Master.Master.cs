@@ -187,7 +187,7 @@ namespace TPC_Equipo_12A
                 else
                     Response.Redirect("DetalleNovedad.aspx?IdNovedad=" + publicaciones[0].IdPublicacion);
             }
-            else if (totalResultados > 1)
+            else if (totalResultados > 1 || totalResultados == 0)
             {
                 Response.Redirect("BuscarResultado.aspx?q=" + Server.UrlEncode(palabra));
             }
