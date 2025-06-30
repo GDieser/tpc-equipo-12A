@@ -136,7 +136,7 @@
                                 </li>
                                 <li><strong>/</strong></li>
                                 <li class="breadcrumb-item">
-                                    <a href='<%= "Modulo.aspx?id=" + IdModulo.ToString() %>'><%= NombreModulo %></a>
+                                    <a><%= NombreModulo %></a>
                                 </li>
 
                             </ol>
@@ -155,7 +155,7 @@
                                 Text="Editar Contenido"
                                 OnClick="btnAgregarContenido_Click" />
                         </div>
-
+                        <hr />
 
                         <div style="text-align: center;">
                             <asp:Literal ID="litIframe" runat="server" />
@@ -169,8 +169,32 @@
 
                         <hr class="mt-2 mb-2" />
                         <div class="text-end">
-                            <asp:Button Text="Marcar como completada" CssClass="btn btn-primary" runat="server" ID="btnMarcarCompletada" OnClick="btnMarcarCompletada_Click" />
+                            <asp:Button Text="Marcar como completada" CssClass="btn btn-success" runat="server" ID="btnMarcarCompletada" OnClick="btnMarcarCompletada_Click" />
                         </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <% if (IdAnterior != null)
+                                { %>
+                            <a href='Leccion.aspx?id=<%= IdAnterior %>' class="btn btn-primary">⬅ Anterior
+                            </a>
+                            <% }
+                                else
+                                { %>
+                            <span></span><% %>
+                            <% } %>
+
+                            <% if (IdSiguiente != null)
+                                { %>
+                            <a href='Leccion.aspx?id=<%= IdSiguiente %>' class="btn btn-primary">Siguiente ➡
+                            </a>
+                            <%}
+                                else
+                                {  %>
+
+                            <a href='<%= "Curso.aspx?id=" + IdCurso.ToString() %>' class="btn btn-warning">🔄Volver a modulos</a>
+                            <%} %>
+                        </div>
+
                     </asp:PlaceHolder>
                 </div>
             </div>

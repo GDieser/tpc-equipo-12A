@@ -38,6 +38,8 @@ namespace TPC_Equipo_12A
             get => ViewState["NombreModulo"] != null ? (string)ViewState["NombreModulo"] : string.Empty;
             set => ViewState["NombreModulo"] = value;
         }
+        protected int? IdAnterior;
+        protected int? IdSiguiente;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -45,6 +47,25 @@ namespace TPC_Equipo_12A
                 if (Request.QueryString["id"] == null)
                 {
                     redirigirConError("Debe indicar un ID de lección para poder acceder a ella.");
+                }
+
+                int id = Convert.ToInt32(Request.QueryString["id"]);
+                LeccionServicio ser = new LeccionServicio();
+                Session["LeccionesId"] = ser.ListaDeIdLecciones(id);
+
+                int idActual = Convert.ToInt32(Request.QueryString["id"]);
+
+                List<LeccionDTO> lecciones = Session["LeccionesId"] as List<LeccionDTO>;
+
+                if (lecciones != null)
+                {
+                    int indexActual = lecciones.FindIndex(l => l.IdLeccion == idActual);
+
+                    if (indexActual > 0)
+                        IdAnterior = lecciones[indexActual - 1].IdLeccion;
+
+                    if (indexActual < lecciones.Count - 1)
+                        IdSiguiente = lecciones[indexActual + 1].IdLeccion;
                 }
 
                 var usuarioAutenticado = Session["UsuarioAutenticado"] as UsuarioAutenticado;

@@ -15,7 +15,17 @@
             border-bottom: 1px solid rgba(255,255,255,0.1) !important;
         }
     </style>
+    <style>
+        .hover-effect:hover {
+            background-color: #2c3034 !important;
+            transform: translateX(4px);
+            transition: all 0.2s ease;
+        }
 
+        .list-group-item {
+            padding: 1rem 1.25rem;
+        }
+    </style>
 
     <div class="container p-3">
 
@@ -25,19 +35,22 @@
                 <asp:Image ID="imgBannerCurso" runat="server" CssClass="img-fluid rounded shadow img-banner-curso" />
             </div>
 
-            <h2 class="text-primary fw-bold">
+            <h2 class="text-info fw-bold mb-3">
                 <asp:Literal ID="litTituloCurso" runat="server" />
-
             </h2>
+
             <div class="d-flex justify-content-between align-items-center">
                 <p class="text-secondary mb-0">
                     <asp:Literal ID="litIntroCurso" runat="server" />
                 </p>
-                <asp:Button ID="btnAgregarLeccion" runat="server" CssClass="btn btn-primary btn-sm mb-3"
+                <asp:Button ID="btnAgregarLeccion" runat="server" CssClass="btn btn-outline-info btn-sm"
                     Text="Agregar Módulo" OnClientClick="limpiarModal(); return false;" data-bs-toggle="modal"
                     data-bs-target="#modalLeccion" />
             </div>
+
+
             <hr />
+
             <asp:UpdatePanel runat="server" ID="updtCurso">
                 <ContentTemplate>
                     <asp:Repeater ID="rptModulos" runat="server"
@@ -45,7 +58,7 @@
                         OnItemDataBound="rptModulos_ItemDataBound"
                         OnItemCreated="rptModulos_ItemCreated">
                         <ItemTemplate>
-                            <div class="card mb-2 border-0" style="background-color: #211c1c; color: aliceblue;">
+                            <div class="card mb-2 border-0" style="background-color: #212121; color: aliceblue;">
                                 <div class="card-header d-flex justify-content-between align-items-center border-0">
                                     <div style="flex-grow: 1; cursor: pointer;"
                                         data-bs-toggle="collapse"
@@ -107,43 +120,50 @@
                                         style="cursor: pointer;"></i>
                                 </div>
 
-                                <div id='<%# "intro" + Eval("IdModulo") %>' class="collapse card-body border-0" style="background-color: #211c1c; color: aliceblue;">
+                                <div id='<%# "intro" + Eval("IdModulo") %>' class="collapse card-body border-0" style="background-color: #282828; color: aliceblue;">
                                     <div class="d-flex justify-content-between align-items-start mb-2">
                                         <p class="mb-0 fst-italic" style="color: lightgray;">
                                             <%# Eval("Introduccion").ToString().Length > 100 
-                ? Eval("Introduccion").ToString().Substring(0, 100) + "..." 
-                : Eval("Introduccion").ToString() %>
+                                            ? Eval("Introduccion").ToString().Substring(0, 100) + "..." 
+                                            : Eval("Introduccion").ToString() %>
                                         </p>
+                                        <%if (UsuarioAutenticado != null && UsuarioAutenticado.Rol == Dominio.Rol.Administrador)
+                                            { %>
                                         <a href='<%# "Modulo.aspx?id=" + Eval("IdModulo") %>'
                                             class="ms-3 text-decoration-none text-info fw-bold">Ver más
                                         </a>
+                                        <%} %>
                                     </div>
 
                                     <ol class="list-group list-group-numbered">
                                         <asp:Repeater ID="rptLecciones" runat="server" DataSource='<%# Eval("Lecciones") %>'>
                                             <ItemTemplate>
-                                                <li class="list-group-item bg-dark text-light border-secondary d-flex justify-content-between align-items-center">
-                                                    <div class="flex-grow-1 text-start ps-2">
-                                                        <i class='<%# ((bool)Eval("Completado")) ? "bi bi-check-circle-fill text-success" : "bi bi-circle text-secondary" %>'
-                                                            title='<%# ((bool)Eval("Completado")) ? "Completada" : "Incompleta" %>'
-                                                            style="margin-right: 8px;"></i>
-                                                        <%# Eval("Titulo") %>
-                                                    </div>
-                                                    <a href='<%# "Leccion.aspx?id=" + Eval("IdLeccion") %>' class="btn btn-sm btn-outline-primary ms-2">
-                                                        <i class="bi bi-arrow-right text-white"></i>
-                                                    </a>
-                                                </li>
+                                                <a href='<%# "Leccion.aspx?id=" + Eval("IdLeccion") %>' class="text-decoration-none">
+                                                    <li class="list-group-item bg-dark text-light border-secondary d-flex justify-content-between align-items-center mb-2 rounded-3 hover-effect">
+                                                        <div class="flex-grow-1 text-start ps-3 d-flex align-items-center">
+                                                            <i class='<%# ((bool)Eval("Completado")) ? "bi bi-check-circle-fill text-success fs-6" : "bi bi-circle text-secondary fs-6" %>'
+                                                                title='<%# ((bool)Eval("Completado")) ? "Completada" : "Incompleta" %>'
+                                                                style="margin-right: 12px;"></i>
+                                                            <span class="fs-6"><%# Eval("Titulo") %></span>
+                                                        </div>
+                                                        <span class="btn btn-sm btn-outline-info ms-2 p-2">
+                                                            <i class="bi bi-arrow-right"></i>
+                                                        </span>
+                                                    </li>
+                                                </a>
                                             </ItemTemplate>
                                         </asp:Repeater>
                                     </ol>
                                 </div>
                             </div>
                         </ItemTemplate>
-                      </asp:Repeater>
+                    </asp:Repeater>
                     <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-success btn-sm mb-3" Text="Guardar cambios" OnClick="btnGuardarCambios_Click" />
 
                 </ContentTemplate>
             </asp:UpdatePanel>
+
+
             <asp:UpdatePanel runat="server" ID="updModal" UpdateMode="Conditional">
                 <ContentTemplate>
                     <div class="modal fade" id="modalLeccion" tabindex="-1" aria-labelledby="modalLeccionLabel" aria-hidden="true">

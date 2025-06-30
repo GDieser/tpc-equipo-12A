@@ -13,6 +13,7 @@ namespace TPC_Equipo_12A
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+
             if (!IsPostBack)
             {
                 CargarCompras();
@@ -49,8 +50,8 @@ namespace TPC_Equipo_12A
 
         protected void btnConfirmarAgregar_Click(object sender, EventArgs e)
         {
-            int idCurso = ddlCurso.SelectedIndex;
-            int idUsuario = ddlUsuario.SelectedIndex;
+            int idCurso = Convert.ToInt32(ddlCurso.SelectedValue.ToString());
+            int idUsuario = Convert.ToInt32(ddlUsuario.SelectedValue.ToString());
             CompraServicio compraServicio = new CompraServicio();
             try
             {

@@ -58,6 +58,7 @@ namespace TPC_Equipo_12A
                         return;
                     }
 
+                    
                     Session["Curso"] = curso;
                     litTituloCurso.Text = curso.Titulo;
                     litIntroCurso.Text = curso.Resumen;

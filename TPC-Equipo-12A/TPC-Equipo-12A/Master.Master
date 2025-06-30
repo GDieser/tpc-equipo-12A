@@ -43,9 +43,10 @@
                     <%
                         }
                     %>
-
-                    <img style="width: 35px; margin-right: 5px" src='<%= ResolveUrl("~/Icons/logoIntro.png") %>' alt="Alternate Text" />
-                    <a class="navbar-brand" href="Default.aspx">MisCursos</a>
+                    <a class="navbar-brand d-flex align-items-center" href="Default.aspx">
+                        <img src='<%= ResolveUrl("~/Icons/logoIntro.png") %>' alt="Logo" style="width: 35px; height: 35px; object-fit: contain;" class="me-2" />
+                        <span class="fw-bold">MisCursos</span>
+                    </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -68,17 +69,17 @@
                             <%} %>
                         </ul>
 
-                      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-    <li class="nav-item">
-        <asp:Panel runat="server" CssClass="d-flex flex-column align-items-start" DefaultButton="btnBuscar">
-            <div class="d-flex align-items-center">
-                <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control me-2" placeholder="Buscar" />
-                <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="btn btn-outline-secondary" OnClick="btnBuscar_Click" />
-            </div>
-            <asp:Label ID="lblMensaje" runat="server" CssClass="text-danger small mt-1 ms-1" Visible="false" />
-        </asp:Panel>
-    </li>
-</ul>
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <asp:Panel runat="server" CssClass="d-flex flex-column align-items-start" DefaultButton="btnBuscar">
+                                    <div class="d-flex align-items-center">
+                                        <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control me-2" placeholder="Buscar" />
+                                        <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="btn btn-outline-secondary" OnClick="btnBuscar_Click" />
+                                    </div>
+                                    <asp:Label ID="lblMensaje" runat="server" CssClass="text-danger small mt-1 ms-1" Visible="false" />
+                                </asp:Panel>
+                            </li>
+                        </ul>
 
 
                         <div class="d-flex">

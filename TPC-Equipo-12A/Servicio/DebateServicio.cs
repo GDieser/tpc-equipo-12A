@@ -31,7 +31,8 @@ namespace Servicio
                                     AND C.IdOrigen = D.IdDebate 
                                     AND C.EsEliminado = 0
                                 WHERE D.Activo = 1 AND D.IdOrigen = @IdOrigen AND EsAviso = @EsAviso
-                                GROUP BY D.Titulo, D.FechaCreacion, U.NombreUsuario, I.UrlImagen, D.IdDebate;");
+                                GROUP BY D.Titulo, D.FechaCreacion, U.NombreUsuario, I.UrlImagen, D.IdDebate
+                                ORDER BY D.FechaCreacion DESC;");
 
 
                 datos.limpiarParametros();

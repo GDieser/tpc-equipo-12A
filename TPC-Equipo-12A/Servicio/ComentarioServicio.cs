@@ -114,6 +114,13 @@ namespace Servicio
                     datos.ejecutarAccion();
                 }
 
+                if(comentario.TipoOrigen == "debates")
+                {
+                    NotificacionesServicio ser = new NotificacionesServicio();
+
+                    ser.AgregarNotificacionEstudiante(comentario, idNuevoComentario);
+                }
+
 
 
             }
