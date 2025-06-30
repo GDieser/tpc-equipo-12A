@@ -17,6 +17,11 @@ namespace TPC_Equipo_12A
         {
             usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
 
+            if (usuario == null)
+            {
+                Session.Add("error", "Hey, no deberías andar por acá 🤨. Acceso no permitido");
+                Response.Redirect("Error.aspx");
+            }
 
             if (!IsPostBack)
             {

@@ -855,15 +855,21 @@ namespace Servicio
                 {
                     consulta = @"
                 SELECT 
-                    c.IdCurso,
-                    c.Titulo,
-                    I.UrlImagen
-                FROM Curso c
-                INNER JOIN DetalleCompra dc ON c.IdCurso = dc.IdCurso 
-                INNER JOIN Compra co ON dc.IdCompra = co.IdCompra
-                INNER JOIN ImagenCurso IC ON IC.IdCurso = C.IdCategoria
-                INNER JOIN Imagen I ON I.IdImagen = IC.IdImagen 
-                WHERE co.IdUsuario = @idUsuario AND c.Estado = 1
+                    C.IdCurso,
+                    C.Titulo,
+                    I.UrlImagen,
+                    COUNT(DISTINCT L.IdLeccion) AS TotalLecciones,
+                    COUNT(DISTINCT CASE WHEN LU.EsFinalizado = 1 THEN L.IdLeccion END) AS LeccionesCompletadas
+                FROM Curso C
+                INNER JOIN DetalleCompra DC ON C.IdCurso = DC.IdCurso
+                INNER JOIN Compra CO ON DC.IdCompra = CO.IdCompra AND CO.IdUsuario = @idUsuario
+                INNER JOIN ImagenCurso IC ON IC.IdCurso = C.IdCurso
+                INNER JOIN Imagen I ON I.IdImagen = IC.IdImagen
+                LEFT JOIN Modulo M ON M.IdCurso = C.IdCurso
+                LEFT JOIN Leccion L ON L.IdModulo = M.IdModulo
+                LEFT JOIN LeccionUsuario LU ON LU.IdLeccion = L.IdLeccion AND LU.IdUsuario = @idUsuario
+                WHERE C.Estado = 1
+                GROUP BY C.IdCurso, C.Titulo, I.UrlImagen
             ";
                 }
 

@@ -218,6 +218,51 @@ namespace Servicio
             }
         }
 
+        public void AgregarNotificacionEstudiante(Comentario comentario, int idComentario)
+        {
+            
+            try
+            {
+                int idOrigen = comentario.IdOrigen;
+
+                datos.setConsulta("SELECT IdUsuario FROM Debate WHERE IdDebate = @idOrigen");
+
+                datos.limpiarParametros();
+                datos.setParametro("@idOrigen", idOrigen);
+                datos.ejecutarLectura();
+
+                int IdUsuario = 0;
+
+                if(datos.Lector.Read())
+                {
+                    IdUsuario = (int)datos.Lector["IdUsuario"];
+                }
+                datos.cerrarConexion();
+
+                if(IdUsuario != comentario.IdUsuario)
+                {
+                    datos.setConsulta("INSERT INTO NotificacionEstudiante(IdComentario, IdEstudiante) VALUES(@idComentario, @IdUsuario) ");
+
+                    datos.limpiarParametros();
+                    datos.setParametro("@idComentario", idComentario);
+                    datos.setParametro("@IdUsuario", IdUsuario);
+
+                    datos.ejecutarAccion();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public void EnviarNotificacion(Notificacion notificacion)
         {
             try

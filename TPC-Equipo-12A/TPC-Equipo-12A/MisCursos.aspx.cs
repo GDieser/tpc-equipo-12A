@@ -26,13 +26,10 @@ namespace TPC_Equipo_12A
 
             if(!IsPostBack)
             {
-                if(usuario.Rol == Dominio.Rol.Administrador)
-                {
-                    lista = servicio.ObtenerCursosCompletosDeUsuario(usuario);
+                lista = servicio.ObtenerCursosCompletosDeUsuario(usuario);
 
-                    rptMisCursos.DataSource = lista;
-                    rptMisCursos.DataBind();
-                }
+                rptMisCursos.DataSource = lista;
+                rptMisCursos.DataBind();
             }
 
         }

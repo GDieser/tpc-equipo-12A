@@ -13,6 +13,13 @@ namespace TPC_Equipo_12A
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            if (!Seguridad.esAdmin(Session["UsuarioAutenticado"]))
+            {
+                Session.Add("error", "Hey, no deberías andar por acá 🤨. Acceso no permitido");
+                Response.Redirect("Error.aspx");
+            }
+
             if (!IsPostBack)
             {
                 if (Request.QueryString["id"] == null)
@@ -112,7 +119,7 @@ namespace TPC_Equipo_12A
                     foreach (Dominio.Leccion leccion in modulo.Lecciones)
                     {
                         leccion.IdModulo = modulo.IdModulo;
-                        leccionServicio.ActualizarOCrear(leccion);
+                        leccionServicio.ActualizarOCrear(leccion, true);
                     }
                 }
 

@@ -56,11 +56,11 @@ namespace TPC_Equipo_12A
                 }
                 catch (SqlException sqlEx) //este sirve para manejos para la bd, util en vario lugares (implmentar)
                 {
-                    lblError.Text = "Ocurrio un error al conectar con la base de datos. Por favor contacte al administrador.";
+                    lblError.Text = "Ocurrio un error al conectar con la base de datos. Por favor contacte al administrador." + sqlEx;
                 }
                 catch (Exception ex)
                 {
-                    lblError.Text = "Ocurrio un error inesperado. Por favor contacte al administrador.";
+                    lblError.Text = "Ocurrio un error inesperado. Por favor contacte al administrador." + ex;
                 }
             }
         }
