@@ -263,23 +263,15 @@
                     href="ListaCursosAdmin.aspx">
                     <i class="fas fa-graduation-cap"></i>Administrar Cursos
                 </a>
-<<<<<<< Updated upstream
             </li>
+
             <li class="nav-item mb-2">
                 <a class="nav-link text-white d-flex align-items-center gap-2 px-2 py-2 rounded hover-bg"
                     href="ListaCategoriasAdmin.aspx">
                     <i class="fas fa-tags"></i>Administrar Categorías
                 </a>
-=======
-                <li class="nav-item mb-2">
-                    <a class="nav-link text-white d-flex align-items-center gap-2 px-2 py-2 rounded hover-bg"
-                        href="ListaCategoriasAdmin.aspx">
-                        <i class="fas fa-tags"></i>Administrar Categorías
-                    </a>
-                </li>
-
->>>>>>> Stashed changes
             </li>
+
             <li class="nav-item mb-2">
                 <a class="nav-link text-white d-flex align-items-center gap-2 px-2 py-2 rounded hover-bg"
                     href="PublicacionLista.aspx">

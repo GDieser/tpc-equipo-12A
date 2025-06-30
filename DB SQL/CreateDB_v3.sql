@@ -250,16 +250,17 @@ ADD
     UrlVideo VARCHAR(255),
 	IframeVideo VARCHAR(MAX);
 
-<<<<<<< Updated upstream
 -- AGREGADO PARA ESTADO DE LA COMPRA
 ALTER TABLE COMPRA
 ADD
 	Estado INT;
-=======
+
+--Agregado para not admin
 ALTER TABLE NotificacionAdmin
 ADD
 	Oculto BIT NOT NULL DEFAULT 0;
 
+--Nueva tabla para notif de estudiantes
 CREATE TABLE NotificacionEstudiante (
 	IdNotificacion  INT PRIMARY KEY IDENTITY(1,1),
 	IdEstudiante INT NOT NULL,
@@ -270,4 +271,4 @@ CREATE TABLE NotificacionEstudiante (
 	FOREIGN KEY (IdEstudiante) REFERENCES Usuario(IdUsuario),
 	FOREIGN KEY (IdComentario) REFERENCES Comentario(IdComentario)
 );
->>>>>>> Stashed changes
+
