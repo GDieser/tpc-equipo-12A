@@ -91,10 +91,11 @@
                     </div>
                 </div>
 
-                <div class="bg-dark rounded p-3 mb-3" style="white-space: pre-line;">
-                    <h6 class="h6 mb-0">
+                <div class="bg-dark rounded p-3 mb-3">
+                    <div class="literal">
                         <asp:Literal ID="litContenido" runat="server" />
-                    </h6>
+
+                    </div>
                 </div>
             </div>
 

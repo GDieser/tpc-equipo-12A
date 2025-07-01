@@ -1,7 +1,7 @@
 CREATE DATABASE TPC_CURSOS_G12A
 GO
 
-USE TPC_CURSOS_G12A
+USE TPC_CURSOS_PRUEBA
 GO
 
 CREATE TABLE Categoria(
@@ -106,10 +106,14 @@ CREATE TABLE Leccion(
 	IdModulo INT NOT NULL,
 	Titulo NVARCHAR(80),
 	Introduccion NVARCHAR(MAX),
-	Contenido NVARCHAR(MAX), -- AGREGADO CONTENIDO
-	Orden INT
+	Contenido NVARCHAR(MAX),
+	Orden INT,
+	AltoVideo INT,
+    AnchoVideo INT,
+    UrlVideo VARCHAR(255),
+	IframeVideo VARCHAR(MAX),
 
-	FOREIGN KEY (IdModulo) REFERENCES Modulo(IdModulo) ON DELETE CASCADE --IMPORTANTE PARA LA ELIMINACION DE UN MODULO
+	FOREIGN KEY (IdModulo) REFERENCES Modulo(IdModulo) ON DELETE CASCADE
 );
 GO
 
@@ -142,7 +146,8 @@ CREATE TABLE Carrito(
 	IdUsuario INT NOT NULL,
 	FechaCreacion DATETIME,
 	UltimaModificacion DATETIME,
-	EstadoCarrito INT DEFAULT 0
+	EstadoCarrito INT DEFAULT 0,
+	IDOperacion VARCHAR(60)
 
 	FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario)
 );
@@ -151,10 +156,11 @@ GO
 CREATE TABLE Compra(
 	IdCompra INT PRIMARY KEY IDENTITY(1,1),
 	IdUsuario INT NOT NULL,
-	IdCarrito INT NOT NULL,
+	IdCarrito INT NULL,
 	FechaCompra DATETIME,
 	MontoTotal DECIMAL NOT NULL,
-	CodigoTransaccion VARCHAR(255) NOT NULL
+	CodigoTransaccion VARCHAR(255) NOT NULL,
+	Estado INT,
 
 	FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario),
 	FOREIGN KEY (IdCarrito) REFERENCES Carrito(IdCarrito)
@@ -217,6 +223,7 @@ CREATE TABLE NotificacionAdmin(
 	EsReporte BIT NOT NULL DEFAULT 0,
     MotivoReporte VARCHAR(50) NULL,
     IdUsuarioReportador INT NULL,
+	Oculto BIT NOT NULL DEFAULT 0,
 	
     FOREIGN KEY (IdUsuarioReportador) REFERENCES Usuario(IdUsuario),
 	FOREIGN KEY (IdComentario) REFERENCES Comentario(IdComentario),
@@ -240,27 +247,6 @@ CREATE TABLE Debate (
 	FOREIGN KEY (IdOrigen) REFERENCES Curso(IdCurso)
 );
 
-ALTER TABLE Carrito ADD IDOperacion VARCHAR(60); -- Para almacenar el Id de operacion de MP
-
--- AGREGADO PARA VIDEO DE YT
-ALTER TABLE Leccion
-ADD 
-    AltoVideo INT,
-    AnchoVideo INT,
-    UrlVideo VARCHAR(255),
-	IframeVideo VARCHAR(MAX);
-
--- AGREGADO PARA ESTADO DE LA COMPRA
-ALTER TABLE COMPRA
-ADD
-	Estado INT;
-
---Agregado para not admin
-ALTER TABLE NotificacionAdmin
-ADD
-	Oculto BIT NOT NULL DEFAULT 0;
-
---Nueva tabla para notif de estudiantes
 CREATE TABLE NotificacionEstudiante (
 	IdNotificacion  INT PRIMARY KEY IDENTITY(1,1),
 	IdEstudiante INT NOT NULL,
@@ -271,4 +257,6 @@ CREATE TABLE NotificacionEstudiante (
 	FOREIGN KEY (IdEstudiante) REFERENCES Usuario(IdUsuario),
 	FOREIGN KEY (IdComentario) REFERENCES Comentario(IdComentario)
 );
+
+
 

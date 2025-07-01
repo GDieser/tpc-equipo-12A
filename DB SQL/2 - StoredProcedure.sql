@@ -7,7 +7,7 @@ GO
 --Comentarios: 
 
 
-ALTER PROCEDURE sp_ObtenerComentariosPorOrigen
+CREATE PROCEDURE sp_ObtenerComentariosPorOrigen
     @IdOrigen INT,
     @TipoOrigen VARCHAR(50)
 AS
@@ -106,7 +106,7 @@ GO
 
 --Notificacione
 --comentarios
-ALTER PROCEDURE sp_ListarNotificacionesComentarios
+CREATE PROCEDURE sp_ListarNotificacionesComentarios
     @IdAdmin INT,
     @SoloNuevas BIT = 0
 AS
@@ -148,7 +148,7 @@ GO
 
 --reportes
 
-ALTER PROCEDURE sp_ListarNotificacionesReportes
+CREATE PROCEDURE sp_ListarNotificacionesReportes
     @IdAdmin INT,
     @SoloNuevas BIT = 0
 AS
@@ -220,7 +220,7 @@ END
 GO
 --Novedades
 
-ALTER PROCEDURE sp_ListarPublicaciones
+CREATE PROCEDURE sp_ListarPublicaciones
 AS
 BEGIN
     SELECT 
@@ -455,35 +455,6 @@ END;
 GO
 --*******************************************************************************--
 ---Parte de cursos
-
-CREATE PROCEDURE sp_ListarCursosPorRol
-    @RolUsuario INT
-AS
-BEGIN
-    SELECT  
-        C.IdCurso, 
-        C.Titulo, 
-        C.Resumen, 
-        C.Descripcion, 
-        C.Precio, 
-        C.FechaPublicacion, 
-        C.Estado,
-        C.IdCategoria,
-        Cat.Nombre     AS NombreCategoria,
-		Cat.Activo	   AS ActivoCategoria, -- Se agrego porque faltaba
-        I.IdImagen,
-        I.UrlImagen    AS Url,
-        I.Nombre       AS NombreImagen,
-        I.IdTipoImagen AS Tipo
-    FROM Curso C
-    INNER JOIN Categoria Cat ON Cat.IdCategoria = C.IdCategoria
-    LEFT JOIN ImagenCurso IC ON IC.IdCurso = C.IdCurso
-    LEFT JOIN Imagen I ON I.IdImagen = IC.IdImagen
-    WHERE (@RolUsuario = 0 OR C.Estado = 1)
-	ORDER BY C.FechaPublicacion DESC;
-END;
-
-GO
 
 CREATE PROCEDURE sp_ListarCursosPorRol
     @RolUsuario INT

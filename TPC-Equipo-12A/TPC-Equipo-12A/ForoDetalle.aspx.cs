@@ -383,7 +383,7 @@ namespace TPC_Equipo_12A
 
             int idDebate = Convert.ToInt32(Request.QueryString["id"]);
             string nuevoTitulo = txtTitulo.Text;
-            string nuevoContenido = Request.Form[txtContenido.ClientID];
+            string nuevoContenido = txtContenido.Text.Trim();
 
             servicio.EditarDebate(idDebate, nuevoTitulo, nuevoContenido);
 
