@@ -404,5 +404,11 @@ namespace TPC_Equipo_12A
                     scriptMan.RegisterAsyncPostBackControl(btnEliminar);
             }
         }
+
+        protected void btnAtras_Click(object sender, EventArgs e)
+        {
+            int id = Convert.ToInt32(Request.QueryString["id"]);
+            Response.Redirect("ForoCurso.aspx?IdCurso="+id);
+        }
     }
 }

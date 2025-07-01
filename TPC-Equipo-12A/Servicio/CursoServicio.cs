@@ -83,10 +83,9 @@ namespace Servicio
                 datos.setParametro("@idUsuario", idUsuario);
                 datos.setParametro("@idCurso", idCurso);
                 datos.setConsulta(@"
-                    SELECT *
-                    FROM Carrito c 
-                    INNER JOIN CarritoCurso cc ON cc.IdCarrito = c.IdCarrito
-                    WHERE c.IdUsuario = @idUsuario AND cc.IdCurso = @idCurso
+                    SELECT * FROM Compra C
+                    INNER JOIN DetalleCompra DC ON DC.IdCompra = C.IdCompra
+                    WHERE C.IdUsuario = @idUsuario AND DC.IdCurso = @idCurso
                 ");
                 datos.ejecutarLectura();
                 return datos.Lector.Read();

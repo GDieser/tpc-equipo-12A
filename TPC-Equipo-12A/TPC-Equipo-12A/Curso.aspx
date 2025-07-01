@@ -35,6 +35,8 @@
                 <asp:Image ID="imgBannerCurso" runat="server" CssClass="img-fluid rounded shadow img-banner-curso" />
             </div>
 
+            <asp:Button Text="← Volver atrás" CssClass="btn btn-secondary float-end" runat="server" Id="btnAtras" OnClick="btnAtras_Click" />
+
             <h2 class="text-info fw-bold mb-3">
                 <asp:Literal ID="litTituloCurso" runat="server" />
             </h2>
@@ -181,6 +183,7 @@
                                         <label for="txtTituloLeccion" class="form-label">Título</label>
                                         <asp:TextBox ID="txtTituloLeccion" runat="server" CssClass="form-control" />
                                     </div>
+
                                     <div class="mb-3">
                                         <label for="txtIntroLeccion" class="form-label">Introducción</label>
                                         <asp:TextBox ID="txtIntroLeccion" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="4" />
@@ -203,8 +206,8 @@
                                         Text="Guardar"
                                         OnClick="btnGuardarModulo_Click"
                                         UseSubmitBehavior="false" />
+                                    
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -214,6 +217,7 @@
                 </Triggers>
             </asp:UpdatePanel>
         </div>
+        
     </div>
     <script>
         function limpiarModal() {

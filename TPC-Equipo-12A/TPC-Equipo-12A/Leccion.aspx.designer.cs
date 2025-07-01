@@ -150,6 +150,15 @@ namespace TPC_Equipo_12A
         protected global::System.Web.UI.WebControls.PlaceHolder phCuerpo;
 
         /// <summary>
+        /// btnAtras control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAtras;
+
+        /// <summary>
         /// litTitulo control.
         /// </summary>
         /// <remarks>

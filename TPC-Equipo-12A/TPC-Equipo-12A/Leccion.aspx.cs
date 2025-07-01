@@ -341,5 +341,11 @@ namespace TPC_Equipo_12A
                 return null;
             }
         }
+
+        protected void btnAtras_Click(object sender, EventArgs e)
+        {
+            Dominio.Leccion leccion = (Dominio.Leccion)Session["Leccion"];
+            Response.Redirect("Curso.aspx?id="+leccion.IdCurso);
+        }
     }
 }

@@ -142,9 +142,10 @@
                             </ol>
                         </nav>
                         <hr />
+                        <asp:Button Text="← Volver a modulos" CssClass="btn btn-secondary float-end" runat="server" ID="btnAtras" OnClick="btnAtras_Click"/>
                         <h1 class="text-success">
                             <asp:Literal ID="litTitulo" runat="server" /></h1>
-
+                        
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="text-secondary mb-0">
                                 <asp:Literal ID="litDescripcion" runat="server" />

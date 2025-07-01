@@ -60,7 +60,11 @@
                             </div>
 
                             <div class="card-footer bg-transparent text-center border-0 mt-auto d-flex justify-content-center align-items-center">
-                                <span class="badge bg-warning text-dark me-2 fs-6">$<%# Eval("Precio") %> (ARS)</span>
+                                <%# 
+    Convert.ToDecimal(Eval("Precio")) == 0 
+        ? "<span class='badge bg-success text-white me-2 fs-6'>GRATIS!</span>" 
+        : $"<span class='badge bg-warning text-dark me-2 fs-6'>$ {Eval("Precio")} (ARS)</span>" 
+                                %>
                                 <a href='DescripcionCurso.aspx?id=<%# Eval("IdCurso") %>'
                                     class="btn btn-outline-info btn-sm rounded-pill">Ver más
                                 </a>

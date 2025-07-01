@@ -45,8 +45,21 @@ namespace TPC_Equipo_12A
                     btnFavorito.CssClass = esFavorito ? "btn btn-outline-danger" : "btn btn-outline-warning";
 
                     bool comprado = new CursoServicio().esCursoComprado(usuario.IdUsuario, int.Parse(idParam));
-                    btnAgregarCarrito.Text = comprado ? "🎓 Acceder al curso" : "🛒 Agregar al Carrito";
-                    btnAgregarCarrito.CssClass = comprado ? "btn btn-warning" : "btn btn-success";
+
+                    bool enCarrito = ValidarCursoCarrito();
+                    if(comprado)
+                    {
+                        btnAgregarCarrito.Text ="🎓 Acceder al curso";
+                        btnAgregarCarrito.CssClass ="btn btn-warning";
+                    }
+                    else
+                    {
+                        btnAgregarCarrito.Text = enCarrito ? "🛒 En Carrito (❌)" : "🛒 Agregar al Carrito";
+                        btnAgregarCarrito.CssClass = enCarrito ? "btn btn-outline-danger" : "btn btn-success";
+                    }
+                    
+
+                    
                 }
             }
         }
