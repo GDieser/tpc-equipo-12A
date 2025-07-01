@@ -34,8 +34,6 @@ namespace TPC_Equipo_12A
                     Response.Redirect("ListaCurso.aspx");
                 }
 
-
-                //Necesito para una funcionalidad en aula
                 UsuarioAutenticado usuario = Session["UsuarioAutenticado"] as UsuarioAutenticado;
 
                 if (usuario != null)
@@ -46,18 +44,14 @@ namespace TPC_Equipo_12A
                     btnFavorito.Text = esFavorito ? "★ En Favoritos (❌)" : "➕ Favoritos";
                     btnFavorito.CssClass = esFavorito ? "btn btn-outline-danger" : "btn btn-outline-warning";
 
-                    bool enCarrito = ValidarCursoCarrito();
-                    btnAgregarCarrito.Text = enCarrito ? "🛒 En Carrito (❌)" : "🛒 Agregar al Carrito";
-                    btnAgregarCarrito.CssClass = enCarrito ? "btn btn-outline-danger" : "btn btn-success";
-
+                    bool comprado = new CursoServicio().esCursoComprado(usuario.IdUsuario, int.Parse(idParam));
+                    btnAgregarCarrito.Text = comprado ? "🎓 Acceder al curso" : "🛒 Agregar al Carrito";
+                    btnAgregarCarrito.CssClass = comprado ? "btn btn-warning" : "btn btn-success";
                 }
-
-
-
             }
-
         }
 
+        
         //Necesito para una funcionalidad en aula
         protected bool ValidarCursoFavorito()
         {
@@ -123,21 +117,25 @@ namespace TPC_Equipo_12A
         {
             int idCurso = Convert.ToInt32(Request.QueryString["id"]);
             UsuarioAutenticado usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
-            CursoServicio servicio = new CursoServicio();
+
+            CursoServicio cursoServicio = new CursoServicio();
+            if (cursoServicio.esCursoComprado(usuario.IdUsuario, idCurso))
+            {
+                Response.Redirect($"Curso.aspx?id={idCurso}");
+                return;
+            }
+
 
             Carrito aux = (Carrito)Session["Carrito"];
-
-
-
             Carrito carrito = new Carrito();
 
             if (aux.IdCarrito == 0)
             {
                 if(!ValidarCursoCarrito())
                 {
-                    Dominio.Curso curso = servicio.GetCursoPorId(idCurso);
+                    Dominio.Curso curso = cursoServicio.GetCursoPorId(idCurso);
 
-                    servicio.CrearCarrito(usuario.IdUsuario, idCurso, curso.Precio);
+                    cursoServicio.CrearCarrito(usuario.IdUsuario, idCurso, curso.Precio);
                 }
             }
             else
@@ -146,15 +144,15 @@ namespace TPC_Equipo_12A
                 {
                     carrito = (Carrito)Session["Carrito"];
 
-                    Dominio.Curso curso = servicio.GetCursoPorId(idCurso);
+                    Dominio.Curso curso = cursoServicio.GetCursoPorId(idCurso);
 
-                    servicio.AgregrarCursoCarrito(carrito.IdCarrito, idCurso, curso.Precio);
+                    cursoServicio.AgregrarCursoCarrito(carrito.IdCarrito, idCurso, curso.Precio);
                 }
                 else
                 {
                     //Ya existe y hay que eliminar, logico o fisico?
 
-                    servicio.EliminarCursoCarrito(idCurso);
+                    cursoServicio.EliminarCursoCarrito(idCurso);
                 }
             }
 

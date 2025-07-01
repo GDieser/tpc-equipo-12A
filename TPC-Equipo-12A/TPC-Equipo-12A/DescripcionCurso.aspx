@@ -47,7 +47,7 @@
 
         <p class="mt-4 small text-center">
             ¿Aun no sos parte de MisCursos.com?  
-        <a href="https://localhost:44341/Registro.aspx" class="text-info fw-bold text-decoration-none">¡Registrate, es gratis!</a>
+        <a href="Registro.aspx" class="text-info fw-bold text-decoration-none">¡Registrate, es gratis!</a>
         </p>
     </div>
 

@@ -74,6 +74,33 @@ namespace Servicio
             }
         }
 
+        public bool esCursoComprado(int idUsuario, int idCurso)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.limpiarParametros();
+                datos.setParametro("@idUsuario", idUsuario);
+                datos.setParametro("@idCurso", idCurso);
+                datos.setConsulta(@"
+                    SELECT *
+                    FROM Carrito c 
+                    INNER JOIN CarritoCurso cc ON cc.IdCarrito = c.IdCarrito
+                    WHERE c.IdUsuario = @idUsuario AND cc.IdCurso = @idCurso
+                ");
+                datos.ejecutarLectura();
+                return datos.Lector.Read();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("No se pudo validar la existencia del curso en el carrito", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public Curso GetCursoPorId(int id)
         {
             AccesoDatos datos = new AccesoDatos();
