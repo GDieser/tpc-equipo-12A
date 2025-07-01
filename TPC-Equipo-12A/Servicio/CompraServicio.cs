@@ -49,7 +49,7 @@ namespace Servicio
                 {
                     AccesoDatos datos = new AccesoDatos();
                     datos.setConsulta(@"
-                SELECT c.Titulo, dc.PrecioUnitario
+                SELECT c.Titulo, dc.PrecioUnitario, dc.IdCurso
                 FROM DetalleCompra dc
                 INNER JOIN Curso c ON c.IdCurso = dc.IdCurso
                 WHERE dc.IdCompra = @idCompra");
@@ -60,6 +60,7 @@ namespace Servicio
                     {
                         compra.DetalleCompra.Add(new CompraCursoDTO
                         {
+                            IdCurso = (int)datos.Lector["IdCurso"],
                             NombreCurso = datos.Lector["Titulo"].ToString(),
                             Monto = (decimal)datos.Lector["PrecioUnitario"],
                         });

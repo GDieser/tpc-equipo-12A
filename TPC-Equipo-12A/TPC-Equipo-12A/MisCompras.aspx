@@ -67,7 +67,11 @@
                                             </HeaderTemplate>
                                             <ItemTemplate>
                                                 <tr>
-                                                    <td><%# Eval("NombreCurso") %></td>
+                                                    <td>
+                                                        <a href='<%# "Curso.aspx?id=" + Eval("IdCurso") %>' class="text-white">
+                                                            <%# Eval("NombreCurso") %>
+                                                        </a>
+                                                    </td>
                                                     <td>$ <%# Eval("Monto", "{0:N2}") %></td>
                                                 </tr>
                                             </ItemTemplate>
