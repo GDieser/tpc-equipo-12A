@@ -102,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BuscarResultado.aspx" />
+    <Content Include="CertificadoRender.aspx" />
     <Content Include="CrearCurso.aspx" />
     <Content Include="Curso.aspx" />
     <Content Include="DescripcionCurso.aspx" />
@@ -122,6 +123,7 @@
     <Content Include="ListaNotificaciones.aspx" />
     <Content Include="ListaUsuarios.aspx" />
     <Content Include="MiCarrito.aspx" />
+    <Content Include="MisCertificados.aspx" />
     <Content Include="MisCompras.aspx" />
     <Content Include="MisCursos.aspx" />
     <Content Include="MisCursosFavoritos.aspx" />
@@ -140,6 +142,7 @@
     <Content Include="README-MercadoPago.html" />
     <Content Include="Registro.aspx" />
     <Content Include="RestablecerContrasenia.aspx" />
+    <Content Include="VerCertificado.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +159,13 @@
     </Compile>
     <Compile Include="BuscarResultado.aspx.designer.cs">
       <DependentUpon>BuscarResultado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CertificadoRender.aspx.cs">
+      <DependentUpon>CertificadoRender.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CertificadoRender.aspx.designer.cs">
+      <DependentUpon>CertificadoRender.aspx</DependentUpon>
     </Compile>
     <Compile Include="CrearCurso.aspx.cs">
       <DependentUpon>CrearCurso.aspx</DependentUpon>
@@ -278,6 +288,13 @@
     </Compile>
     <Compile Include="MiCarrito.aspx.designer.cs">
       <DependentUpon>MiCarrito.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MisCertificados.aspx.cs">
+      <DependentUpon>MisCertificados.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MisCertificados.aspx.designer.cs">
+      <DependentUpon>MisCertificados.aspx</DependentUpon>
     </Compile>
     <Compile Include="MisCompras.aspx.cs">
       <DependentUpon>MisCompras.aspx</DependentUpon>
@@ -407,6 +424,13 @@
       <DependentUpon>RestablecerContrasenia.aspx</DependentUpon>
     </Compile>
     <Compile Include="TipoError.cs" />
+    <Compile Include="VerCertificado.aspx.cs">
+      <DependentUpon>VerCertificado.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VerCertificado.aspx.designer.cs">
+      <DependentUpon>VerCertificado.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Master.Master" />

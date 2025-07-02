@@ -1206,7 +1206,38 @@ namespace Servicio
             }
         }
 
+        public List<CertificadoDTO> ObtenerCertificadosPorUsuario(int idUsuario)
+        {
 
+            AccesoDatos datos = new AccesoDatos();
+            List<CertificadoDTO> certificados = new List<CertificadoDTO>();
+            try
+            {
+                datos.limpiarParametros();
+                datos.setParametro("@idUsuario", idUsuario);
+                datos.setConsulta(@"
+                    SELECT cer.IdUsuario, cer.IdCertificado, cer.IdCurso, cer.FechaEmision, 
+                           c.Titulo
+                    FROM Certificado cer
+                    INNER JOIN Curso c ON c.IdCurso = cer.IdCurso
+                    WHERE cer.IdUsuario = @idUsuario 
+                ");
+                datos.ejecutarLectura();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener los certificados", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+            return certificados;
+        }
 
+        public bool EstaCursoFinalizado(int idCurso, int idUsuario)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

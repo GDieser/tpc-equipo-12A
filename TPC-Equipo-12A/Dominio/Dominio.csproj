@@ -74,6 +74,7 @@
     <Compile Include="Carrito.cs" />
     <Compile Include="CarritoCurso.cs" />
     <Compile Include="Categoria.cs" />
+    <Compile Include="Certificado.cs" />
     <Compile Include="Comentario.cs" />
     <Compile Include="ComentarioDTO.cs" />
     <Compile Include="CompraCurso.cs" />

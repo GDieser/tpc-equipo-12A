@@ -1,0 +1,124 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CertificadoRender.aspx.cs" Inherits="TPC_Equipo_12A.CertificadoRender" %>
+
+<!DOCTYPE html>
+<html lang="es">
+<head runat="server">
+    <meta charset="UTF-8" />
+    <title>Certificado de Finalización</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #fdfdfd;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .cert-container {
+            width: 1120px;
+            height: 793px;
+            padding: 40px 60px;
+            margin: 0 auto;
+            border: 10px solid #004080;
+            box-sizing: border-box;
+            position: relative;
+            background: linear-gradient(to bottom, #ffffff, #f0f8ff);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .logo {
+            height: 80px;
+        }
+
+        .cert-title {
+            text-align: center;
+            font-size: 36px;
+            color: #004080;
+            font-weight: bold;
+            margin: 40px 0 20px 0;
+        }
+
+        .cert-body {
+            text-align: center;
+            font-size: 20px;
+            color: #333;
+            margin-top: 40px;
+            padding: 0 60px;
+        }
+
+        .highlight {
+            font-size: 24px;
+            font-weight: bold;
+            color: #004080;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 40px;
+            left: 60px;
+            right: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .signature-block {
+            text-align: center;
+            font-size: 14px;
+            color: #444;
+        }
+
+            .signature-block img {
+                height: 60px;
+                margin-bottom: 5px;
+            }
+
+        .decor-top,
+        .decor-bottom {
+            height: 20px;
+            background-color: #004080;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="cert-container">
+            <div class="decor-top"></div>
+            <div class="header">
+                <img src="https://via.placeholder.com/150x80.png?text=Logo" alt="Logo" class="logo" />
+            </div>
+
+            <div class="cert-title">Certificado de Finalización</div>
+
+            <div class="cert-body">
+                <p>Otorgado a:</p>
+                <p class="highlight">
+                    <asp:Literal ID="litNombreAlumno" runat="server" /></p>
+                <p>por haber completado satisfactoriamente el curso</p>
+                <p class="highlight">
+                    <asp:Literal ID="litNombreCurso" runat="server" /></p>
+                <p>en fecha
+                    <asp:Literal ID="litFecha" runat="server" /></p>
+            </div>
+
+            <div class="footer">
+                <div class="signature-block">
+                    <img src="https://via.placeholder.com/150x60.png?text=Firma" alt="Firma del instructor" />
+                    <div>Firma del Instructor</div>
+                </div>
+                <div class="signature-block">
+                    <img src="https://via.placeholder.com/150x60.png?text=Responsable" alt="Firma del responsable" />
+                    <div>Responsable Académico</div>
+                </div>
+            </div>
+            <div class="decor-bottom"></div>
+        </div>
+    </form>
+</body>
+</html>
+

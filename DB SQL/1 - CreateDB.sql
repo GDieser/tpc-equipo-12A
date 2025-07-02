@@ -258,5 +258,12 @@ CREATE TABLE NotificacionEstudiante (
 	FOREIGN KEY (IdComentario) REFERENCES Comentario(IdComentario)
 );
 
-
-
+-- Para emision de certificados
+CREATE TABLE Certificado (
+	IdCertificado VARCHAR(50) PRIMARY KEY,
+	IdUsuario INT NOT NULL,
+	IdCurso INT NOT NULL,
+	FechaEmision DATETIME NOT NULL
+	FOREIGN KEY (IdEstudiante) REFERENCES Usuario(IdUsuario),
+	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso)
+)
