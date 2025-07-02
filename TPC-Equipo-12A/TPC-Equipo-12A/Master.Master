@@ -233,11 +233,69 @@
             </asp:ContentPlaceHolder>
 
 
+            <footer class="bg-dark text-white py-4 mt-auto" data-bs-theme="dark">
+                <div class="container">
+                    <div class="row">
 
+                        <div class="col-lg-4 mb-4 mb-lg-0">
+                            <h5 class="text-uppercase mb-3">MisCursos.com</h5>
+                            <p class="small text-muted">La plataforma educativa líder para el aprendizaje en línea. Cursos diseñados por expertos para tu crecimiento profesional.</p>
+                        </div>
 
-            <footer class="bg-dark text-white text-center py-3 mt-auto" data-bs-theme="dark">
-                &copy;2025 MisCursos
+                        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                            <h5 class="text-uppercase mb-3">Contacto</h5>
+                            <ul class="list-unstyled text-muted small">
+                                <li class="mb-2"><i class="bi bi-envelope me-2"></i>soporte@miscursos.com</li>
+                                <li class="mb-2"><i class="bi bi-telephone me-2"></i>+54 12 2356 7890</li>
+                                <li class="mb-2"><i class="bi bi-geo-alt me-2"></i>Chaco y Bs As, Argentina</li>
+                            </ul>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+                            <h5 class="text-uppercase mb-2">Síguenos</h5>
+                            <div class="row g-2">
+                                <div class="col-5 col-sm-2">
+                                    <a href="http://instagram.com/" target="_blank" class="text-white text-decoration-none" data-bs-toggle="tooltip" title="Instagram">
+                                        <img src='<%= ResolveUrl("~/Icons/insta.png") %>' alt="Instagram" class="img-fluid rounded-3 p-1" style="height: 40px; width: 40px; object-fit: contain;" />
+                                    </a>
+                                </div>
+                                <div class="col-5 col-sm-2">
+                                    <a href="http://twitter.com" target="_blank" class="text-white text-decoration-none" data-bs-toggle="tooltip" title="Twitter">
+                                        <img src='<%= ResolveUrl("~/Icons/twitter.png") %>' alt="Twitter" class="img-fluid rounded-3 p-1" style="height: 40px; width: 40px; object-fit: contain;" />
+                                    </a>
+                                </div>
+                                <div class="col-5 col-sm-2">
+                                    <a href="http://github.com" target="_blank" class="text-white text-decoration-none" data-bs-toggle="tooltip" title="GitHub">
+                                        <img src='<%= ResolveUrl("~/Icons/git.png") %>' alt="GitHub" class="img-fluid rounded-3 p-1" style="height: 40px; width: 40px; object-fit: contain;" />
+                                    </a>
+                                </div>
+                                <div class="col-5 col-sm-2">
+                                    <a href="mailto:soporte@miscursos.com" target="_blank" class="text-white text-decoration-none" data-bs-toggle="tooltip" title="Email">
+                                        <img src='<%= ResolveUrl("~/Icons/mail.png") %>' alt="Mail" class="img-fluid rounded-3 p-1" style="height: 40px; width: 40px; object-fit: contain;" />
+                                    </a>
+                                </div>
+                                <div class="col-5 col-sm-2">
+                                    <a href="http://linkedin.com" target="_blank" class="text-white text-decoration-none" data-bs-toggle="tooltip" title="LinkedIn">
+                                        <img src='<%= ResolveUrl("~/Icons/lind.png") %>' alt="Linkedin" class="img-fluid rounded-3 p-1" style="height: 40px; width: 40px; object-fit: contain;" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4 bg-secondary">
+
+                    <div class="row align-items-center">
+                        <div class="col-md-6 text-center text-md-start">
+                            <p class="small mb-0">&copy; 2025 MisCursos. Todos los derechos reservados.</p>
+                        </div>
+                        <div class="col-md-6 text-center text-md-end">
+                            <p class="small mb-0">Desarrollado por <span class="badge bg-secondary">Equipo 12A</span> </p>
+                        </div>
+                    </div>
+                </div>
             </footer>
+
         </div>
     </form>
 
