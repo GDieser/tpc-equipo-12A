@@ -74,7 +74,50 @@ namespace Servicio
             }
         }
 
-        public bool esCursoComprado(int idUsuario, int idCurso)
+        public List<Curso> ListarNoCompradosPorIdUsuario(int idUsuario)
+        {
+            List<Curso> cursos = new List<Curso>();
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setConsulta(@"
+                    SELECT c.IdCurso, c.Titulo, c.Descripcion, c.Precio
+                    FROM Curso c
+                    WHERE c.Estado = 1 AND c.IdCurso NOT IN (
+                        SELECT dc.IdCurso
+                        FROM Compra cp
+                        INNER JOIN DetalleCompra dc ON cp.IdCompra = dc.IdCompra
+                        WHERE cp.IdUsuario = @idUsuario
+                    )
+                ");
+
+                datos.setParametro("@idUsuario", idUsuario);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Curso curso = new Curso
+                    {
+                        IdCurso = (int)datos.Lector["IdCurso"],
+                        Titulo = datos.Lector["Titulo"].ToString(),
+                        Descripcion = datos.Lector["Descripcion"].ToString(),
+                    };
+
+                    cursos.Add(curso);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cargar los cursos no comprados", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+            return cursos;
+        }
+
+        public bool EsCursoComprado(int idUsuario, int idCurso)
         {
             AccesoDatos datos = new AccesoDatos();
             try

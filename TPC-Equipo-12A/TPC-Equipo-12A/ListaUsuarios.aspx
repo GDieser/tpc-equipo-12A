@@ -10,6 +10,20 @@
         <br />
 
         <div class="mb-4">
+            <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control w-25 mx-auto" Placeholder="Buscar..." />
+            <div class="form-check form-check-inline mt-2">
+                <asp:CheckBox ID="chkHabilitados" runat="server" CssClass="form-check-input" Checked="true" />
+                <label for="chkHabilitados" class="form-check-label">Habilitados</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <asp:CheckBox ID="chkDeshabilitados" runat="server" CssClass="form-check-input" Checked="true" />
+                <label for="chkDeshabilitados" class="form-check-label">Deshabilitados</label>
+            </div>
+            <asp:Button ID="btnFiltrar" runat="server" Text="Filtrar" CssClass="btn btn-primary ms-3" OnClick="btnFiltrar_Click" />
+            <asp:Button ID="btnLimpiarFiltros" runat="server" Text="Limpiar filtros" CssClass="btn btn-secondary ms-2" OnClick="btnLimpiarFiltros_Click" />
+        </div>
+
+        <div class="mb-4">
             <div class="table-responsive">
 
                 <asp:GridView ID="dgvUsuarios" runat="server"

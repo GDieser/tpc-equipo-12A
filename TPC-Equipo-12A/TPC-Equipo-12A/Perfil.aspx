@@ -30,8 +30,7 @@
                                     <div style="width: 150px; height: 150px; overflow: hidden; border-radius: 50%; margin: auto;">
                                         <asp:Image ID="imgFotoPerfil" runat="server" ClientIDMode="Static"
                                             CssClass="w-100 h-100"
-                                            Style="object-fit: cover;"
-                                           />
+                                            Style="object-fit: cover;" />
                                     </div>
                                     <div class="text-center">
                                         <small>
@@ -76,8 +75,14 @@
                                 </div>
 
                                 <asp:Button ID="btnGuardar" runat="server" Text="Guardar Cambios" CssClass="btn btn-primary w-100 mb-3" OnClick="btnGuardar_Click" />
-                                
+
                                 <asp:Button ID="btnInhabilitar" Enabled="false" runat="server" Text="" CssClass="btn btn-primary w-100 mb-3" OnClick="btnInhabilitar_Click" />
+                                <asp:HyperLink
+                                    ID="hlVerMisCompras"
+                                    runat="server"
+                                    CssClass="btn btn-warning w-100 mb-3"
+                                    NavigateUrl='<%# "MisCompras.aspx?id=" + idQueryParam %>'
+                                    Text="Ver compras" />
 
                                 <asp:Label ID="lblError" runat="server" CssClass="text-danger mt-3 d-block text-center" />
                                 <asp:Label ID="lblExito" runat="server" CssClass="text-succes mt-3 d-block text-center" />

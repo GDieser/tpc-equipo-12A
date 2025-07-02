@@ -60,9 +60,10 @@ namespace TPC_Equipo_12A
                     litEmail.Text = usuario.Email.ToString();
                     litPerfilTitulo.Text = $"{usuario.NombreUsuario}";
                     litFechaRegistro.Text = $"{usuario.Rol.ToString()} desde el {usuario.FechaRegistro?.ToString("dd/MM/yyyy") ?? "-"}";
-                    imgFotoPerfil.ImageUrl = ResolveUrl(usuario.FotoPerfil.Url ?? "~/imagenes/perfil/user-default.webp");
+                    imgFotoPerfil.ImageUrl = ResolveUrl(usuario.FotoPerfil.Url ?? ResolveUrl("~/imagenes/perfil/user-default.webp"));
                 }
             }
+            Page.DataBind();
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
@@ -178,13 +179,17 @@ namespace TPC_Equipo_12A
                 usuarioServicio.ActualizarUsuario(usuario);
                 Session["usuario"] = usuario;
                 ScriptManager.RegisterStartupScript(this, GetType(), "sweetalert",
-                    @"Swal.fire({
-                        title: '¡Guardado!',
-                        text: 'El perfil fue actualizado correctamente.',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    });
-                ", true);
+                 @"Swal.fire({
+                    title: '¡Guardado!',
+                    text: 'El perfil fue actualizado correctamente.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = 'ListaUsuarios.aspx';
+                    }
+                });", true);
+
 
             }
             catch (Exception)

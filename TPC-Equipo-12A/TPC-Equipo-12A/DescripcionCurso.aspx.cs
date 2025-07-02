@@ -44,7 +44,7 @@ namespace TPC_Equipo_12A
                     btnFavorito.Text = esFavorito ? "★ En Favoritos (❌)" : "➕ Favoritos";
                     btnFavorito.CssClass = esFavorito ? "btn btn-outline-danger" : "btn btn-outline-warning";
 
-                    bool comprado = new CursoServicio().esCursoComprado(usuario.IdUsuario, int.Parse(idParam));
+                    bool comprado = new CursoServicio().EsCursoComprado(usuario.IdUsuario, int.Parse(idParam));
 
                     bool enCarrito = ValidarCursoCarrito();
                     if(comprado)
@@ -132,7 +132,7 @@ namespace TPC_Equipo_12A
             UsuarioAutenticado usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
 
             CursoServicio cursoServicio = new CursoServicio();
-            if (cursoServicio.esCursoComprado(usuario.IdUsuario, idCurso))
+            if (cursoServicio.EsCursoComprado(usuario.IdUsuario, idCurso))
             {
                 Response.Redirect($"Curso.aspx?id={idCurso}");
                 return;

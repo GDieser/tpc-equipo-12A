@@ -10,6 +10,48 @@ namespace Servicio
 {
     public class CompraServicio
     {
+        public void EliminarDetalleCompra(int idCurso, int idCompra)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            AccesoDatos datosCurso = new AccesoDatos();
+            try
+            {
+                datos.limpiarParametros();
+                datos.setParametro("@idCurso", idCurso);
+                datos.setParametro("@idCompra", idCompra);
+
+                datos.setConsulta(@"
+                    DELETE FROM DetalleCompra 
+                    WHERE idCurso = @idCurso AND idCompra = @idCompra;
+                ");
+                datos.ejecutarLectura();
+
+                datosCurso.limpiarParametros();
+                datosCurso.setParametro("@idCompra", idCompra);
+
+                datosCurso.setConsulta(@"
+                    UPDATE Compra
+                    SET MontoTotal = (
+                        SELECT ISNULL(SUM(dc.PrecioUnitario), 0)
+                        FROM DetalleCompra dc
+                        WHERE dc.IdCompra = @idCompra
+                    )
+                    WHERE IdCompra = @idCompra;
+                ");
+                datosCurso.ejecutarLectura();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al borrar el curso y actualizar el monto", ex);
+            }
+            finally
+            {
+                datosCurso.cerrarConexion();
+                datos.cerrarConexion();
+            }
+        }
+
+
         public List<Compra> getComprasPorIdUsuario(int idUsuario, bool isAdmin)
         {
             AccesoDatos accesoDatos = new AccesoDatos();
@@ -49,7 +91,7 @@ namespace Servicio
                 {
                     AccesoDatos datos = new AccesoDatos();
                     datos.setConsulta(@"
-                SELECT c.Titulo, dc.PrecioUnitario, dc.IdCurso
+                SELECT c.Titulo, dc.PrecioUnitario, dc.IdCurso, dc.IdCompra
                 FROM DetalleCompra dc
                 INNER JOIN Curso c ON c.IdCurso = dc.IdCurso
                 WHERE dc.IdCompra = @idCompra");
@@ -60,6 +102,7 @@ namespace Servicio
                     {
                         compra.DetalleCompra.Add(new CompraCursoDTO
                         {
+                            IdCompra = (int)datos.Lector["IdCompra"],
                             IdCurso = (int)datos.Lector["IdCurso"],
                             NombreCurso = datos.Lector["Titulo"].ToString(),
                             Monto = (decimal)datos.Lector["PrecioUnitario"],
@@ -137,7 +180,7 @@ namespace Servicio
             try
             {
                 CursoServicio cursoServicio = new CursoServicio();
-                Curso curso = cursoServicio.GetCursoPorId(idCurso); 
+                Curso curso = cursoServicio.GetCursoPorId(idCurso);
                 if (curso == null)
                     throw new Exception("Curso no encontrado");
 
