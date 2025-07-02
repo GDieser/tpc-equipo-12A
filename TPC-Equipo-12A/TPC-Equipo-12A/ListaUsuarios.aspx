@@ -9,18 +9,21 @@
         <h1>Lisa de Usuarios</h1>
         <br />
 
-        <div class="mb-4">
-            <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control w-25 mx-auto" Placeholder="Buscar..." />
-            <div class="form-check form-check-inline mt-2">
+        <div class="d-flex align-items-center mb-4">
+            <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control me-2" Style="width: 200px;" Placeholder="Buscar..." />
+
+            <div class="form-check form-check-inline me-3">
                 <asp:CheckBox ID="chkHabilitados" runat="server" CssClass="form-check-input" Checked="true" />
                 <label for="chkHabilitados" class="form-check-label">Habilitados</label>
             </div>
-            <div class="form-check form-check-inline">
+
+            <div class="form-check form-check-inline me-3">
                 <asp:CheckBox ID="chkDeshabilitados" runat="server" CssClass="form-check-input" Checked="true" />
                 <label for="chkDeshabilitados" class="form-check-label">Deshabilitados</label>
             </div>
-            <asp:Button ID="btnFiltrar" runat="server" Text="Filtrar" CssClass="btn btn-primary ms-3" OnClick="btnFiltrar_Click" />
-            <asp:Button ID="btnLimpiarFiltros" runat="server" Text="Limpiar filtros" CssClass="btn btn-secondary ms-2" OnClick="btnLimpiarFiltros_Click" />
+
+            <asp:Button ID="btnFiltrar" runat="server" Text="Filtrar" CssClass="btn btn-primary me-2" OnClick="btnFiltrar_Click" />
+            <asp:Button ID="btnLimpiarFiltros" runat="server" Text="Limpiar filtros" CssClass="btn btn-secondary" OnClick="btnLimpiarFiltros_Click" />
         </div>
 
         <div class="mb-4">
@@ -32,7 +35,7 @@
                     DataKeyNames="IdUsuario"
                     OnRowCommand="dgvUsuarios_RowCommand"
                     OnRowDataBound="dgvUsuarios_RowDataBound">
-
+                    <HeaderStyle CssClass="table-warning" />
                     <Columns>
                         <asp:BoundField HeaderText="Nombre" DataField="Nombre" />
                         <asp:BoundField HeaderText="Apellido" DataField="Apellido" />
@@ -44,6 +47,12 @@
                             </ItemTemplate>
                         </asp:TemplateField>
 
+                        <asp:TemplateField HeaderText="Estado">
+                            <ItemTemplate>
+                                <div style="width: 15px; height: 15px; border-radius: 50%; background-color: <%# (bool)Eval("Habilitado") ? "green" : "red" %>; display: inline-block;">
+                                </div>
+                            </ItemTemplate>
+                        </asp:TemplateField>
 
                         <asp:TemplateField HeaderText="Perfil">
                             <ItemTemplate>
@@ -51,10 +60,10 @@
                             </ItemTemplate>
                         </asp:TemplateField>
 
-                        <asp:TemplateField HeaderText="Estado">
+                        <asp:TemplateField HeaderText="Ver detalles">
                             <ItemTemplate>
-                                <div style="width: 15px; height: 15px; border-radius: 50%; background-color: <%# (bool)Eval("Habilitado") ? "green" : "red" %>; display: inline-block;">
-                                </div>
+                                <a href='<%# "DetalleUsuario.aspx?id=" + Eval("IdUsuario") %>' class="btn btn-primary">Ver más</a>
+
                             </ItemTemplate>
                         </asp:TemplateField>
 

@@ -893,10 +893,10 @@ namespace Servicio
             }
         }
 
-        public List<CursoDTO> ObtenerCursosCompletosDeUsuario(UsuarioAutenticado usuario)
+        public List<CursoDTO> ObtenerCursosCompletosDeUsuario(int IdUsuario, bool Admin = true)
         {
-            int id = usuario.IdUsuario;
-            bool isAdmin = usuario.Rol == Rol.Administrador;
+            int id = IdUsuario;
+            bool isAdmin = Admin;
 
             AccesoDatos accesoCursos = new AccesoDatos();
             try

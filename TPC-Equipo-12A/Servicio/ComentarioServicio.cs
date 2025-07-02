@@ -164,6 +164,45 @@ namespace Servicio
 
         }
 
+        public List<ComentarioDTO> ListarComentariosDeUsuario(int Id)
+        {
+            List< ComentarioDTO > lista = new List< ComentarioDTO >();
+            try
+            {
+                datos.setConsulta(@"SELECT CO.Contenido AS Comentario, CO.FechaCreacion, CO.TipoOrigen FROM Usuario U 
+                                    INNER JOIN Comentario CO ON CO.IdUsuario = U.IdUsuario
+                                    WHERE U.IdUsuario = @Id");
+
+                datos.limpiarParametros();
+                datos.setParametro("@Id", Id);
+
+                datos.ejecutarLectura();
+
+                while(datos.Lector.Read())
+                {
+                    ComentarioDTO aux = new ComentarioDTO();
+                    aux.Comentario = datos.Lector["Comentario"].ToString();
+                    aux.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
+                    aux.TipoOrigen = datos.Lector["TipoOrigen"].ToString();
+
+                    lista.Add(aux);
+
+                }
+
+                return lista;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
 
         public void ModificarComentario(int idComentario, string contenido)
         {

@@ -121,6 +121,10 @@ namespace TPC_Equipo_12A
             decimal precio;
             int duracion;
 
+            Page.Validate();
+            if(!Page.IsValid)
+                return;
+
             if (!decimal.TryParse(txtPrecio.Text, out precio) || precio < 0)
             {
                 Response.Write("<script>alert('Ingrese un precio válido.');</script>");

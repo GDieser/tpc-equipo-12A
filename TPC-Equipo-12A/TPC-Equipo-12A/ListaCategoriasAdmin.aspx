@@ -22,7 +22,7 @@
                     AllowPaging="true"
                     PageSize="10"
                     OnPageIndexChanging="dgvCategorias_PageIndexChanging">
-
+                    <HeaderStyle CssClass="table-warning" />
 
                     <Columns>
                         <asp:BoundField HeaderText="ID" DataField="IdCategoria" ReadOnly="true" />

@@ -263,6 +263,48 @@ namespace Servicio
             }
         }
 
+        public List<ReporteDTO> ListarReportesDeUsuario(int Id)
+        {
+            List<ReporteDTO> lista = new List<ReporteDTO>();
+            try
+            {
+                datos.setConsulta(@"SELECT NA.MotivoReporte, NA.FechaNotificacion, CO.Contenido, US.NombreUsuario AS Reportador FROM Usuario U 
+                                    INNER JOIN Comentario CO ON CO.IdUsuario = U.IdUsuario
+                                    INNER JOIN NotificacionAdmin NA ON NA.IdComentario = CO.IdComentario
+                                    INNER JOIN Usuario US ON US.IdUsuario = NA.IdUsuarioReportador
+                                    WHERE U.IdUsuario = @Id");
+
+                datos.limpiarParametros();
+                datos.setParametro("@Id", Id);
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    ReporteDTO aux = new ReporteDTO();
+                    aux.MotivoReporte = datos.Lector["MotivoReporte"].ToString();
+                    aux.FechaNotificacion = (DateTime)datos.Lector["FechaNotificacion"];
+                    aux.Contenido = datos.Lector["Contenido"].ToString();
+                    aux.NombreUsuario = datos.Lector["Reportador"].ToString();
+
+                    lista.Add(aux);
+
+                }
+
+                return lista;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public void EnviarNotificacion(Notificacion notificacion)
         {
             try

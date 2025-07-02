@@ -106,10 +106,12 @@
     <Content Include="Curso.aspx" />
     <Content Include="DescripcionCurso.aspx" />
     <Content Include="DetalleNovedad.aspx" />
+    <Content Include="DetalleUsuario.aspx" />
     <Content Include="ErrorPago.aspx" />
     <Content Include="ExitoPago.aspx" />
     <Content Include="ForoCurso.aspx" />
     <Content Include="ForoDetalle.aspx" />
+    <Content Include="Global.asax" />
     <Content Include="images\bg2.jpg" />
     <Content Include="images\bg3.jpg" />
     <Content Include="Leccion.aspx" />
@@ -183,6 +185,13 @@
     <Compile Include="DetalleNovedad.aspx.designer.cs">
       <DependentUpon>DetalleNovedad.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DetalleUsuario.aspx.cs">
+      <DependentUpon>DetalleUsuario.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DetalleUsuario.aspx.designer.cs">
+      <DependentUpon>DetalleUsuario.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ErrorPago.aspx.cs">
       <DependentUpon>ErrorPago.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -210,6 +219,9 @@
     </Compile>
     <Compile Include="ForoDetalle.aspx.designer.cs">
       <DependentUpon>ForoDetalle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Leccion.aspx.cs">
       <DependentUpon>Leccion.aspx</DependentUpon>

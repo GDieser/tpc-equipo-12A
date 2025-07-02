@@ -33,6 +33,7 @@
         <asp:Panel ID="pnlNotificaciones" runat="server">
             <br />
             <asp:GridView ID="gvNotificaciones" Visible="false" runat="server" AutoGenerateColumns="False" OnRowCommand="gvNotificaciones_RowCommand" CssClass="table table-striped table-dark table-hover table-bordered align-middle text-center" AllowPaging="true" OnPageIndexChanging="gvNotificaciones_PageIndexChanging" PageSize="15">
+                <HeaderStyle CssClass="table-warning" />
                 <Columns>
                     <asp:BoundField DataField="Contenido" HeaderText="Comentario" />
                     <asp:BoundField DataField="TipoOrigen" HeaderText="Origen" />

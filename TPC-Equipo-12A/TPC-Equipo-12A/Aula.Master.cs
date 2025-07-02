@@ -29,7 +29,7 @@ namespace TPC_Equipo_12A
                 if (usuario != null)
                 {
                     CursoServicio cursoServicio = new CursoServicio();
-                    var cursos = cursoServicio.ObtenerCursosCompletosDeUsuario(usuario); 
+                    var cursos = cursoServicio.ObtenerCursosCompletosDeUsuario(usuario.IdUsuario, (usuario.Rol) == Rol.Administrador ? true : false); 
                     rptCursos.DataSource = cursos;
                     rptCursos.DataBind();
                 }

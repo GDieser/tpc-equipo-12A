@@ -75,6 +75,7 @@
     <Compile Include="CarritoCurso.cs" />
     <Compile Include="Categoria.cs" />
     <Compile Include="Comentario.cs" />
+    <Compile Include="ComentarioDTO.cs" />
     <Compile Include="CompraCurso.cs" />
     <Compile Include="Compra.cs" />
     <Compile Include="CompraCursoDTO.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publicacion.cs" />
     <Compile Include="PuntuacionCurso.cs" />
+    <Compile Include="ReporteDTO.cs" />
     <Compile Include="Rol.cs" />
     <Compile Include="TipoContenido.cs" />
     <Compile Include="Usuario.cs" />

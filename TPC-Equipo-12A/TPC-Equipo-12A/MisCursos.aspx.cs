@@ -26,7 +26,7 @@ namespace TPC_Equipo_12A
 
             if(!IsPostBack)
             {
-                lista = servicio.ObtenerCursosCompletosDeUsuario(usuario);
+                lista = servicio.ObtenerCursosCompletosDeUsuario(usuario.IdUsuario, (usuario.Rol) == Rol.Administrador ? true : false);
 
                 rptMisCursos.DataSource = lista;
                 rptMisCursos.DataBind();

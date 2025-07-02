@@ -134,7 +134,7 @@
             </ContentTemplate>
         </asp:UpdatePanel>
 
-
+        <br />
 
         <div class="d-flex">
             <asp:Button ID="btnAnterior" runat="server" Text="Anterior" OnClick="btnAnterior_Click" CssClass="btn btn-outline-light btn-sm me-2" />

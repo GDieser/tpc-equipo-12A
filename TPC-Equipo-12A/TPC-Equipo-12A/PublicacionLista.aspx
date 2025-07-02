@@ -13,7 +13,7 @@
             <div class="table-responsive">
 
                 <asp:GridView ID="dgvPublicaciones" CssClass="table table-striped table-dark table-hover table-bordered align-middle text-center" DataKeyNames="IdPublicacion" AutoGenerateColumns="false" runat="server" AllowPaging="true" PageSize="12" OnSelectedIndexChanged="dgvPublicaciones_SelectedIndexChanged" OnPageIndexChanging="dgvPublicaciones_PageIndexChanging">
-
+                    <HeaderStyle CssClass="table-warning" />
                     <Columns>
 
                         <asp:BoundField HeaderText="Id Publicacion" DataField="IdPublicacion" />

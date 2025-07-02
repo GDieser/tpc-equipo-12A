@@ -21,7 +21,7 @@
                     PageSize="10"
                     OnPageIndexChanging="dgvCursos_PageIndexChanging"
                     OnSelectedIndexChanged="dgvCursos_SelectedIndexChanged">
-
+                    <HeaderStyle CssClass="table-warning" />
                     <Columns>
                         <asp:BoundField HeaderText="ID Curso" DataField="IdCurso" />
                         <asp:BoundField HeaderText="Título" DataField="Titulo" />
