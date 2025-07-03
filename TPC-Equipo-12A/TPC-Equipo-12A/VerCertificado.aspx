@@ -5,10 +5,10 @@
         .iframe-container {
             position: relative;
             width: 100%;
-            padding-top: 70%; /* Aspect ratio 4:3 (Landscape A4) */
+            padding-top: 75%; /* Aspect ratio 4:3 (Landscape A4) */
             overflow: hidden;
             border: 1px solid #ccc;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            box-shadow: 0 0 1px rgba(0,0,0,0.2);
             border-radius: 10px;
             background-color: #f9f9f9;
         }

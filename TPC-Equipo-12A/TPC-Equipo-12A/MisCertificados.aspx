@@ -18,24 +18,25 @@
         CssClass="alert alert-warning text-center d-block fs-5 rounded-3 shadow-sm mt-4"
         Visible="false" />
 
-    <asp:Repeater ID="rptCertificados" runat="server">
-        <ItemTemplate>
-            <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                <div class="card bg-dark text-light border-secondary shadow-sm rounded-4">
-                    <img src='<%# Eval("UrlImagen") %>' class="card-img-top object-fit-cover rounded-top" style="height: 160px; object-fit: cover;" alt="Imagen del curso" />
-                    <div class="card-body text-center">
-                        <h5 class="card-title fw-semibold mb-2">🥇 <%# Eval("NombreCurso") %></h5>
-                        <p class="card-text text-white-50 mb-2">
-                            <i class="bi bi-calendar3"></i>Emitido: <%# Eval("FechaEmision", "{0:dd/MM/yyyy}") %>
-                        </p>
-                        <a href='VerCertificado.aspx?id=<%# Eval("IdCertificado") %>'
-                            class="btn btn-outline-info btn-sm">Ver certificado
-                        </a>
+    <div class="row g-2" style="height:30vh;">
+        <asp:Repeater ID="rptCertificados" runat="server">
+            <ItemTemplate>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card bg-dark text-light border-secondary shadow-sm rounded-4 h-100">
+                        <img src='<%# Eval("UrlImagen") %>' class="card-img-top object-fit-cover rounded-top" style="height: 160px; object-fit: cover;" alt="Imagen del curso" />
+                        <div class="card-body text-center">
+                            <h5 class="card-title fw-semibold mb-2">🥇 <%# Eval("NombreCurso") %></h5>
+                            <p class="card-text text-white-50 mb-2">
+                                <i class="bi bi-calendar3"></i>Emitido: <%# Eval("FechaEmision", "{0:dd/MM/yyyy}") %>
+                            </p>
+                            <a href='VerCertificado.aspx?id=<%# Eval("IdCertificado") %>'
+                                class="btn btn-outline-info btn-sm">Ver certificado</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </ItemTemplate>
-    </asp:Repeater>
+            </ItemTemplate>
+        </asp:Repeater>
+    </div>
 
 </asp:Content>
 

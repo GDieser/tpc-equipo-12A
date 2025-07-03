@@ -10,13 +10,16 @@
         body {
             margin: 0;
             padding: 0;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
             background-color: #000;
             font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
         }
 
         .cert-container {
-            width: 1120px;
-            height: 793px;
+            width: 100%;
+            height: 100%;
             margin: 0 auto;
             border: 2px solid #fff;
             box-sizing: border-box;
