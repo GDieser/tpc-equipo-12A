@@ -24,15 +24,6 @@ namespace TPC_Equipo_12A
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// litNombreAlumno control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litNombreAlumno;
-
-        /// <summary>
         /// litNombreCurso control.
         /// </summary>
         /// <remarks>
@@ -42,6 +33,24 @@ namespace TPC_Equipo_12A
         protected global::System.Web.UI.WebControls.Literal litNombreCurso;
 
         /// <summary>
+        /// litNombreAlumno control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litNombreAlumno;
+
+        /// <summary>
+        /// litHoras control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litHoras;
+
+        /// <summary>
         /// litFecha control.
         /// </summary>
         /// <remarks>
@@ -49,5 +58,14 @@ namespace TPC_Equipo_12A
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litFecha;
+
+        /// <summary>
+        /// litIdCurso control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litIdCurso;
     }
 }

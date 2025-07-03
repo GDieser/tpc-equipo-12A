@@ -12,6 +12,8 @@ namespace Dominio
         public int IdCurso { get; set; }
         public int IdUsuario { get; set; }
         public DateTime FechaEmision { get; set; }
-        public string NombreCurso { get; set; } 
+        public string NombreCurso { get; set; }
+        public string UrlImagen { get; set; }
+        public int Duracion { get; set; }
     }
 }

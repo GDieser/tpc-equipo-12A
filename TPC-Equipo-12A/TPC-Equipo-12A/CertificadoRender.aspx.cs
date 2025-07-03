@@ -20,28 +20,24 @@ namespace TPC_Equipo_12A
         {
             if (!IsPostBack)
             {
-                int idCurso;
+                string idCertificado;
 
-                if (!int.TryParse(Request.QueryString["idCurso"], out idCurso) || Usuario == null)
+                if ((Request.QueryString["idCertificado"] == null) || Usuario == null)
                 {
                     Session["error"] = "Parámetros inválidos para generar el certificado.";
                     Response.Redirect("Error.aspx");
                     return;
                 }
+                idCertificado = Request.QueryString["idCertificado"].ToString();
 
-                CursoServicio cursoServicio = new CursoServicio();
-
-                if (!cursoServicio.EstaCursoFinalizado(idCurso, Usuario.IdUsuario))
-                {
-                    Session["error"] = "Usted no completo este curso... ";
-                    return;
-                }
-
-                Dominio.Curso curso = cursoServicio.GetCursoPorId(idCurso);
+                CertificadoServicio certificadoServicio = new CertificadoServicio();
+                CertificadoDTO certificado = certificadoServicio.ObtenerCertificadoPorId(idCertificado);
 
                 litNombreAlumno.Text = Usuario.Nombre + " " + Usuario.Apellido;
-                litNombreCurso.Text = curso.Titulo;
-                litFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
+                litNombreCurso.Text = certificado.NombreCurso;
+                litFecha.Text = certificado.FechaEmision.ToString("dd/MM/yyyy");
+                litHoras.Text = certificado.Duracion.ToString(); 
+                litIdCurso.Text = certificado.IdCertificado;
             }
         }
     }

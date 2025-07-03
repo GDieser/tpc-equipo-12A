@@ -1206,38 +1206,44 @@ namespace Servicio
             }
         }
 
-        public List<CertificadoDTO> ObtenerCertificadosPorUsuario(int idUsuario)
+        public bool UsuarioCompletoCurso(int idCurso, int idUsuario)
         {
 
             AccesoDatos datos = new AccesoDatos();
-            List<CertificadoDTO> certificados = new List<CertificadoDTO>();
             try
             {
                 datos.limpiarParametros();
-                datos.setParametro("@idUsuario", idUsuario);
+                datos.setParametro("@IdCurso", idCurso);
+                datos.setParametro("@IdUsuario", idUsuario);
                 datos.setConsulta(@"
-                    SELECT cer.IdUsuario, cer.IdCertificado, cer.IdCurso, cer.FechaEmision, 
-                           c.Titulo
-                    FROM Certificado cer
-                    INNER JOIN Curso c ON c.IdCurso = cer.IdCurso
-                    WHERE cer.IdUsuario = @idUsuario 
+                SELECT COUNT(*) 
+                FROM Leccion l
+                JOIN Modulo m ON m.IdModulo = l.IdModulo
+                WHERE m.IdCurso = @idCurso
                 ");
-                datos.ejecutarLectura();
+                int leccionesEnCurso = (int)datos.ejecutarEscalar();
+
+                datos.limpiarParametros();
+                datos.setParametro("@IdCurso", idCurso);
+                datos.setParametro("@IdUsuario", idUsuario);
+                datos.setConsulta(@"
+                SELECT COUNT(*) 
+                FROM LeccionUsuario lu
+                JOIN Leccion l ON l.IdLeccion = lu.IdLeccion
+                JOIN Modulo m ON m.IdModulo = l.IdModulo
+                WHERE m.IdCurso = @idCurso AND lu.IdUsuario = @idUsuario AND lu.EsFinalizado = 1
+                ");
+                int leccionesCompletadas = (int)datos.ejecutarEscalar();
+                return leccionesEnCurso == leccionesCompletadas;
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al obtener los certificados", ex);
+                throw new Exception("No se pudo definir si el usuario completo el curso o no", ex);
             }
             finally
             {
                 datos.cerrarConexion();
             }
-            return certificados;
-        }
-
-        public bool EstaCursoFinalizado(int idCurso, int idUsuario)
-        {
-            throw new NotImplementedException();
         }
     }
 }

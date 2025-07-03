@@ -20,8 +20,8 @@ namespace TPC_Equipo_12A
         {
             if (!IsPostBack)
             {
-                CursoServicio cursoServicio = new CursoServicio();
-                List<CertificadoDTO> certificados = cursoServicio.ObtenerCertificadosPorUsuario(usuario.IdUsuario);
+                CertificadoServicio certificadoServicio = new CertificadoServicio();
+                List<CertificadoDTO> certificados = certificadoServicio.ObtenerCertificadosPorUsuario(usuario.IdUsuario);
                 if (certificados != null && certificados.Count > 0)
                 {
                     rptCertificados.DataSource = certificados;

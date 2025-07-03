@@ -166,13 +166,27 @@ namespace TPC_Equipo_12A
             LeccionServicio leccionServicio = new LeccionServicio();
             UsuarioAutenticado usuarioAutenticado = Session["UsuarioAutenticado"] as UsuarioAutenticado;
             int idLeccion = int.Parse(Request.QueryString["id"]);
-            if (leccionServicio.MarcarCompletada(idLeccion, usuarioAutenticado.IdUsuario))
+            int idUsuario = usuarioAutenticado.IdUsuario;
+            if (leccionServicio.MarcarCompletada(idLeccion, idUsuario))
             {
                 btnMarcarCompletada.Text = "¡Lección completada!";
                 btnMarcarCompletada.Enabled = false;
                 btnMarcarCompletada.CssClass = "btn btn-success";
+
+                int idCurso = leccionServicio.ObtenerPorId(idLeccion, usuarioAutenticado.IdUsuario).IdCurso;
+                CursoServicio cursoServicio = new CursoServicio();
+                if (cursoServicio.UsuarioCompletoCurso(idCurso, idUsuario))
+                {
+                    CertificadoServicio certificadoServicio = new CertificadoServicio();
+
+                    certificadoServicio.RegistrarCertificado(idCurso, idUsuario);
+                    mensajeSweetAlert("🎓 ¡Felicitaciones!", "¡¡Has completado el curso!!", "success");
+                }
+                else
+                {
+                    mensajeSweetAlert("¡Lección completada!", "Excelente", "success");
+                }
             }
-            mensajeSweetAlert("¡Lección completada!", "Excelente", "success");
         }
 
         protected void btnGuardarContenido_Click(object sender, EventArgs e)
@@ -345,7 +359,7 @@ namespace TPC_Equipo_12A
         protected void btnAtras_Click(object sender, EventArgs e)
         {
             Dominio.Leccion leccion = (Dominio.Leccion)Session["Leccion"];
-            Response.Redirect("Curso.aspx?id="+leccion.IdCurso);
+            Response.Redirect("Curso.aspx?id=" + leccion.IdCurso);
         }
     }
 }

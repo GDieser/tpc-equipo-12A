@@ -19,21 +19,20 @@
             <ItemTemplate>
                 <div class="col">
                     <div class="card h-100 bg-dark text-light border-secondary shadow-sm rounded-4 d-flex flex-column">
-
-                        <img src='<%# Eval("ImagenPortada.Url", "{0}") ?? "img/certificado_default.jpg" %>'
-                            class="card-img-top img-fluid object-fit-cover rounded-top"
-                            style="height: 220px;" alt="Imagen del curso" />
-
-                        <div class="card-body text-center flex-grow-1">
-                            <h4 class="card-title fw-semibold mb-1"><%# Eval("Titulo") %></h4>
-                            <p class="card-text text-white-50 mb-1">🆔 Nº Referencia: <%# Eval("IdCertificado") %></p>
-                            <p class="card-text text-white-50">📅 Emitido: <%# Eval("FechaEmision", "{0:dd/MM/yyyy}") %></p>
-                        </div>
-
-                        <div class="card-footer bg-transparent text-center border-0 mt-auto">
-                            <a href='VerCertificado.aspx?id=<%# Eval("IdCertificado") %>'
-                                class="btn btn-outline-success btn-sm rounded-pill">Ver certificado
-                            </a>
+                        <div class="row g-0 h-100">
+                            <div class="col-md-4 h-100">
+                                <img src='<%# Eval("UrlImagen") %>' class="img-fluid h-100 w-100 object-fit-cover rounded-start" alt="Imagen del curso" />
+                            </div>
+                            <div class="col-md-8 d-flex align-items-center">
+                                <div class="card-body text-center flex-grow-1">
+                                    <h4 class="card-title fw-semibold mb-1"><%# Eval("NombreCurso") %></h4>
+                                    <p class="card-text text-white-50 mb-1">🆔 Nº Referencia: <%# Eval("IdCertificado") %></p>
+                                    <p class="card-text text-white-50">📅 Emitido: <%# Eval("FechaEmision", "{0:dd/MM/yyyy}") %></p>
+                                    <a href='VerCertificado.aspx?id=<%# Eval("IdCertificado") %>'
+                                        class="btn btn-outline-success btn-sm rounded-pill">Ver certificado
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

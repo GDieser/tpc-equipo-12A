@@ -264,6 +264,6 @@ CREATE TABLE Certificado (
 	IdUsuario INT NOT NULL,
 	IdCurso INT NOT NULL,
 	FechaEmision DATETIME NOT NULL
-	FOREIGN KEY (IdEstudiante) REFERENCES Usuario(IdUsuario),
+	FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario),
 	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso)
 )

@@ -34,7 +34,7 @@
         <h2 class="text-center text-primary">Certificado del Curso</h2>
         <hr />
         <div class="iframe-container">
-            <iframe id="iframeCertificado" src='<%= "CertificadoRender.aspx?idCurso=" + Request.QueryString["idCurso"] %>'></iframe>
+            <iframe id="iframeCertificado" src='<%= "CertificadoRender.aspx?idCertificado=" + Request.QueryString.Get("id") %>'></iframe>
         </div>
         <div class="text-center mt-3">
             <button class="btn btn-success" onclick="document.getElementById('iframeCertificado').contentWindow.print();">Imprimir Certificado</button>
