@@ -89,10 +89,11 @@
             visibility: hidden;
         }
     </style>
-    <div class="container-fluid">
-        <div class="row">
+    <div class="container-fluid p-0 m-0" >
+        <div class="row gx-0" style="min-height: 100vh;" >
 
-            <div class="bg-dark text-white vh-100 position-fixed p-3 sidebar-scroll" style="width: 300px;">
+            <div id="navbarLateral" class="col-auto bg-dark text-white p-3"
+             style="width: 300px; min-height: 100vh;">
                 <h4 class="mb-4 border-bottom pb-2">
                     <i class="bi bi-house-door me-2"></i>Mi Aula
                 </h4>
@@ -203,8 +204,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-10 col-lg-10 ms-auto p-4">
-
+            <div class="col p-4">
                 <asp:ContentPlaceHolder ID="AulaContent" runat="server" />
             </div>
         </div>

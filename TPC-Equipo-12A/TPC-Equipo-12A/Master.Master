@@ -205,7 +205,7 @@
                                         %>
                                         <li><a class="dropdown-item" href="MisCursos.aspx">🎓 Mis Cursos</a></li>
                                         <li><a class="dropdown-item" href="MisCompras.aspx">💰 Mis compras</a></li>
-                                        <li><a class="dropdown-item" href="Favoritos.aspx">⭐ Favoritos</a></li>
+                                        <li><a class="dropdown-item" href="MisCursosFavoritos.aspx">⭐ Favoritos</a></li>
                                         <%
                                             }
                                         %>

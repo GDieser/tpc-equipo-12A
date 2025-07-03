@@ -134,7 +134,7 @@ namespace TPC_Equipo_12A
             CursoServicio cursoServicio = new CursoServicio();
             if (cursoServicio.EsCursoComprado(usuario.IdUsuario, idCurso))
             {
-                Response.Redirect($"Curso.aspx?id={idCurso}");
+                Response.Redirect($"ForoCurso.aspx?idCurso={idCurso}");
                 return;
             }
 

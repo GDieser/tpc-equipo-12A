@@ -1,7 +1,7 @@
 CREATE DATABASE TPC_CURSOS_G12A
 GO
 
-USE TPC_CURSOS_PRUEBA
+USE TPC_CURSOS_G12A
 GO
 
 CREATE TABLE Categoria(
@@ -40,6 +40,7 @@ CREATE TABLE ImagenPublicacion(
 	FOREIGN KEY (IdImagen) REFERENCES Imagen(IdImagen),
 	FOREIGN KEY (IdPublicacion) REFERENCES Publicacion(IdPublicacion)
 );
+GO
 
 CREATE TABLE Curso (
     IdCurso INT PRIMARY KEY IDENTITY(1,1),
@@ -56,6 +57,7 @@ CREATE TABLE Curso (
 
 	FOREIGN KEY (IdCategoria) REFERENCES Categoria(IdCategoria)
 );
+GO
 
 CREATE TABLE Usuario(
 	IdUsuario INT PRIMARY KEY IDENTITY(1,1),
@@ -86,6 +88,7 @@ CREATE TABLE ImagenCurso(
 	FOREIGN KEY (IdImagen) REFERENCES Imagen(IdImagen),
 	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso)
 );
+GO
 
 CREATE TABLE Modulo(
 	IdModulo INT PRIMARY KEY IDENTITY(1,1),
@@ -165,6 +168,7 @@ CREATE TABLE Compra(
 	FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario),
 	FOREIGN KEY (IdCarrito) REFERENCES Carrito(IdCarrito)
 );
+GO
 
 CREATE TABLE DetalleCompra(
 	IdCompra INT NOT NULL,
@@ -175,6 +179,7 @@ CREATE TABLE DetalleCompra(
 	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso),
 	FOREIGN KEY (IdCompra) REFERENCES Compra(IdCompra)
 );
+GO
 
 CREATE TABLE CarritoCurso(
 	IdCarrito INT NOT NULL,
@@ -185,6 +190,7 @@ CREATE TABLE CarritoCurso(
 	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso),
 	FOREIGN KEY (IdCarrito) REFERENCES Carrito(IdCarrito)
 );
+GO
 
 CREATE TABLE PreguntasFrecuentes(
 	IdFaq INT PRIMARY KEY IDENTITY(1,1),
@@ -192,9 +198,9 @@ CREATE TABLE PreguntasFrecuentes(
 	Respuesta TEXT NOT NULL,
 	Activo BIT NOT NULL DEFAULT 1
 );
+GO
 
 ---Ejemplo sistema de comentarios
-
 CREATE TABLE Comentario (
     IdComentario INT PRIMARY KEY IDENTITY(1,1),
     IdUsuario INT NOT NULL,
@@ -213,6 +219,7 @@ CREATE TABLE Comentario (
     FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario),
     FOREIGN KEY (IdComentarioPadre) REFERENCES Comentario(IdComentario)
 );
+GO
 
 CREATE TABLE NotificacionAdmin(
 	IdNotificacion  INT PRIMARY KEY IDENTITY(1,1),
@@ -229,8 +236,9 @@ CREATE TABLE NotificacionAdmin(
 	FOREIGN KEY (IdComentario) REFERENCES Comentario(IdComentario),
     FOREIGN KEY (IdAdministrador) REFERENCES Usuario(IdUsuario)
 );
+GO
 
---Para Debates den Foro
+--Para Debates de Foro
 CREATE TABLE Debate (
     IdDebate INT PRIMARY KEY IDENTITY(1,1),
     IdUsuario INT NOT NULL,
@@ -246,6 +254,7 @@ CREATE TABLE Debate (
 	FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario),
 	FOREIGN KEY (IdOrigen) REFERENCES Curso(IdCurso)
 );
+GO
 
 CREATE TABLE NotificacionEstudiante (
 	IdNotificacion  INT PRIMARY KEY IDENTITY(1,1),
@@ -257,6 +266,7 @@ CREATE TABLE NotificacionEstudiante (
 	FOREIGN KEY (IdEstudiante) REFERENCES Usuario(IdUsuario),
 	FOREIGN KEY (IdComentario) REFERENCES Comentario(IdComentario)
 );
+GO
 
 -- Para emision de certificados
 CREATE TABLE Certificado (
@@ -267,3 +277,4 @@ CREATE TABLE Certificado (
 	FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario),
 	FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso)
 )
+GO

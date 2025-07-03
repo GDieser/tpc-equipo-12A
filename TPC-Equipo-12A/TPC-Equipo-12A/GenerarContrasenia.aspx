@@ -70,7 +70,6 @@
                             <asp:Button ID="btnGuardarContrasenia" runat="server" Text="Guardar" OnClick="btnGuardarContrasenia_Click" CssClass="btn btn-primary w-100" />
 
                             <asp:Label ID="lblError" runat="server" Text="" ForeColor="Red" />
-                            <p>¡Importante! ¡Estas credenciales son las mismas que usaras para ingresar a Moodle!</p>
                         </asp:Panel>
                     </div>
                 </div>

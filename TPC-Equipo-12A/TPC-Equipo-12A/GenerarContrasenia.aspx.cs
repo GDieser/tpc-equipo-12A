@@ -16,6 +16,12 @@ namespace TPC_Equipo_12A
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack) return;
+            if (Session["UsuarioAutenticado"] != null)
+            {
+                Session["error"] = "Sesion activa. Debes cerrar sesion antes de reestablecer la contraseña";
+                Response.Redirect("Error.aspx");
+            }
+
             var queryParams = System.Web.HttpUtility.ParseQueryString(HttpContext.Current.Request.Url.Query);
             ViewState["email"] = queryParams["email"];
             ViewState["token"] = queryParams["token"];

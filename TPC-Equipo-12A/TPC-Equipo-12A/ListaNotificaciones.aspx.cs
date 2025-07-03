@@ -58,6 +58,7 @@ namespace TPC_Equipo_12A
 
             gvNotificaciones.Columns[4].Visible = true;
             gvNotificaciones.Columns[5].Visible = true;
+            gvNotificaciones.Columns[6].Visible = true;
             gvNotificaciones.DataBind();
             gvNotificaciones.Visible = true;
         }

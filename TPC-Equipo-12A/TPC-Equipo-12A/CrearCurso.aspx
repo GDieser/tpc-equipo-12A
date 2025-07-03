@@ -22,7 +22,7 @@
                 <div class="mb-3">
                     <label for="txtPrecio" class="form-label fw-bold">Precio: <span style="color: red">*</span></label>
                     <asp:TextBox ID="txtPrecio" runat="server" CssClass="form-control" />
-                    <asp:RangeValidator ErrorMessage="Fuera de rango" Type="Double" MinimumValue="0" ControlToValidate="txtPrecio" runat="server" />
+                    <asp:RangeValidator ErrorMessage="Fuera de rango" MaximumValue="1000000" Type="Double" MinimumValue="0" ControlToValidate="txtPrecio" runat="server" />
                     <asp:RegularExpressionValidator ErrorMessage="Ingrese solo números validos." ValidationExpression="^[0-9]+$" ControlToValidate="txtPrecio" runat="server" />
                 </div>
             </div>
@@ -75,7 +75,7 @@
                 <div class="mb-3">
                     <label for="txtDuracion" class="form-label fw-bold">Duración (horas): <span style="color: red">*</span></label>
                     <asp:TextBox ID="txtDuracion" runat="server" CssClass="form-control" />
-                    <asp:RangeValidator ErrorMessage="Fuera de rango" Type="Double" MinimumValue="0" ControlToValidate="txtDuracion" runat="server" />
+                    <asp:RangeValidator ErrorMessage="Fuera de rango" Type="Double" MinimumValue="0" MaximumValue="500" ControlToValidate="txtDuracion" runat="server" />
                     <asp:RegularExpressionValidator ErrorMessage="Ingrese solo números validos." ValidationExpression="^[0-9]+$" ControlToValidate="txtDuracion" runat="server" />
                 </div>
             </div>
