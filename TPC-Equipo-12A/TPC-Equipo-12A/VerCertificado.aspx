@@ -31,13 +31,18 @@
     </style>
 
     <div class="certificado-wrapper">
-        <h2 class="text-center text-primary">Certificado del Curso</h2>
+
+        <div class="mb-5">
+            <h1 class="display-4 fw-bold text-info">
+                <i class="bi bi-award"></i>Certificado del Curso
+            </h1>
+        </div>
         <hr />
         <div class="iframe-container">
             <iframe id="iframeCertificado" src='<%= "CertificadoRender.aspx?idCertificado=" + Request.QueryString.Get("id") %>'></iframe>
         </div>
         <div class="text-center mt-3">
-            <button class="btn btn-success" onclick="document.getElementById('iframeCertificado').contentWindow.print();">Imprimir Certificado</button>
+            <button class="btn btn-success" onclick="document.getElementById('iframeCertificado').contentWindow.print();">📄 Imprimir Certificado</button>
         </div>
     </div>
 

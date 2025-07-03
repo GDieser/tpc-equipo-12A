@@ -18,6 +18,11 @@ namespace TPC_Equipo_12A
         }
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["UsuarioAutenticado"]  == null)
+            {
+                Session.Add("error", "Hey, no deberías andar por acá 🤨. Acceso no permitido");
+                Response.Redirect("Error.aspx");
+            }
             if (!IsPostBack)
             {
                 CertificadoServicio certificadoServicio = new CertificadoServicio();

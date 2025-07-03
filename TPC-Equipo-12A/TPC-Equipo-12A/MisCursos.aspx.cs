@@ -24,7 +24,7 @@ namespace TPC_Equipo_12A
                 Response.Redirect("Error.aspx");
             }
 
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
                 lista = servicio.ObtenerCursosCompletosDeUsuario(usuario.IdUsuario, (usuario.Rol) == Rol.Administrador ? true : false);
 
@@ -32,6 +32,16 @@ namespace TPC_Equipo_12A
                 rptMisCursos.DataBind();
             }
 
+        }
+
+        protected string ColoresProgeso(int porcentaje)
+        {
+            if (porcentaje >= 80)
+                return "bg-success";
+            else if (porcentaje >= 40)
+                return "bg-warning";
+            else
+                return "bg-danger";
         }
 
     }

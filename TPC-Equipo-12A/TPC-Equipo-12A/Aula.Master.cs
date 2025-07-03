@@ -12,7 +12,7 @@ namespace TPC_Equipo_12A
     public partial class Aula : System.Web.UI.MasterPage
     {
         protected UsuarioAutenticado usuario;
-        
+
         protected void Page_Load(object sender, EventArgs e)
         {
             usuario = (UsuarioAutenticado)Session["UsuarioAutenticado"];
@@ -23,13 +23,19 @@ namespace TPC_Equipo_12A
                 Response.Redirect("Error.aspx");
             }
 
+            var master = this.Master as Master;
+            if (master != null)
+            {
+                master.MostrarFooterSimple();
+            }
+
             if (!IsPostBack)
             {
                 var usuario = Session["UsuarioAutenticado"] as UsuarioAutenticado;
                 if (usuario != null)
                 {
                     CursoServicio cursoServicio = new CursoServicio();
-                    var cursos = cursoServicio.ObtenerCursosCompletosDeUsuario(usuario.IdUsuario, (usuario.Rol) == Rol.Administrador ? true : false); 
+                    var cursos = cursoServicio.ObtenerCursosCompletosDeUsuario(usuario.IdUsuario, (usuario.Rol) == Rol.Administrador ? true : false);
                     rptCursos.DataSource = cursos;
                     rptCursos.DataBind();
                 }

@@ -2,42 +2,40 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="AulaContent" runat="server">
 
-    <div class="container py-4">
 
-        <div class="mb-5">
-            <h1 class="display-4 fw-bold text-info">🎓 Mis Certificados</h1>
-            <p class="lead text-white-50">
-                ¡Aqui encontraras todos tus certificados!
-            </p>
-        </div>
-        <asp:Label
-            ID="lblMensaje"
-            runat="server"
-            CssClass="alert alert-warning text-center d-block fs-5 rounded-3 shadow-sm mt-4"
-            Visible="false" />
-        <asp:Repeater ID="rptCertificados" runat="server">
-            <ItemTemplate>
-                <div class="col">
-                    <div class="card h-100 bg-dark text-light border-secondary shadow-sm rounded-4 d-flex flex-column">
-                        <div class="row g-0 h-100">
-                            <div class="col-md-4 h-100">
-                                <img src='<%# Eval("UrlImagen") %>' class="img-fluid h-100 w-100 object-fit-cover rounded-start" alt="Imagen del curso" />
-                            </div>
-                            <div class="col-md-8 d-flex align-items-center">
-                                <div class="card-body text-center flex-grow-1">
-                                    <h4 class="card-title fw-semibold mb-1"><%# Eval("NombreCurso") %></h4>
-                                    <p class="card-text text-white-50 mb-1">🆔 Nº Referencia: <%# Eval("IdCertificado") %></p>
-                                    <p class="card-text text-white-50">📅 Emitido: <%# Eval("FechaEmision", "{0:dd/MM/yyyy}") %></p>
-                                    <a href='VerCertificado.aspx?id=<%# Eval("IdCertificado") %>'
-                                        class="btn btn-outline-success btn-sm rounded-pill">Ver certificado
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+    <div class="mb-5">
+        <h1 class="text-info mb-0">
+            <i class="bi bi-award"></i>Mis Certificados
+        </h1>
+        <p class="lead text-white-50">
+            ¡Acá vas a econtrar todos tus certificados!
+        </p>
+    </div>
+
+    <asp:Label
+        ID="lblMensaje"
+        runat="server"
+        CssClass="alert alert-warning text-center d-block fs-5 rounded-3 shadow-sm mt-4"
+        Visible="false" />
+
+    <asp:Repeater ID="rptCertificados" runat="server">
+        <ItemTemplate>
+            <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                <div class="card bg-dark text-light border-secondary shadow-sm rounded-4">
+                    <img src='<%# Eval("UrlImagen") %>' class="card-img-top object-fit-cover rounded-top" style="height: 160px; object-fit: cover;" alt="Imagen del curso" />
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-semibold mb-2">🥇 <%# Eval("NombreCurso") %></h5>
+                        <p class="card-text text-white-50 mb-2">
+                            <i class="bi bi-calendar3"></i>Emitido: <%# Eval("FechaEmision", "{0:dd/MM/yyyy}") %>
+                        </p>
+                        <a href='VerCertificado.aspx?id=<%# Eval("IdCertificado") %>'
+                            class="btn btn-outline-info btn-sm">Ver certificado
+                        </a>
                     </div>
                 </div>
-            </ItemTemplate>
-        </asp:Repeater>
-    </div>
+            </div>
+        </ItemTemplate>
+    </asp:Repeater>
+
 </asp:Content>
 

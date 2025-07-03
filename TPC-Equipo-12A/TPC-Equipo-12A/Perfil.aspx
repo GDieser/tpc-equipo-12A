@@ -58,6 +58,8 @@
                                 <div class="form-outline mb-3">
                                     <label class="form-label" for="txtFechaNacimiento">Fecha de Nacimiento</label>
                                     <asp:TextBox ID="txtFechaNacimiento" CssClass="form-control" TextMode="Date" runat="server" />
+
+                                    <asp:RequiredFieldValidator ID="rfvFechaNacimiento" runat="server" ControlToValidate="txtFechaNacimiento" ErrorMessage="La fecha de nacimiento es obligatoria." CssClass="text-danger small" Display="Dynamic" SetFocusOnError="true" />
                                 </div>
 
 

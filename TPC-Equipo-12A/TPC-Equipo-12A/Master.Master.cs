@@ -73,6 +73,12 @@ namespace TPC_Equipo_12A
             }
         }
 
+        public void MostrarFooterSimple()
+        {
+            phFooterCompleto.Visible = false;
+            phFooterSimple.Visible = true;
+        }
+
         protected void cargarCarrito()
         {
             CursoServicio servicio = new CursoServicio();

@@ -14,6 +14,25 @@
             padding: 2rem;
             border-radius: 1rem;
         }
+
+        .object-fit-cover {
+            object-fit: cover;
+        }
+
+        @media (max-width: 576px) {
+            .carousel-caption {
+                bottom: 10% !important;
+            }
+
+                .carousel-caption h1 {
+                    font-size: 1.8rem !important;
+                }
+
+                .carousel-caption p {
+                    font-size: 0.9rem !important;
+                    margin-bottom: 0.5rem;
+                }
+        }
     </style>
     <style>
         .card-img-top {
@@ -46,21 +65,49 @@
             <div class="carousel-inner">
 
                 <div class="carousel-item active">
-                    <div class="d-block w-100 carousel-bg" style="background-image: url('Images/bg3.jpg');">
+                    <div class="position-relative d-block w-100" style="height: 100vh; min-height: 500px; max-height: 860px; overflow: hidden;">
+
+                        <video autoplay muted loop playsinline class="position-absolute top-0 start-0 object-fit-cover w-100 h-100">
+                            <source src="Images/IntroVid1.mp4" type="video/mp4" />
+                            Tu navegador no soporta video HTML5.
+                        </video>
+
                         <div class="carousel-caption d-none d-md-block text-start pe-5">
-                            <h1 class="display-4 text-light fw-bold">Bienvenido a <span class="text-info">MisCursos.com</span></h1>
-                            <p class="lead text-white">Formación online de calidad para llevar tu conocimiento al siguiente nivel.</p>
-                            <a href="ListaCursos.aspx" class="btn btn-success btn-lg mt-3">Mirá nuestros cursos</a>
+                            <h1 class="display-4 text-light fw-semibold">Bienvenido a <span class="text-info">MisCursos.com</span>
+                            </h1>
+                            <p class="fs-5 text-white-50 mb-4">
+                                Formación online de calidad para llevar tu conocimiento al siguiente nivel.
+                            </p>
+                            <a href="ListaCursos.aspx" class="btn btn-outline-info btn-lg px-4 shadow-sm">Explorar Cursos
+                            </a>
                         </div>
+
+                        <div class="carousel-caption d-md-none text-center px-3" style="bottom: 16%;">
+                            <h2 class="text-light fw-semibold mb-2">Bienvenido a <span class="text-info">MisCursos.com</span>
+                            </h2>
+                            <p class="text-white-50 small mb-3">
+                                Formación online de calidad para llevar tu conocimiento al siguiente nivel.
+                            </p>
+                            <a href="ListaCursos.aspx" class="btn btn-outline-info btn-sm px-3">Ver Cursos
+                            </a>
+                        </div>
+
+                        <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark" style="opacity: 0.1; pointer-events: none;"></div>
                     </div>
                 </div>
 
                 <div class="carousel-item">
-                    <div class="d-block w-100 carousel-bg" style="background-image: url('Images/bg2.jpg');">
-                        <div class="carousel-caption d-none d-md-block text-start pe-5">
-                            <h1 class="display-4 text-light fw-bold">Aprendé desde casa</h1>
-                            <p class="lead text-white">A tu ritmo, con los mejores instructores y material actualizados.</p>
-                            <a href="ListaCursos.aspx" class="btn btn-success btn-lg mt-3">Explorar</a>
+                    <div class="d-block w-100 carousel-bg" style="background-image: url('Images/bg4.png'); background-size: cover; background-position: center;">
+                        <div class="carousel-caption d-none d-md-block text-start pe-5" >
+                            <h1 class="display-4 text-light fw-semibold">Aprendé desde casa</h1>
+                            <p class="fs-5 text-white-50 mb-4">A tu ritmo, con los mejores instructores y material actualizado.</p>
+                            <a href="ListaCursos.aspx" class="btn btn-outline-info btn-lg px-4 shadow-sm">Explorar</a>
+                        </div>
+
+                        <div class="carousel-caption d-md-none text-center px-3" style="bottom: 16%;">
+                            <h2 class="text-light fw-semibold mb-2">Aprendé desde casa</h2>
+                            <p class="text-white-50 small mb-3">A tu ritmo, con los mejores instructores y material actualizado.</p>
+                            <a href="ListaCursos.aspx" class="btn btn-outline-light btn-sm px-3">Explorar</a>
                         </div>
                     </div>
                 </div>
@@ -192,7 +239,7 @@
                                         </div>
 
                                         <div class="card-footer bg-transparent text-center border-0 mt-auto">
-                                            <a href='DescripcionCurso.aspx?id=<%# Eval("IdCurso") %>' class="btn btn-outline-info btn-sm rounded-pill">Ver más </a>
+                                            <a href='DescripcionCurso.aspx?id=<%# Eval("IdCurso") %>' class="btn btn-outline-info btn-sm rounded-3">Ver más </a>
 
                                         </div>
                                     </div>
@@ -212,7 +259,7 @@
             <br />
             <div>
                 <div class="row">
-                    <h3 class="fw-bold text-info mb-4">Preguntas frecuentes</h3>
+                    <h3 class="fw-bold text-info mb-4"><i class="bi bi-patch-question"></i>Preguntas frecuentes</h3>
                 </div>
                 <br />
 
@@ -249,7 +296,7 @@
 
         <section class="text-white py-5">
             <div class="container text-center">
-                <h2 class="fw-bold text-info mb-4">📬 ¡Contactanos!</h2>
+                <h2 class="fw-bold text-info mb-4"><i class="bi bi-envelope-check"></i>¡Contactanos!</h2>
                 <h4 class="mb-3">¿Tenés dudas, sugerencias o querés saber más? Estamos para ayudarte.</h4>
 
                 <h6 class="mb-4">Podés encontrarnos en nuestras redes sociales:</h6>

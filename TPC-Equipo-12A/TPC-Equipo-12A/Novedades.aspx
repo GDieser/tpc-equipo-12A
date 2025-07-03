@@ -20,17 +20,17 @@
         <div class="text-white ">
 
             <div class="mb-5">
-                <h1 class="display-4 fw-bold text-info mb-4">📰 Novedades en MisCursos.com</h1>
+                <h1 class="display-4 fw-bold text-info mb-4"><i class="bi bi-newspaper"></i> Novedades en MisCursos.com</h1>
 
                 <p class="lead text-white-50">
                     ¡Bienvenid@ a nuestro espacio de novedades! Acá vas a encontrar:
                 </p>
             </div>
             <ul class="list-unstyled fs-5">
-                <li>📢 Noticias y actualizaciones del sitio</li>
-                <li>🎓 Información sobre nuevos cursos y lanzamientos</li>
-                <li>🚀 Novedades del mundo tech y herramientas útiles</li>
-                <li>📚 Contenido gratuito y complementario</li>
+                <li><i class="bi bi-check2-circle"></i> Noticias y actualizaciones del sitio</li>
+                <li><i class="bi bi-check2-circle"></i> Información sobre nuevos cursos y lanzamientos</li>
+                <li><i class="bi bi-check2-circle"></i> Novedades del mundo tech y herramientas útiles</li>
+                <li><i class="bi bi-check2-circle"></i> Contenido gratuito y complementario</li>
             </ul>
 
             <p class="mt-4">

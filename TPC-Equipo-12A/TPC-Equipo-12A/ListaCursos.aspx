@@ -6,7 +6,7 @@
     <div class="container py-4">
 
         <div class="mb-5">
-            <h1 class="display-4 fw-bold text-info">🎓 Nuestros cursos</h1>
+            <h1 class="display-4 fw-bold text-info"><i class="bi bi-mortarboard"></i> Nuestros cursos</h1>
             <p class="lead text-white-50">
                 Descubrí los últimos cursos disponibles, lanzamientos próximos y todo lo nuevo que tenemos para potenciar tu formación.
             </p>
@@ -16,9 +16,9 @@
             <div class="col-md-12">
                 <h3 class="text-white">¿Qué hay de nuevo?</h3>
                 <ul class="list-unstyled fs-5 text-white mt-3">
-                    <li>🆕 Nuevos cursos agregados recientemente</li>
-                    <li>📖 Actualizaciones en el contenido de cursos actuales</li>
-                    <li>👨‍🏫 Recomendaciones personalizadas y cursos destacados</li>
+                    <li><i class="bi bi-chevron-double-right"></i> Nuevos cursos agregados recientemente</li>
+                    <li><i class="bi bi-chevron-double-right"></i> Actualizaciones en el contenido de cursos actuales</li>
+                    <li><i class="bbi bi-chevron-double-right"></i> Recomendaciones personalizadas y cursos destacados</li>
                 </ul>
 
                 <p class="mt-4 text-white">
@@ -66,7 +66,7 @@
                                      : $"<span class='badge bg-warning text-dark me-2 fs-6'>$ {Eval("Precio")} (ARS)</span>" 
                                 %>
                                 <a href='DescripcionCurso.aspx?id=<%# Eval("IdCurso") %>'
-                                    class="btn btn-outline-info btn-sm rounded-pill">Ver más
+                                    class="btn btn-outline-info btn-sm rounded-3">Ver más
                                 </a>
                             </div>
                         </div>
